@@ -1,0 +1,1295 @@
+{% load static %} {% load i18n %}
+
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Destek Duvarı</title>
+    <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <style>
+      :root {
+        --primary-color: #6c3eb4;
+        --secondary-color: #8ca6db;
+        --accent-color: #b993d6;
+        --background-light: #f9f9f9;
+        --text-primary: #2c3e50;
+        --text-secondary: #7f8c8d;
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 20px;
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --heart-color: #e74c3c;
+        --heart-color-light: #ff6b6b;
+      }
+
+      body {
+        background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        font-family: "Inter", sans-serif;
+      }
+
+      .sidebar-container {
+        width: 400px !important;
+        min-width: 400px !important;
+      }
+
+      .sidebar-header {
+        padding: 24px;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 0 20px 0 0;
+        flex-shrink: 0;
+      }
+
+      .sidebar-logo {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #f7f8fa;
+        box-shadow: 0 2px 8px rgba(79, 82, 186, 0.08);
+      }
+
+      .sidebar-nav {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .sidebar-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition-smooth);
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: #f3eaff;
+      }
+
+      .sidebar-nav a:hover {
+        color: var(--primary-color);
+        background: #b993d6;
+        color: white;
+      }
+
+      .sidebar-nav a.active {
+        color: white;
+        background: var(--primary-color);
+      }
+
+      .sidebar-user {
+        padding: 24px;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        flex-shrink: 0;
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .user-info h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .user-info p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin: 0;
+      }
+
+      .sidebar-menu {
+        flex: 1;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        overflow-y: auto;
+        min-height: 0;
+      }
+
+      .sidebar-menu::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .sidebar-menu::-webkit-scrollbar-track {
+        background: rgba(139, 92, 246, 0.05);
+        border-radius: 3px;
+      }
+
+      .sidebar-menu::-webkit-scrollbar-thumb {
+        background: rgba(139, 92, 246, 0.2);
+        border-radius: 3px;
+      }
+
+      .sidebar-menu::-webkit-scrollbar-thumb:hover {
+        background: rgba(139, 92, 246, 0.3);
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition-smooth);
+        cursor: pointer;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        white-space: nowrap;
+      }
+
+      .menu-item:hover {
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--primary-color);
+        border-color: rgba(139, 92, 246, 0.2);
+        transform: translateX(4px);
+      }
+
+      .menu-item.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        box-shadow: var(--shadow-soft);
+        border-color: transparent;
+      }
+
+      .menu-item .material-symbols-outlined {
+        font-size: 1.2rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .tasks-section {
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(139, 92, 246, 0.1);
+      }
+
+      .tasks-section h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .tasks-section h3::before {
+        content: "";
+        width: 4px;
+        height: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-radius: 2px;
+      }
+
+      .task-item {
+        background: rgba(139, 92, 246, 0.1);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 12px;
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+        box-shadow: 0 1px 4px rgba(140, 82, 255, 0.04);
+        border: 1px solid transparent;
+        transition: var(--transition-smooth);
+        cursor: pointer;
+      }
+
+      .task-item:hover {
+        background: rgba(139, 92, 246, 0.15);
+        box-shadow: 0 2px 8px rgba(140, 82, 255, 0.09);
+        border-color: rgba(139, 92, 246, 0.2);
+        transform: translateX(4px);
+      }
+
+      .task-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .main-content {
+        flex: 1;
+        margin-left: 320px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: var(--transition-smooth);
+        padding: 48px 24px 24px 24px;
+        min-height: 100vh;
+        overflow-y: auto;
+        justify-content: center;
+      }
+
+      .support-wall-container {
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 2rem;
+        text-shadow: 0 2px 4px rgba(108, 62, 180, 0.1);
+      }
+
+      /* Story Form Card */
+      .story-form-card {
+        background: var(--background-light);
+        border-radius: var(--border-radius);
+        padding: 2.5rem;
+        margin-bottom: 3rem;
+        box-shadow: var(--shadow-soft);
+        border: none;
+        transition: var(--transition-smooth);
+      }
+
+      .story-form-card:hover {
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+      }
+
+      .form-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .story-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 1rem;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        font-family: inherit;
+        font-size: 1rem;
+        line-height: 1.6;
+        resize: vertical;
+        transition: var(--transition-smooth);
+        background: white;
+      }
+
+      .story-textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(185, 147, 214, 0.1);
+      }
+
+      .share-button {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 12px 32px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 16px rgba(108, 62, 180, 0.2);
+        width: 100%;
+      }
+
+      .share-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(108, 62, 180, 0.3);
+      }
+
+      .share-button:active {
+        transform: translateY(0);
+      }
+
+      /* Story Cards */
+      .story-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-soft);
+        transition: var(--transition-smooth);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .story-card:hover {
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+      }
+
+      .story-content {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        word-wrap: break-word;
+      }
+
+      .story-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid #f1f3f4;
+      }
+
+      .story-timestamp {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      /* Enhanced Like Button */
+      .like-button-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .like-button {
+        background: #fff;
+        border: 1.5px solid #e2e2e2;
+        border-radius: 50px;
+        padding: 6px 18px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #6c3eb4;
+      }
+
+      .like-button .like-icon {
+        color: #bbb;
+        transition: color 0.2s;
+      }
+
+      .like-button.liked .like-icon {
+        color: #e74c3c !important;
+      }
+
+      .like-button.liked {
+        background: #ffe6ea !important;
+        border-color: #e74c3c !important;
+        color: #e74c3c !important;
+      }
+
+      .like-icon {
+        font-size: 1.2rem;
+        transition: var(--transition-smooth);
+      }
+
+      .like-button:hover .like-icon {
+        transform: scale(1.1);
+      }
+
+      .likes-count {
+        font-weight: 600;
+        min-width: 1.5rem;
+        text-align: center;
+      }
+
+      /* Floating Hearts Animation */
+      .floating-hearts {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .floating-heart {
+        position: absolute;
+        color: var(--heart-color);
+        font-size: 1rem;
+        animation: floatUp 1.2s ease-out forwards;
+        opacity: 0;
+      }
+
+      @keyframes floatUp {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scale(0.5);
+        }
+        20% {
+          opacity: 1;
+          transform: translateY(-10px) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-60px) scale(0.8);
+        }
+      }
+
+      @keyframes heartBeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.3);
+        }
+      }
+
+      /* Pagination */
+      .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .pagination-button {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 15px rgba(108, 62, 180, 0.2);
+        text-decoration: none !important;
+        border-bottom: none !important;
+      }
+
+      .pagination-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(108, 62, 180, 0.3);
+      }
+
+      .pagination-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .page-info {
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .current-page {
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      /* Hamburger Menu */
+      .hamburger {
+        display: none;
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        z-index: 1100;
+        background: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .hamburger span {
+        display: block;
+        width: 28px;
+        height: 4px;
+        background: #4f52ba;
+        margin: 5px 0;
+        border-radius: 2px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 991px) {
+        body {
+          flex-direction: column;
+        }
+        .sidebar-container {
+          position: fixed;
+          left: -100vw;
+          top: 0;
+          z-index: 1040;
+          background: rgba(255, 255, 255, 0.97);
+          height: 100vh;
+          min-width: 0;
+          max-width: 100vw;
+          width: 100vw;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 2px 16px rgba(140, 82, 255, 0.13);
+          transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-container.active {
+          left: 0;
+        }
+        .main-content {
+          margin-left: 0;
+          padding: 24px 16px;
+        }
+        .hamburger {
+          display: block;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .page-title {
+          font-size: 2rem;
+        }
+
+        .story-form-card {
+          padding: 1.5rem;
+        }
+
+        .story-card {
+          padding: 1.5rem;
+        }
+
+        .story-footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .like-button {
+          align-self: flex-end;
+        }
+
+        .pagination-container {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+
+      .sidebar-title-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 18px;
+        width: 100%;
+        text-align: left;
+        position: relative;
+      }
+      .sidebar-title-text::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-radius: 2px;
+      }
+      .sidebar-tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+      }
+      .sidebar-task-item {
+        background: rgba(139, 92, 246, 0.1);
+        border-radius: 12px;
+        padding: 16px;
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+        box-shadow: 0 1px 4px rgba(140, 82, 255, 0.04);
+        border: 1px solid transparent;
+        transition: var(--transition-smooth);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      .sidebar-task-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+      .sidebar-task-item:hover {
+        background: rgba(139, 92, 246, 0.15);
+        box-shadow: 0 2px 8px rgba(140, 82, 255, 0.09);
+        border-color: rgba(139, 92, 246, 0.2);
+        transform: translateX(4px);
+      }
+      .sidebar-task-item:hover::before {
+        left: 100%;
+      }
+
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .main-content {
+        background: #181820 !important;
+        color: #e0e0e0 !important;
+      }
+
+      body.dark-mode .page-title,
+      body.dark-mode .page-subtitle {
+        color: #e0e0e0 !important;
+      }
+
+      body.dark-mode .sidebar-container {
+        background: rgba(35, 35, 35, 0.95) !important;
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .sidebar-header {
+        background: rgba(45, 45, 45, 0.8) !important;
+        border-bottom-color: #555 !important;
+      }
+
+      body.dark-mode .sidebar-nav a {
+        color: #b0b0b0 !important;
+        background: #333 !important;
+      }
+
+      body.dark-mode .sidebar-nav a:hover {
+        color: #f1f1f1 !important;
+        background: #555 !important;
+      }
+
+      body.dark-mode .sidebar-nav a.active {
+        color: #f1f1f1 !important;
+        background: #6a4c9c !important;
+      }
+
+      body.dark-mode .sidebar-user {
+        background: rgba(45, 45, 45, 0.8) !important;
+        border-bottom-color: #555 !important;
+      }
+
+      body.dark-mode .user-info h3 {
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .user-info p {
+        color: #b0b0b0 !important;
+      }
+
+      body.dark-mode .sidebar-title-text {
+        color: #8c73b8 !important;
+      }
+
+      body.dark-mode .sidebar-task-item {
+        background: rgba(139, 92, 246, 0.2) !important;
+        color: #f1f1f1 !important;
+        border-color: #555 !important;
+      }
+
+      body.dark-mode .sidebar-task-item:hover {
+        background: rgba(139, 92, 246, 0.3) !important;
+        border-color: #8c73b8 !important;
+      }
+
+      body.dark-mode .support-container {
+        background: rgba(45, 45, 45, 0.95) !important;
+        border-color: #555 !important;
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .support-card {
+        background: linear-gradient(160deg, rgba(45, 45, 45, 0.98) 0%, rgba(35, 35, 35, 0.92) 100%) !important;
+        border-color: #555 !important;
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .support-card:hover {
+        border-color: #6a4c9c !important;
+      }
+
+      body.dark-mode .support-title {
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .support-description {
+        color: #b0b0b0 !important;
+      }
+
+      body.dark-mode .support-category {
+        background: #333 !important;
+        color: #8c73b8 !important;
+      }
+
+      body.dark-mode .hamburger {
+        background: #333 !important;
+        border-color: #555 !important;
+      }
+
+      body.dark-mode .hamburger span {
+        background: #f1f1f1 !important;
+      }
+
+      body.dark-mode input,
+      body.dark-mode textarea,
+      body.dark-mode select {
+        background: #333 !important;
+        color: #f1f1f1 !important;
+        border-color: #555 !important;
+      }
+
+      body.dark-mode .card,
+      body.dark-mode .box,
+      body.dark-mode .panel {
+        background: #2c2c2c !important;
+        color: #f1f1f1 !important;
+        border-color: #444 !important;
+      }
+
+      body.dark-mode a {
+        color: #8c73b8 !important;
+      }
+
+      body.dark-mode .btn {
+        background: #6a4c9c !important;
+        color: #f1f1f1 !important;
+      }
+
+      body.dark-mode .story-form-card {
+        background: #232323 !important;
+      }
+      body.dark-mode .pagination-container {
+        background:#232323 !important;
+      }
+      body.dark-mode .story-form-card,
+      body.dark-mode .story-form-card *,
+      body.dark-mode .pagination-container,
+      body.dark-mode .pagination-container * {
+        color: #f8f8ff !important;
+      }
+
+      body.dark-mode .story-card {
+        background: #2c2c2c !important;
+        color: #f8f8ff !important;
+      }
+      body.dark-mode .story-content,
+      body.dark-mode .story-footer,
+      body.dark-mode .like-button,
+      body.dark-mode .like-icon {
+        color: #f8f8ff !important;
+      }
+      body.dark-mode .like-button {
+        background: #2a2040 !important;
+        border-color: #3a2a5d !important;
+        color: #f8f8ff !important;
+      }
+      .like-button.liked .like-icon {
+        color: #ff6b81 !important;
+      }
+      .like-button.liked {
+        background: #3a2a5d !important;
+        border-color: #ff6b81 !important;
+        color: #ff6b81 !important;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="sidebar-container" id="sidebarContainer">
+      <div class="sidebar-header">
+        <img
+          src="{% static 'iyihisset.png' %}"
+          alt="Logo"
+          class="sidebar-logo"
+        />
+        <div class="sidebar-nav">
+          <a href="{% url 'anasayfa' %}">{% trans "Ana Sayfa" %}</a>
+          <a href="{% url 'dashboard' %}">{% trans "İyi Hisset" %}</a>
+          <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img src="{{profilePic.profile_pic.url}}" alt="" />
+        </div>
+        <div class="user-info">
+          <h3>{{ user.username.title }}</h3>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-block sidebar-title">
+          <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
+          <div class="sidebar-tasks">
+            <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
+            <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="main-content">
+      <div class="support-wall-container">
+        <h1 class="page-title">{% trans "Destek Duvarı" %}</h1>
+
+        <!-- Hikaye Paylaşma Formu -->
+        <div class="story-form-card">
+          <h2 class="form-title">{% trans "Hikayeni Paylaş" %}</h2>
+          <form id="storyForm" method="POST">
+            {% csrf_token %}
+            <textarea
+              class="story-textarea"
+              id="storyText"
+              name="storyText"
+              placeholder="{% trans 'Hikayeni buraya yazabilirsin...' %}"
+              minlength="4"
+              required
+            ></textarea>
+            <button type="submit" class="share-button mt-3">
+              {% trans "Paylaş" %}
+            </button>
+          </form>
+        </div>
+
+        <!-- Hikayeler Listesi -->
+        <div id="storiesList">
+          {% for msg in messages %}
+            <div class="story-card" style="position:relative;">
+              <div class="story-content">{{ msg.content }}</div>
+              <div class="story-footer" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div class="story-timestamp" style="font-size:1.05em; color:#444; font-weight: 500; align-self: flex-start; min-width: 140px;">{{ msg.created_at|date:'Y-m-d H:i' }}</div>
+                <div class="like-button-container">
+                  <button class="like-button{% if msg.id in liked_messages %} liked{% endif %}" data-id="{{ msg.id }}">
+                    <span class="like-icon material-symbols-outlined">{% if msg.id in liked_messages %}favorite{% else %}favorite_border{% endif %}</span>
+                    <span class="likes-count">{{ msg.likes }}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="story-date-bottom" style="position:absolute; left:18px; bottom:10px; font-size:0.98em; color:#888;">{{ msg.created_at|date:'Y-m-d H:i' }}</div>
+            </div>
+          {% empty %}
+            <div style="text-align:center; color: #aaa;">Henüz hiç mesaj yok.</div>
+          {% endfor %}
+        </div>
+
+        <!-- Sayfalama -->
+        {% if total_pages > 1 %}
+        <div class="pagination-container" style="margin-top:32px; display:flex; justify-content:center; align-items:center; gap:16px;">
+          {% if messages.has_previous %}
+            <a href="?page={{ messages.previous_page_number }}" class="pagination-button">&laquo; Önceki</a>
+          {% endif %}
+          <span style="font-size:1.1em; color:#888;">Sayfa {{ page }} / {{ total_pages }}</span>
+          {% if messages.has_next %}
+            <a href="?page={{ messages.next_page_number }}" class="pagination-button">Sonraki &raquo;</a>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </main>
+
+    <script>
+      // Sidebar functionality
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+      const sidebarContainer = document.getElementById("sidebarContainer");
+
+      hamburgerBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        sidebarContainer.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (
+          window.innerWidth <= 991 &&
+          sidebarContainer.classList.contains("active")
+        ) {
+          if (
+            !sidebarContainer.contains(e.target) &&
+            !hamburgerBtn.contains(e.target)
+          ) {
+            sidebarContainer.classList.remove("active");
+          }
+        }
+      });
+
+      const observer = new MutationObserver(() => {
+        if (window.innerWidth <= 991) {
+          if (sidebarContainer.classList.contains("active")) {
+            document.body.style.overflow = "hidden";
+          } else {
+            document.body.style.overflow = "";
+          }
+        }
+      });
+      observer.observe(sidebarContainer, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+
+      // Support Wall functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const storyForm = document.getElementById("storyForm");
+        const storiesList = document.getElementById("storiesList");
+        const STORIES_PER_PAGE = 3;
+        let currentPage = 1;
+        let stories = [];
+
+        // CSRF token'ı al
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== "") {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(
+                  cookie.substring(name.length + 1)
+                );
+                break;
+              }
+            }
+          }
+          return cookieValue;
+        }
+        const csrftoken = getCookie("csrftoken");
+
+        // Hikayeleri sessionStorage'dan yükle
+        loadStories();
+
+        // Hikaye paylaşma
+        storyForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const storyText = document.getElementById("storyText").value.trim();
+
+          if (storyText.length >= 3) {
+            const newStory = {
+              id: Date.now(),
+              text: storyText,
+              likes: 0,
+              timestamp: new Date().toISOString(),
+              liked: false,
+            };
+
+            stories.unshift(newStory);
+            saveStories();
+            renderStories();
+            document.getElementById("storyText").value = "";
+          }
+        });
+
+        // Hikayeleri kaydet
+        function saveStories() {
+          sessionStorage.setItem("stories", JSON.stringify(stories));
+        }
+
+        // Hikayeleri yükle
+        function loadStories() {
+          const savedStories = sessionStorage.getItem("stories");
+          if (savedStories) {
+            stories = JSON.parse(savedStories);
+            renderStories();
+          }
+        }
+
+        // Hikayeleri sırala ve göster
+        function renderStories() {
+          // Hikayeleri beğeni sayısına göre sırala
+          stories.sort((a, b) => b.likes - a.likes);
+
+          const startIndex = (currentPage - 1) * STORIES_PER_PAGE;
+          const endIndex = startIndex + STORIES_PER_PAGE;
+          const storiesToShow = stories.slice(startIndex, endIndex);
+
+          storiesList.innerHTML = "";
+
+          storiesToShow.forEach((story) => {
+            const storyCard = document.createElement("div");
+            storyCard.className = "story-card";
+            storyCard.innerHTML = `
+                        <div class="story-content">${story.text}</div>
+                        <div class="story-footer">
+                            <div class="story-timestamp">${new Date(
+                              story.timestamp
+                            ).toLocaleString("tr-TR")}</div>
+                            <div class="story-time-detail">Gönderildi: ${new Date(
+                              story.created_at
+                            ).toLocaleString("tr-TR")}</div>
+                            <div class="like-button-container">
+                                <button class="like-button ${
+                                  story.liked ? "liked" : ""
+                                }" 
+                                        data-id="${story.id}"
+                                        onclick="toggleLike(${story.id}, this)">
+                                    <span class="like-icon material-symbols-outlined">
+                                        ${
+                                          story.liked
+                                            ? "favorite"
+                                            : "favorite_border"
+                                        }
+                                    </span>
+                                    <span class="likes-count">${
+                                      story.likes
+                                    }</span>
+                                </button>
+                                <div class="floating-hearts"></div>
+                            </div>
+                        </div>
+                    `;
+            storiesList.appendChild(storyCard);
+          });
+
+          updatePagination();
+        }
+
+        // Beğeni durumunu değiştir
+        window.toggleLike = function (storyId, buttonElement) {
+          const story = stories.find((s) => s.id === storyId);
+          if (story) {
+            const wasLiked = story.liked;
+            story.liked = !story.liked;
+            story.likes += story.liked ? 1 : -1;
+
+            // Enhanced floating hearts animation
+            if (story.liked && !wasLiked) {
+              createFloatingHearts(buttonElement);
+            }
+
+            saveStories();
+            renderStories();
+          }
+        };
+
+        // Enhanced floating hearts animation
+        function createFloatingHearts(buttonElement) {
+          const container =
+            buttonElement.parentElement.querySelector(".floating-hearts");
+          const heartCount = 8;
+
+          for (let i = 0; i < heartCount; i++) {
+            setTimeout(() => {
+              const heart = document.createElement("span");
+              heart.className = "floating-heart material-symbols-outlined";
+              heart.textContent = "favorite";
+              heart.style.left = Math.random() * 100 + "%";
+              heart.style.animationDelay = Math.random() * 0.5 + "s";
+              heart.style.color = `hsl(${Math.random() * 20 + 340}, 70%, 60%)`;
+
+              container.appendChild(heart);
+
+              // Remove heart after animation
+              setTimeout(() => {
+                heart.remove();
+              }, 1200);
+            }, i * 80);
+          }
+        }
+
+        // Sayfalama
+        function updatePagination() {
+          const totalPages = Math.ceil(stories.length / STORIES_PER_PAGE);
+          document.getElementById("currentPage").textContent = currentPage;
+
+          const prevButton = document.getElementById("prevPage");
+          const nextButton = document.getElementById("nextPage");
+
+          prevButton.style.display = currentPage > 1 ? "block" : "none";
+          nextButton.style.display =
+            currentPage < totalPages ? "block" : "none";
+
+          prevButton.disabled = currentPage <= 1;
+          nextButton.disabled = currentPage >= totalPages;
+        }
+
+        document
+          .getElementById("prevPage")
+          .addEventListener("click", function () {
+            if (currentPage > 1) {
+              currentPage--;
+              renderStories();
+            }
+          });
+
+        document
+          .getElementById("nextPage")
+          .addEventListener("click", function () {
+            const totalPages = Math.ceil(stories.length / STORIES_PER_PAGE);
+            if (currentPage < totalPages) {
+              currentPage++;
+              renderStories();
+            }
+          });
+      });
+    </script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initializeLanguage === "function") {
+          initializeLanguage();
+        }
+      });
+    </script>
+    <script>
+      function redirectIfSmallScreen() {
+        if (
+          window.innerWidth < 1300 &&
+          !window.location.pathname.includes("responsive.html")
+        ) {
+          // Şu anki sayfanın yolunu kaydet
+          localStorage.setItem(
+            "lastPage",
+            window.location.pathname + window.location.search
+          );
+          window.location.href = "{% url 'responsive' %}";
+        }
+      }
+      redirectIfSmallScreen();
+      window.addEventListener("resize", redirectIfSmallScreen);
+    </script>
+    <script>
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if(theme === 'dark') {
+          document.body.classList.add('dark-mode');
+          try {
+            document.getElementById('darkModeBtn').classList.add('active');
+            document.getElementById('lightModeBtn').classList.remove('active');
+          } catch(e){}
+        } else {
+          document.body.classList.remove('dark-mode');
+          try {
+            document.getElementById('lightModeBtn').classList.add('active');
+            document.getElementById('darkModeBtn').classList.remove('active');
+          } catch(e){}
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        applyThemeFromStorage();
+        const lightBtn = document.getElementById('lightModeBtn');
+        const darkBtn = document.getElementById('darkModeBtn');
+        if(lightBtn) lightBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'light');
+          applyThemeFromStorage();
+        });
+        if(darkBtn) darkBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'dark');
+          applyThemeFromStorage();
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".like-button").forEach(function (btn) {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const storyId = btn.getAttribute("data-id");
+            fetch("{% url 'like_story' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: "story_id=" + storyId,
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  if (data.liked) {
+                    btn.classList.add("liked");
+                    btn.querySelector(".like-icon").textContent = "favorite";
+                  } else {
+                    btn.classList.remove("liked");
+                    btn.querySelector(".like-icon").textContent = "favorite_border";
+                  }
+                  btn.querySelector(".likes-count").textContent = data.likes;
+                }
+              });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1643 @@
+{% load static %} {% load crispy_forms_tags %} {% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-translate="Profile Management">
+      {% trans "Profil Yönetimi" %}
+    </title>
+    <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <style>
+      :root {
+        --primary-color: #8b5cf6;
+        --secondary-color: #a855f7;
+        --accent-color: #c084fc;
+        --background-light: #f8fafc;
+        --background-subtle: #f1f5f9;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+        --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --border-radius: 12px;
+        --font-size-base: 1rem;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        font-family: "Inter", sans-serif;
+        font-size: var(--font-size-base);
+      }
+
+      /* Hamburger Menu */
+      .hamburger {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        background: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: var(--shadow-soft);
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        transition: var(--transition-smooth);
+      }
+
+      .hamburger span {
+        width: 24px;
+        height: 2px;
+        background: var(--text-primary);
+        transition: var(--transition-smooth);
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      /* Main Content - Enhanced for desktop */
+      .main-content {
+        flex: 1;
+        margin-left: 400px;
+        margin-right: 0;
+        padding-left: 48px;
+        padding-right: 48px;
+        max-width: 100vw;
+        min-width: 0;
+        box-sizing: border-box;
+        display: block;
+        transition: var(--transition-smooth);
+        padding-top: 48px;
+        padding-bottom: 48px;
+        overflow-y: auto;
+        min-height: 100vh;
+        gap: 48px;
+      }
+
+      .content-section {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.9)
+        );
+        border-radius: 28px;
+        padding: 56px 48px;
+        box-shadow: 0 12px 40px rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.08);
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        max-width: 1200px;
+        margin-bottom: 48px;
+      }
+
+      .content-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color),
+          var(--accent-color)
+        );
+        border-radius: 28px 28px 0 0;
+      }
+
+      .content-section:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
+        border-color: rgba(139, 92, 246, 0.15);
+      }
+
+      .content-section h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        position: relative;
+      }
+
+      .content-section h2::before {
+        content: "";
+        width: 8px;
+        height: 36px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      }
+
+      .content-section p {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 32px;
+        font-size: 1.2rem;
+        font-weight: 400;
+      }
+
+      /* Settings Categories */
+      .settings-category {
+        margin-bottom: 48px;
+        padding: 32px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 20px;
+        border: 1px solid rgba(139, 92, 246, 0.1);
+      }
+
+      .settings-category h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .settings-category h3::before {
+        content: "";
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-radius: 2px;
+      }
+
+      .settings-category p {
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+        font-size: 1.1rem;
+      }
+
+      /* Dil değiştirme butonları */
+      .language-switcher {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+        justify-content: center;
+      }
+
+      .lang-btn {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.1),
+          rgba(139, 92, 246, 0.05)
+        );
+        border: 2px solid rgba(139, 92, 246, 0.2);
+        border-radius: 12px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(10px);
+        min-width: 120px;
+      }
+
+      .lang-btn:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.15),
+          rgba(139, 92, 246, 0.08)
+        );
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      }
+
+      .lang-btn.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-color: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      }
+
+      .lang-btn.active:hover {
+        box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Font size selector */
+      .font-size-selector {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .font-size-btn {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.1),
+          rgba(139, 92, 246, 0.05)
+        );
+        border: 2px solid rgba(139, 92, 246, 0.2);
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(10px);
+      }
+
+      .font-size-btn:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.15),
+          rgba(139, 92, 246, 0.08)
+        );
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      }
+
+      .font-size-btn.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-color: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      }
+
+      .font-size-btn.active:hover {
+        box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+      }
+
+      /* Settings Cards */
+      .settings-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        margin-top: 24px;
+      }
+
+      .settings-card {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), #fff 80%);
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(139, 92, 246, 0.1);
+        padding: 32px 28px 28px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        transition: var(--transition-smooth);
+        border: 1.5px solid #e2e8f0;
+        position: relative;
+      }
+
+      .settings-card h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 18px;
+      }
+
+      .settings-card:hover {
+        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
+        border-color: var(--primary-color);
+        transform: translateY(-4px) scale(1.02);
+      }
+
+      .settings-card .btn {
+        margin-top: 12px;
+        width: 100%;
+      }
+
+      /* Form styles */
+      .form-group {
+        margin-bottom: 32px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.2rem;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 18px 24px;
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        font-size: 1.1rem;
+        transition: var(--transition-smooth);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        background: white;
+      }
+
+      .btn {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        border: none;
+        border-radius: 16px;
+        padding: 18px 36px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+      }
+
+      .btn:active {
+        transform: translateY(-1px);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+      }
+
+      .btn-danger:hover {
+        box-shadow: 0 8px 24px rgba(220, 53, 69, 0.4);
+      }
+
+      /* Stats Grid */
+      .stats-grid {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+        justify-content: space-evenly;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .stat-card {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: #fff;
+        padding: 28px 0 22px 0;
+        border-radius: 14px;
+        min-width: 0;
+        flex: 1 1 0;
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.13);
+        margin: 0;
+        transition: var(--transition-smooth),
+          box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.18) 0%,
+          rgba(255, 255, 255, 0.01) 70%
+        );
+        clip-path: polygon(0 100%, 100% 100%, 50% 0);
+        opacity: 0;
+        transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .stat-card:hover::before {
+        opacity: 1;
+      }
+
+      .stat-card::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.18) 0%,
+          rgba(255, 255, 255, 0.01) 80%
+        );
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+        transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .stat-card:hover::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-8px) scale(1.035);
+        box-shadow: 0 12px 36px rgba(139, 92, 246, 0.22),
+          0 0 32px 0 rgba(139, 92, 246, 0.1);
+        z-index: 2;
+      }
+
+      .stat-card > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      .stat-number {
+        font-size: 1.7rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+
+      .stat-label {
+        font-size: 1.05rem;
+        opacity: 0.95;
+        font-weight: 500;
+      }
+
+      /* Danger zone styles */
+      .danger-zone {
+        background: linear-gradient(135deg, #fff0f0 60%, #ffeaea 100%);
+        border: 2.5px solid #dc3545;
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(220, 53, 69, 0.1);
+        padding: 36px 28px;
+        margin: 0 auto;
+        text-align: center;
+        max-width: 1000px;
+      }
+
+      .danger-zone h3 {
+        color: #dc3545;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .danger-zone p {
+        color: #b91c1c;
+        margin-bottom: 24px;
+      }
+
+      .danger-zone .btn-danger:hover {
+        background: #b91c1c;
+        box-shadow: 0 8px 32px rgba(220, 53, 69, 0.18);
+      }
+
+      /* Responsive */
+
+      @media (max-width: 768px) {
+        .main-content {
+          padding: 20px 16px;
+          gap: 16px;
+        }
+
+        .content-section {
+          padding: 24px 20px;
+          border-radius: 20px;
+        }
+
+        .content-section h2 {
+          font-size: 1.6rem;
+          margin-bottom: 20px;
+        }
+
+        .content-section p {
+          font-size: 1rem;
+          margin-bottom: 20px;
+        }
+
+        .font-size-selector {
+          gap: 8px;
+          margin-top: 12px;
+        }
+
+        .font-size-btn {
+          padding: 10px 16px;
+          font-size: 0.9rem;
+          border-radius: 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .main-content {
+          padding: 16px 12px;
+          gap: 12px;
+        }
+
+        .content-section {
+          padding: 20px 16px;
+          border-radius: 16px;
+        }
+
+        .content-section h2 {
+          font-size: 1.4rem;
+          margin-bottom: 16px;
+        }
+
+        .content-section p {
+          font-size: 0.95rem;
+          margin-bottom: 16px;
+        }
+
+        .font-size-selector {
+          gap: 6px;
+          margin-top: 10px;
+        }
+
+        .font-size-btn {
+          padding: 8px 12px;
+          font-size: 0.85rem;
+          border-radius: 8px;
+        }
+      }
+
+      /* Smooth Scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Sidebar scroll */
+      .sidebar-container {
+        overflow-y: auto;
+        width: 400px !important;
+        min-width: 400px !important;
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-soft);
+        overflow: hidden;
+      }
+
+      .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+      }
+
+      /* Language Selector Styles */
+      .language-selector {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .lang-btn {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.1),
+          rgba(139, 92, 246, 0.05)
+        );
+        border: 2px solid rgba(139, 92, 246, 0.2);
+        border-radius: 12px;
+        padding: 12px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        backdrop-filter: blur(10px);
+      }
+
+      .lang-btn:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.15),
+          rgba(139, 92, 246, 0.08)
+        );
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+      }
+
+      .lang-btn.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-color: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+      }
+
+      .lang-btn.active:hover {
+        box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+      }
+
+      .theme-selector {
+        display: flex;
+        gap: 16px;
+        margin-top: 8px;
+        justify-content: flex-start;
+      }
+      .theme-btn {
+        background: linear-gradient(135deg, #ede9fe 60%, #f3f4f6 100%);
+        border: 2px solid var(--primary-color);
+        border-radius: 12px;
+        padding: 16px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.08);
+        outline: none;
+        position: relative;
+        min-width: 120px;
+      }
+      .theme-btn.active,
+      .theme-btn:focus {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: #fff;
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.18);
+        z-index: 2;
+      }
+      .theme-btn:hover {
+        background: linear-gradient(135deg, #c084fc 40%, #a855f7 100%);
+        color: #fff;
+        border-color: var(--secondary-color);
+      }
+
+      /* Tema başlığına üstten boşluk */
+      #theme-group h3 {
+        margin-top: 32px !important;
+      }
+
+      .chat-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--shadow-hover);
+        border: 1px solid var(--border-color);
+        min-width: 120px;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        pointer-events: none;
+        transition: var(--transition-smooth);
+        z-index: 100;
+        margin-top: 4px;
+      }
+      .chat-menu.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: all;
+      }
+    </style>
+    <style>
+      /* Dark mode - garanti çalışan */
+      body.dark-mode {
+        background: #181818 !important;
+        color: #e0e0e0 !important;
+      }
+      
+      /* Sidebar dark mode */
+      body.dark-mode .sidebar-container {
+        background: #1a1a1a !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .sidebar-header {
+        background: #2a2a2a !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .sidebar-user {
+        background: #2a2a2a !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .sidebar-nav a {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .sidebar-nav a:hover {
+        background: #4a4a4a !important;
+        color: #fff !important;
+      }
+      
+      body.dark-mode .sidebar-nav a.active {
+        background: var(--primary-color) !important;
+        color: white !important;
+      }
+      
+      body.dark-mode .user-info h3 {
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .user-info p {
+        color: #b0b0b0 !important;
+      }
+      
+      body.dark-mode .menu-item {
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .menu-item:hover {
+        background: #333 !important;
+        color: var(--primary-color) !important;
+      }
+      
+      body.dark-mode .menu-item.active {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        color: white !important;
+      }
+      
+      /* Main content dark mode */
+      body.dark-mode .main-content,
+      body.dark-mode .content-section,
+      body.dark-mode .card,
+      body.dark-mode .box,
+      body.dark-mode .panel {
+        background: #232323 !important;
+        color: #e0e0e0 !important;
+        border-color: #333 !important;
+      }
+      
+      /* Settings category dark mode */
+      body.dark-mode .settings-category {
+        background: #2a2a2a !important;
+        border-color: #444 !important;
+      }
+      
+      body.dark-mode .settings-category h3 {
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .settings-category p {
+        color: #b0b0b0 !important;
+      }
+      
+      /* Language and theme buttons dark mode */
+      body.dark-mode .lang-btn {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #555 !important;
+      }
+      
+      body.dark-mode .lang-btn:hover {
+        background: #444 !important;
+        color: #fff !important;
+      }
+      
+      body.dark-mode .lang-btn.active {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        color: white !important;
+      }
+      
+      body.dark-mode .theme-btn {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #555 !important;
+      }
+      
+      body.dark-mode .theme-btn:hover {
+        background: #444 !important;
+        color: #fff !important;
+      }
+      
+      body.dark-mode .theme-btn.active {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        color: white !important;
+      }
+      
+      /* Font size buttons dark mode */
+      body.dark-mode .font-size-btn {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #555 !important;
+      }
+      
+      body.dark-mode .font-size-btn:hover {
+        background: #444 !important;
+        color: #fff !important;
+      }
+      
+      body.dark-mode .font-size-btn.active {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        color: white !important;
+      }
+      
+      /* Settings cards dark mode */
+      body.dark-mode .settings-card {
+        background: #2a2a2a !important;
+        border-color: #444 !important;
+      }
+      
+      body.dark-mode .settings-card h3 {
+        color: #e0e0e0 !important;
+      }
+      
+      /* Form elements dark mode */
+      body.dark-mode .form-group label {
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .form-control {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #555 !important;
+      }
+      
+      body.dark-mode .form-control:focus {
+        background: #444 !important;
+        border-color: var(--primary-color) !important;
+      }
+      
+      body.dark-mode a {
+        color: #9ecbff !important;
+      }
+      
+      body.dark-mode .btn {
+        color: #fff !important;
+      }
+      
+      body.dark-mode input,
+      body.dark-mode textarea,
+      body.dark-mode select {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #555 !important;
+      }
+      
+      /* Content section headings dark mode */
+      body.dark-mode .content-section h2 {
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .content-section p {
+        color: #b0b0b0 !important;
+      }
+      
+      /* Stats cards dark mode */
+      body.dark-mode .stat-card {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        color: white !important;
+      }
+      
+      /* Danger zone dark mode */
+      body.dark-mode .danger-zone {
+        background: #2a1a1a !important;
+        border-color: #dc3545 !important;
+      }
+      
+      body.dark-mode .danger-zone h3 {
+        color: #ff6b6b !important;
+      }
+      
+      body.dark-mode .danger-zone p {
+        color: #ff8e8e !important;
+      }
+    </style>
+  </head>
+  <body>
+    {% csrf_token %}
+
+ 
+
+    <!-- Sidebar -->
+    <div class="sidebar-container" id="sidebarContainer">
+      <!-- Header with Logo and Navigation -->
+      <div class="sidebar-header">
+        <img
+          src="{% static 'iyihisset.png' %}"
+          alt="Logo"
+          class="sidebar-logo"
+        />
+        <div class="sidebar-nav">
+          <a href="{% url 'anasayfa' %}" data-translate="Home"
+            >{% trans "Ana Sayfa" %}</a
+          >
+          <a href="{% url 'dashboard' %}" data-translate="Feel Good"
+            >{% trans "İyi Hisset" %}</a
+          >
+          <a
+            href="{% url 'profile-management' %}"
+            class="active"
+            data-translate="Profile Management"
+            >{% trans "Profil Yönetimi" %}</a
+          >
+        </div>
+      </div>
+
+      <!-- User Info -->
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img src="{{profilePic.profile_pic.url}}" alt="" />
+        </div>
+        <div class="user-info">
+          <h3>{{ user.username.title }}</h3>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <div class="sidebar-menu">
+        <a
+          href="#my-statistics"
+          class="menu-item active"
+          onclick="scrollToSection('my-statistics')"
+          data-translate="My Statistics"
+        >
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>{% trans "İstatistiklerim" %}</span>
+        </a>
+
+        <a
+          href="#settings"
+          class="menu-item"
+          onclick="scrollToSection('settings')"
+          data-translate="Settings"
+        >
+          <span class="material-symbols-outlined">settings</span>
+          <span>{% trans "Ayarlar" %}</span>
+        </a>
+        <a
+          href="#help-center"
+          class="menu-item"
+          onclick="scrollToSection('help-center')"
+          data-translate="Help Center"
+        >
+          <span class="material-symbols-outlined">help</span>
+          <span>{% trans "Yardım Merkezi" %}</span>
+        </a>
+        <a href="{% url 'my-login' %}" class="menu-item">
+          <span class="material-symbols-outlined">logout</span>
+          <span data-translate="Log Out">{% trans "Çıkış Yap" %}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="my-statistics" class="content-section">
+        <h2 data-translate="My Statistics">{% trans "İstatistiklerim" %}</h2>
+        <p
+          data-translate="Track your progress and see how you're doing with your mental health journey."
+        >
+          {% trans "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl
+          olduğunuzu görün." %}
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">28</div>
+            <div class="stat-label" data-translate="Days Active">
+              {% trans "Aktif Günler" %}
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">156</div>
+            <div class="stat-label" data-translate="Chat Sessions">
+              {% trans "Sohbet Seansları" %}
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">89%</div>
+            <div class="stat-label" data-translate="Mood Score">
+              {% trans "Ruh Hali Puanı" %}
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">42</div>
+            <div class="stat-label" data-translate="Completed Tasks">
+              {% trans "Tamamlanan Görevler" %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="settings" class="content-section">
+        <h2 data-translate="Settings">{% trans "Ayarlarım" %}</h2>
+
+        <!-- Dil Seçimi -->
+        <div class="settings-group" id="language-group">
+          <h3 data-translate="Language Selection">{% trans "Dil Seçimi" %}</h3>
+          <p data-translate="Set language across the site">
+            {% trans "Site genelinde dil ayarlayın" %}
+          </p>
+          <div class="language-selector">
+            <button class="lang-btn" data-lang="tr" data-translate="Turkish">
+              {% trans "Türkçe" %}
+            </button>
+            <button class="lang-btn" data-lang="en" data-translate="English">
+              {% trans "English" %}
+            </button>
+          </div>
+        </div>
+        <!-- Tema Seçimi Card -->
+        <div class="settings-group" id="theme-group">
+          <h3 data-translate="Theme Selection">{% trans "Tema" %}</h3>
+          <p data-translate="Set theme across the site">
+            {% trans "Site genelinde tema seçin" %}
+          </p>
+          <div
+            class="theme-selector"
+            style="display: flex; gap: 12px; margin-bottom: 16px"
+          >
+            <button id="lightModeBtn" class="theme-btn" data-theme="light">
+              {% trans "Açık Mod" %}
+            </button>
+            <button id="darkModeBtn" class="theme-btn" data-theme="dark">
+              {% trans "Koyu Mod" %}
+            </button>
+          </div>
+        </div>
+        <!-- Hesap Bilgileri Kategorisi -->
+        <div class="settings-category">
+          <h3>{% trans "Hesap Bilgileri" %}</h3>
+          <p>{% trans "Kullanıcı bilgilerinizi güncelleyin" %}</p>
+          <div class="settings-cards">
+            <div class="settings-card">
+              <h3 data-translate="User Information">
+                {% trans "Kullanıcı Bilgileri" %}
+              </h3>
+              <form method="POST" autocomplete="off">
+                {% csrf_token %} {{ UserUpdateForm|crispy }}
+                <div style="text-align: center; margin-top: 16px">
+                  <button
+                    class="btn"
+                    type="submit"
+                    data-translate="Update Information"
+                  >
+                    {% trans "Bilgileri Güncelle" %}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-card">
+              <h3 data-translate="Change Password">
+                {% trans "Şifre Değiştir" %}
+              </h3>
+              <form
+                method="POST"
+                action="{% url 'update-password' %}"
+                autocomplete="off"
+              >
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="currentPassword" data-translate="Current Password"
+                    >{% trans "Mevcut Şifre" %}</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="currentPassword"
+                    name="current_password"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="newPassword" data-translate="New Password"
+                    >{% trans "Yeni Şifre" %}</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="newPassword"
+                    name="new_password"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label
+                    for="confirmPassword"
+                    data-translate="Confirm New Password"
+                    >{% trans "Yeni Şifre (Tekrar)" %}</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="confirmPassword"
+                    name="confirm_password"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn"
+                  data-translate="Change Password"
+                >
+                  {% trans "Şifreyi Değiştir" %}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Görünüm Kategorisi -->
+        <div class="settings-category">
+          <h3>{% trans "Görünüm" %}</h3>
+          <p>{% trans "Uygulama görünümünü özelleştirin" %}</p>
+          <div class="settings-cards">
+            <div class="settings-card">
+              <h3 data-translate="Profile Photo">
+                {% trans "Profil Fotoğrafı" %}
+              </h3>
+              <form
+                method="POST"
+                enctype="multipart/form-data"
+                autocomplete="off"
+              >
+                {% csrf_token %} {{ ProfileUpdateForm|crispy }}
+                <div style="text-align: center; margin-top: 16px">
+                  <button
+                    class="btn"
+                    type="submit"
+                    data-translate="Update Photo"
+                  >
+                    {% trans "Fotoğrafı Güncelle" %}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="settings-card">
+              <h3 data-translate="Font Size">{% trans "Yazı Tipi Boyutu" %}</h3>
+              <p data-translate="Adjust font size across the site">
+                {% trans "Site genelinde yazı boyutunu ayarlayın" %}
+              </p>
+              <div class="font-size-selector">
+                <button
+                  class="font-size-btn"
+                  data-size="small"
+                  data-translate="Small"
+                >
+                  {% trans "Küçük" %}
+                </button>
+                <button
+                  class="font-size-btn active"
+                  data-size="normal"
+                  data-translate="Normal"
+                >
+                  {% trans "Normal" %}
+                </button>
+                <button
+                  class="font-size-btn"
+                  data-size="large"
+                  data-translate="Large"
+                >
+                  {% trans "Büyük" %}
+                </button>
+                <button
+                  class="font-size-btn"
+                  data-size="very-large"
+                  data-translate="Very Large"
+                >
+                  {% trans "Çok Büyük" %}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="help-center" class="content-section">
+        <h2 data-translate="Help Center">{% trans "Yardım Merkezi" %}</h2>
+        <p
+          data-translate="Find answers to common questions and get support when you need it."
+        >
+          {% trans "Sık sorulan soruların cevaplarını bulun ve ihtiyacınız
+          olduğunda destek alın." %}
+        </p>
+
+        <div class="form-group">
+          <h3 data-translate="Frequently Asked Questions">
+            {% trans "Sık Sorulan Sorular" %}
+          </h3>
+          <p data-translate="How can I change my password?">
+            {% trans "Şifremi nasıl değiştirebilirim?" %}
+          </p>
+          <p data-translate="How do I update my profile picture?">
+            {% trans "Profil fotoğrafımı nasıl güncelleyebilirim?" %}
+          </p>
+          <p data-translate="What are the privacy settings?">
+            {% trans "Gizlilik ayarları nelerdir?" %}
+          </p>
+          <p data-translate="How can I contact support?">
+            {% trans "Destek ile nasıl iletişime geçebilirim?" %}
+          </p>
+        </div>
+
+        <a
+          href="{% url 'help-center' %}"
+          class="btn"
+          data-translate="Visit Help Center"
+          >{% trans "Yardım Merkezini Ziyaret Et" %}</a
+        >
+      </div>
+
+      <div id="account-delete" class="content-section">
+        <div class="danger-zone">
+          <h3 data-translate="Delete Account">{% trans "Hesabı Sil" %}</h3>
+          <p
+            data-translate="This action cannot be undone. All your data will be permanently deleted."
+          >
+            {% trans "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak
+            silinecek." %}
+          </p>
+          <form id="deleteAccountForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <label
+                for="deleteConfirm"
+                data-translate="Type 'DELETE MY ACCOUNT' to confirm"
+                >{% trans "Onay için 'HESABIMI SİL' yazınız" %}</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="deleteConfirm"
+                name="delete_confirm"
+                placeholder="{% trans 'HESABIMI SİL' %}"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn btn-danger"
+              data-translate="Permanently Delete My Account"
+            >
+              {% trans "Hesabımı Kalıcı Olarak Sil" %}
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
+    <script>
+      // Sidebar functionality
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+      const sidebarContainer = document.getElementById("sidebarContainer");
+
+      hamburgerBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        sidebarContainer.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (
+          window.innerWidth <= 991 &&
+          sidebarContainer.classList.contains("active")
+        ) {
+          if (
+            !sidebarContainer.contains(e.target) &&
+            !hamburgerBtn.contains(e.target)
+          ) {
+            sidebarContainer.classList.remove("active");
+          }
+        }
+      });
+
+      // Password change validation
+      document
+        .getElementById("passwordUpdateForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const current = document.getElementById("currentPassword").value;
+          const next = document.getElementById("newPassword").value;
+          const confirm = document.getElementById("confirmPassword").value;
+
+          if (!current || !next || !confirm) {
+            alert(
+              getTranslation('{% trans "Lütfen tüm alanları doldurunuz." %}')
+            );
+            return;
+          }
+          if (next !== confirm) {
+            alert(getTranslation('{% trans "Yeni şifreler eşleşmiyor." %}'));
+            return;
+          }
+          if (current === next) {
+            alert(
+              getTranslation(
+                '{% trans "Yeni şifre mevcut şifre ile aynı olamaz." %}'
+              )
+            );
+            return;
+          }
+
+          // Burada gerçek şifre değiştirme işlemi yapılacak
+          alert(getTranslation('{% trans "Şifre başarıyla güncellendi!" %}'));
+          this.reset();
+        });
+
+      // Delete account form
+      document
+        .getElementById("deleteAccountForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const confirmVal = document.getElementById("deleteConfirm").value;
+          const confirmText = document.getElementById("deleteConfirm").getAttribute('data-confirm-text') || "Onay için 'HESABIMI SİL' yazınız.";
+          if (confirmVal !== "HESABIMI SİL") {
+            alert(confirmText);
+            return;
+          }
+          if (
+            window.confirm(
+              getTranslation(
+                '{% trans "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?" %}'
+              )
+            )
+          ) {
+            alert(getTranslation('{% trans "Hesap silindi." %}'));
+            // Buraya gerçek silme işlemi eklenmeli
+          }
+        });
+
+      // Sidebar menüde sadece tıklanan veya scroll ile ilgili section'a gelindiğinde ilgili menü item'ı active olsun
+      function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+          // Sadece tıklanan menü item'ı active olsun
+          document.querySelectorAll(".menu-item").forEach((item) => {
+            item.classList.remove("active");
+          });
+          // Tıklanan item'a active ekle
+          event.target.classList.add("active");
+        }
+      }
+
+      // Scroll ile ilgili section'a gelince active class'ı güncelle
+      window.addEventListener("scroll", function () {
+        const sections = document.querySelectorAll(".content-section");
+        const menuItems = document.querySelectorAll(".menu-item");
+
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        menuItems.forEach((item) => {
+          item.classList.remove("active");
+          if (item.getAttribute("href") === `#${current}`) {
+            item.classList.add("active");
+          }
+        });
+      });
+
+      // Sayfa ilk açıldığında ilk menü item'ı active olsun
+      document.addEventListener("DOMContentLoaded", function () {
+        const firstMenuItem = document.querySelector(".menu-item");
+        if (firstMenuItem) {
+          firstMenuItem.classList.add("active");
+        }
+      });
+
+      // Initialize language system
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initializeLanguage === "function") {
+          initializeLanguage();
+        }
+      });
+
+      // Language selector functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const langButtons = document.querySelectorAll(".lang-btn");
+        langButtons.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const lang = this.getAttribute("data-lang");
+            if (typeof window.changeLanguage === "function") {
+              window.changeLanguage(lang);
+            }
+          });
+        });
+      });
+
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if(theme === 'dark') {
+          document.body.classList.add('dark-mode');
+          try {
+            document.getElementById('darkModeBtn').classList.add('active');
+            document.getElementById('lightModeBtn').classList.remove('active');
+          } catch(e){}
+        } else {
+          document.body.classList.remove('dark-mode');
+          try {
+            document.getElementById('lightModeBtn').classList.add('active');
+            document.getElementById('darkModeBtn').classList.remove('active');
+          } catch(e){}
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        applyThemeFromStorage();
+        const lightBtn = document.getElementById('lightModeBtn');
+        const darkBtn = document.getElementById('darkModeBtn');
+        if(lightBtn) lightBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'light');
+          applyThemeFromStorage();
+        });
+        if(darkBtn) darkBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'dark');
+          applyThemeFromStorage();
+        });
+      });
+    </script>
+    <script>
+      function redirectIfSmallScreen() {
+        if (
+          window.innerWidth < 1300 &&
+          !window.location.pathname.includes("responsive.html")
+        ) {
+          // Şu anki sayfanın yolunu kaydet
+          localStorage.setItem(
+            "lastPage",
+            window.location.pathname + window.location.search
+          );
+          window.location.href = "{% url 'responsive' %}";
+        }
+      }
+      redirectIfSmallScreen();
+      window.addEventListener("resize", redirectIfSmallScreen);
+    </script>
+        <script>
+          function applyThemeFromStorage() {
+            const theme = localStorage.getItem('themeMode') || 'light';
+            if(theme === 'dark') {
+              document.body.classList.add('dark-mode');
+              try {
+                document.getElementById('darkModeBtn').classList.add('active');
+                document.getElementById('lightModeBtn').classList.remove('active');
+              } catch(e){}
+            } else {
+              document.body.classList.remove('dark-mode');
+              try {
+                document.getElementById('lightModeBtn').classList.add('active');
+                document.getElementById('darkModeBtn').classList.remove('active');
+              } catch(e){}
+            }
+          }
+          document.addEventListener('DOMContentLoaded', function() {
+            applyThemeFromStorage();
+            const lightBtn = document.getElementById('lightModeBtn');
+            const darkBtn = document.getElementById('darkModeBtn');
+            if(lightBtn) lightBtn.addEventListener('click', function() {
+              localStorage.setItem('themeMode', 'light');
+              applyThemeFromStorage();
+            });
+            if(darkBtn) darkBtn.addEventListener('click', function() {
+              localStorage.setItem('themeMode', 'dark');
+              applyThemeFromStorage();
+            });
+          });
+        </script>
+    <script>
+    // Menü ve section id eşleşmeleri
+    const menuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+    const sectionIds = ['my-statistics', 'settings', 'help-center', 'account-delete'];
+    const sections = sectionIds.map(id => document.getElementById(id));
+
+    function onScrollActiveMenu() {
+      let scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      let offset = 120; // header ve padding için
+      let found = false;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        if (sections[i] && sections[i].offsetTop - offset <= scrollPosition) {
+          menuItems.forEach(item => item.classList.remove('active'));
+          if (menuItems[i]) menuItems[i].classList.add('active');
+          found = true;
+          break;
+        }
+      }
+      // Eğer hiçbir section görünür değilse ilk menü aktif kalsın
+      if (!found) {
+        menuItems.forEach(item => item.classList.remove('active'));
+        if (menuItems[0]) menuItems[0].classList.add('active');
+      }
+    }
+    window.addEventListener('scroll', onScrollActiveMenu);
+    document.addEventListener('DOMContentLoaded', onScrollActiveMenu);
+    </script>
+  </body>
+</html>

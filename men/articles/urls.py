@@ -1,0 +1,33 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.homepage, name=""),
+    path("register", views.register, name="register"),
+    path("my-login", views.my_login, name="my-login"),
+    path("dashboard", views.dashboard, name="dashboard"),
+    path("llm_api/stream", views.stream_llm_response, name="llm_stream"),
+    path("user-logout", views.user_logout, name="user-logout"),
+    path("create-article", views.create_article, name="create-article"),
+    path("my-articles", views.my_articles, name="my-articles"),
+    path("update-article/<str:pk>", views.update_articles, name="update-article"),
+    path("delete-article/<str:pk>", views.delete_articles, name="delete-article"),
+    path("profile-management", views.profile_management, name="profile-management"),
+    path("delete-account", views.delete_account, name="delete-account"),
+    path("acil-destek", views.acil_destek, name="acil-destek"),
+    path("gunluk-kartlar", views.gunluk_kartlar, name="gunluk-kartlar"),
+    path("destek-duvari", views.destek_duvari, name="destek-duvari"),
+    path("haftalik-raporlar", views.haftalik_raporlar, name="haftalik-raporlar"),
+    path("bildirimler", views.bildirimler, name="bildirimler"),
+    path("settings", views.settings_view, name="settings"),
+    path("help-center", views.help_center, name="help-center"),
+    path("update-password/", views.update_password, name="update-password"),
+    path("contact", views.contact, name="contact"),
+    path("upload-photo/", views.upload_photo, name="upload-photo"),
+    path("anasayfa", views.anasayfa, name="anasayfa"),
+    path("meditasyon", views.meditasyon, name="meditasyon"),
+    path("meditasyon/<str:audio_id>", views.meditasyon_audio, name="meditasyon-audio"),
+    path("nefes-egzersizi", views.nefes_egzersizi, name="nefes-egzersizi"),
+    path('responsive.html', views.responsive, name='responsive'),
+    path('like/', views.like_story, name='like_story'),
+]

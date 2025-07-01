@@ -1,0 +1,273 @@
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">{% trans "Bildirimler" %}</h1>
+    
+    <div class="notifications-list">
+        <!-- Okunmamış Bildirim -->
+        <div class="notification-card unread">
+            <div class="notification-icon">
+                <i class="material-symbols-outlined">task_alt</i>
+            </div>
+            <div class="notification-content">
+                <h5>{% trans "Günlük Görevleriniz Hazır!" %}</h5>
+                <p>{% trans "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!" %}</p>
+                <small class="text-muted">{% trans "5 dakika önce" %}</small>
+            </div>
+        </div>
+
+        <!-- Okunmuş Bildirim -->
+        <div class="notification-card">
+            <div class="notification-icon">
+                <i class="material-symbols-outlined">mood</i>
+            </div>
+            <div class="notification-content">
+                <h5>{% trans "Tebrikler!" %}</h5>
+                <p>{% trans "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız." %}</p>
+                <small class="text-muted">{% trans "2 saat önce" %}</small>
+            </div>
+        </div>
+
+        <!-- Önemli Bildirim -->
+        <div class="notification-card important">
+            <div class="notification-icon">
+                <i class="material-symbols-outlined">psychology</i>
+            </div>
+            <div class="notification-content">
+                <h5>{% trans "Yeni İçerik" %}</h5>
+                <p>{% trans "Stres yönetimi için yeni bir nefes egzersizi eklendi." %}</p>
+                <small class="text-muted">{% trans "Dün" %}</small>
+            </div>
+        </div>
+
+        <!-- Destek Bildirimi -->
+        <div class="notification-card">
+            <div class="notification-icon">
+                <i class="material-symbols-outlined">forum</i>
+            </div>
+            <div class="notification-content">
+                <h5>{% trans "Destek Mesajınız" %}</h5>
+                <p>{% trans "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi." %}</p>
+                <small class="text-muted">{% trans "2 gün önce" %}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .notifications-list {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .notification-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .notification-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .notification-card.unread {
+        background: #f8f9fa;
+        border-left: 4px solid #5a5a99;
+    }
+
+    .notification-card.important {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+    }
+
+    .notification-icon {
+        background: #f8f9fa;
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .notification-icon i {
+        font-size: 24px;
+        color: #5a5a99;
+    }
+
+    .notification-content {
+        flex: 1;
+    }
+
+    .notification-content h5 {
+        margin: 0 0 5px 0;
+        color: #333;
+    }
+
+    .notification-content p {
+        margin: 0 0 5px 0;
+        color: #666;
+    }
+
+    .notification-content small {
+        font-size: 0.85rem;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .main-content {
+      background: #232526 !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .page-title {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .page-subtitle {
+      color: #b0b0b0 !important;
+    }
+
+    body.dark-mode .sidebar-container {
+      background: rgba(35, 35, 35, 0.95) !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .sidebar-header {
+      background: rgba(45, 45, 45, 0.8) !important;
+      border-bottom-color: #555 !important;
+    }
+
+    body.dark-mode .sidebar-nav a {
+      color: #b0b0b0 !important;
+      background: #333 !important;
+    }
+
+    body.dark-mode .sidebar-nav a:hover {
+      color: #f1f1f1 !important;
+      background: #555 !important;
+    }
+
+    body.dark-mode .sidebar-nav a.active {
+      color: #f1f1f1 !important;
+      background: #6a4c9c !important;
+    }
+
+    body.dark-mode .sidebar-user {
+      background: rgba(45, 45, 45, 0.8) !important;
+      border-bottom-color: #555 !important;
+    }
+
+    body.dark-mode .user-info h3 {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .user-info p {
+      color: #b0b0b0 !important;
+    }
+
+    body.dark-mode .sidebar-title-text {
+      color: #8c73b8 !important;
+    }
+
+    body.dark-mode .sidebar-task-item {
+      background: rgba(139, 92, 246, 0.2) !important;
+      color: #f1f1f1 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .sidebar-task-item:hover {
+      background: rgba(139, 92, 246, 0.3) !important;
+      border-color: #8c73b8 !important;
+    }
+
+    body.dark-mode .notifications-container {
+      background: rgba(45, 45, 45, 0.95) !important;
+      border-color: #555 !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .notification-card {
+      background: linear-gradient(160deg, rgba(45, 45, 45, 0.98) 0%, rgba(35, 35, 35, 0.92) 100%) !important;
+      border-color: #555 !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .notification-card:hover {
+      border-color: #6a4c9c !important;
+    }
+
+    body.dark-mode .notification-title {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .notification-message {
+      color: #b0b0b0 !important;
+    }
+
+    body.dark-mode .notification-time {
+      color: #888 !important;
+    }
+
+    body.dark-mode .hamburger {
+      background: #333 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .hamburger span {
+      background: #f1f1f1 !important;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea,
+    body.dark-mode select {
+      background: #333 !important;
+      color: #f1f1f1 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .card,
+    body.dark-mode .box,
+    body.dark-mode .panel {
+      background: #2c2c2c !important;
+      color: #f1f1f1 !important;
+      border-color: #444 !important;
+    }
+
+    body.dark-mode a {
+      color: #8c73b8 !important;
+    }
+
+    body.dark-mode .btn {
+      background: #6a4c9c !important;
+      color: #f1f1f1 !important;
+    }
+</style>
+
+<script>
+function applyThemeFromStorage() {
+  const theme = localStorage.getItem('themeMode') || 'light';
+  if(theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  applyThemeFromStorage();
+});
+</script>
+{% endblock %} 

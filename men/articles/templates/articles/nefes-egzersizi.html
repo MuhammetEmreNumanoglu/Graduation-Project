@@ -1,0 +1,1342 @@
+{% load static %} {% load i18n %}
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nefes Egzersizi</title>
+    <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <style>
+      :root {
+        --primary-color: #6c3eb4; /* Derin Mor */
+        --secondary-color: #8ca6db; /* Açık Mavi-Mor */
+        --accent-color: #b993d6; /* Lila */
+        --background-light: #f9f9f9;
+        --text-primary: #2c3e50;
+        --text-secondary: #7f8c8d;
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 20px;
+        --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        --lila-color: #b993d6;
+        --purple-ball: #6c3eb4;
+        --path-stroke-width: 18px; /* Çubukların kalınlığı, belirginleşti */
+        --ball-size: 32px; /* Topun boyutu, belirginleşti */
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #b993d6 0%,
+          #8ca6db 100%
+        ) !important;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        font-family: "Inter", sans-serif;
+        overflow: hidden;
+      }
+
+      .main-content {
+        flex: 1;
+        margin-left: 320px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-smooth);
+        padding: 32px;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+
+      .breathing-container {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.98),
+          rgba(255, 255, 255, 0.95)
+        );
+        border-radius: 28px;
+        padding: 60px;
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        max-width: 750px;
+        width: 100%;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .breathing-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border-radius: 28px 28px 0 0;
+      }
+
+      .breathing-visualizer-wrapper {
+        position: relative; /* Top ve metin için ana kapsayıcı */
+        width: 100%;
+        max-width: 550px; /* SVG genişliğine göre ayarla */
+        height: 200px; /* SVG yüksekliğine göre ayarla */
+        margin: 0 auto 30px; /* Metni altına almak için boşluk */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      svg {
+        overflow: visible; /* Topun path dışına taşması için */
+        position: absolute; /* Wrapper içinde pozisyonunu kontrol etmek için */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .breathing-path {
+        stroke: var(--accent-color); /* Yolun varsayılan rengi */
+        stroke-width: var(--path-stroke-width);
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.7;
+        transition: stroke 0.4s ease-in-out, opacity 0.4s ease-in-out,
+          filter 0.4s ease-in-out;
+        filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.1));
+      }
+
+      /* Topun kendisi */
+      .breathing-ball {
+        position: absolute;
+        width: var(--ball-size);
+        height: var(--ball-size);
+        background: radial-gradient(
+          circle at 30% 30%,
+          #ffffff,
+          #f0f0f0 70%,
+          var(--primary-color) 100%
+        );
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 1),
+          0 0 30px var(--accent-color); /* Daha belirgin parlama */
+        transform: translate(-50%, -50%); /* Kendi merkezine göre hizala */
+        z-index: 2; /* Yolun üzerinde görünmesi için */
+        transition: transform 0.01s linear; /* Çok hızlı hareket güncellemeleri için */
+      }
+
+      .breathing-text-display {
+        /* Metni görselleştiricinin altına aldık */
+        font-size: 2.2rem;
+        font-weight: 700;
+        font-family: "Playfair Display", serif;
+        color: var(--primary-color);
+        margin-top: 20px; /* Görselleştiriciden boşluk */
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        min-height: 40px; /* Yükseklik sabitleme */
+      }
+
+      /* Start/Stop Buttons */
+      .breathing-controls {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 40px;
+        flex-wrap: wrap;
+      }
+
+      .breathing-btn {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 15px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .breathing-btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 10px 28px rgba(139, 92, 246, 0.55);
+        background: linear-gradient(
+          135deg,
+          var(--accent-color),
+          var(--primary-color)
+        );
+      }
+
+      .breathing-btn.secondary {
+        background: linear-gradient(135deg, #a788d6, #7a5bb0);
+        box-shadow: 0 4px 16px rgba(122, 91, 176, 0.3);
+      }
+
+      .breathing-btn.secondary:hover {
+        background: linear-gradient(135deg, #7a5bb0, #a788d6);
+        box-shadow: 0 6px 20px rgba(122, 91, 176, 0.4);
+      }
+
+      .breathing-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .breathing-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        text-shadow: 0 4px 8px rgba(108, 62, 180, 0.2);
+      }
+
+      .breathing-subtitle {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        margin-bottom: 4rem;
+        line-height: 1.7;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 991px) {
+        .main-content {
+          margin-left: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .breathing-container {
+          padding: 40px 24px;
+        }
+        .breathing-title {
+          font-size: 2.8rem;
+        }
+        .breathing-subtitle {
+          font-size: 1.1rem;
+          margin-bottom: 3rem;
+        }
+        .breathing-visualizer-wrapper {
+          height: 150px;
+          max-width: 450px;
+        }
+        .breathing-text-display {
+          font-size: 1.8rem;
+          margin-top: 15px;
+        }
+        .breathing-btn {
+          padding: 12px 24px;
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .breathing-container {
+          padding: 30px 16px;
+          margin: 15px;
+        }
+        .breathing-title {
+          font-size: 2.2rem;
+        }
+        .breathing-subtitle {
+          font-size: 1rem;
+          margin-bottom: 2rem;
+        }
+        .breathing-visualizer-wrapper {
+          height: 100px;
+          max-width: 350px;
+        }
+        .breathing-text-display {
+          font-size: 1.5rem;
+          margin-top: 10px;
+        }
+        .breathing-controls {
+          flex-direction: column;
+          gap: 12px;
+        }
+        .breathing-btn {
+          width: 100%;
+          max-width: 250px;
+        }
+      }
+
+      .breathing-settings {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 32px;
+        background: rgba(245, 245, 255, 0.7);
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(108, 62, 180, 0.06);
+        padding: 18px 18px 6px 18px;
+        border: 1px solid #ece6fa;
+      }
+      
+      .setting-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 110px;
+        gap: 8px;
+      }
+      
+      .breathing-settings label {
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--primary-color);
+        margin-bottom: 0;
+        display: block;
+        text-align: center;
+      }
+      
+      .number-input-wrapper {
+        display: flex;
+        align-items: center;
+        background: #f7f5ff;
+        border: 1.5px solid #d1c4e9;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(108, 62, 180, 0.04);
+        transition: all 0.3s ease;
+      }
+      
+      .number-input-wrapper:focus-within {
+        border-color: var(--primary-color);
+        box-shadow: 0 2px 8px rgba(108, 62, 180, 0.1);
+        background: #fff;
+      }
+      
+      .number-btn {
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        color: white;
+        border: none;
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+      }
+      
+      .number-btn:hover {
+        background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+        transform: scale(1.05);
+      }
+      
+      .number-btn:active {
+        transform: scale(0.95);
+      }
+      
+      .number-btn:disabled {
+        background: #e0e0e0;
+        color: #999;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+      
+      .number-btn:disabled:hover {
+        background: #e0e0e0;
+        transform: none;
+      }
+      
+      .number-input {
+        width: 50px;
+        padding: 4px 6px;
+        border: none;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        background: transparent;
+        color: var(--primary-color);
+        outline: none;
+      }
+      
+      .number-input::-webkit-outer-spin-button,
+      .number-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      @media (max-width: 600px) {
+        .breathing-settings {
+          flex-direction: column;
+          gap: 8px;
+          padding: 10px 8px 2px 8px;
+        }
+        .breathing-settings > div {
+          min-width: 90px;
+        }
+      }
+      #cycleCounter {
+        position: fixed;
+        right: 36px;
+        bottom: 36px;
+        z-index: 1000;
+        background: linear-gradient(135deg, #f7f5ff 0%, #ece6fa 100%);
+        box-shadow: 0 2px 12px rgba(108, 62, 180, 0.1);
+        border-radius: 16px;
+        padding: 16px 28px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        display: none;
+        border: 1.5px solid #ece6fa;
+        transition: box-shadow 0.2s, background 0.2s;
+      }
+      #cycleCounter:hover {
+        box-shadow: 0 6px 24px rgba(108, 62, 180, 0.18);
+        background: linear-gradient(135deg, #ece6fa 0%, #f7f5ff 100%);
+      }
+      @media (max-width: 600px) {
+        #cycleCounter {
+          right: 10px;
+          bottom: 10px;
+          padding: 10px 14px;
+          font-size: 1rem;
+        }
+      }
+      body.iyi-dark {
+        background: #181818 !important;
+        color: #e0e0e0 !important;
+      }
+      body.iyi-dark .main-content,
+      body.iyi-dark .content-section,
+      body.iyi-dark .card,
+      body.iyi-dark .box,
+      body.iyi-dark .panel {
+        background: #232323 !important;
+        color: #e0e0e0 !important;
+        border-color: #333 !important;
+      }
+      body.iyi-dark a {
+        color: #9ecbff !important;
+      }
+      body.iyi-dark .btn {
+        background: #333 !important;
+        color: #fff !important;
+      }
+      body.iyi-dark input,
+      body.iyi-dark textarea,
+      body.iyi-dark select {
+        background: #232323 !important;
+        color: #e0e0e0 !important;
+        border-color: #444 !important;
+      }
+
+      .sidebar-block.sidebar-title {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        height: auto;
+        min-height: 120px;
+        flex: 1 1 auto;
+        margin-bottom: 0;
+        padding: 24px;
+        display: flex;
+        overflow-y: auto;
+        min-height: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.7)
+        );
+      }
+      .sidebar-title-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 18px;
+        width: 100%;
+        text-align: left;
+        position: relative;
+      }
+      .sidebar-title-text::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        border-radius: 2px;
+      }
+      .sidebar-tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+      }
+      .sidebar-task-item {
+        background: rgba(139, 92, 246, 0.1);
+        border-radius: 12px;
+        padding: 16px;
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+        box-shadow: 0 1px 4px rgba(140, 82, 255, 0.04);
+        border: 1px solid transparent;
+        transition: var(--transition-smooth);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      .sidebar-task-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+      .sidebar-task-item:hover {
+        background: rgba(139, 92, 246, 0.15);
+        box-shadow: 0 2px 8px rgba(140, 82, 255, 0.09);
+        border-color: rgba(139, 92, 246, 0.2);
+        transform: translateX(4px);
+      }
+      .sidebar-task-item:hover::before {
+        left: 100%;
+      }
+
+      body.dark-mode {
+        background: #181818 !important;
+        color: #e0e0e0 !important;
+      }
+      
+      /* Sidebar dark mode */
+      body.dark-mode .sidebar-container {
+        background: #1a1a1a !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .sidebar-header {
+        background: #2a2a2a !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .sidebar-nav a {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .sidebar-nav a:hover {
+        background: #4a4a4a !important;
+        color: #fff !important;
+      }
+      
+      body.dark-mode .sidebar-nav a.active {
+        background: var(--primary-color) !important;
+        color: white !important;
+      }
+      
+      body.dark-mode .sidebar-user {
+        background: #2a2a2a !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .user-info h3 {
+        color: #e0e0e0 !important;
+      }
+      
+      body.dark-mode .user-info p {
+        color: #b0b0b0 !important;
+      }
+      
+      body.dark-mode .sidebar-task-item {
+        background: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #444 !important;
+      }
+      
+      body.dark-mode .sidebar-task-item:hover {
+        background: #444 !important;
+        color: #fff !important;
+        border-color: var(--primary-color) !important;
+      }
+      
+      body.dark-mode .main-content,
+      body.dark-mode .content-section,
+      body.dark-mode .card,
+      body.dark-mode .box,
+      body.dark-mode .panel {
+        background: #232323 !important;
+        color: #e0e0e0 !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode a { color: var(--primary-color) !important; }
+      body.dark-mode .btn { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #e0e0e0 !important; }
+
+      /* Hamburger Button Styles */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 2rem;
+        height: 2rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 10;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+      }
+
+      .hamburger span {
+        width: 2rem;
+        height: 0.25rem;
+        background: var(--primary-color);
+        border-radius: 10px;
+        transition: all 0.3s linear;
+        position: relative;
+        transform-origin: 1px;
+      }
+
+      .hamburger.active span:first-child {
+        transform: rotate(45deg);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg);
+      }
+
+      @media (max-width: 991px) {
+        .hamburger {
+          display: flex;
+        }
+        
+        .main-content {
+          margin-left: 0;
+          padding-top: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Hamburger Button for Mobile -->
+    <button class="hamburger" id="hamburgerBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="sidebar-container" id="sidebarContainer">
+      <div class="sidebar-header">
+        <img
+          src="{% static 'iyihisset.png' %}"
+          alt="Logo"
+          class="sidebar-logo"
+        />
+        <div class="sidebar-nav">
+          <a href="{% url 'anasayfa' %}">Home</a>
+          <a href="{% url 'dashboard' %}">Feel Good</a>
+          <a href="{% url 'profile-management' %}"
+            >{% trans "Profil Yönetimi" %}</a
+          >
+        </div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img src="{{profilePic.profile_pic.url}}" alt="" />
+        </div>
+        <div class="user-info">
+          <h3>{{ user.username.title }}</h3>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="sidebar-block sidebar-title">
+          <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
+          <div class="sidebar-tasks">
+            <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
+            <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="main-content">
+      <div class="breathing-container">
+        <div class="breathing-settings">
+          <div class="setting-group">
+            <label for="inhaleDuration">Nefes Al (sn)</label>
+            <div class="number-input-wrapper">
+              <button class="number-btn minus" data-target="inhaleDuration">-</button>
+              <input
+                type="number"
+                id="inhaleDuration"
+                min="1"
+                max="30"
+                value="4"
+                class="number-input"
+              />
+              <button class="number-btn plus" data-target="inhaleDuration">+</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label for="holdDuration">Tut (sn)</label>
+            <div class="number-input-wrapper">
+              <button class="number-btn minus" data-target="holdDuration">-</button>
+              <input
+                type="number"
+                id="holdDuration"
+                min="0"
+                max="30"
+                value="7"
+                class="number-input"
+              />
+              <button class="number-btn plus" data-target="holdDuration">+</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label for="exhaleDuration">Nefes Ver (sn)</label>
+            <div class="number-input-wrapper">
+              <button class="number-btn minus" data-target="exhaleDuration">-</button>
+              <input
+                type="number"
+                id="exhaleDuration"
+                min="1"
+                max="30"
+                value="8"
+                class="number-input"
+              />
+              <button class="number-btn plus" data-target="exhaleDuration">+</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label for="cycleCount">Tekrar</label>
+            <div class="number-input-wrapper">
+              <button class="number-btn minus" data-target="cycleCount">-</button>
+              <input
+                type="number"
+                id="cycleCount"
+                min="1"
+                max="99"
+                value="5"
+                class="number-input"
+              />
+              <button class="number-btn plus" data-target="cycleCount">+</button>
+            </div>
+          </div>
+        </div>
+        <h1 class="breathing-title">Nefes Egzersizi</h1>
+        <p class="breathing-subtitle">
+          Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alış
+          verişinizi takip edin.
+        </p>
+
+        <div class="breathing-visualizer-wrapper">
+          <svg
+            width="550"
+            height="200"
+            viewBox="0 0 550 200"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              id="fullPath"
+              fill="none"
+              stroke="none"
+              d="M 50 150 
+                             L 220 50 
+                             L 380 50 
+                             L 500 150"
+            />
+
+            <path
+              id="pathInhale"
+              class="breathing-path"
+              d="M 50 150 L 220 50"
+            />
+            <path id="pathHold" class="breathing-path" d="M 220 50 L 380 50" />
+            <path
+              id="pathExhale"
+              class="breathing-path"
+              d="M 380 50 L 500 150"
+            />
+          </svg>
+          <div class="breathing-ball" id="breathingBall"></div>
+        </div>
+
+        <div class="breathing-text-display" id="breathingText">Hazır</div>
+
+        <div class="breathing-controls">
+          <button class="breathing-btn" id="startBtn">Başla</button>
+          <button
+            class="breathing-btn secondary"
+            id="stopBtn"
+            style="display: none"
+          >
+            Durdur
+          </button>
+        </div>
+        <div id="cycleCounter" style="position: absolute; right: 24px; bottom: 24px; z-index: 10; background: linear-gradient(135deg, #f7f5ff 0%, #ece6fa 100%); box-shadow: 0 2px 12px rgba(108, 62, 180, 0.1); border-radius: 16px; padding: 12px 22px; font-size: 1.1rem; font-weight: 600; color: var(--primary-color); border: 1.5px solid #ece6fa; display: none;">
+          Döngü: <span id="cycleCurrent">0</span>/<span id="cycleTotal">5</span>
+        </div>
+      </div>
+
+    </main>
+
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script>
+      // Sidebar functionality with null checks
+      const hamburgerBtn = document.getElementById("hamburgerBtn");
+      const sidebarContainer = document.getElementById("sidebarContainer");
+
+      if (hamburgerBtn && sidebarContainer) {
+        hamburgerBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          sidebarContainer.classList.toggle("active");
+          hamburgerBtn.classList.toggle("active");
+        });
+
+        document.addEventListener("click", function (e) {
+          if (
+            window.innerWidth <= 991 &&
+            sidebarContainer.classList.contains("active")
+          ) {
+            if (
+              !sidebarContainer.contains(e.target) &&
+              !hamburgerBtn.contains(e.target)
+            ) {
+              sidebarContainer.classList.remove("active");
+              hamburgerBtn.classList.remove("active");
+            }
+          }
+        });
+
+        const observer = new MutationObserver(() => {
+          if (window.innerWidth <= 991) {
+            if (sidebarContainer.classList.contains("active")) {
+              document.body.style.overflow = "hidden";
+            } else {
+              document.body.style.overflow = "";
+            }
+          }
+        });
+        observer.observe(sidebarContainer, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+      }
+
+      // Breathing exercise functionality with null checks
+      const startBtn = document.getElementById("startBtn");
+      const stopBtn = document.getElementById("stopBtn");
+      const breathingVisualizerWrapper = document.getElementById(
+        "breathingVisualizerWrapper"
+      );
+      const breathingText = document.getElementById("breathingText");
+      const breathingBall = document.getElementById("breathingBall");
+      const pathInhale = document.getElementById("pathInhale");
+      const pathHold = document.getElementById("pathHold");
+      const pathExhale = document.getElementById("pathExhale");
+      const fullPath = document.getElementById("fullPath"); // Topun takip edeceği tam yol
+
+      // Check if all required elements exist
+      if (!startBtn || !stopBtn || !breathingText || !breathingBall || 
+          !pathInhale || !pathHold || !pathExhale || !fullPath) {
+        console.warn("Some breathing exercise elements are missing");
+      }
+
+      let isRunning = false;
+      let animationFrameId;
+      let startTime;
+      let currentLoopTime = 0;
+
+      // Fazların süreleri (ms cinsinden) ve ilgili yol segmentleri
+      let phases = [
+        {
+          name: "Nefes Al",
+          duration: 4000,
+          pathElement: pathInhale,
+          pathStartLength: 0,
+          pathEndLength: 0,
+        },
+        {
+          name: "Tut",
+          duration: 7000,
+          pathElement: pathHold,
+          pathStartLength: 0,
+          pathEndLength: 0,
+        },
+        {
+          name: "Nefes Ver",
+          duration: 8000,
+          pathElement: pathExhale,
+          pathStartLength: 0,
+          pathEndLength: 0,
+        },
+      ];
+      let totalLoopDuration = phases.reduce(
+        (sum, phase) => sum + phase.duration,
+        0
+      );
+      let fullPathLength;
+      let cycleTotal = 5;
+      let cycleCurrent = 0;
+
+      function updatePhaseDurationsFromInputs() {
+        const inhaleElement = document.getElementById("inhaleDuration");
+        const holdElement = document.getElementById("holdDuration");
+        const exhaleElement = document.getElementById("exhaleDuration");
+        const cycleCountElement = document.getElementById("cycleCount");
+        
+        const inhale = inhaleElement ? parseInt(inhaleElement.value) || 4 : 4;
+        const hold = holdElement ? parseInt(holdElement.value) || 7 : 7;
+        const exhale = exhaleElement ? parseInt(exhaleElement.value) || 8 : 8;
+        
+        phases[0].duration = inhale * 1000;
+        phases[1].duration = hold * 1000;
+        phases[2].duration = exhale * 1000;
+        totalLoopDuration = phases.reduce(
+          (sum, phase) => sum + phase.duration,
+          0
+        );
+        
+        cycleTotal = cycleCountElement ? parseInt(cycleCountElement.value) || 5 : 5;
+        const cycleTotalElement = document.getElementById("cycleTotal");
+        if (cycleTotalElement) {
+          cycleTotalElement.textContent = cycleTotal;
+        }
+      }
+
+      function resetCycleCounter() {
+        cycleCurrent = 0;
+        const cycleCurrentElement = document.getElementById("cycleCurrent");
+        if (cycleCurrentElement) {
+          cycleCurrentElement.textContent = cycleCurrent;
+        }
+      }
+
+      function showCycleCounter(show = true) {
+        const cycleCounterElement = document.getElementById("cycleCounter");
+        if (cycleCounterElement) {
+          cycleCounterElement.style.display = show ? "block" : "none";
+        }
+      }
+
+      function animate(timestamp) {
+        if (!isRunning) return;
+        if (!startTime) startTime = timestamp;
+        
+        const elapsedSinceStart = timestamp - startTime;
+        let completedCycles = Math.floor(elapsedSinceStart / totalLoopDuration);
+        
+        if (completedCycles >= cycleTotal) {
+          stopBreathing();
+          updateBreathingText("Tebrikler!");
+          showCycleCounter(false);
+          return;
+        }
+        
+        if (cycleCurrent !== completedCycles) {
+          cycleCurrent = completedCycles;
+          const cycleCurrentElement = document.getElementById("cycleCurrent");
+          if (cycleCurrentElement) {
+            cycleCurrentElement.textContent = cycleCurrent;
+          }
+        }
+        
+        currentLoopTime = elapsedSinceStart % totalLoopDuration;
+        
+        // Hangi fazda olduğumuzu belirle
+        let currentPhaseIndex = 0;
+        let currentPhaseStartTime = 0;
+        
+        for (let i = 0; i < phases.length; i++) {
+          const phase = phases[i];
+          if (currentLoopTime < currentPhaseStartTime + phase.duration) {
+            currentPhaseIndex = i;
+            break;
+          }
+          currentPhaseStartTime += phase.duration;
+        }
+        
+        const currentPhase = phases[currentPhaseIndex];
+        const phaseElapsed = currentLoopTime - currentPhaseStartTime;
+        const phaseProgress = phaseElapsed / currentPhase.duration;
+        
+        // Kalan süreyi hesapla
+        const remainingTime = Math.max(
+          0,
+          Math.ceil((currentPhase.duration - phaseElapsed) / 1000)
+        );
+        
+        // Metni güncelle
+        updateBreathingText(`${currentPhase.name} (${remainingTime}s)`);
+        
+        // Path renklerini güncelle
+        phases.forEach((p, index) => {
+          if (index === currentPhaseIndex) {
+            p.pathElement.style.stroke = "var(--purple-ball)";
+            p.pathElement.style.opacity = "1";
+            p.pathElement.style.filter = "drop-shadow(0 0 10px var(--accent-color))";
+          } else {
+            p.pathElement.style.stroke = "var(--accent-color)";
+            p.pathElement.style.opacity = "0.7";
+            p.pathElement.style.filter = "none";
+          }
+        });
+        
+        // Topun pozisyonunu hesapla - Düzeltilmiş versiyon
+        let totalProgress = 0;
+        
+        // Önceki fazların toplam süresini hesapla
+        for (let i = 0; i < currentPhaseIndex; i++) {
+          totalProgress += phases[i].duration / totalLoopDuration;
+        }
+        
+        // Mevcut fazın ilerlemesini ekle
+        totalProgress += (currentPhase.duration / totalLoopDuration) * phaseProgress;
+        
+        // Topu yeni pozisyona taşı
+        setBallPosition(totalProgress);
+        
+        animationFrameId = requestAnimationFrame(animate);
+      }
+
+      function startBreathing() {
+        // Süreleri güncelle
+        updatePhaseDurationsFromInputs();
+        
+        // Döngü sayacını sıfırla
+        resetCycleCounter();
+        showCycleCounter(true);
+        
+        if (isRunning) return;
+        
+        isRunning = true;
+        if (startBtn) startBtn.style.display = "none";
+        if (stopBtn) stopBtn.style.display = "inline-block";
+        
+        // Animasyonu başlat
+        startTime = null;
+        currentLoopTime = 0;
+        requestAnimationFrame(animate);
+      }
+
+      function stopBreathing() {
+        isRunning = false;
+        cancelAnimationFrame(animationFrameId);
+        if (startBtn) startBtn.style.display = "inline-block";
+        if (stopBtn) stopBtn.style.display = "none";
+        showCycleCounter(false);
+        
+        // Path renklerini sıfırla
+        phases.forEach((p) => {
+          if (p.pathElement) {
+            p.pathElement.style.stroke = "var(--accent-color)";
+            p.pathElement.style.opacity = "0.7";
+            p.pathElement.style.filter = "none";
+          }
+        });
+        
+        // Topu başlangıç pozisyonuna getir
+        setBallPosition(0);
+        
+        updateBreathingText("Hazır", true);
+      }
+
+      // Add event listeners only if elements exist
+      if (startBtn) {
+        startBtn.addEventListener("click", startBreathing);
+      }
+      if (stopBtn) {
+        stopBtn.addEventListener("click", stopBreathing);
+      }
+
+      // Add input change listeners
+      [
+        "inhaleDuration",
+        "holdDuration",
+        "exhaleDuration",
+        "cycleCount",
+      ].forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.addEventListener("change", () => {
+            updatePhaseDurationsFromInputs();
+            resetCycleCounter();
+            const cycleTotalElement = document.getElementById("cycleTotal");
+            if (cycleTotalElement) {
+              cycleTotalElement.textContent = cycleTotal;
+            }
+            
+            // Update button states when input changes
+            const value = parseInt(element.value) || 0;
+            const min = parseInt(element.min) || 0;
+            const max = parseInt(element.max) || 999;
+            updateButtonStates(id, value, min, max);
+          });
+        }
+      });
+
+      // Add mouse button functionality for number inputs
+      document.addEventListener("DOMContentLoaded", function() {
+        const numberBtns = document.querySelectorAll(".number-btn");
+        
+        numberBtns.forEach(btn => {
+          btn.addEventListener("click", function() {
+            const targetId = this.getAttribute("data-target");
+            const input = document.getElementById(targetId);
+            
+            if (!input) return;
+            
+            const currentValue = parseInt(input.value) || 0;
+            const min = parseInt(input.min) || 0;
+            const max = parseInt(input.max) || 999;
+            const isPlus = this.classList.contains("plus");
+            
+            let newValue;
+            if (isPlus) {
+              newValue = Math.min(currentValue + 1, max);
+            } else {
+              newValue = Math.max(currentValue - 1, min);
+            }
+            
+            input.value = newValue;
+            
+            // Trigger change event to update breathing settings
+            const event = new Event("change", { bubbles: true });
+            input.dispatchEvent(event);
+            
+            // Update button states
+            updateButtonStates(targetId, newValue, min, max);
+          });
+        });
+        
+        // Initialize button states
+        ["inhaleDuration", "holdDuration", "exhaleDuration", "cycleCount"].forEach(id => {
+          const input = document.getElementById(id);
+          if (input) {
+            const value = parseInt(input.value) || 0;
+            const min = parseInt(input.min) || 0;
+            const max = parseInt(input.max) || 999;
+            updateButtonStates(id, value, min, max);
+          }
+        });
+      });
+
+      function updateButtonStates(inputId, value, min, max) {
+        const minusBtn = document.querySelector(`[data-target="${inputId}"].minus`);
+        const plusBtn = document.querySelector(`[data-target="${inputId}"].plus`);
+        
+        if (minusBtn) {
+          minusBtn.disabled = value <= min;
+        }
+        if (plusBtn) {
+          plusBtn.disabled = value >= max;
+        }
+      }
+
+      function updateBreathingText(text, isReady = false) {
+        breathingText.style.opacity = "0";
+        breathingText.style.transform = "scale(0.9)";
+
+        setTimeout(() => {
+          breathingText.textContent = text;
+          breathingText.style.transform = "scale(1)";
+          breathingText.style.opacity = "1";
+          breathingText.style.color = isReady
+            ? "var(--primary-color)"
+            : "var(--accent-color)";
+        }, 300); // Metin geçişi için 300ms gecikme
+      }
+
+      function setInitialBallPosition() {
+        if (!fullPath || !breathingBall || !breathingVisualizerWrapper) return;
+        
+        // Tam yolun uzunluğunu al
+        fullPathLength = fullPath.getTotalLength();
+        
+        // Topu yolun başlangıcına yerleştir
+        setBallPosition(0);
+      }
+
+      function setBallPosition(pathProgress) {
+        if (!fullPath || !breathingBall || !breathingVisualizerWrapper) return;
+        
+        // Path üzerinde pozisyon hesapla
+        const pathLength = fullPathLength * pathProgress;
+        const point = fullPath.getPointAtLength(pathLength);
+        
+        // SVG viewBox'ı dikkate alarak pozisyonu hesapla
+        const svg = fullPath.closest('svg');
+        const wrapperRect = breathingVisualizerWrapper.getBoundingClientRect();
+        
+        // SVG koordinatlarını wrapper koordinatlarına çevir
+        const scaleX = wrapperRect.width / svg.viewBox.baseVal.width;
+        const scaleY = wrapperRect.height / svg.viewBox.baseVal.height;
+        
+        const adjustedX = point.x * scaleX;
+        const adjustedY = point.y * scaleY;
+        
+        breathingBall.style.left = `${adjustedX}px`;
+        breathingBall.style.top = `${adjustedY}px`;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        setInitialBallPosition();
+        updateBreathingText("Hazır", true);
+        updatePhaseDurationsFromInputs();
+        resetCycleCounter();
+        showCycleCounter(false);
+        
+        // Window resize event'ini ekle
+        window.addEventListener('resize', () => {
+          if (!isRunning) {
+            setInitialBallPosition();
+          }
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initializeLanguage === "function") {
+          initializeLanguage();
+        }
+      });
+
+      function applyIyiDark() {
+        if (localStorage.getItem("iyiDark") === "on") {
+          document.body.classList.add("iyi-dark");
+        } else {
+          document.body.classList.remove("iyi-dark");
+        }
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        applyIyiDark();
+        var btnOn = document.getElementById("iyiDarkOn");
+        var btnOff = document.getElementById("iyiDarkOff");
+        if (btnOn && btnOff) {
+          btnOn.onclick = function () {
+            localStorage.setItem("iyiDark", "on");
+            applyIyiDark();
+          };
+          btnOff.onclick = function () {
+            localStorage.setItem("iyiDark", "off");
+            applyIyiDark();
+          };
+        }
+      });
+    </script>
+    <script>
+      function redirectIfSmallScreen() {
+        if (
+          window.innerWidth < 1300 &&
+          !window.location.pathname.includes("responsive.html")
+        ) {
+          // Şu anki sayfanın yolunu kaydet
+          localStorage.setItem(
+            "lastPage",
+            window.location.pathname + window.location.search
+          );
+          window.location.href = "{% url 'responsive' %}";
+        }
+      }
+      redirectIfSmallScreen();
+      window.addEventListener("resize", redirectIfSmallScreen);
+    </script>
+    <script>
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if(theme === 'dark') {
+          document.body.classList.add('dark-mode');
+          try {
+            document.getElementById('darkModeBtn').classList.add('active');
+            document.getElementById('lightModeBtn').classList.remove('active');
+          } catch(e){}
+        } else {
+          document.body.classList.remove('dark-mode');
+          try {
+            document.getElementById('lightModeBtn').classList.add('active');
+            document.getElementById('darkModeBtn').classList.remove('active');
+          } catch(e){}
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        applyThemeFromStorage();
+        const lightBtn = document.getElementById('lightModeBtn');
+        const darkBtn = document.getElementById('darkModeBtn');
+        if(lightBtn) lightBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'light');
+          applyThemeFromStorage();
+        });
+        if(darkBtn) darkBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'dark');
+          applyThemeFromStorage();
+        });
+      });
+    </script>
+  </body>
+</html>

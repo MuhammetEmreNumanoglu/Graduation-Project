@@ -1,0 +1,1196 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-30 01:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\articles\forms.py:23 .\articles\forms.py:36 .\articles\forms.py:51
+msgid "Kullanıcı Adı"
+msgstr "Username"
+
+#: .\articles\forms.py:24 .\articles\forms.py:52
+msgid "E-posta"
+msgstr "Email"
+
+#: .\articles\forms.py:25 .\articles\forms.py:37
+msgid "Şifre"
+msgstr "Password"
+
+#: .\articles\forms.py:26
+msgid "Şifre Tekrar"
+msgstr "Confirm Password"
+
+#: .\articles\forms.py:29
+msgid ""
+"150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ "
+"karakterleri kullanılabilir."
+msgstr "150 characters or fewer. Letters, digits and @/./+/-/_ only."
+
+#: .\articles\forms.py:30 .\articles\templates\articles\register.html:26
+msgid "Şifreniz en az 8 karakter içermelidir."
+msgstr "Your password must contain at least 8 characters."
+
+#: .\articles\forms.py:31 .\articles\templates\articles\register.html:29
+msgid "Doğrulama için aynı şifreyi tekrar girin."
+msgstr "Enter the same password as before, for verification."
+
+#: .\articles\forms.py:61
+#: .\articles\templates\articles\profile-management.html:803
+msgid "Profil Fotoğrafı"
+msgstr "Profile Picture"
+
+#: .\articles\forms.py:69 .\articles\forms.py:82
+msgid "Başlık"
+msgstr "Title"
+
+#: .\articles\forms.py:70 .\articles\forms.py:83
+msgid "İçerik"
+msgstr "Content"
+
+#: .\articles\forms.py:73 .\articles\forms.py:86
+msgid "Başlık giriniz..."
+msgstr "Enter title..."
+
+#: .\articles\forms.py:74 .\articles\forms.py:87
+msgid "İçerik giriniz..."
+msgstr "Enter content..."
+
+#: .\articles\templates\articles\acil-destek.html:9
+#: .\articles\templates\articles\acil-destek.html:428
+msgid "Acil Destek"
+msgstr "Emergency Support"
+
+#: .\articles\templates\articles\acil-destek.html:408
+#: .\articles\templates\articles\anasayfa.html:751
+#: .\articles\templates\articles\dashboard.html:698
+#: .\articles\templates\articles\destek-duvari.html:645
+#: .\articles\templates\articles\gunluk-kartlar.html:411
+#: .\articles\templates\articles\meditasyon.html:576
+#: .\articles\templates\articles\nefes-egzersizi.html:283
+#: .\articles\templates\articles\profile-management.html:7
+#: .\articles\templates\articles\profile-management.html:683
+msgid "Profil Yönetimi"
+msgstr "Profile Management"
+
+#: .\articles\templates\articles\acil-destek.html:429
+msgid "İhtiyacınız olduğunda hemen ulaşabileceğiniz güvenli destek sistemi"
+msgstr "Safe support system you can reach immediately when you need it"
+
+#: .\articles\templates\articles\acil-destek.html:435
+msgid "Acil durum mesajı göndermek için butona tıklayın"
+msgstr "Click the button to send an emergency message"
+
+#: .\articles\templates\articles\acil-destek.html:439
+#: .\articles\templates\articles\acil-destek.html:440
+msgid "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!"
+msgstr "CALL ME NOW, I'M IN CRISIS!!!"
+
+#: .\articles\templates\articles\acil-destek.html:443
+#: .\articles\templates\articles\acil-destek.html:444
+msgid "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?"
+msgstr "I don't feel well right now, can you contact me?"
+
+#: .\articles\templates\articles\acil-destek.html:447
+#: .\articles\templates\articles\acil-destek.html:448
+msgid "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş"
+msgstr "I'm not well — please contact me if I don't respond in 10 minutes"
+
+#: .\articles\templates\articles\anasayfa.html:8
+#: .\articles\templates\articles\dashboard.html:696
+#: .\articles\templates\articles\profile-management.html:681
+msgid "Ana Sayfa"
+msgstr "Home"
+
+#: .\articles\templates\articles\bildirimler.html:6
+msgid "Bildirimler"
+msgstr "Notifications"
+
+#: .\articles\templates\articles\bildirimler.html:15
+msgid "Günlük Görevleriniz Hazır!"
+msgstr "Your Daily Tasks are Ready!"
+
+#: .\articles\templates\articles\bildirimler.html:16
+msgid "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!"
+msgstr "3 new tasks have been added for today. Check them out now!"
+
+#: .\articles\templates\articles\bildirimler.html:17
+msgid "5 dakika önce"
+msgstr "5 minutes ago"
+
+#: .\articles\templates\articles\bildirimler.html:27
+msgid "Tebrikler!"
+msgstr "Congratulations!"
+
+#: .\articles\templates\articles\bildirimler.html:28
+msgid "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız."
+msgstr "You have completed your daily tasks for 5 consecutive days this week."
+
+#: .\articles\templates\articles\bildirimler.html:29
+msgid "2 saat önce"
+msgstr "2 hours ago"
+
+#: .\articles\templates\articles\bildirimler.html:39
+msgid "Yeni İçerik"
+msgstr "New Content"
+
+#: .\articles\templates\articles\bildirimler.html:40
+msgid "Stres yönetimi için yeni bir nefes egzersizi eklendi."
+msgstr "A new breathing exercise for stress management has been added."
+
+#: .\articles\templates\articles\bildirimler.html:41
+msgid "Dün"
+msgstr "Yesterday"
+
+#: .\articles\templates\articles\bildirimler.html:51
+msgid "Destek Mesajınız"
+msgstr "Your Support Message"
+
+#: .\articles\templates\articles\bildirimler.html:52
+msgid "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi."
+msgstr "3 new comments have been added to your message on the support wall."
+
+#: .\articles\templates\articles\bildirimler.html:53
+msgid "2 gün önce"
+msgstr "2 days ago"
+
+msgid "Görevlerim"
+msgstr "My Tasks"
+
+#: .\articles\templates\articles\create-article.html:11
+#: .\articles\templates\articles\profile-management.html:741
+msgid "Tamamlanan Görevler"
+msgstr "Completed Tasks"
+
+#: .\articles\templates\articles\create-article.html:16
+msgid "Günlük Nefes Egzersizi"
+msgstr "Daily Breathing Exercise"
+
+#: .\articles\templates\articles\create-article.html:17
+msgid "5 dakikalık nefes egzersizi tamamlandı"
+msgstr "5-minute breathing exercise completed"
+
+#: .\articles\templates\articles\create-article.html:18
+msgid "Bugün, 10:30"
+msgstr "Today, 10:30"
+
+#: .\articles\templates\articles\create-article.html:27
+msgid "Günlük Düşünce Günlüğü"
+msgstr "Daily Thought Journal"
+
+#: .\articles\templates\articles\create-article.html:28
+msgid "Bugünkü düşüncelerinizi kaydettiniz"
+msgstr "You have recorded your thoughts for today"
+
+#: .\articles\templates\articles\create-article.html:29
+msgid "Dün, 20:15"
+msgstr "Yesterday, 20:15"
+
+#: .\articles\templates\articles\create-article.html:42
+msgid "Bekleyen Görevler"
+msgstr "Pending Tasks"
+
+#: .\articles\templates\articles\create-article.html:47
+msgid "Haftalık Değerlendirme"
+msgstr "Weekly Assessment"
+
+#: .\articles\templates\articles\create-article.html:48
+msgid "Bu haftaki ilerlemenizi değerlendirin"
+msgstr "Evaluate your progress this week"
+
+#: .\articles\templates\articles\create-article.html:49
+msgid "Son Tarih: Yarın"
+msgstr "Due Date: Tomorrow"
+
+#: .\articles\templates\articles\create-article.html:54
+#: .\articles\templates\articles\create-article.html:68
+msgid "Tamamla"
+msgstr "Complete"
+
+#: .\articles\templates\articles\create-article.html:61
+msgid "Meditasyon Seansı"
+msgstr "Meditation Session"
+
+#: .\articles\templates\articles\create-article.html:62
+msgid "10 dakikalık meditasyon seansı"
+msgstr "10-minute meditation session"
+
+#: .\articles\templates\articles\create-article.html:63
+msgid "Son Tarih: Bugün"
+msgstr "Due Date: Today"
+
+#: .\articles\templates\articles\create-article.html:185
+msgid "Şimdi"
+msgstr "Now"
+
+#: .\articles\templates\articles\create-article.html:206
+msgid "görevi tamamlandı!"
+msgstr "task completed!"
+
+#: .\articles\templates\articles\dashboard.html:11
+msgid "Dashboard - İyi Hisset"
+msgstr "Dashboard - Feel Good"
+
+#: .\articles\templates\articles\dashboard.html:686
+#: .\articles\templates\articles\profile-management.html:669
+msgid "Menüyü Aç/Kapat"
+msgstr "Open/Close Menu"
+
+#: .\articles\templates\articles\dashboard.html:697
+#: .\articles\templates\articles\profile-management.html:682
+msgid "İyi Hisset"
+msgstr "Feel Good"
+
+#: .\articles\templates\articles\dashboard.html:703
+msgid "Sohbetleri Ara"
+msgstr "Search Chats"
+
+#: .\articles\templates\articles\dashboard.html:704
+msgid "Sohbetlerinizi arayın..."
+msgstr "Search your chats..."
+
+#: .\articles\templates\articles\dashboard.html:708
+msgid "Yeni Sohbet"
+msgstr "New Chat"
+
+#: .\articles\templates\articles\dashboard.html:711
+msgid "Yeni Sohbet Başlat"
+msgstr "Start New Chat"
+
+#: .\articles\templates\articles\dashboard.html:716
+msgid "Geçmiş Sohbetler"
+msgstr "Past Chats"
+
+#: .\articles\templates\articles\dashboard.html:727
+msgid "AI Asistan"
+msgstr "AI Assistant"
+
+#: .\articles\templates\articles\dashboard.html:733
+#: .\articles\templates\articles\dashboard.html:853
+msgid "Merhaba! Size nasıl yardımcı olabilirim?"
+msgstr "Hello! How can I help you?"
+
+#: .\articles\templates\articles\dashboard.html:742
+msgid "Mesajınızı yazın..."
+msgstr "Type your message..."
+
+#: .\articles\templates\articles\dashboard.html:755
+msgid "Sohbeti Sil"
+msgstr "Delete Chat"
+
+#: .\articles\templates\articles\dashboard.html:756
+msgid "Bu sohbeti silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+msgstr "Are you sure you want to delete this chat? This action cannot be undone."
+
+#: .\articles\templates\articles\dashboard.html:758
+msgid "Hayır"
+msgstr "No"
+
+#: .\articles\templates\articles\dashboard.html:759
+msgid "Evet"
+msgstr "Yes"
+
+#: .\articles\templates\articles\dashboard.html:767
+msgid "Kaygı Hakkında Sohbet"
+msgstr "Chat About Anxiety"
+
+#: .\articles\templates\articles\dashboard.html:768
+msgid "Stres Yönetimi İpuçları"
+msgstr "Stress Management Tips"
+
+#: .\articles\templates\articles\dashboard.html:769
+msgid "Günlük Motivasyon"
+msgstr "Daily Motivation"
+
+#: .\articles\templates\articles\dashboard.html:770
+msgid "Uyku İyileştirme"
+msgstr "Sleep Improvement"
+
+#: .\articles\templates\articles\dashboard.html:771
+msgid "İş-Hayat Dengesi"
+msgstr "Work-Life Balance"
+
+#: .\articles\templates\articles\dashboard.html:820
+msgid "Teşekkürler! Size nasıl yardımcı olabilirim?"
+msgstr "Thank you! How can I help you?"
+
+#: .\articles\templates\articles\dashboard.html:885
+msgid "Düzenle"
+msgstr "Edit"
+
+#: .\articles\templates\articles\dashboard.html:889
+msgid "Sil"
+msgstr "Delete"
+
+#: .\articles\templates\articles\delete-account.html:16
+msgid "Hesap Silme"
+msgstr "Delete Account"
+
+#: .\articles\templates\articles\delete-account.html:17
+msgid "Hesabınızı silmek istediğinize emin misiniz?"
+msgstr "Are you sure you want to delete your account?"
+
+#: .\articles\templates\articles\delete-account.html:25
+msgid "Evet, hesabımı sil"
+msgstr "Yes, delete my account"
+
+#: .\articles\templates\articles\destek-duvari.html:682
+msgid "Destek Duvarı"
+msgstr "Support Wall"
+
+#: .\articles\templates\articles\destek-duvari.html:686
+msgid "Hikayeni Paylaş"
+msgstr "Share Your Story"
+
+#: .\articles\templates\articles\destek-duvari.html:693
+msgid "Hikayeni buraya yazabilirsin..."
+msgstr "Write your story here..."
+
+#: .\articles\templates\articles\destek-duvari.html:698
+msgid "Paylaş"
+msgstr "Share"
+
+#: .\articles\templates\articles\destek-duvari.html:709
+msgid "Önceki"
+msgstr "Previous"
+
+#: .\articles\templates\articles\destek-duvari.html:712
+msgid "Sayfa"
+msgstr "Page"
+
+#: .\articles\templates\articles\destek-duvari.html:716
+msgid "Sonraki"
+msgstr "Next"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:448
+msgid "Günlük Kartlar"
+msgstr "Daily Cards"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:460
+msgid "Bugünün Sözü"
+msgstr "Today's Quote"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:466
+msgid "Bugün kendine güven"
+msgstr "Trust yourself today"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:478
+msgid "Motivasyon"
+msgstr "Motivation"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:483
+msgid "Adım adım ilerle"
+msgstr "Move forward step by step"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:496
+msgid "Düşünce"
+msgstr "Thought"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:501
+msgid "Pozitif kal"
+msgstr "Stay positive"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:514
+msgid "Farkındalık"
+msgstr "Awareness"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:519
+msgid "Anı yaşa"
+msgstr "Live in the moment"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:530
+msgid "İyileşme"
+msgstr "Recovery"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:535
+msgid "Kendini sev"
+msgstr "Love yourself"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:547
+msgid "Başarı"
+msgstr "Success"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:552
+msgid "Başarıya odaklan"
+msgstr "Focus on success"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:6
+msgid "Haftalık Raporlar"
+msgstr "Weekly Reports"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:11
+msgid "Haftalık Aktivite"
+msgstr "Weekly Activity"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:19
+msgid "Uygulama Kullanım Günü"
+msgstr "App Usage Day"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:25
+msgid "Tamamlanan Görev"
+msgstr "Completed Task"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:31
+msgid "Nefes Egzersizi Seansı"
+msgstr "Breathing Exercise Session"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Pazartesi"
+msgstr "Monday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Salı"
+msgstr "Tuesday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Çarşamba"
+msgstr "Wednesday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Perşembe"
+msgstr "Thursday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Cuma"
+msgstr "Friday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Cumartesi"
+msgstr "Saturday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:78
+msgid "Pazar"
+msgstr "Sunday"
+
+#: .\articles\templates\articles\haftalik-raporlar.html:80
+msgid "Görev Tamamlama"
+msgstr "Task Completion"
+
+#: .\articles\templates\articles\meditasyon.html:8
+msgid "Meditasyon - İyi Hisset"
+msgstr "Meditation - Feel Good"
+
+#: .\articles\templates\articles\meditasyon.html:597
+msgid "Tümü"
+msgstr "All"
+
+#: .\articles\templates\articles\meditasyon.html:598
+#: .\articles\templates\articles\meditasyon.html:611
+#: .\articles\templates\articles\meditasyon.html:616
+#: .\articles\templates\articles\meditasyon.html:621
+msgid "Uyku & Rahatlama"
+msgstr "Sleep & Relaxation"
+
+#: .\articles\templates\articles\meditasyon.html:599
+#: .\articles\templates\articles\meditasyon.html:628
+#: .\articles\templates\articles\meditasyon.html:633
+msgid "Odaklanma & Üretkenlik"
+msgstr "Focus & Productivity"
+
+#: .\articles\templates\articles\meditasyon.html:600
+#: .\articles\templates\articles\meditasyon.html:640
+#: .\articles\templates\articles\meditasyon.html:645
+msgid "Doğa & Farkındalık"
+msgstr "Nature & Mindfulness"
+
+#: .\articles\templates\articles\meditasyon.html:601
+#: .\articles\templates\articles\meditasyon.html:652
+#: .\articles\templates\articles\meditasyon.html:657
+msgid "Sabah Aktivasyonu"
+msgstr "Morning Activation"
+
+#: .\articles\templates\articles\meditasyon.html:602
+#: .\articles\templates\articles\meditasyon.html:664
+#: .\articles\templates\articles\meditasyon.html:669
+msgid "Nefes & Sakinlik"
+msgstr "Breathing & Calmness"
+
+#: .\articles\templates\articles\meditasyon.html:610
+#: .\articles\templates\articles\meditasyon.html:685
+msgid "Derin Uyku İçin Yağmur"
+msgstr "Rain for Deep Sleep"
+
+#: .\articles\templates\articles\meditasyon.html:615
+#: .\articles\templates\articles\meditasyon.html:691
+msgid "Gece Meditasyonu"
+msgstr "Night Meditation"
+
+#: .\articles\templates\articles\meditasyon.html:620
+#: .\articles\templates\articles\meditasyon.html:697
+msgid "Ay Işığı Meditasyonu"
+msgstr "Moonlight Meditation"
+
+#: .\articles\templates\articles\meditasyon.html:627
+#: .\articles\templates\articles\meditasyon.html:703
+msgid "Odaklanma Piyanosu"
+msgstr "Focus Piano"
+
+#: .\articles\templates\articles\meditasyon.html:632
+#: .\articles\templates\articles\meditasyon.html:709
+msgid "Çalışma Odaklanması"
+msgstr "Work Focus"
+
+#: .\articles\templates\articles\meditasyon.html:639
+#: .\articles\templates\articles\meditasyon.html:715
+msgid "Stres Azaltan Dalgalar"
+msgstr "Stress-Reducing Waves"
+
+#: .\articles\templates\articles\meditasyon.html:644
+#: .\articles\templates\articles\meditasyon.html:721
+msgid "Orman Sesi Meditasyonu"
+msgstr "Forest Sound Meditation"
+
+#: .\articles\templates\articles\meditasyon.html:651
+#: .\articles\templates\articles\meditasyon.html:727
+msgid "Sabah Esnemesi"
+msgstr "Morning Stretch"
+
+#: .\articles\templates\articles\meditasyon.html:656
+#: .\articles\templates\articles\meditasyon.html:733
+msgid "Güneş Doğuşu Meditasyonu"
+msgstr "Sunrise Meditation"
+
+#: .\articles\templates\articles\meditasyon.html:663
+#: .\articles\templates\articles\meditasyon.html:739
+msgid "Derin Nefes Egzersizi"
+msgstr "Deep Breathing Exercise"
+
+#: .\articles\templates\articles\meditasyon.html:668
+#: .\articles\templates\articles\meditasyon.html:745
+msgid "Sakinlik Meditasyonu"
+msgstr "Calmness Meditation"
+
+#: .\articles\templates\articles\meditasyon_audio.html:56
+msgid "Back to Podcasts"
+msgstr "Back to Podcasts"
+
+#: .\articles\templates\articles\my-login.html:20
+#: .\articles\templates\articles\my-login.html:63
+msgid "Kullanıcı Girişi"
+msgstr "User Login"
+
+#: .\articles\templates\articles\my-login.html:25
+#: .\articles\templates\articles\register.html:23
+msgid "Bu alan zorunludur."
+msgstr "This field is required."
+
+#: .\articles\templates\articles\my-login.html:77
+msgid "Giriş Yap"
+msgstr "Login"
+
+#: .\articles\templates\articles\my-login.html:83
+msgid "Hesabın yok mu?"
+msgstr "Don't have an account?"
+
+#: .\articles\templates\articles\profile-management.html:702
+#: .\articles\templates\articles\profile-management.html:723
+msgid "İstatistiklerim"
+msgstr "My Statistics"
+
+#: .\articles\templates\articles\profile-management.html:707
+#: .\articles\templates\articles\profile-management.html:747
+msgid "Ayarlar"
+msgstr "Settings"
+
+#: .\articles\templates\articles\profile-management.html:711
+#: .\articles\templates\articles\profile-management.html:828
+msgid "Yardım Merkezi"
+msgstr "Help Center"
+
+#: .\articles\templates\articles\profile-management.html:715
+msgid "Çıkış Yap"
+msgstr "Log Out"
+
+#: .\articles\templates\articles\profile-management.html:724
+msgid ""
+"İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl olduğunuzu görün."
+msgstr "Track your progress and see how you're doing with your mental health journey."
+
+#: .\articles\templates\articles\profile-management.html:729
+msgid "Aktif Günler"
+msgstr "Days Active"
+
+#: .\articles\templates\articles\profile-management.html:733
+msgid "Sohbet Seansları"
+msgstr "Chat Sessions"
+
+#: .\articles\templates\articles\profile-management.html:737
+msgid "Ruh Hali Puanı"
+msgstr "Mood Score"
+
+#: .\articles\templates\articles\profile-management.html:751
+msgid "Dil Seçimi"
+msgstr "Language Selection"
+
+#: .\articles\templates\articles\profile-management.html:752
+msgid "Site genelinde dil ayarlayın"
+msgstr "Set language across the site"
+
+#: .\articles\templates\articles\profile-management.html:754
+#: .\articles\templates\articles\profile-management.html:1004
+msgid "Türkçe"
+msgstr "Turkish"
+
+#: .\articles\templates\articles\profile-management.html:755
+msgid "English"
+msgstr "English"
+
+#: .\articles\templates\articles\profile-management.html:761
+msgid "Hesap Bilgileri"
+msgstr "Account Information"
+
+#: .\articles\templates\articles\profile-management.html:762
+msgid "Kullanıcı bilgilerinizi güncelleyin"
+msgstr "Update your user information"
+
+#: .\articles\templates\articles\profile-management.html:765
+msgid "Kullanıcı Bilgileri"
+msgstr "User Information"
+
+#: .\articles\templates\articles\profile-management.html:770
+msgid "Bilgileri Güncelle"
+msgstr "Update Information"
+
+#: .\articles\templates\articles\profile-management.html:776
+msgid "Şifre Değiştir"
+msgstr "Change Password"
+
+#: .\articles\templates\articles\profile-management.html:780
+msgid "Mevcut Şifre"
+msgstr "Current Password"
+
+#: .\articles\templates\articles\profile-management.html:784
+msgid "Yeni Şifre"
+msgstr "New Password"
+
+#: .\articles\templates\articles\profile-management.html:788
+msgid "Yeni Şifre (Tekrar)"
+msgstr "New Password (Confirm)"
+
+#: .\articles\templates\articles\profile-management.html:791
+msgid "Şifreyi Değiştir"
+msgstr "Change Password"
+
+#: .\articles\templates\articles\profile-management.html:799
+msgid "Görünüm"
+msgstr "Appearance"
+
+#: .\articles\templates\articles\profile-management.html:800
+msgid "Uygulama görünümünü özelleştirin"
+msgstr "Customize the app appearance"
+
+#: .\articles\templates\articles\profile-management.html:808
+msgid "Fotoğrafı Güncelle"
+msgstr "Update Photo"
+
+#: .\articles\templates\articles\profile-management.html:814
+#: .\articles\templates\articles\settings.html:10
+#: .\articles\templates\articles\settings.html:13
+msgid "Yazı Tipi Boyutu"
+msgstr "Font Size"
+
+#: .\articles\templates\articles\profile-management.html:815
+msgid "Site genelinde yazı boyutunu ayarlayın"
+msgstr "Adjust font size across the site"
+
+#: .\articles\templates\articles\profile-management.html:817
+msgid "Küçük"
+msgstr "Small"
+
+#: .\articles\templates\articles\profile-management.html:818
+msgid "Normal"
+msgstr "Normal"
+
+#: .\articles\templates\articles\profile-management.html:819
+msgid "Büyük"
+msgstr "Large"
+
+#: .\articles\templates\articles\profile-management.html:820
+msgid "Çok Büyük"
+msgstr "Very Large"
+
+#: .\articles\templates\articles\profile-management.html:829
+msgid ""
+"Sık sorulan soruların cevaplarını bulun ve ihtiyacınız olduğunda destek alın."
+msgstr "Find answers to common questions and get support when you need it."
+
+#: .\articles\templates\articles\profile-management.html:832
+msgid "Sık Sorulan Sorular"
+msgstr "Frequently Asked Questions"
+
+#: .\articles\templates\articles\profile-management.html:833
+msgid "Şifremi nasıl değiştirebilirim?"
+msgstr "How can I change my password?"
+
+#: .\articles\templates\articles\profile-management.html:834
+msgid "Profil fotoğrafımı nasıl güncelleyebilirim?"
+msgstr "How do I update my profile picture?"
+
+#: .\articles\templates\articles\profile-management.html:835
+msgid "Gizlilik ayarları nelerdir?"
+msgstr "What are the privacy settings?"
+
+#: .\articles\templates\articles\profile-management.html:836
+msgid "Destek ile nasıl iletişime geçebilirim?"
+msgstr "How can I contact support?"
+
+#: .\articles\templates\articles\profile-management.html:839
+msgid "Yardım Merkezini Ziyaret Et"
+msgstr "Visit Help Center"
+
+#: .\articles\templates\articles\profile-management.html:844
+msgid "Hesabı Sil"
+msgstr "Delete Account"
+
+#: .\articles\templates\articles\profile-management.html:845
+msgid "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak silinecek."
+msgstr "This action cannot be undone. All your data will be permanently deleted."
+
+#: .\articles\templates\articles\profile-management.html:849
+msgid "Onay için 'HESABIMI SİL' yazınız"
+msgstr "Type 'DELETE MY ACCOUNT' to confirm"
+
+#: .\articles\templates\articles\profile-management.html:850
+msgid "HESABIMI SİL"
+msgstr "DELETE MY ACCOUNT"
+
+#: .\articles\templates\articles\profile-management.html:852
+msgid "Hesabımı Kalıcı Olarak Sil"
+msgstr "Permanently Delete My Account"
+
+#: .\articles\templates\articles\profile-management.html:888
+msgid "Lütfen tüm alanları doldurunuz."
+msgstr "Please fill in all fields."
+
+#: .\articles\templates\articles\profile-management.html:892
+msgid "Yeni şifreler eşleşmiyor."
+msgstr "New passwords do not match."
+
+#: .\articles\templates\articles\profile-management.html:896
+msgid "Yeni şifre mevcut şifre ile aynı olamaz."
+msgstr "New password cannot be the same as current password."
+
+#: .\articles\templates\articles\profile-management.html:901
+msgid "Şifre başarıyla güncellendi!"
+msgstr "Password updated successfully!"
+
+#: .\articles\templates\articles\profile-management.html:910
+msgid "Onay için \\'HESABIMI SİL\\' yazınız."
+msgstr "Please type 'DELETE MY ACCOUNT' to confirm."
+
+#: .\articles\templates\articles\profile-management.html:913
+msgid "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?"
+msgstr "This action cannot be undone. Are you sure you want to delete your account?"
+
+#: .\articles\templates\articles\profile-management.html:914
+msgid "Hesap silindi."
+msgstr "Account deleted."
+
+#: .\articles\templates\articles\profile-management.html:1004
+msgid "Dil Değiştirildi"
+msgstr "Language Changed"
+
+#: .\articles\templates\articles\profile-management.html:1004
+msgid "Dil"
+msgstr "Language"
+
+#: .\articles\templates\articles\profile-management.html:1004
+msgid "İngilizce"
+msgstr "English"
+
+#: .\articles\templates\articles\profile-management.html:1004
+msgid "olarak ayarlandı"
+msgstr "has been set to"
+
+#: .\articles\templates\articles\register.html:16
+msgid "Hesap Oluştur"
+msgstr "Create Account"
+
+#: .\articles\templates\articles\register.html:24
+msgid ""
+"En fazla 150 karakter olabilir. Sadece harf, rakam ve @/./+/-/_ karakterleri "
+"kullanılabilir."
+msgstr "150 characters or fewer. Letters, digits and @/./+/-/_ only."
+
+#: .\articles\templates\articles\register.html:25
+msgid "Şifreniz diğer kişisel bilgilerinize çok benzer olamaz."
+msgstr "Your password can't be too similar to your other personal information."
+
+#: .\articles\templates\articles\register.html:27
+msgid "Şifreniz çok yaygın bir şifre olamaz."
+msgstr "Your password can't be a commonly used password."
+
+#: .\articles\templates\articles\register.html:28
+msgid "Şifreniz tamamen sayısal olamaz."
+msgstr "Your password can't be entirely numeric."
+
+#: .\articles\templates\articles\register.html:69
+msgid "Kaydol"
+msgstr "Sign Up"
+
+#: .\articles\templates\articles\register.html:75
+msgid "Hesabın zaten var mı?"
+msgstr "Already have an account?"
+
+#: .\articles\templates\articles\settings.html:16
+msgid "Boyutu Güncelle"
+msgstr "Update Size"
+
+#: .\articles\views.py:256
+msgid "Please fill in all fields"
+msgstr "Please fill in all fields"
+
+#: .\articles\views.py:262
+msgid "New password cannot be the same as current password"
+msgstr "New password cannot be the same as current password"
+
+#: .\articles\views.py:270
+msgid ""
+"Your password has been successfully updated. Please login with your new "
+"password."
+msgstr "Your password has been successfully updated. Please login with your new password."
+
+#: .\articles\views.py:276
+msgid "Current password is incorrect"
+msgstr "Current password is incorrect"
+
+# Eklenen yeni çeviri anahtarları
+
+msgid "Açık Mod"
+msgstr "Light Mode"
+
+msgid "Koyu Mod"
+msgstr "Dark Mode"
+
+msgid "Hesap Bilgileri"
+msgstr "Account Information"
+
+msgid "Kullanıcı bilgilerinizi güncelleyin"
+msgstr "Update your user information"
+
+msgid "Kullanıcı Adı*"
+msgstr "Username*"
+
+msgid "Zorunlu. 150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ karakterleri kullanılabilir."
+msgstr "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+
+msgid "Görünüm"
+msgstr "Appearance"
+
+msgid "Uygulama görünümünü özelleştirin"
+msgstr "Customize the app appearance"
+
+msgid "Profil Fotoğrafı*"
+msgstr "Profile Photo*"
+
+msgid "Dosya Seç"
+msgstr "Choose File"
+
+msgid "Dosya Seçilemedi"
+msgstr "No file selected"
+
+# help-center.html ve tema çevirileri
+
+msgid "Açık Mod"
+msgstr "Light Mode"
+
+msgid "Koyu Mod"
+msgstr "Dark Mode"
+
+msgid "Ana Sayfa"
+msgstr "Home"
+
+msgid "İyi Hisset"
+msgstr "Feel Good"
+
+msgid "Yardım"
+msgstr "Help"
+
+msgid "Günlük Kartlar"
+msgstr "Daily Cards"
+
+msgid "Acil Destek"
+msgstr "Emergency Support"
+
+msgid "Destek Duvarı"
+msgstr "Support Wall"
+
+msgid "Nefes Egzersizi"
+msgstr "Breathing Exercise"
+
+msgid "Meditasyon"
+msgstr "Meditation"
+
+msgid "Nefes Egzersizi"
+msgstr "Breathing Exercise"
+
+msgid "Yardım Merkezi"
+msgstr "Help Center"
+
+msgid "Çıkış Yap"
+msgstr "Log Out"
+
+msgid "İyi Hisset - Yardım Merkezi"
+msgstr "Feel Good - Help Center"
+
+msgid "Projeye Genel Bakış"
+msgstr "Project Overview"
+
+msgid "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır."
+msgstr "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives."
+
+msgid "Ana Özellikler"
+msgstr "Main Features"
+
+msgid "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın."
+msgstr "Get instant help with the AI-powered chatbot available 24/7."
+
+msgid "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin."
+msgstr "Improve yourself with personalized daily tasks and activities."
+
+msgid "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın."
+msgstr "Track your mood and progress, and get detailed reports."
+
+msgid "Acil Destek Sistemi"
+msgstr "Emergency Support System"
+
+msgid "Acil durum butonu ile anında yardım çağırma"
+msgstr "Instant help call with emergency button"
+
+msgid "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim"
+msgstr "Automatic notification to pre-defined emergency contacts"
+
+msgid "Konum paylaşımı ve hızlı müdahale"
+msgstr "Location sharing and quick response"
+
+msgid "Günlük Motivasyon Kartları"
+msgstr "Daily Motivation Cards"
+
+msgid "Günlük motive edici sözler"
+msgstr "Daily motivational quotes"
+
+msgid "Etkileşimli kart tasarımı"
+msgstr "Interactive card design"
+
+msgid "Kişiselleştirilmiş içerik"
+msgstr "Personalized content"
+
+msgid "Destek Duvarı"
+msgstr "Support Wall"
+
+msgid "Anonim paylaşım seçeneği"
+msgstr "Anonymous sharing option"
+
+msgid "Beğeni ve destek sistemi"
+msgstr "Like and support system"
+
+msgid "Topluluk desteği"
+msgstr "Community support"
+
+msgid "Haftalık Raporlar"
+msgstr "Weekly Reports"
+
+msgid "Detaylı aktivite grafikleri"
+msgstr "Detailed activity charts"
+
+msgid "Başarı istatistikleri"
+msgstr "Achievement statistics"
+
+msgid "Kişisel gelişim analizi"
+msgstr "Personal development analysis"
+
+msgid "Bildirim Sistemi"
+msgstr "Notification System"
+
+msgid "Görev hatırlatıcıları"
+msgstr "Task reminders"
+
+msgid "Başarı bildirimleri"
+msgstr "Achievement notifications"
+
+msgid "Topluluk etkileşimleri"
+msgstr "Community interactions"
+
+msgid "Hesap Yönetimi"
+msgstr "Account Management"
+
+msgid "Profil fotoğrafı değiştirme"
+msgstr "Change profile photo"
+
+msgid "Şifre güncelleme"
+msgstr "Update password"
+
+msgid "Dil ve görünüm ayarları"
+msgstr "Language and appearance settings"
+
+msgid "Sıkça Sorulan Sorular"
+msgstr "Frequently Asked Questions"
+
+msgid "Uygulamayı nasıl kullanmaya başlayabilirim?"
+msgstr "How can I start using the app?"
+
+msgid "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz."
+msgstr "To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot."
+
+msgid "Acil durumda nasıl yardım alabilirim?"
+msgstr "How can I get help in an emergency?"
+
+msgid "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın."
+msgstr "You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature."
+
+msgid "Günlük kartlar nasıl çalışır?"
+msgstr "How do daily cards work?"
+
+msgid "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur."
+msgstr "Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively."
+
+msgid "Destek duvarında paylaşım yapabilir miyim?"
+msgstr "Can I share on the support wall?"
+
+msgid "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir."
+msgstr "Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts."
+
+msgid "Hesap ayarlarımı nasıl değiştirebilirim?"
+msgstr "How can I change my account settings?"
+
+msgid "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz."
+msgstr "You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here."
+
+msgid "chat"
+msgstr "chat"
+
+msgid "event_note"
+msgstr "event_note"
+
+msgid "emergency"
+msgstr "emergency"
+
+msgid "forum"
+msgstr "forum"
+
+msgid "self_improvement"
+msgstr "self_improvement"
+
+msgid "air"
+msgstr "air"
+
+msgid "help"
+msgstr "help"
+
+msgid "logout"
+msgstr "logout"
+
+msgid "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz."
+msgstr "You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here."
+
+msgid "Hesap ayarlarımı nasıl değiştirebilirim?"
+msgstr "How can I change my account settings?"
+
+msgid "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir."
+msgstr "Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts."
+
+msgid "Destek duvarında paylaşım yapabilir miyim?"
+msgstr "Can I share on the support wall?"
+
+msgid "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur."
+msgstr "Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively."
+
+msgid "Günlük kartlar nasıl çalışır?"
+msgstr "How do daily cards work?"
+
+msgid "Acil durumda nasıl yardım alabilirim?"
+msgstr "How can I get help in an emergency?"
+
+msgid "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın."
+msgstr "You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature."
+
+msgid "Uygulamayı nasıl kullanmaya başlayabilirim?"
+msgstr "How can I start using the app?"
+
+msgid "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz."
+msgstr "To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot."
+
+msgid "star"
+msgstr "star"
+
+msgid "notifications"
+msgstr "notifications"
+
+msgid "account_circle"
+msgstr "account_circle"
+
+msgid "Dil ve görünüm ayarları"
+msgstr "Language and appearance settings"
+
+# --- Eksik çeviri anahtarları eklendi ---
+msgid "ACİL DESTEK"
+msgstr "EMERGENCY SUPPORT"
+
+msgid "Hemen yardım almak için tıklayın"
+msgstr "Click to get help immediately"
+
+msgid "İyi Hisset'e Hoşgeldin!"
+msgstr "Welcome to Feel Good!"
+
+msgid "İyi Hisset sistemi ile sağlık ve mutlu olma yolunu bulun."
+msgstr "Find your way to health and happiness with the Feel Good system."
+
+msgid "Günlük aktivitelerinizi ve sağlık durumunuzu kaydedin."
+msgstr "Record your daily activities and health status."
+
+msgid "Diğer kullanıcılarla iletişime geçin ve destek alın."
+msgstr "Connect with other users and get support."
+
+msgid "Nefes egzersizleri yaparak solunum sisteminizi güçlendirin."
+msgstr "Strengthen your respiratory system with breathing exercises."
+
+msgid "Meditasyon yaparak stres seviyenizi azaltın."
+msgstr "Reduce your stress level by meditating."
+
+msgid "Hoşgeldin"
+msgstr "Welcome"
+
+msgid "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar"
+msgstr "Specially selected cards for daily motivation and inspiration."
+
+msgid "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alış verişinizi takip edin."
+msgstr "Follow rhythmic breathing to calm and clear your mind."
+
+msgid "Nefes Egzersizi"
+msgstr "Breathing Exercise"
+
+msgid "Nefes Al"
+msgstr "Inhale"
+
+msgid "Tut"
+msgstr "Hold"
+
+msgid "Nefes Ver"
+msgstr "Exhale"
+
+msgid "Tekrar"
+msgstr "Repeat"
+
+msgid "Başla"
+msgstr "Start"
+
+msgid "Döngü"
+msgstr "Cycle"
+
+msgid "Karanlık Tema"
+msgstr "Dark Theme"
+
+msgid "Açık Tema"
+msgstr "Light Theme"

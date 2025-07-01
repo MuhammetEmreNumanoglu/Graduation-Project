@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="Help Center - Feel Good">Yardım Merkezi - İyi Hisset</title>
+    {% load static %}
+    {% load i18n %}
+    <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}">
+    
+    <style>
+        :root {
+            --primary-color: #6c3eb4;
+            --secondary-color: #8ca6db;
+            --accent-color: #b993d6;
+            --background-light: #f9f9f9;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 20px;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+                .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 400px;
+            padding: 48px;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+
+        .help-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .help-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .help-section:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .help-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .help-section p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            color: var(--text-secondary);
+            padding: 8px 0;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary-color);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: rgba(139, 92, 246, 0.05);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-question:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .faq-question h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Sidebar Container */
+        .sidebar-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+            z-index: 1000;
+            border-radius: 0 20px 20px 0;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            min-width: 280px;
+            width: 400px;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 0 20px 0 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f7f8fa;
+            box-shadow: 0 2px 8px rgba(79, 82, 186, 0.08);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+            padding: 8px 16px;
+            border-radius: 10px;
+            background: #f3eaff;
+        }
+
+        .sidebar-nav a:hover {
+            color: var(--primary-color);
+            background: #b993d6;
+            color: white;
+        }
+
+        .sidebar-nav a.active {
+            color: white;
+            background: var(--primary-color);
+        }
+
+        .sidebar-user {
+            padding: 24px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            display: block;
+        }
+
+        .user-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .user-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: 3px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .menu-item:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-color);
+            border-color: rgba(139, 92, 246, 0.2);
+            transform: translateX(4px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--shadow-soft);
+            border-color: transparent;
+        }
+
+        .menu-item .material-symbols-outlined {
+            font-size: 1.2rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: var(--transition-smooth);
+            padding: 48px 24px 24px 24px;
+            overflow-y: auto;
+        }
+
+        .help-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .help-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .help-section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .help-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .help-section h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .help-section h2 i {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .help-section p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: rgba(139, 92, 246, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .faq-container {
+            margin-top: 20px;
+        }
+
+        .faq-item {
+            background: var(--background-light);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+        }
+
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: var(--transition-smooth);
+        }
+
+        .faq-question:hover {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .faq-question h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .faq-question .material-symbols-outlined {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .faq-item.active .faq-question .material-symbols-outlined {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 1000px;
+        }
+
+        .faq-answer p {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1050;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar-container {
+                position: fixed;
+                left: -100vw;
+                top: 0;
+                z-index: 1040;
+                background: rgba(255,255,255,0.97);
+                height: 100vh;
+                min-width: 0;
+                max-width: 100vw;
+                width: 100vw;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 2px 16px rgba(140, 82, 255, 0.13);
+                transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
+            }
+            
+            .sidebar-container.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 24px 8px;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 16px 8px;
+            }
+            
+            .help-section {
+                padding: 24px 20px;
+                margin-bottom: 16px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            
+            .sidebar-header {
+                padding: 20px;
+            }
+            
+            .sidebar-user {
+                padding: 20px;
+            }
+            
+            .sidebar-menu {
+                padding: 20px;
+            }
+        }
+
+        .sidebar-container {
+            width: 400px !important;
+            min-width: 400px !important;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+          background: #181818 !important;
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .main-content {
+          background: #232323 !important;
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .page-title {
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .page-subtitle {
+          color: #b0b0b0 !important;
+        }
+
+        /* Sidebar dark mode */
+        body.dark-mode .sidebar-container {
+          background: #1a1a1a !important;
+          border-color: #333 !important;
+        }
+
+        body.dark-mode .sidebar-header {
+          background: #2a2a2a !important;
+          border-color: #333 !important;
+        }
+
+        body.dark-mode .sidebar-nav a {
+          background: #333 !important;
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .sidebar-nav a:hover {
+          background: #4a4a4a !important;
+          color: #fff !important;
+        }
+
+        body.dark-mode .sidebar-nav a.active {
+          background: var(--primary-color) !important;
+          color: white !important;
+        }
+
+        body.dark-mode .sidebar-user {
+          background: #2a2a2a !important;
+          border-color: #333 !important;
+        }
+
+        body.dark-mode .user-info h3 {
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .user-info p {
+          color: #b0b0b0 !important;
+        }
+
+        body.dark-mode .menu-item {
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .menu-item:hover {
+          background: #333 !important;
+          color: var(--primary-color) !important;
+        }
+
+        body.dark-mode .menu-item.active {
+          background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+          color: white !important;
+        }
+
+        body.dark-mode .sidebar-title-text {
+          color: var(--primary-color) !important;
+        }
+
+        body.dark-mode .sidebar-task-item {
+          background: #333 !important;
+          color: #e0e0e0 !important;
+          border-color: #444 !important;
+        }
+
+        body.dark-mode .sidebar-task-item:hover {
+          background: #444 !important;
+          color: #fff !important;
+          border-color: var(--primary-color) !important;
+        }
+
+        body.dark-mode .help-content {
+          background: #2a2a2a !important;
+          border-color: #444 !important;
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .help-section {
+          background: #2a2a2a !important;
+          border-color: #444 !important;
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .help-section:hover {
+          border-color: var(--primary-color) !important;
+        }
+
+        body.dark-mode .help-section h2 {
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .help-section p {
+          color: #b0b0b0 !important;
+        }
+
+        body.dark-mode .feature-list li {
+          color: #b0b0b0 !important;
+        }
+
+        body.dark-mode .faq-question h4 {
+          color: #e0e0e0 !important;
+        }
+
+        body.dark-mode .faq-answer p {
+          color: #b0b0b0 !important;
+        }
+
+        body.dark-mode .hamburger {
+          background: #333 !important;
+          border-color: #555 !important;
+        }
+
+        body.dark-mode .hamburger span {
+          background: #e0e0e0 !important;
+        }
+
+        body.dark-mode input,
+        body.dark-mode textarea,
+        body.dark-mode select {
+          background: #333 !important;
+          color: #e0e0e0 !important;
+          border-color: #555 !important;
+        }
+
+        body.dark-mode .card,
+        body.dark-mode .box,
+        body.dark-mode .panel {
+          background: #2a2a2a !important;
+          color: #e0e0e0 !important;
+          border-color: #444 !important;
+        }
+
+        body.dark-mode a {
+          color: var(--primary-color) !important;
+        }
+
+                body.dark-mode .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            color: #e0e0e0 !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .sidebar-container {
+                transform: translateX(-100%);
+                position: fixed;
+            }
+
+            .sidebar-container.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 80px 16px 16px 16px;
+            }
+            
+            .help-content {
+                padding: 20px;
+            }
+            
+            .help-section {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menüyü Aç/Kapat">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar-container" id="sidebarContainer">
+        <div class="sidebar-header">
+            <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo">
+            <div class="sidebar-nav">
+                <a href="{% url 'anasayfa' %}" data-translate="Home">{% trans "Ana Sayfa" %}</a>
+                <a href="{% url 'dashboard' %}" data-translate="Feel Good">{% trans "İyi Hisset" %}</a>
+                <a href="#" class="active" data-translate="Help">{% trans "Yardım" %}</a>
+            </div>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="{{profilePic.profile_pic.url}}" alt="">
+            </div>
+            <div class="user-info">
+                <h3>{{ user.username.title }}</h3>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="#project-overview" class="menu-item" data-translate="Home" onclick="scrollToSection('project-overview')">
+                <span class="material-symbols-outlined">home</span>
+                {% trans "Ana Sayfa" %}
+            </a>
+            <a href="#main-features" class="menu-item" data-translate="Feel Good" onclick="scrollToSection('main-features')">
+                <span class="material-symbols-outlined">psychology</span>
+                {% trans "İyi Hisset" %}
+            </a>
+            <a href="{% url 'gunluk-kartlar' %}" class="menu-item" data-translate="Daily Cards">
+                <span class="material-symbols-outlined">event_note</span>
+                {% trans "Günlük Kartlar" %}
+            </a>
+            <a href="{% url 'acil-destek' %}" class="menu-item" data-translate="Emergency Support">
+                <span class="material-symbols-outlined">emergency</span>
+                {% trans "Acil Destek" %}
+            </a>
+            <a href="{% url 'destek-duvari' %}" class="menu-item" data-translate="Support Wall">
+                <span class="material-symbols-outlined">forum</span>
+                {% trans "Destek Duvarı" %}
+            </a>
+            <a href="{% url 'meditasyon' %}" class="menu-item" data-translate="Meditation">
+                <span class="material-symbols-outlined">self_improvement</span>
+                {% trans "Meditasyon" %}
+            </a>
+            <a href="{% url 'nefes-egzersizi' %}" class="menu-item" data-translate="Breathing Exercise">
+                <span class="material-symbols-outlined">air</span>
+                {% trans "Nefes Egzersizi" %}
+            </a>
+            <a href="#" class="menu-item active" data-translate="Help Center">
+                <span class="material-symbols-outlined">help</span>
+                {% trans "Yardım Merkezi" %}
+            </a>
+            <a href="{% url 'my-login' %}" class="menu-item" data-translate="Log Out">
+                <span class="material-symbols-outlined">logout</span>
+                {% trans "Çıkış Yap" %}
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="help-content">
+            <h1 class="page-title" data-translate="Feel Good - Help Center">{% trans "İyi Hisset - Yardım Merkezi" %}</h1>
+            
+            <section id="project-overview" class="help-section">
+                <h2 data-translate="Project Overview"><i class="material-symbols-outlined">psychology</i> {% trans "Projeye Genel Bakış" %}</h2>
+                <p data-translate="Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.">{% trans "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır." %}</p>
+            </section>
+
+            <section id="main-features" class="help-section">
+                <h2 data-translate="Main Features"><i class="material-symbols-outlined">star</i> {% trans "Ana Özellikler" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Get instant help with the AI-powered chatbot available 24/7.">{% trans "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın." %}</li>
+                    <li data-translate="Improve yourself with personalized daily tasks and activities.">{% trans "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin." %}</li>
+                    <li data-translate="Track your mood and progress, and get detailed reports.">{% trans "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın." %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Emergency Support System"><i class="material-symbols-outlined">emergency</i> {% trans "Acil Destek Sistemi" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Instant help call with emergency button">{% trans "Acil durum butonu ile anında yardım çağırma" %}</li>
+                    <li data-translate="Automatic notification to pre-defined emergency contacts">{% trans "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim" %}</li>
+                    <li data-translate="Location sharing and quick response">{% trans "Konum paylaşımı ve hızlı müdahale" %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Daily Motivation Cards"><i class="material-symbols-outlined">event_note</i> {% trans "Günlük Motivasyon Kartları" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Daily motivational quotes">{% trans "Günlük motive edici sözler" %}</li>
+                    <li data-translate="Interactive card design">{% trans "Etkileşimli kart tasarımı" %}</li>
+                    <li data-translate="Personalized content">{% trans "Kişiselleştirilmiş içerik" %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Support Wall"><i class="material-symbols-outlined">forum</i> {% trans "Destek Duvarı" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Anonymous sharing option">{% trans "Anonim paylaşım seçeneği" %}</li>
+                    <li data-translate="Like and support system">{% trans "Beğeni ve destek sistemi" %}</li>
+                    <li data-translate="Community support">{% trans "Topluluk desteği" %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Weekly Reports"><i class="material-symbols-outlined">bar_chart</i> {% trans "Haftalık Raporlar" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Detailed activity charts">{% trans "Detaylı aktivite grafikleri" %}</li>
+                    <li data-translate="Achievement statistics">{% trans "Başarı istatistikleri" %}</li>
+                    <li data-translate="Personal development analysis">{% trans "Kişisel gelişim analizi" %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Notification System"><i class="material-symbols-outlined">notifications</i> {% trans "Bildirim Sistemi" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Task reminders">{% trans "Görev hatırlatıcıları" %}</li>
+                    <li data-translate="Achievement notifications">{% trans "Başarı bildirimleri" %}</li>
+                    <li data-translate="Community interactions">{% trans "Topluluk etkileşimleri" %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Account Management"><i class="material-symbols-outlined">account_circle</i> {% trans "Hesap Yönetimi" %}</h2>
+                <ul class="feature-list">
+                    <li data-translate="Change profile photo">{% trans "Profil fotoğrafı değiştirme" %}</li>
+                    <li data-translate="Update password">{% trans "Şifre güncelleme" %}</li>
+                    <li data-translate="Language and appearance settings">{% trans "Dil ve görünüm ayarları" %}</li>
+                </ul>
+            </section>
+
+            <section class="help-section">
+                <h2 data-translate="Frequently Asked Questions"><i class="material-symbols-outlined">help</i> {% trans "Sıkça Sorulan Sorular" %}</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4 data-translate="How can I start using the app?">{% trans "Uygulamayı nasıl kullanmaya başlayabilirim?" %}</h4>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-translate="To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot.">{% trans "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz." %}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4 data-translate="How can I get help in an emergency?">{% trans "Acil durumda nasıl yardım alabilirim?" %}</h4>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-translate="You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature.">{% trans "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın." %}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4 data-translate="How do daily cards work?">{% trans "Günlük kartlar nasıl çalışır?" %}</h4>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-translate="Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively.">{% trans "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur." %}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4 data-translate="Can I share on the support wall?">{% trans "Destek duvarında paylaşım yapabilir miyim?" %}</h4>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-translate="Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts.">{% trans "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir." %}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4 data-translate="How can I change my account settings?">{% trans "Hesap ayarlarımı nasıl değiştirebilirim?" %}</h4>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p data-translate="You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here.">{% trans "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz." %}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script>
+        // Sidebar functionality
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const sidebarContainer = document.getElementById('sidebarContainer');
+
+        hamburgerBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            sidebarContainer.classList.toggle('active');
+            hamburgerBtn.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 991 && sidebarContainer.classList.contains('active')) {
+                if (!sidebarContainer.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                    sidebarContainer.classList.remove('active');
+                    hamburgerBtn.classList.remove('active');
+                }
+            }
+        });
+
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Diğer açık soruları kapat
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Tıklanan soruyu aç/kapat
+                    item.classList.toggle('active');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initializeLanguage === 'function') {
+                initializeLanguage();
+            }
+        });
+
+        // Scroll to section function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Mobile'da sidebar'ı kapat
+                if (window.innerWidth <= 991) {
+                    const sidebarContainer = document.getElementById('sidebarContainer');
+                    const hamburgerBtn = document.getElementById('hamburgerBtn');
+                    sidebarContainer.classList.remove('active');
+                    hamburgerBtn.classList.remove('active');
+                }
+            }
+        }
+    </script>
+    <script>
+        function redirectIfSmallScreen() {
+            if (window.innerWidth < 1300 && !window.location.pathname.includes('responsive.html')) {
+                // Şu anki sayfanın yolunu kaydet
+                localStorage.setItem('lastPage', window.location.pathname + window.location.search);
+                window.location.href = "{% url 'responsive' %}";
+            }
+        }
+        redirectIfSmallScreen();
+        window.addEventListener('resize', redirectIfSmallScreen);
+    </script>
+    <script>
+        function applyThemeFromStorage() {
+            const theme = localStorage.getItem('themeMode') || 'light';
+            if(theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                try {
+                    document.getElementById('darkModeBtn').classList.add('active');
+                    document.getElementById('lightModeBtn').classList.remove('active');
+                } catch(e){}
+            } else {
+                document.body.classList.remove('dark-mode');
+                try {
+                    document.getElementById('lightModeBtn').classList.add('active');
+                    document.getElementById('darkModeBtn').classList.remove('active');
+                } catch(e){}
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            applyThemeFromStorage();
+            const lightBtn = document.getElementById('lightModeBtn');
+            const darkBtn = document.getElementById('darkModeBtn');
+            if(lightBtn) lightBtn.addEventListener('click', function() {
+                localStorage.setItem('themeMode', 'light');
+                applyThemeFromStorage();
+            });
+            if(darkBtn) darkBtn.addEventListener('click', function() {
+                localStorage.setItem('themeMode', 'dark');
+                applyThemeFromStorage();
+            });
+        });
+        
+        applyThemeFromStorage();
+    </script>
+</body>
+</html> 

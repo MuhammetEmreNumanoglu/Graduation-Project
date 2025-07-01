@@ -1,0 +1,347 @@
+{% extends 'articles/navbar.html' %} {% load static %} {% load i18n %} {% block content %}
+<div class="container mt-4">
+    <h1>{% trans "Görevlerim" %}</h1>
+    
+    <!-- Görevler Listesi -->
+    <div class="tasks-container">
+        <!-- Tamamlanmış Görevler -->
+        <div class="completed-tasks">
+            <h3 class="section-title">
+                <i class="material-symbols-outlined">check_circle</i>
+                {% trans "Tamamlanan Görevler" %}
+            </h3>
+            <div class="task-list">
+                <div class="task-item completed">
+                    <div class="task-content">
+                        <h4>{% trans "Günlük Nefes Egzersizi" %}</h4>
+                        <p>{% trans "5 dakikalık nefes egzersizi tamamlandı" %}</p>
+                        <span class="completion-date">{% trans "Bugün, 10:30" %}</span>
+                    </div>
+                    <div class="task-status">
+                        <i class="material-symbols-outlined">check_circle</i>
+                    </div>
+                </div>
+
+                <div class="task-item completed">
+                    <div class="task-content">
+                        <h4>{% trans "Günlük Düşünce Günlüğü" %}</h4>
+                        <p>{% trans "Bugünkü düşüncelerinizi kaydettiniz" %}</p>
+                        <span class="completion-date">{% trans "Dün, 20:15" %}</span>
+                    </div>
+                    <div class="task-status">
+                        <i class="material-symbols-outlined">check_circle</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tamamlanmamış Görevler -->
+        <div class="pending-tasks">
+            <h3 class="section-title">
+                <i class="material-symbols-outlined">pending</i>
+                {% trans "Bekleyen Görevler" %}
+            </h3>
+            <div class="task-list">
+                <div class="task-item">
+                    <div class="task-content">
+                        <h4>{% trans "Haftalık Değerlendirme" %}</h4>
+                        <p>{% trans "Bu haftaki ilerlemenizi değerlendirin" %}</p>
+                        <span class="due-date">{% trans "Son Tarih: Yarın" %}</span>
+                    </div>
+                    <div class="task-status">
+                        <button class="btn btn-outline-primary btn-sm complete-task">
+                            <i class="material-symbols-outlined">check</i>
+                            {% trans "Tamamla" %}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-content">
+                        <h4>{% trans "Meditasyon Seansı" %}</h4>
+                        <p>{% trans "10 dakikalık meditasyon seansı" %}</p>
+                        <span class="due-date">{% trans "Son Tarih: Bugün" %}</span>
+                    </div>
+                    <div class="task-status">
+                        <button class="btn btn-outline-primary btn-sm complete-task">
+                            <i class="material-symbols-outlined">check</i>
+                            {% trans "Tamamla" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tasks-container {
+        margin-top: 30px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+    }
+
+    .section-title i {
+        color: #4CAF50;
+    }
+
+    .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .task-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .task-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .task-content {
+        flex: 1;
+    }
+
+    .task-content h4 {
+        margin: 0;
+        color: #333;
+        font-size: 1.1rem;
+    }
+
+    .task-content p {
+        margin: 5px 0;
+        color: #666;
+    }
+
+    .completion-date, .due-date {
+        font-size: 0.9rem;
+        color: #888;
+    }
+
+    .task-status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .task-status i {
+        color: #4CAF50;
+        font-size: 24px;
+    }
+
+    .complete-task {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        border-radius: 20px;
+        padding: 8px 15px;
+    }
+
+    .completed {
+        background-color: #f8f9fa;
+    }
+
+    .completed .task-content h4 {
+        color: #666;
+    }
+
+    .completed .task-content p {
+        color: #888;
+    }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .main-content {
+      background: #232526 !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .page-title {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .page-subtitle {
+      color: #b0b0b0 !important;
+    }
+
+    body.dark-mode .sidebar-container {
+      background: rgba(35, 35, 35, 0.95) !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .sidebar-header {
+      background: rgba(45, 45, 45, 0.8) !important;
+      border-bottom-color: #555 !important;
+    }
+
+    body.dark-mode .sidebar-nav a {
+      color: #b0b0b0 !important;
+      background: #333 !important;
+    }
+
+    body.dark-mode .sidebar-nav a:hover {
+      color: #f1f1f1 !important;
+      background: #555 !important;
+    }
+
+    body.dark-mode .sidebar-nav a.active {
+      color: #f1f1f1 !important;
+      background: #6a4c9c !important;
+    }
+
+    body.dark-mode .sidebar-user {
+      background: rgba(45, 45, 45, 0.8) !important;
+      border-bottom-color: #555 !important;
+    }
+
+    body.dark-mode .user-info h3 {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .user-info p {
+      color: #b0b0b0 !important;
+    }
+
+    body.dark-mode .sidebar-title-text {
+      color: #8c73b8 !important;
+    }
+
+    body.dark-mode .sidebar-task-item {
+      background: rgba(139, 92, 246, 0.2) !important;
+      color: #f1f1f1 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .sidebar-task-item:hover {
+      background: rgba(139, 92, 246, 0.3) !important;
+      border-color: #8c73b8 !important;
+    }
+
+    body.dark-mode .form-container {
+      background: rgba(45, 45, 45, 0.95) !important;
+      border-color: #555 !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .form-control {
+      background: #333 !important;
+      color: #f1f1f1 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .form-control:focus {
+      border-color: #8c73b8 !important;
+      box-shadow: 0 0 0 3px rgba(140, 115, 184, 0.1) !important;
+    }
+
+    body.dark-mode .form-label {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .hamburger {
+      background: #333 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .hamburger span {
+      background: #f1f1f1 !important;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea,
+    body.dark-mode select {
+      background: #333 !important;
+      color: #f1f1f1 !important;
+      border-color: #555 !important;
+    }
+
+    body.dark-mode .card,
+    body.dark-mode .box,
+    body.dark-mode .panel {
+      background: #2c2c2c !important;
+      color: #f1f1f1 !important;
+      border-color: #444 !important;
+    }
+
+    body.dark-mode a {
+      color: #8c73b8 !important;
+    }
+
+    body.dark-mode .btn {
+      background: #6a4c9c !important;
+      color: #f1f1f1 !important;
+    }
+</style>
+
+<script>
+function applyThemeFromStorage() {
+  const theme = localStorage.getItem('themeMode') || 'light';
+  if(theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  applyThemeFromStorage();
+    const completeButtons = document.querySelectorAll('.complete-task');
+    
+    completeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const taskItem = this.closest('.task-item');
+            const taskContent = taskItem.querySelector('.task-content');
+            const taskTitle = taskContent.querySelector('h4').textContent;
+            
+            // Görevi tamamlandı olarak işaretle
+            taskItem.classList.add('completed');
+            
+            // Tamamlanma tarihini ekle
+            const completionDate = document.createElement('span');
+            completionDate.className = 'completion-date';
+            completionDate.textContent = '{% trans "Şimdi" %}';
+            
+            // Due date'i kaldır
+            const dueDate = taskContent.querySelector('.due-date');
+            if (dueDate) {
+                dueDate.remove();
+            }
+            
+            // Tamamlanma tarihini ekle
+            taskContent.appendChild(completionDate);
+            
+            // Butonu kaldır ve onay ikonu ekle
+            this.remove();
+            const statusDiv = taskItem.querySelector('.task-status');
+            statusDiv.innerHTML = '<i class="material-symbols-outlined">check_circle</i>';
+            
+            // Tamamlanan görevler bölümüne taşı
+            const completedTasks = document.querySelector('.completed-tasks .task-list');
+            completedTasks.insertBefore(taskItem, completedTasks.firstChild);
+            
+            // Bildirim göster
+            alert(`"${taskTitle}" {% trans "görevi tamamlandı!" %}`);
+        });
+    });
+});
+</script>
+{% endblock %}

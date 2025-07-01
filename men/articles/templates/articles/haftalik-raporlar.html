@@ -1,0 +1,158 @@
+<div class="sidebar-header">
+  <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo">
+  <!-- ... diğer header kodları ... -->
+</div>
+<div class="sidebar-user">
+  <div class="user-avatar">
+    <img src="{{profilePic.profile_pic.url}}" alt="">
+  </div>
+  <div class="user-info">
+    <h3>{{ user.username.title }}</h3>
+    <p>{{ user.email }}</p>
+  </div>
+</div>
+<script>
+function applyThemeFromStorage() {
+  const theme = localStorage.getItem('themeMode') || 'light';
+  if(theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
+}
+document.addEventListener('DOMContentLoaded', function() {
+  applyThemeFromStorage();
+});
+</script>
+<style>
+  /* Dark Mode Styles */
+  body.dark-mode {
+    background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .main-content {
+    background: #232526 !important;
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .page-title {
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .page-subtitle {
+    color: #b0b0b0 !important;
+  }
+
+  body.dark-mode .sidebar-container {
+    background: rgba(35, 35, 35, 0.95) !important;
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .sidebar-header {
+    background: rgba(45, 45, 45, 0.8) !important;
+    border-bottom-color: #555 !important;
+  }
+
+  body.dark-mode .sidebar-nav a {
+    color: #b0b0b0 !important;
+    background: #333 !important;
+  }
+
+  body.dark-mode .sidebar-nav a:hover {
+    color: #f1f1f1 !important;
+    background: #555 !important;
+  }
+
+  body.dark-mode .sidebar-nav a.active {
+    color: #f1f1f1 !important;
+    background: #6a4c9c !important;
+  }
+
+  body.dark-mode .sidebar-user {
+    background: rgba(45, 45, 45, 0.8) !important;
+    border-bottom-color: #555 !important;
+  }
+
+  body.dark-mode .user-info h3 {
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .user-info p {
+    color: #b0b0b0 !important;
+  }
+
+  body.dark-mode .sidebar-title-text {
+    color: #8c73b8 !important;
+  }
+
+  body.dark-mode .sidebar-task-item {
+    background: rgba(139, 92, 246, 0.2) !important;
+    color: #f1f1f1 !important;
+    border-color: #555 !important;
+  }
+
+  body.dark-mode .sidebar-task-item:hover {
+    background: rgba(139, 92, 246, 0.3) !important;
+    border-color: #8c73b8 !important;
+  }
+
+  body.dark-mode .reports-container {
+    background: rgba(45, 45, 45, 0.95) !important;
+    border-color: #555 !important;
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .report-card {
+    background: linear-gradient(160deg, rgba(45, 45, 45, 0.98) 0%, rgba(35, 35, 35, 0.92) 100%) !important;
+    border-color: #555 !important;
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .report-card:hover {
+    border-color: #6a4c9c !important;
+  }
+
+  body.dark-mode .report-title {
+    color: #f1f1f1 !important;
+  }
+
+  body.dark-mode .report-description {
+    color: #b0b0b0 !important;
+  }
+
+  body.dark-mode .hamburger {
+    background: #333 !important;
+    border-color: #555 !important;
+  }
+
+  body.dark-mode .hamburger span {
+    background: #f1f1f1 !important;
+  }
+
+  body.dark-mode input,
+  body.dark-mode textarea,
+  body.dark-mode select {
+    background: #333 !important;
+    color: #f1f1f1 !important;
+    border-color: #555 !important;
+  }
+
+  body.dark-mode .card,
+  body.dark-mode .box,
+  body.dark-mode .panel {
+    background: #2c2c2c !important;
+    color: #f1f1f1 !important;
+    border-color: #444 !important;
+  }
+
+  body.dark-mode a {
+    color: #8c73b8 !important;
+  }
+
+  body.dark-mode .btn {
+    background: #6a4c9c !important;
+    color: #f1f1f1 !important;
+  }
+</style>
+</body> 

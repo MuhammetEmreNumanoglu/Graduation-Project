@@ -1,0 +1,292 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: men\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-29 22:08+0300\n"
+"PO-Revision-Date: 2024-03-19 12:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\articles\forms.py:23 .\articles\forms.py:36 .\articles\forms.py:51
+msgid "Kullanıcı Adı"
+msgstr "Kullanıcı Adı"
+
+#: .\articles\forms.py:24 .\articles\forms.py:52
+msgid "E-posta"
+msgstr "E-posta"
+
+#: .\articles\forms.py:25 .\articles\forms.py:37
+msgid "Şifre"
+msgstr "Şifre"
+
+#: .\articles\forms.py:26
+msgid "Şifre Tekrar"
+msgstr "Şifre Tekrar"
+
+#: .\articles\forms.py:29
+msgid ""
+"150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ "
+"karakterleri kullanılabilir."
+msgstr ""
+"150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ "
+"karakterleri kullanılabilir."
+
+#: .\articles\forms.py:30 .\articles\templates\articles\register.html:26
+msgid "Şifreniz en az 8 karakter içermelidir."
+msgstr "Şifreniz en az 8 karakter içermelidir."
+
+#: .\articles\forms.py:31 .\articles\templates\articles\register.html:29
+msgid "Doğrulama için aynı şifreyi tekrar girin."
+msgstr "Doğrulama için aynı şifreyi tekrar girin."
+
+#: .\articles\forms.py:61
+msgid "Profil Fotoğrafı"
+msgstr "Profil Fotoğrafı"
+
+#: .\articles\forms.py:69 .\articles\forms.py:82
+msgid "Başlık"
+msgstr "Başlık"
+
+#: .\articles\forms.py:70 .\articles\forms.py:83
+msgid "İçerik"
+msgstr "İçerik"
+
+#: .\articles\forms.py:73 .\articles\forms.py:86
+msgid "Başlık giriniz..."
+msgstr "Başlık giriniz..."
+
+#: .\articles\forms.py:74 .\articles\forms.py:87
+msgid "İçerik giriniz..."
+msgstr "İçerik giriniz..."
+
+#: .\articles\templates\articles\acil-destek.html:9
+#: .\articles\templates\articles\acil-destek.html:427
+msgid "Acil Destek"
+msgstr "Emergency Support"
+
+#: .\articles\templates\articles\acil-destek.html:428
+msgid "İhtiyacınız olduğunda hemen ulaşabileceğiniz güvenli destek sistemi"
+msgstr "Safe support system you can reach immediately when you need it"
+
+#: .\articles\templates\articles\acil-destek.html:434
+msgid "Acil durum mesajı göndermek için butona tıklayın"
+msgstr "Click the button to send an emergency message"
+
+#: .\articles\templates\articles\acil-destek.html:438
+#: .\articles\templates\articles\acil-destek.html:439
+msgid "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!"
+msgstr "CALL ME NOW, I'M IN CRISIS!!!"
+
+#: .\articles\templates\articles\acil-destek.html:442
+#: .\articles\templates\articles\acil-destek.html:443
+msgid "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?"
+msgstr "I don't feel well right now, can you contact me?"
+
+#: .\articles\templates\articles\acil-destek.html:446
+#: .\articles\templates\articles\acil-destek.html:447
+msgid "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş"
+msgstr "I'm not well — please contact me if I don't respond in 10 minutes"
+
+#: .\articles\templates\articles\anasayfa.html:8
+msgid "Ana Sayfa"
+msgstr "Home"
+
+#: .\articles\templates\articles\bildirimler.html:6
+msgid "Bildirimler"
+msgstr "Notifications"
+
+#: .\articles\templates\articles\bildirimler.html:15
+msgid "Günlük Görevleriniz Hazır!"
+msgstr "Your Daily Tasks Are Ready!"
+
+#: .\articles\templates\articles\bildirimler.html:16
+msgid "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!"
+msgstr "3 new tasks added for today. Check them now!"
+
+#: .\articles\templates\articles\bildirimler.html:17
+msgid "5 dakika önce"
+msgstr "5 minutes ago"
+
+#: .\articles\templates\articles\bildirimler.html:27
+msgid "Tebrikler!"
+msgstr "Congratulations!"
+
+#: .\articles\templates\articles\bildirimler.html:28
+msgid "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız."
+msgstr "You completed your daily tasks 5 days in a row this week."
+
+#: .\articles\templates\articles\bildirimler.html:29
+msgid "2 saat önce"
+msgstr "2 hours ago"
+
+#: .\articles\templates\articles\bildirimler.html:39
+msgid "Yeni İçerik"
+msgstr "New Content"
+
+#: .\articles\templates\articles\bildirimler.html:40
+msgid "Stres yönetimi için yeni bir nefes egzersizi eklendi."
+msgstr "A new breathing exercise for stress management has been added."
+
+#: .\articles\templates\articles\bildirimler.html:41
+msgid "Dün"
+msgstr "Yesterday"
+
+#: .\articles\templates\articles\bildirimler.html:51
+msgid "Destek Mesajınız"
+msgstr "Your Support Message"
+
+#: .\articles\templates\articles\bildirimler.html:52
+msgid "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi."
+msgstr "3 new comments came to the message you shared on the support wall."
+
+#: .\articles\templates\articles\bildirimler.html:53
+msgid "2 gün önce"
+msgstr "2 days ago"
+
+#: .\articles\templates\articles\create-article.html:3
+msgid "Görevlerim"
+msgstr "Görevlerim"
+
+#: .\articles\templates\articles\create-article.html:11
+msgid "Tamamlanan Görevler"
+msgstr "Completed Tasks"
+
+msgid "Nefes Egzersizi"
+msgstr "Nefes Egzersizi"
+
+#: .\articles\templates\articles\create-article.html:16
+msgid "Günlük Nefes Egzersizi"
+msgstr "Daily Breathing Exercise"
+
+#: .\articles\templates\articles\create-article.html:17
+msgid "5 dakikalık nefes egzersizi tamamlandı"
+msgstr "5-minute breathing exercise completed"
+
+#: .\articles\templates\articles\create-article.html:18
+msgid "Bugün, 10:30"
+msgstr "Today, 10:30"
+
+#: .\articles\templates\articles\create-article.html:27
+msgid "Günlük Düşünce Günlüğü"
+msgstr "Daily Thought Journal"
+
+#: .\articles\templates\articles\create-article.html:28
+msgid "Bugünkü düşüncelerinizi kaydettiniz"
+msgstr "You recorded today's thoughts"
+
+#: .\articles\templates\articles\create-article.html:29
+msgid "Dün, 20:15"
+msgstr "Yesterday, 20:15"
+
+#: .\articles\templates\articles\create-article.html:42
+msgid "Bekleyen Görevler"
+msgstr "Pending Tasks"
+
+#: .\articles\templates\articles\create-article.html:47
+msgid "Haftalık Değerlendirme"
+msgstr "Weekly Assessment"
+
+#: .\articles\templates\articles\create-article.html:48
+msgid "Bu haftaki ilerlemenizi değerlendirin"
+msgstr "Evaluate your progress this week"
+
+#: .\articles\templates\articles\create-article.html:49
+msgid "Son Tarih: Yarın"
+msgstr "Due Date: Tomorrow"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:525
+msgid "Günlük Kartlar"
+msgstr "Günlük Kartlar"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:527
+msgid "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar"
+msgstr "Specially selected cards for new motivation and inspiration every day"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:535
+msgid "Bugünün Sözü"
+msgstr "Today's Quote"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:537
+msgid "Her gün yeni bir başlangıçtır. Kendine inan ve ilerle."
+msgstr "Every day is a new beginning. Believe in yourself and move forward."
+
+#: .\articles\templates\articles\gunluk-kartlar.html:540
+msgid "Bugün kendine güven"
+msgstr "Trust yourself today"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:550
+msgid "Motivasyon"
+msgstr "Motivation"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:552
+msgid "Küçük adımlar büyük değişimlere yol açar. Her gün bir adım at."
+msgstr "Small steps lead to big changes. Take one step every day."
+
+#: .\articles\templates\articles\gunluk-kartlar.html:555
+msgid "Adım adım ilerle"
+msgstr "Move forward step by step"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:565
+msgid "Düşünce"
+msgstr "Thought"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:567
+msgid "Olumlu düşünceler, olumlu sonuçlar doğurur. Bugün kendine iyi davran."
+msgstr "Positive thoughts bring positive results. Be kind to yourself today."
+
+#: .\articles\templates\articles\gunluk-kartlar.html:570
+msgid "Pozitif kal"
+msgstr "Stay positive"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:580
+msgid "Farkındalık"
+msgstr "Mindfulness"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:582
+msgid "Şu anı yaşa, geçmişi bırak, geleceği planla ama bugüne odaklan."
+msgstr "Live in the moment, let go of the past, plan the future but focus on today."
+
+#: .\articles\templates\articles\gunluk-kartlar.html:585
+msgid "Anı yaşa"
+msgstr "Live the moment"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:595
+msgid "İyileşme"
+msgstr "Healing"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:597
+msgid "Kendini sev ve kabul et. Mükemmel olmak zorunda değilsin, sadece kendin ol."
+msgstr "Love and accept yourself. You don't have to be perfect, just be yourself."
+
+#: .\articles\templates\articles\gunluk-kartlar.html:600
+msgid "Kendini sev"
+msgstr "Love yourself"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:610
+msgid "Başarı"
+msgstr "Success"
+
+#: .\articles\templates\articles\gunluk-kartlar.html:612
+msgid "Başarı yolculuğu, her gün atılan küçük adımlarla başlar. Bugün senin günün."
+msgstr "The journey to success begins with small steps taken every day. Today is your day."
+
+#: .\articles\templates\articles\gunluk-kartlar.html:615
+msgid "Başarıya odaklan"
+msgstr "Focus on success"
+
+msgid "My Tasks"
+msgstr "Görevlerim"
+
+msgid "Breathing Exercise"
+msgstr "Nefes Egzersizi"
+
+msgid "Günlük Yansıtma"
+msgstr "Günlük Yansıtma"
+
+msgid "Daily Reflection"
+msgstr "Günlük Yansıtma" 
