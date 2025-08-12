@@ -331,7 +331,6 @@ a:hover {
 
 .bot-message .message-content {
   background-color: white;
-  border: 1px solid var(--light-lilac);
   border-bottom-left-radius: 0.25rem;
   color: #2c3e50;
 }
@@ -1392,5 +1391,9 @@ body.font-size-extra-large .chat-form .form-control { font-size: 1.2rem; }
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.dashboard-user-avatar {
+  border: 2.5px solid #e2e8f0;
 }
 

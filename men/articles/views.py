@@ -229,29 +229,33 @@ def gunluk_kartlar(request):
 
 @login_required(login_url="my-login")
 def destek_duvari(request):
-    chat_history, created = ChatHistory.objects.get_or_create(user=request.user, defaults={"history_id": str(request.user.id)})
-
     if request.method == "POST":
         content = request.POST.get("storyText")
         if content and len(content.strip()) > 0:
             ChatHistoryContent.objects.create(
                 role="user",
                 content=content.strip(),
-                chat_history=chat_history
+                chat_history=ChatHistory.objects.get_or_create(user=request.user)[0]
             )
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 return JsonResponse({"success": True, "message": "Mesaj eklendi."})
             return redirect("destek-duvari")
 
-    all_messages = ChatHistoryContent.objects.filter(chat_history=chat_history).order_by('-likes', '-id')
+    # Sadece kullanıcının kendi mesajları
+    user_chat_history = ChatHistory.objects.get_or_create(user=request.user)[0]
+    all_messages = ChatHistoryContent.objects.filter(chat_history=user_chat_history, role='user').order_by('-created_at')
     paginator = Paginator(all_messages, 3)
     page = int(request.GET.get('page', 1))
     messages = paginator.get_page(page)
-    liked_messages = set(Like.objects.filter(user=request.user, story__in=messages).values_list('story_id', flat=True))
+    liked_messages = set(Like.objects.filter(user=request.user, story__in=messages.object_list).values_list('story_id', flat=True))
+    profile_pic = Profile.objects.filter(user=request.user).first()
+    if not profile_pic:
+        profile_pic = Profile.objects.create(user=request.user)
     return render(request, "articles/destek-duvari.html", {
         "messages": messages,
         "liked_messages": liked_messages,
         "page": page,
+        "total_pages": paginator.num_pages,
         "total_pages": paginator.num_pages
     })
 
@@ -305,21 +309,20 @@ def update_password(request):
         except Exception as e:
             messages.error(request, str(e))
             return redirect('profile-management')
-    
     return redirect('profile-management')
 
 def contact(request):
     return render(request, "articles/contact.html")
-
+@login_required(login_url="my-login")
 def anasayfa(request):
     return render(request, "articles/anasayfa.html")
-
+@login_required(login_url="my-login")
 def meditasyon(request):
     return render(request, 'articles/meditasyon.html')
-
+@login_required(login_url="my-login")
 def nefes_egzersizi(request):
     return render(request, 'articles/nefes-egzersizi.html')
-
+@login_required(login_url="my-login")
 def meditasyon_audio(request, audio_id):
     audio_map = {
         'rain': {

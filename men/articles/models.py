@@ -29,6 +29,7 @@ class ChatHistoryContent(models.Model):
     content=models.TextField()
     chat_history=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.chathistory')
     likes = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

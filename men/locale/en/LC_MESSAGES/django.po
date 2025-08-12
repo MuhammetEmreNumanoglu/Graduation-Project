@@ -949,7 +949,7 @@ msgid "Projeye Genel Bakış"
 msgstr "Project Overview"
 
 msgid "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır."
-msgstr "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives."
+msgstr "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır."
 
 msgid "Ana Özellikler"
 msgstr "Main Features"
@@ -1165,7 +1165,7 @@ msgstr "Welcome"
 msgid "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar"
 msgstr "Specially selected cards for daily motivation and inspiration."
 
-msgid "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alış verişinizi takip edin."
+msgid "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin."
 msgstr "Follow rhythmic breathing to calm and clear your mind."
 
 msgid "Nefes Egzersizi"
@@ -1194,3 +1194,37 @@ msgstr "Dark Theme"
 
 msgid "Açık Tema"
 msgstr "Light Theme"
+
+msgid "Döngü"
+msgstr "Cycle"
+
+# Nefes Egzersizi sayfası çevirileri
+msgid "Nefes Al (sn)"
+msgstr "Inhale (sec)"
+
+msgid "Tut (sn)"
+msgstr "Hold (sec)"
+
+msgid "Nefes Ver (sn)"
+msgstr "Exhale (sec)"
+
+msgid "Tekrar"
+msgstr "Repeat"
+
+msgid "Nefes Egzersizi"
+msgstr "Breathing Exercise"
+
+msgid "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin."
+msgstr "Follow your rhythmic breathing to calm and clear your mind."
+
+msgid "Hazır"
+msgstr "Ready"
+
+msgid "Başla"
+msgstr "Start"
+
+msgid "Durdur"
+msgstr "Stop"
+
+msgid "Döngü:"
+msgstr "Cycle:"

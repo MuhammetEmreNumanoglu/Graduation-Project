@@ -59,8 +59,6 @@
         font-weight: 400;
       }
 
-     
-
       /* Sidebar */
       .sidebar-container {
         background: rgba(255, 255, 255, 0.95);
@@ -75,6 +73,7 @@
         overflow: hidden;
         width: 400px !important;
         min-width: 400px !important;
+        min-height: 0;
       }
 
       .sidebar-header {
@@ -135,18 +134,23 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        margin: 0 20px 18px 20px;
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.05);
+        border: 1px solid #ede9fe;
+        transition: box-shadow 0.2s;
       }
 
       .sidebar-section {
         flex-shrink: 0;
         background: rgba(255, 255, 255, 0.8);
         padding: 20px;
-        border-radius: 16px;
         box-shadow: 0 2px 8px rgba(139, 92, 246, 0.05);
         border: 1px solid rgba(139, 92, 246, 0.1);
-        max-height: 300px;
         overflow-y: auto;
         overflow-x: hidden;
+      }
+      .sidebar-section:hover {
+        box-shadow: 0 6px 24px rgba(139, 92, 246, 0.09);
       }
 
       .sidebar-section:last-child {
@@ -198,7 +202,6 @@
       body.dark-mode .sidebar-section {
         background: #2a2a2a !important;
         border-color: #333 !important;
-        color: #e0e0e0 !important;
       }
 
       body.dark-mode .sidebar-section h3 {
@@ -228,7 +231,11 @@
       }
 
       body.dark-mode .menu-item.active {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        ) !important;
         color: white !important;
       }
 
@@ -260,8 +267,6 @@
         color: #e0e0e0 !important;
         border-color: #444 !important;
       }
-
-     
 
       .sidebar-section h3::before {
         content: "";
@@ -303,7 +308,15 @@
         align-items: center;
         gap: 16px;
       }
-
+      .chat-header .material-symbols-outlined {
+        font-size: 1.7rem;
+        background: #e9d5ff;
+        border-radius: 50%;
+        padding: 10px;
+        color: var(--primary-color);
+        box-shadow: 0 2px 8px #c084fc22;
+        margin-right: 10px;
+      }
       .chat-header h2 {
         font-size: 1.5rem;
         font-weight: 600;
@@ -319,7 +332,7 @@
         gap: 20px;
         min-height: 600px;
         max-height: 400px;
-        scrollbar-width: thin;           /* Firefox için ince scrollbar */
+        scrollbar-width: thin; /* Firefox için ince scrollbar */
         scrollbar-color: #8b5cf6 #f1f5f9; /* Scroll rengi ve arka planı */
       }
 
@@ -417,6 +430,7 @@
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        transform: scale(1.03);
       }
 
       .btn {
@@ -499,13 +513,21 @@
         flex-direction: column;
         gap: 8px;
         max-height: 300px; /* yüksekliği artırıp azaltabilirsin */
+        flex: 1 1 auto; /* Kalan tüm yüksekliği kaplar */
+        min-height: 0; /* Flexbox ile overflow çalışsın */
+        overflow-y: auto;
         overflow-y: auto !important;
         padding-right: 4px;
       }
       .sidebar-section.scrollable {
-  max-height: 360px;
-  overflow-y: auto;
-}
+        flex: 1 1 auto; /* Kalan tüm alanı kaplar */
+        min-height: 0; /* Flex çocuklar için gerekli! */
+        overflow-y: auto; /* İçerik taşarsa sadece burada scroll çıksın */
+        /* İsteğe bağlı: köşe radius'u */
+        border-radius: 0 0 20px 0;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
 
       .chat-item {
         background: white;
@@ -519,11 +541,16 @@
         cursor: pointer;
         position: relative;
         z-index: 1;
+        border: 1px solid #ece6fa;
+        margin-bottom: 5px;
+        background: linear-gradient(135deg, #f7f6fd 60%, #faf9ff 100%);
+        transition: box-shadow 0.2s, border 0.2s, background 0.2s;
       }
 
       .chat-item:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.11);
+        border-color: #c084fc;
+        background: linear-gradient(135deg, #ece6fa 70%, #faf9ff 100%);
       }
 
       .chat-title {
@@ -624,7 +651,7 @@
       .dashboard-container {
         max-width: 1600px;
         margin: 0 auto;
-        width: 100%;
+        width: 85%;
         display: flex;
         gap: 32px;
       }
@@ -715,7 +742,7 @@
 
       /* Responsive */
 
-      .sidebar-user {
+      .dashboard-sidebar-user {
         padding: 24px;
         border-bottom: 1px solid rgba(139, 92, 246, 0.1);
         display: flex;
@@ -724,7 +751,7 @@
         background: rgba(255, 255, 255, 0.8);
         flex-shrink: 0;
       }
-      .user-avatar {
+      .dashboard-user-avatar {
         width: 60px;
         height: 60px;
         border-radius: 50%;
@@ -733,6 +760,8 @@
           var(--primary-color),
           var(--secondary-color)
         );
+        border: 2.5px solid #e2e8f0;
+        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -743,36 +772,54 @@
         position: relative;
         overflow: hidden;
       }
-      .user-avatar img {
+      .dashboard-user-avatar img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 50%;
         display: block;
+        filter: drop-shadow(0 1px 5px #c084fc22);
       }
-      .user-info h3 {
+      .dashboard-user-info {
+        display: flex;
+        flex-direction: column;
+      }
+      .dashboard-user-info h3 {
         font-size: 1.1rem;
         font-weight: 600;
         color: var(--text-primary);
         margin-bottom: 4px;
       }
-      .user-info p {
+      .dashboard-user-info p {
         font-size: 0.95rem;
         color: var(--text-secondary);
         margin: 0;
       }
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        100% {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .message {
+        animation: fadeInUp 0.55s cubic-bezier(0.32, 2, 0.55, 0.27);
+      }
       @media (max-width: 600px) {
-        .sidebar-user {
+        .dashboard-sidebar-user {
           gap: 8px;
         }
-        .user-avatar {
+        .dashboard-user-avatar {
           width: 48px;
           height: 48px;
         }
-        .user-info h3 {
+        .dashboard-user-info h3 {
           font-size: 1rem;
         }
-        .user-info p {
+        .dashboard-user-info p {
           font-size: 0.85rem;
         }
       }
@@ -781,6 +828,13 @@
       body.dark-mode {
         background: #181818 !important;
         color: #e0e0e0 !important;
+      }
+      body.dark-mode .dashboard-sidebar-user {
+        background: #2a2a2a !important;
+      }
+      body.dark-mode       .dashboard-user-info h3{
+  
+        color: var(--border-color);
       }
 
       body.dark-mode .main-content {
@@ -845,7 +899,11 @@
       }
 
       body.dark-mode .menu-item.active {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        ) !important;
         color: white !important;
       }
 
@@ -865,7 +923,11 @@
       }
 
       body.dark-mode .chat-header {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        ) !important;
         color: #e0e0e0 !important;
       }
 
@@ -880,7 +942,11 @@
       }
 
       body.dark-mode .message.user-message .message-content {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        ) !important;
         color: #e0e0e0 !important;
       }
 
@@ -974,7 +1040,6 @@
         background: #555 !important;
       }
 
-
       body.dark-mode input,
       body.dark-mode textarea,
       body.dark-mode select {
@@ -996,480 +1061,426 @@
       }
 
       body.dark-mode .btn {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        ) !important;
         color: #e0e0e0 !important;
+      }
+
+      .notification-bell {
+        position: fixed;
+        top: 32px;
+        right: 48px;
+        z-index: 1200;
+        background: linear-gradient(135deg, #a084e8 0%, #6c3eb4 100%);
+        border-radius: 50%;
+        padding: 12px;
+        border: none;
+        cursor: pointer;
+        font-size: 2.2rem;
+        color: #fff;
+        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.13);
+        transition: color 0.2s, background 0.2s, box-shadow 0.2s,
+          transform 0.18s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .notification-bell:hover {
+        transform: scale(1.08);
+      }
+      .notification-popup {
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        position: fixed;
+        top: 72px;
+        right: 48px;
+        width: 340px;
+        max-height: 270px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
+        border: 1.5px solid #ece6fa;
+        z-index: 1300;
+        overflow-y: auto;
+        padding: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+      }
+      .notification-popup.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .notification-popup .popup-title {
+        font-weight: 700;
+        font-size: 1.2rem;
+        padding: 18px 24px 8px 24px;
+        color: #8b5cf6;
+        border-bottom: 1px solid #ece6fa;
+      }
+      .notification-list {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 8px 0;
+        max-height: 340px;
+        overflow-y: auto;
+      }
+      .notification-item {
+        padding: 16px 24px;
+        border-bottom: 1px solid #f3eaff;
+        font-size: 1rem;
+        color: #232526;
+        background: none;
+      }
+      .notification-item:last-child {
+        border-bottom: none;
+      }
+      @media (max-width: 600px) {
+        .notification-bell {
+          top: 16px;
+          right: 12px;
+          padding: 8px;
+          font-size: 1.5rem;
+        }
+        .notification-popup {
+          top: 48px;
+          right: 8px;
+          width: 95vw;
+          min-width: 0;
+          max-width: 98vw;
+        }
+      }
+
+      .user-avatar img {
+        border: 2.5px solid #e2e8f0 !important;
       }
     </style>
   </head>
   <body>
- 
-
     <div class="sidebar-container" id="sidebarContainer">
       <div class="sidebar-header">
-        <img
-          src="{% static 'iyihisset.png' %}"
-          alt="Logo"
-          class="sidebar-logo"
-        />
-        <div class="sidebar-nav">
-          <a href="{% url 'anasayfa' %}">{% trans "Ana Sayfa" %}</a>
-          <a href="{% url 'dashboard' %}" class="active"
-            >{% trans "İyi Hisset" %}</a
-          >
-          <a href="{% url 'profile-management' %}"
-            >{% trans "Profil Yönetimi" %}</a
-          >
-        </div>
+          <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo" />
+          <div class="sidebar-nav">
+              <a href="{% url 'anasayfa' %}">{% trans "Ana Sayfa" %}</a>
+              <a href="{% url 'dashboard' %}" class="active">{% trans "İyi Hisset" %}</a>
+              <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+          </div>
       </div>
-      <div
-        class="sidebar-user"
-        style="display: flex; align-items: center; gap: 16px"
-      >
-        <div class="user-avatar">
-          <img src="{{profilePic.profile_pic.url}}" alt="" />
-        </div>
-        <div class="user-info" style="display: flex; flex-direction: column">
-          <h3 style="margin-bottom: 4px">{{ user.username.title }}</h3>
-          <p style="margin: 0">{{ user.email }}</p>
-        </div>
-      </div>
-
-
-      <div class="sidebar-section">
-        <h3>{% trans "Yeni Sohbet" %}</h3>
-        <button class="new-chat-btn" data-translate="New Chat" id="newChatBtn">
-          {% trans "Yeni Sohbet Başlat" %}
-        </button>
+      <div class="dashboard-sidebar-user">
+          <div class="user-avatar">
+              <div class="dashboard-user-avatar">
+                  <img src="{{profilePic.profile_pic.url}}" alt="" />
+              </div>
+          </div>
+          <div class="dashboard-user-info">
+              <h3>{{ user.username.title }}</h3>
+              <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;" title="{{ user.email }}">
+                  {{ user.email }}
+              </p>
+          </div>
       </div>
       <div class="sidebar-section">
-        <h3>{% trans "Sohbetleri Ara" %}</h3>
-        <input
-          type="text"
-          class="search-input"
-          id="searchInput"
-          placeholder="{% trans 'Sohbetlerinizi arayın...' %}"
-        />
+          <h3>{% trans "Yeni Sohbet" %}</h3>
+          <button class="new-chat-btn" id="newChatBtn">{% trans "Yeni Sohbet Başlat" %}</button>
       </div>
-
-
-
+      <div class="sidebar-section">
+          <h3>{% trans "Sohbetleri Ara" %}</h3>
+          <input type="text" class="search-input" id="searchInput" placeholder="{% trans 'Sohbetlerinizi arayın...' %}" />
+      </div>
       <div class="sidebar-section scrollable">
-        <h3>{% trans "Geçmiş Sohbetler" %}</h3>
-        <div class="chat-list" id="chatList"></div>
+          <h3>{% trans "Geçmiş Sohbetler" %}</h3>
+          <div class="chat-list" id="chatList"></div>
       </div>
-    </div>
+  </div>
 
-    <main class="main-content">
+  <main class="main-content">
       <div class="dashboard-container">
-        <div class="chat-interface">
-          <div class="chat-header">
-            <span class="material-symbols-outlined">chat</span>
-            <h2 class="chat-header-title" data-translate="Welcome">
-              {% trans "AI Asistan" %}
-            </h2>
-          </div>
-
-          <div class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-              <div class="message-content">
-                <p>{% trans "Merhaba! Size nasıl yardımcı olabilirim?" %}</p>
+          <div class="chat-interface">
+              <div class="chat-header">
+                  <span class="material-symbols-outlined">chat</span>
+                  <h2 class="chat-header-title" data-translate="Welcome">{% trans "İyi Hisset" %}</h2>
               </div>
-              <div class="message-time" id="botMessageTime"></div>
-            </div>
-          </div>
-
-          <div class="chat-input-container">
-            <form id="chatForm" class="chat-form">
-              <div class="input-group">
-                <textarea
-                  id="messageInput"
-                  class="form-control"
-                  placeholder="{% trans 'Mesajınızı yazın...' %}"
-                  autocomplete="off"
-                  rows="1"
-                ></textarea>
-                <button type="submit" class="btn">
-                  <span class="material-symbols-outlined">send</span>
-                </button>
+              <div class="chat-messages" id="chatMessages">
+                  <div class="message bot-message">
+                      <div class="message-content">
+                          <p>{% trans "Merhaba! Size nasıl yardımcı olabilirim?" %}</p>
+                      </div>
+                      <div class="message-time" id="botMessageTime"></div>
+                  </div>
               </div>
-
-            </form>
+              <div class="chat-input-container">
+                  <form id="chatForm" class="chat-form">
+                      <div class="input-group">
+                          <textarea id="messageInput" class="form-control" placeholder="{% trans 'Mesajınızı yazın...' %}" autocomplete="off" rows="1"></textarea>
+                          <button type="submit" class="btn">
+                              <span class="material-symbols-outlined">send</span>
+                          </button>
+                      </div>
+                  </form>
+              </div>
           </div>
-        </div>
       </div>
-    </main>
+  </main>
 
-    <div class="modal-overlay" id="modalOverlay">
+  <div class="modal-overlay" id="modalOverlay">
       <div class="modal">
-        <h3 class="modal-title">{% trans "Sohbeti Sil" %}</h3>
-        <p class="modal-message">
-          {% trans "Bu sohbeti silmek istediğinize emin misiniz? Bu işlem geri
-          alınamaz." %}
-        </p>
-        <div class="modal-buttons">
-          <button class="modal-btn cancel" id="modalCancel">
-            {% trans "Hayır" %}
-          </button>
-          <button class="modal-btn confirm" id="modalConfirm">
-            {% trans "Evet" %}
-          </button>
-        </div>
+          <h3 class="modal-title">{% trans "Sohbeti Sil" %}</h3>
+          <p class="modal-message">
+              {% trans "Bu sohbeti silmek istediğinize emin misiniz? Bu işlem geri alınamaz." %}
+          </p>
+          <div class="modal-buttons">
+              <button class="modal-btn cancel" id="modalCancel">{% trans "Hayır" %}</button>
+              <button class="modal-btn confirm" id="modalConfirm">{% trans "Evet" %}</button>
+          </div>
       </div>
-    </div>
+  </div>
 
-    <script>
-      // Sample chat data
-      let chats = [
-        {
-          id: 1,
-          title: "{% trans 'Kaygı Hakkında Sohbet' %}",
-          timestamp: "2024-01-15 14:30",
-        },
-        {
-          id: 2,
-          title: "{% trans 'Stres Yönetimi İpuçları' %}",
-          timestamp: "2024-01-14 09:15",
-        },
-        {
-          id: 3,
-          title: "{% trans 'Günlük Motivasyon' %}",
-          timestamp: "2024-01-13 16:45",
-        },
-        {
-          id: 4,
-          title: "{% trans 'Uyku İyileştirme' %}",
-          timestamp: "2024-01-12 22:20",
-        },
-        {
-          id: 5,
-          title: "{% trans 'İş-Hayat Dengesi' %}",
-          timestamp: "2024-01-11 11:30",
-        },
-        // Yeni eklenen örnek sohbetler
-        {
-          id: 6,
-          title: "{% trans 'Motivasyonel Alıntılar' %}",
-          timestamp: "2024-01-10 10:00",
-        },
-        {
-          id: 7,
-          title: "{% trans 'Zihin Haritalama' %}",
-          timestamp: "2024-01-09 15:20",
-        },
-        {
-          id: 8,
-          title: "{% trans 'Duygu Takibi' %}",
-          timestamp: "2024-01-08 18:40",
-        },
-        {
-          id: 9,
-          title: "{% trans 'Kariyer Planlama' %}",
-          timestamp: "2024-01-07 13:10",
-        },
-        {
-          id: 10,
-          title: "{% trans 'Sağlıklı Alışkanlıklar' %}",
-          timestamp: "2024-01-06 08:55",
-        },
-      ];
+  <!-- Bildirim butonu ve popup (hep body'nin en sonunda) -->
+  <button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
+      <span class="material-symbols-outlined">notifications</span>
+  </button>
+  <div class="notification-popup" id="notificationPopup">
+      <div class="popup-title">{% trans "Bildirimler" %}</div>
+      <ul class="notification-list">
+          <li class="notification-item">{% trans "Hoş geldin!" %}</li>
+      </ul>
+  </div>
 
-      let filteredChats = [...chats];
-      let chatToDelete = null;
-      var history_id = null;
-
-      // DOM Elements
-      const sidebarContainer = document.getElementById("sidebarContainer");
-      const newChatBtn = document.getElementById("newChatBtn");
-      const searchInput = document.getElementById("searchInput");
-      const chatList = document.getElementById("chatList");
-      const chatForm = document.getElementById("chatForm");
-      const messageInput = document.getElementById("messageInput");
-      const chatMessages = document.getElementById("chatMessages");
-      const modalOverlay = document.getElementById("modalOverlay");
-      const modalCancel = document.getElementById("modalCancel");
-      const modalConfirm = document.getElementById("modalConfirm");
-
-
-      // Chat functionality
-      chatForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const message = messageInput.value.trim();
-
-        if (message) {
-          addMessage(message, "user");
-          messageInput.value = "";
-
-          // Simulate bot response
-          setTimeout(() => {
-            addMessage(
-              "{% trans 'Teşekkürler! Size nasıl yardımcı olabilirim?' %}",
-              "bot"
-            );
-          }, 1000);
-        }
-      });
-
-      function addMessage(text, sender) {
-        const messageDiv = document.createElement("div");
-        messageDiv.className = `message ${sender}-message`;
-
-        const now = new Date();
-        const time = now.toLocaleTimeString("tr-TR", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-
-        messageDiv.innerHTML = `
-                <div class="message-content">
-                    <p>${text}</p>
-                </div>
-                <div class="message-time">${time}</div>
-            `;
-
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+  <!-- JS dosyalarını burada çağır -->
+  <script src="{% static 'js/lang.js' %}"></script>
+  <script src="{% static 'js/font-size-manager.js' %}"></script>
+  <script>
+  // Bildirim popup aç/kapa
+  document.addEventListener("DOMContentLoaded", function () {
+      const bell = document.getElementById("notificationBell");
+      const popup = document.getElementById("notificationPopup");
+      if (bell && popup) {
+          bell.addEventListener("click", function (e) {
+              e.stopPropagation();
+              popup.classList.toggle("active");
+          });
+          document.addEventListener("click", function (e) {
+              if (
+                  popup.classList.contains("active") &&
+                  !popup.contains(e.target) &&
+                  e.target !== bell
+              ) {
+                  popup.classList.remove("active");
+              }
+          });
       }
+  });
+  </script>
+  <script>
+  // Sohbet JS (örnek ve basic)
+  let chats = [
+      { id: 1, title: "{% trans 'Kaygı Hakkında Sohbet' %}", timestamp: "2024-01-15 14:30" },
+      { id: 2, title: "{% trans 'Stres Yönetimi İpuçları' %}", timestamp: "2024-01-14 09:15" },
+      { id: 3, title: "{% trans 'Günlük Motivasyon' %}", timestamp: "2024-01-13 16:45" },
+  ];
+  let filteredChats = [...chats];
+  let chatToDelete = null;
 
-      // New Chat functionality
-      newChatBtn.addEventListener("click", function () {
-        // Clear chat messages
-        chatMessages.innerHTML = `
-                <div class="message bot-message">
-                    <div class="message-content">
-                        <p>{% trans "Merhaba! Size nasıl yardımcı olabilirim?" %}</p>
-                    </div>
-                    <div class="message-time">${new Date().toLocaleTimeString(
-                      "tr-TR",
-                      { hour: "2-digit", minute: "2-digit", hour12: false }
-                    )}</div>
-                </div>
-            `;
-        history_id = null;
-      });
+  const chatList = document.getElementById("chatList");
+  const searchInput = document.getElementById("searchInput");
+  const newChatBtn = document.getElementById("newChatBtn");
+  const modalOverlay = document.getElementById("modalOverlay");
+  const modalCancel = document.getElementById("modalCancel");
+  const modalConfirm = document.getElementById("modalConfirm");
+  const chatForm = document.getElementById("chatForm");
+  const messageInput = document.getElementById("messageInput");
+  const chatMessages = document.getElementById("chatMessages");
 
-      // Search functionality
-      searchInput.addEventListener("input", function () {
-        const searchTerm = this.value.toLowerCase();
-        filteredChats = chats.filter((chat) =>
-          chat.title.toLowerCase().includes(searchTerm)
-        );
-        renderChats();
-      });
-
-      // Render chats
-      function renderChats() {
-        chatList.innerHTML = "";
-
-        filteredChats.forEach((chat) => {
+  // Render sohbetler
+  function renderChats() {
+      chatList.innerHTML = "";
+      filteredChats.forEach(chat => {
           const chatItem = document.createElement("div");
           chatItem.className = "chat-item";
           chatItem.innerHTML = `
-                    <span class="chat-title" data-chat-id="${chat.id}">${chat.title}</span>
-                    <button class="chat-menu-btn" onclick="toggleChatMenu(${chat.id}, event)">
-                        ⋮
-                    </button>
-                    <div class="chat-menu" id="chatMenu${chat.id}">
-                        <div class="chat-menu-item" onclick="editChat(${chat.id})">
-                            <span class="material-symbols-outlined">edit</span>
-                            {% trans "Düzenle" %}
-                        </div>
-                        <div class="chat-menu-item delete" onclick="deleteChat(${chat.id})">
-                            <span class="material-symbols-outlined">delete</span>
-                            {% trans "Sil" %}
-                        </div>
-                    </div>
-                `;
+              <span class="chat-title" data-chat-id="${chat.id}">${chat.title}</span>
+              <button class="chat-menu-btn" onclick="toggleChatMenu(${chat.id}, event)">⋮</button>
+              <div class="chat-menu" id="chatMenu${chat.id}">
+                  <div class="chat-menu-item" onclick="editChat(${chat.id})">
+                      <span class="material-symbols-outlined">edit</span>
+                      {% trans "Düzenle" %}
+                  </div>
+                  <div class="chat-menu-item delete" onclick="deleteChat(${chat.id})">
+                      <span class="material-symbols-outlined">delete</span>
+                      {% trans "Sil" %}
+                  </div>
+              </div>
+          `;
           chatList.appendChild(chatItem);
-        });
-      }
-
-      // Toggle chat menu
-      function toggleChatMenu(chatId, event) {
-        event.stopPropagation();
-
-        // Close all other menus
-        document.querySelectorAll(".chat-menu").forEach((menu) => {
-          if (menu.id !== `chatMenu${chatId}`) {
-            menu.classList.remove("show");
-          }
-        });
-
-        // Toggle current menu
-        const menu = document.getElementById(`chatMenu${chatId}`);
-        menu.classList.toggle("show");
-      }
-
-      // Close all menus when clicking outside
-      document.addEventListener("click", function (e) {
-        if (
-          !e.target.closest(".chat-menu-btn") &&
-          !e.target.closest(".chat-menu")
-        ) {
-          document.querySelectorAll(".chat-menu").forEach((menu) => {
-            menu.classList.remove("show");
-          });
-        }
       });
+  }
 
-      // Edit chat
-      function editChat(chatId) {
-        const chatTitle = document.querySelector(`[data-chat-id="${chatId}"]`);
-        const currentTitle = chatTitle.textContent;
+  // Menü aç/kapat
+  window.toggleChatMenu = function(chatId, event) {
+      event.stopPropagation();
+      document.querySelectorAll(".chat-menu").forEach(menu => {
+          if (menu.id !== `chatMenu${chatId}`) menu.classList.remove("show");
+      });
+      const menu = document.getElementById(`chatMenu${chatId}`);
+      menu.classList.toggle("show");
+  }
 
-        chatTitle.innerHTML = `<input type="text" class="chat-title editing" value="${currentTitle}">`;
-        const input = chatTitle.querySelector("input");
-        input.focus();
-        input.select();
-
-        function saveEdit() {
+  // Edit chat (örnek)
+  window.editChat = function(chatId) {
+      const chatTitle = document.querySelector(`[data-chat-id="${chatId}"]`);
+      const currentTitle = chatTitle.textContent;
+      chatTitle.innerHTML = `<input type="text" class="chat-title editing" value="${currentTitle}">`;
+      const input = chatTitle.querySelector("input");
+      input.focus();
+      input.select();
+      function saveEdit() {
           const newTitle = input.value.trim();
           if (newTitle && newTitle !== currentTitle) {
-            // Update in data
-            const chat = chats.find((c) => c.id === chatId);
-            if (chat) {
-              chat.title = newTitle;
-            }
+              const chat = chats.find((c) => c.id === chatId);
+              if (chat) chat.title = newTitle;
           }
           chatTitle.textContent = newTitle || currentTitle;
-        }
-
-        input.addEventListener("blur", saveEdit);
-        input.addEventListener("keypress", function (e) {
-          if (e.key === "Enter") {
-            saveEdit();
-          }
-        });
-
-        // Close menu
-        document.querySelectorAll(".chat-menu").forEach((menu) => {
-          menu.classList.remove("show");
-        });
       }
-
-      // Delete chat
-      function deleteChat(chatId) {
-        chatToDelete = chatId;
-        modalOverlay.classList.add("show");
-
-        // Close menu
-        document.querySelectorAll(".chat-menu").forEach((menu) => {
-          menu.classList.remove("show");
-        });
-      }
-
-      // Modal functionality
-      modalCancel.addEventListener("click", function () {
-        modalOverlay.classList.remove("show");
-        chatToDelete = null;
+      input.addEventListener("blur", saveEdit);
+      input.addEventListener("keypress", function(e) {
+          if (e.key === "Enter") saveEdit();
       });
+      document.querySelectorAll(".chat-menu").forEach(menu => menu.classList.remove("show"));
+  }
 
-      modalConfirm.addEventListener("click", function () {
-        if (chatToDelete) {
-          // Remove from data
+  // Delete chat
+  window.deleteChat = function(chatId) {
+      chatToDelete = chatId;
+      modalOverlay.classList.add("show");
+      document.querySelectorAll(".chat-menu").forEach(menu => menu.classList.remove("show"));
+  }
+
+  // Modal işlemleri
+  modalCancel.addEventListener("click", function () {
+      modalOverlay.classList.remove("show");
+      chatToDelete = null;
+  });
+  modalConfirm.addEventListener("click", function () {
+      if (chatToDelete) {
           chats = chats.filter((chat) => chat.id !== chatToDelete);
-          filteredChats = filteredChats.filter(
-            (chat) => chat.id !== chatToDelete
-          );
-
-          // Re-render
+          filteredChats = filteredChats.filter((chat) => chat.id !== chatToDelete);
           renderChats();
-
-          // Update search if needed
-          if (searchInput.value) {
-            searchInput.dispatchEvent(new Event("input"));
-          }
-        }
-
-        modalOverlay.classList.remove("show");
-        chatToDelete = null;
-      });
-
-      // Close modal when clicking overlay
-      modalOverlay.addEventListener("click", function (e) {
-        if (e.target === modalOverlay) {
+      }
+      modalOverlay.classList.remove("show");
+      chatToDelete = null;
+  });
+  modalOverlay.addEventListener("click", function (e) {
+      if (e.target === modalOverlay) {
           modalOverlay.classList.remove("show");
           chatToDelete = null;
-        }
-      });
+      }
+  });
 
-      // Initialize
+  // Ara
+  searchInput.addEventListener("input", function () {
+      const searchTerm = this.value.toLowerCase();
+      filteredChats = chats.filter((chat) => chat.title.toLowerCase().includes(searchTerm));
       renderChats();
+  });
 
-      // Set initial bot message time
-      document.addEventListener("DOMContentLoaded", function () {
-        const botMessageTime = document.getElementById("botMessageTime");
-        const now = new Date();
-        botMessageTime.textContent = now.toLocaleTimeString("tr-TR", {
+  // Yeni sohbet
+  newChatBtn.addEventListener("click", function () {
+      chatMessages.innerHTML = `
+          <div class="message bot-message">
+              <div class="message-content">
+                  <p>{% trans "Merhaba! Size nasıl yardımcı olabilirim?" %}</p>
+              </div>
+              <div class="message-time">${new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit", hour12: false })}</div>
+          </div>
+      `;
+  });
+
+  // Mesaj gönder (örnek)
+  chatForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (message) {
+          const now = new Date();
+          const time = now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit", hour12: false });
+          const msgDiv = document.createElement("div");
+          msgDiv.className = "message user-message";
+          msgDiv.innerHTML = `<div class="message-content"><p>${message}</p></div><div class="message-time">${time}</div>`;
+          chatMessages.appendChild(msgDiv);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          messageInput.value = "";
+      }
+  });
+
+  // Kapanan menüler
+  document.addEventListener("click", function (e) {
+      if (!e.target.closest(".chat-menu-btn") && !e.target.closest(".chat-menu")) {
+          document.querySelectorAll(".chat-menu").forEach(menu => menu.classList.remove("show"));
+      }
+  });
+
+  // Başlat
+  document.addEventListener("DOMContentLoaded", function() {
+      renderChats();
+      // Bot message time güncelle
+      const botMessageTime = document.getElementById("botMessageTime");
+      const now = new Date();
+      botMessageTime.textContent = now.toLocaleTimeString("tr-TR", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
-        });
       });
-
-      // Auto-resize textarea
-      messageInput.addEventListener("input", function () {
-        this.style.height = "auto";
-        this.style.height = Math.min(this.scrollHeight, 120) + "px";
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        if (typeof initializeLanguage === "function") {
-          initializeLanguage();
-        }
-      });
-
-      // Sayfa yüklendiğinde sohbetleri göster
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', renderChats);
+  });
+  </script>
+  <script>
+  function redirectIfSmallScreen() {
+      if (window.innerWidth < 1300 && !window.location.pathname.includes("responsive.html")) {
+          localStorage.setItem("lastPage", window.location.pathname + window.location.search);
+          window.location.href = "{% url 'responsive' %}";
+      }
+  }
+  redirectIfSmallScreen();
+  window.addEventListener("resize", redirectIfSmallScreen);
+  </script>
+  <script>
+  function applyThemeFromStorage() {
+      const theme = localStorage.getItem("themeMode") || "light";
+      if (theme === "dark") {
+          document.body.classList.add("dark-mode");
+          try {
+              document.getElementById("darkModeBtn").classList.add("active");
+              document.getElementById("lightModeBtn").classList.remove("active");
+          } catch (e) {}
       } else {
-        renderChats();
-      }
-    </script>
-    <script>
-        function redirectIfSmallScreen() {
-            if (window.innerWidth < 1300 && !window.location.pathname.includes('responsive.html')) {
-                // Şu anki sayfanın yolunu kaydet
-                localStorage.setItem('lastPage', window.location.pathname + window.location.search);
-                window.location.href = "{% url 'responsive' %}";
-            }
-        }
-        redirectIfSmallScreen();
-        window.addEventListener('resize', redirectIfSmallScreen);
-    </script>
-    
-
-    <script src="{% static 'js/font-size-manager.js' %}"></script>
-    <script>
-      function applyThemeFromStorage() {
-        const theme = localStorage.getItem('themeMode') || 'light';
-        if(theme === 'dark') {
-          document.body.classList.add('dark-mode');
+          document.body.classList.remove("dark-mode");
           try {
-            document.getElementById('darkModeBtn').classList.add('active');
-            document.getElementById('lightModeBtn').classList.remove('active');
-          } catch(e){}
-        } else {
-          document.body.classList.remove('dark-mode');
-          try {
-            document.getElementById('lightModeBtn').classList.add('active');
-            document.getElementById('darkModeBtn').classList.remove('active');
-          } catch(e){}
-        }
+              document.getElementById("lightModeBtn").classList.add("active");
+              document.getElementById("darkModeBtn").classList.remove("active");
+          } catch (e) {}
       }
-      document.addEventListener('DOMContentLoaded', function() {
-        applyThemeFromStorage();
-        const lightBtn = document.getElementById('lightModeBtn');
-        const darkBtn = document.getElementById('darkModeBtn');
-        if(lightBtn) lightBtn.addEventListener('click', function() {
-          localStorage.setItem('themeMode', 'light');
-          applyThemeFromStorage();
-        });
-        if(darkBtn) darkBtn.addEventListener('click', function() {
-          localStorage.setItem('themeMode', 'dark');
-          applyThemeFromStorage();
-        });
-      });
-    </script>
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+      applyThemeFromStorage();
+      const lightBtn = document.getElementById("lightModeBtn");
+      const darkBtn = document.getElementById("darkModeBtn");
+      if (lightBtn)
+          lightBtn.addEventListener("click", function () {
+              localStorage.setItem("themeMode", "light");
+              applyThemeFromStorage();
+          });
+      if (darkBtn)
+          darkBtn.addEventListener("click", function () {
+              localStorage.setItem("themeMode", "dark");
+              applyThemeFromStorage();
+          });
+  });
+  </script>
   </body>
 </html>

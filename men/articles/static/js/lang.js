@@ -62,6 +62,16 @@ const translations = {
         "Log Out": "Çıkış Yap",
         "Profil Yönetimi": "Profil Yönetimi",
 
+        // Dil ve tema değiştirme popup'ları
+        "Language": "Dil",
+        "language changed to": "değiştirildi",
+        "Theme": "Tema",
+        "theme changed to": "teması değiştirildı",
+        "Light Mode": "Açık Mod",
+        "Dark Mode": "Koyu Mod",
+        "Font Size": "Yazı Tipi Boyutu",
+        "size set to": "boyutuna ayarlandı",
+
         // Meditasyon sayfası çevirileri
         "Tümü": "Tümü",
         "Uyku & Rahatlama": "Uyku & Rahatlama",
@@ -119,50 +129,48 @@ const translations = {
 
         // Help Center sayfası çevirileri
         "İyi Hisset - Yardım Merkezi": "İyi Hisset - Yardım Merkezi",
-        "Projeye Genel Bakış": "Projeye Genel Bakış",
-        "Ana Özellikler": "Ana Özellikler",
-        "Sohbet Botu": "Sohbet Botu",
-        "Günlük Görevler": "Günlük Görevler",
-        "Durum Takibi": "Durum Takibi",
-        "Acil Destek Sistemi": "Acil Destek Sistemi",
-        "Günlük Motivasyon Kartları": "Günlük Motivasyon Kartları",
-        "Bildirim Sistemi": "Bildirim Sistemi",
-        "Hesap Yönetimi": "Hesap Yönetimi",
-
-        // Login sayfası çevirileri
-        "Kullanıcı Girişi": "Kullanıcı Girişi",
-        "Giriş Yap": "Giriş Yap",
-        "Hesabın yok mu?": "Hesabın yok mu?",
-        "Bu alan zorunludur.": "Bu alan zorunludur.",
-
-        // Register sayfası çevirileri
-        "Hesap Oluştur": "Hesap Oluştur",
-        "Kaydol": "Kaydol",
-        "Hesabın zaten var mı?": "Hesabın zaten var mı?",
-
-        // Settings sayfası çevirileri
-        "Yazı Tipi Boyutu": "Yazı Tipi Boyutu",
-        "Boyut Seçin": "Boyut Seçin",
-        "Acil Durum İletişim Bilgileri": "Acil Durum İletişim Bilgileri",
-        "Acil Durum Telefon Numarası": "Acil Durum Telefon Numarası",
-        "Acil Durum Mesajı": "Acil Durum Mesajı",
-        "Acil durumda gönderilecek mesaj...": "Acil durumda gönderilecek mesaj...",
-        "Kaydet": "Kaydet",
-
-        // Bildirimler sayfası çevirileri
-        "Bildirimler": "Bildirimler",
-        "Günlük Görevleriniz Hazır!": "Günlük Görevleriniz Hazır!",
-        "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!": "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!",
-        "5 dakika önce": "5 dakika önce",
-        "Tebrikler!": "Tebrikler!",
-        "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız.": "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız.",
-        "2 saat önce": "2 saat önce",
-        "Yeni İçerik": "Yeni İçerik",
-        "Stres yönetimi için yeni bir nefes egzersizi eklendi.": "Stres yönetimi için yeni bir nefes egzersizi eklendi.",
-        "Dün": "Dün",
-        "Destek Mesajınız": "Destek Mesajınız",
-        "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi.": "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi.",
-        "2 gün önce": "2 gün önce"
+        "Help Center - Feel Good": "Yardım Merkezi - İyi Hisset",
+        "Help Center": "Yardım Merkezi",
+        "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.": "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır.",
+        "Project Overview": "Projeye Genel Bakış",
+        "Main Features": "Ana Özellikler",
+        "Get instant help with the AI-powered chatbot available 24/7.": "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın.",
+        "Improve yourself with personalized daily tasks and activities.": "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin.",
+        "Track your mood and progress, and get detailed reports.": "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın.",
+        "Emergency Support System": "Acil Destek Sistemi",
+        "Instant help call with emergency button": "Acil durum butonu ile anında yardım çağırma",
+        "Automatic notification to pre-defined emergency contacts": "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim",
+        "Location sharing and quick response": "Konum paylaşımı ve hızlı müdahale",
+        "Daily Motivation Cards": "Günlük Motivasyon Kartları",
+        "Daily motivational quotes": "Günlük motive edici sözler",
+        "Interactive card design": "Etkileşimli kart tasarımı",
+        "Personalized content": "Kişiselleştirilmiş içerik",
+        "Support Wall": "Destek Duvarı",
+        "Anonymous sharing option": "Anonim paylaşım seçeneği",
+        "Like and support system": "Beğeni ve destek sistemi",
+        "Community support": "Topluluk desteği",
+        "Weekly Reports": "Haftalık Raporlar",
+        "Achievement statistics": "Başarı istatistikleri",
+        "Personal development analysis": "Kişisel gelişim analizi",
+        "Notification System": "Bildirim Sistemi",
+        "Task reminders": "Görev hatırlatıcıları",
+        "Achievement notifications": "Başarı bildirimleri",
+        "Community interactions": "Topluluk etkileşimleri",
+        "Account Management": "Hesap Yönetimi",
+        "Change profile photo": "Profil fotoğrafı değiştirme",
+        "Update password": "Şifre güncelleme",
+        "Language and appearance settings": "Dil ve görünüm ayarları",
+        "Frequently Asked Questions": "Sıkça Sorulan Sorular",
+        "How can I start using the app?": "Uygulamayı nasıl kullanmaya başlayabilirim?",
+        "To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot.": "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz.",
+        "How can I get help in an emergency?": "Acil durumda nasıl yardım alabilirim?",
+        "You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature.": "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın.",
+        "How do daily cards work?": "Günlük kartlar nasıl çalışır?",
+        "Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively.": "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur.",
+        "Can I share on the support wall?": "Destek duvarında paylaşım yapabilir miyim?",
+        "Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts.": "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir.",
+        "How can I change my account settings?": "Hesap ayarlarımı nasıl değiştirebilirim?",
+        "You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here.": "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz."
     },
     en: {
         // English translations (keep original English text)
@@ -226,6 +234,16 @@ const translations = {
         "Log Out": "Log Out",
         "Profil Yönetimi": "Profile Management",
 
+        // Dil ve tema değiştirme popup'ları
+        "Language": "Language",
+        "language changed to": "changed to",
+        "Theme": "Theme",
+        "theme changed to": "theme changed to",
+        "Light Mode": "Light Mode",
+        "Dark Mode": "Dark Mode",
+        "Font Size": "Font Size",
+        "size set to": "size set to",
+
         // Meditasyon sayfası çevirileri
         "Tümü": "All",
         "Uyku & Rahatlama": "Sleep & Relaxation",
@@ -269,25 +287,27 @@ const translations = {
 
         // Günlük Kartlar sayfası çevirileri
         "Günlük Kartlar": "Daily Cards",
-        "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar": "Cards specially selected for new motivation and inspiration every day",
+        "Specially selected cards for new motivation and inspiration every day": "Cards specially selected for new motivation and inspiration every day",
         "Bugünün Sözü": "Today's Quote",
-        "Her gün yeni bir başlangıçtır. Kendine inan ve ilerle.": "Every day is a new beginning. Believe in yourself and move forward.",
-        "Bugün kendine güven": "Trust yourself today",
+        "Every day is a new beginning. Believe in yourself and stay strong.": "Every day is a new beginning. Believe in yourself and stay strong.",
+        "Trust yourself today": "Trust yourself today",
         "Motivasyon": "Motivation",
-        "Küçük adımlar büyük değişimlere yol açar. Her gün bir adım at.": "Small steps lead to big changes. Take one step every day.",
-        "Adım adım ilerle": "Move forward step by step",
-        "Düşünce": "Thought",
-        "Olumlu düşünceler, olumlu sonuçlar doğurur. Bugün kendine iyi davran.": "Positive thoughts lead to positive results. Be kind to yourself today.",
-        "Pozitif kal": "Stay positive",
-        "Farkındalık": "Awareness",
-        "Şu anı yaşa, geçmişi bırak, geleceği planla ama bugüne odaklan.": "Live in the present, let go of the past, plan the future but focus on today.",
-        "Anı yaşa": "Live the moment",
-        "İyileşme": "Healing",
-        "Kendini sev ve kabul et. Mükemmel olmak zorunda değilsin, sadece kendin ol.": "Love and accept yourself. You don't have to be perfect, just be yourself.",
-        "Kendini sev": "Love yourself",
-        "Başarı": "Success",
-        "Başarı yolculuğu, her gün atılan küçük adımlarla başlar. Bugün senin günün.": "The journey to success begins with small steps taken every day. Today is your day.",
-        "Başarıya odaklan": "Focus on success",
+        "Small steps lead to big changes. Take one step every day.": "Small steps lead to big changes. Take one step every day.",
+        "Move forward step by step": "Move forward step by step",
+        "Positive thoughts lead to positive results. Be kind to yourself today.": "Positive thoughts lead to positive results. Be kind to yourself today.",
+        "Stay positive": "Stay positive",
+        "Live in the present, let go of the past, plan the future but focus on today.": "Live in the present, let go of the past, plan the future but focus on today.",
+        "Live the moment": "Live the moment",
+        "Love and accept yourself. You don't have to be perfect, just be yourself.": "Love and accept yourself. You don't have to be perfect, just be yourself.",
+        "Love yourself": "Love yourself",
+        "The journey to success begins with small steps taken every day. Today is your day.": "The journey to success begins with small steps taken every day. Today is your day.",
+        "Focus on success": "Focus on success",
+        "Notifications": "Notifications",
+        "Welcome! Today is a great day.": "Welcome! Today is a great day.",
+        "A new breathing exercise has been added.": "A new breathing exercise has been added.",
+        "Don't forget your daily reflection!": "Don't forget your daily reflection!",
+        "A friend left a message on the support wall.": "A friend left a message on the support wall.",
+        "Your weekly report is ready!": "Your weekly report is ready!",
 
         // Haftalık Raporlar sayfası çevirileri
         "Haftalık Raporlar": "Weekly Reports",
@@ -322,6 +342,8 @@ const translations = {
 
         // Settings sayfası çevirileri
         "Yazı Tipi Boyutu": "Font Size",
+        "Font Size": "Font Size",
+        "size set to": "size set to",
         "Boyut Seçin": "Select Size",
         "Acil Durum İletişim Bilgileri": "Emergency Contact Information",
         "Acil Durum Telefon Numarası": "Emergency Phone Number",
@@ -342,7 +364,67 @@ const translations = {
         "Dün": "Yesterday",
         "Destek Mesajınız": "Your Support Message",
         "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi.": "3 new comments have been added to your message on the support wall.",
-        "2 gün önce": "2 days ago"
+        "2 gün önce": "2 days ago",
+
+        // Anasayfa çevirileri
+        "My Tasks": "My Tasks",
+        "Breathing Exercise": "Breathing Exercise",
+        "Daily Reflection": "Daily Reflection",
+        "Welcome to Feel Good!": "Welcome to Feel Good!",
+        "Find the path to health and happiness with the Feel Good system.": "Find the path to health and happiness with the Feel Good system.",
+        "EMERGENCY SUPPORT": "EMERGENCY SUPPORT",
+        "Click to get help immediately": "Click to get help immediately",
+        "Daily Cards": "Daily Cards",
+        "Record your daily activities and health status.": "Record your daily activities and health status.",
+        "Support Wall": "Support Wall",
+        "Connect with other users and get support.": "Connect with other users and get support.",
+        "Strengthen your respiratory system by doing breathing exercises.": "Strengthen your respiratory system by doing breathing exercises.",
+        "Meditation": "Meditation",
+        "Reduce your stress level by meditating.": "Reduce your stress level by meditating.",
+
+        // Help Center translations (EN)
+        "Help Center - Feel Good": "Help Center - Feel Good",
+        "Help Center": "Help Center",
+        "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.": "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.",
+        "Project Overview": "Project Overview",
+        "Main Features": "Main Features",
+        "Get instant help with the AI-powered chatbot available 24/7.": "Get instant help with the AI-powered chatbot available 24/7.",
+        "Improve yourself with personalized daily tasks and activities.": "Improve yourself with personalized daily tasks and activities.",
+        "Track your mood and progress, and get detailed reports.": "Track your mood and progress, and get detailed reports.",
+        "Emergency Support System": "Emergency Support System",
+        "Instant help call with emergency button": "Instant help call with emergency button",
+        "Automatic notification to pre-defined emergency contacts": "Automatic notification to pre-defined emergency contacts",
+        "Location sharing and quick response": "Location sharing and quick response",
+        "Daily Motivation Cards": "Daily Motivation Cards",
+        "Daily motivational quotes": "Daily motivational quotes",
+        "Interactive card design": "Interactive card design",
+        "Personalized content": "Personalized content",
+        "Support Wall": "Support Wall",
+        "Anonymous sharing option": "Anonymous sharing option",
+        "Like and support system": "Like and support system",
+        "Community support": "Community support",
+        "Weekly Reports": "Weekly Reports",
+        "Achievement statistics": "Achievement statistics",
+        "Personal development analysis": "Personal development analysis",
+        "Notification System": "Notification System",
+        "Task reminders": "Task reminders",
+        "Achievement notifications": "Achievement notifications",
+        "Community interactions": "Community interactions",
+        "Account Management": "Account Management",
+        "Change profile photo": "Change profile photo",
+        "Update password": "Update password",
+        "Language and appearance settings": "Language and appearance settings",
+        "Frequently Asked Questions": "Frequently Asked Questions",
+        "How can I start using the app?": "How can I start using the app?",
+        "To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot.": "To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot.",
+        "How can I get help in an emergency?": "How can I get help in an emergency?",
+        "You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature.": "You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature.",
+        "How do daily cards work?": "How do daily cards work?",
+        "Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively.": "Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively.",
+        "Can I share on the support wall?": "Can I share on the support wall?",
+        "Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts.": "Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts.",
+        "How can I change my account settings?": "How can I change my account settings?",
+        "You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here.": "You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here."
     }
 };
 
@@ -359,6 +441,13 @@ function changeLanguage(lang) {
     
     // Django'ya dil değişikliğini bildir (arka planda)
     notifyDjango(lang);
+    
+    // Popup göster (eğer showToast fonksiyonu varsa)
+    if (typeof showToast === 'function') {
+        setTimeout(() => {
+            showToast('language', lang);
+        }, 200);
+    }
 }
 
 // Sayfadaki metinleri çevir
@@ -476,4 +565,5 @@ document.addEventListener('DOMContentLoaded', function() {
 // Global olarak erişilebilir yap
 window.changeLanguage = changeLanguage;
 window.getTranslation = getTranslation;
-window.initializeLanguage = initializeLanguage; 
+window.initializeLanguage = initializeLanguage;
+window.translations = translations; 

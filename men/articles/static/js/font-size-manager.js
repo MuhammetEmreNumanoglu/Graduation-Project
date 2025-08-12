@@ -81,13 +81,39 @@ class FontSizeManager {
     
     showToast(size) {
         const sizeNames = {
-            'small': 'Küçük',
+            'small': 'Small',
             'normal': 'Normal',
-            'large': 'Büyük',
-            'very-large': 'Çok Büyük'
+            'large': 'Large',
+            'very-large': 'Very Large'
         };
         
         const sizeName = sizeNames[size] || size;
+        
+        // Get current language
+        const currentLang = localStorage.getItem('selectedLanguage') || 'tr';
+        
+        // Use global getTranslation function if available
+        let titleText, messageText;
+        if (typeof getTranslation === 'function') {
+            titleText = getTranslation('Font Size');
+            messageText = getTranslation('size set to');
+        } else {
+            // Fallback translations
+            const translations = {
+                tr: {
+                    'Font Size': 'Yazı Tipi Boyutu',
+                    'size set to': 'boyutuna ayarlandı'
+                },
+                en: {
+                    'Font Size': 'Font Size',
+                    'size set to': 'size set to'
+                }
+            };
+            
+            const lang = translations[currentLang] || translations.tr;
+            titleText = lang['Font Size'];
+            messageText = lang['size set to'];
+        }
         
         // Create toast notification
         const toast = document.createElement('div');
@@ -105,8 +131,8 @@ class FontSizeManager {
             transition: transform 0.3s ease;
         `;
         toast.innerHTML = `
-            <div style="font-weight: 600; margin-bottom: 4px;">Yazı Tipi Boyutu</div>
-            <div style="color: #666;">${sizeName} boyutuna ayarlandı</div>
+            <div style="font-weight: 600; margin-bottom: 4px;">${titleText}</div>
+            <div style="color: #666;">${sizeName} ${messageText}</div>
         `;
         
         document.body.appendChild(toast);

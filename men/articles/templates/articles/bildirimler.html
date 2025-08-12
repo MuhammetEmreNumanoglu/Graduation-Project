@@ -1,68 +1,249 @@
 {% load static %}
 {% load i18n %}
 
-{% block content %}
-<div class="container mt-4">
-    <h1 class="text-center mb-4">{% trans "Bildirimler" %}</h1>
-    
-    <div class="notifications-list">
-        <!-- Okunmamış Bildirim -->
-        <div class="notification-card unread">
-            <div class="notification-icon">
-                <i class="material-symbols-outlined">task_alt</i>
-            </div>
-            <div class="notification-content">
-                <h5>{% trans "Günlük Görevleriniz Hazır!" %}</h5>
-                <p>{% trans "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!" %}</p>
-                <small class="text-muted">{% trans "5 dakika önce" %}</small>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% trans "Bildirimler" %}</title>
+    <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <style>
+      :root {
+        --primary-color: #6c3eb4;
+        --secondary-color: #8ca6db;
+        --accent-color: #b993d6;
+        --background-light: #f9f9f9;
+        --text-primary: #2c3e50;
+        --text-secondary: #7f8c8d;
+        --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 20px;
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --heart-color: #e74c3c;
+        --heart-color-light: #ff6b6b;
+      }
 
-        <!-- Okunmuş Bildirim -->
-        <div class="notification-card">
-            <div class="notification-icon">
-                <i class="material-symbols-outlined">mood</i>
-            </div>
-            <div class="notification-content">
-                <h5>{% trans "Tebrikler!" %}</h5>
-                <p>{% trans "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız." %}</p>
-                <small class="text-muted">{% trans "2 saat önce" %}</small>
-            </div>
-        </div>
+      body {
+        background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        font-family: "Inter", sans-serif;
+      }
 
-        <!-- Önemli Bildirim -->
-        <div class="notification-card important">
-            <div class="notification-icon">
-                <i class="material-symbols-outlined">psychology</i>
-            </div>
-            <div class="notification-content">
-                <h5>{% trans "Yeni İçerik" %}</h5>
-                <p>{% trans "Stres yönetimi için yeni bir nefes egzersizi eklendi." %}</p>
-                <small class="text-muted">{% trans "Dün" %}</small>
-            </div>
-        </div>
+      .sidebar-container {
+        width: 400px !important;
+        min-width: 400px !important;
+      }
 
-        <!-- Destek Bildirimi -->
-        <div class="notification-card">
-            <div class="notification-icon">
-                <i class="material-symbols-outlined">forum</i>
-            </div>
-            <div class="notification-content">
-                <h5>{% trans "Destek Mesajınız" %}</h5>
-                <p>{% trans "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi." %}</p>
-                <small class="text-muted">{% trans "2 gün önce" %}</small>
-            </div>
-        </div>
-    </div>
-</div>
+      .sidebar-header {
+        padding: 24px;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 0 20px 0 0;
+        flex-shrink: 0;
+      }
 
-<style>
-    .notifications-list {
+      .sidebar-logo {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: #f7f8fa;
+        box-shadow: 0 2px 8px rgba(79, 82, 186, 0.08);
+      }
+
+      .sidebar-nav {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .sidebar-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition-smooth);
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: #f3eaff;
+      }
+
+      .sidebar-nav a:hover {
+        color: var(--primary-color);
+        background: #b993d6;
+        color: white;
+      }
+
+      .sidebar-nav a.active {
+        color: white;
+        background: var(--primary-color);
+      }
+
+      .sidebar-user {
+        padding: 24px;
+        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: rgba(255, 255, 255, 0.8);
+        flex-shrink: 0;
+      }
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .user-info h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .user-info p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin: 0;
+      }
+
+      .sidebar-menu {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        overflow-y: auto;
+        min-height: 0;
+      }
+
+      .sidebar-menu::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .sidebar-menu::-webkit-scrollbar-track {
+        background: rgba(139, 92, 246, 0.05);
+        border-radius: 3px;
+      }
+
+      .sidebar-menu::-webkit-scrollbar-thumb {
+        background: rgba(139, 92, 246, 0.2);
+        border-radius: 3px;
+      }
+
+      .sidebar-menu::-webkit-scrollbar-thumb:hover {
+        background: rgba(139, 92, 246, 0.3);
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition-smooth);
+        cursor: pointer;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        white-space: nowrap;
+      }
+
+      .menu-item:hover {
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--primary-color);
+        border-color: rgba(139, 92, 246, 0.2);
+        transform: translateX(4px);
+      }
+
+      .menu-item.active {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        box-shadow: var(--shadow-soft);
+        border-color: transparent;
+      }
+
+      .main-content {
+        flex: 1;
+        margin-left: 400px;
+        padding: 32px;
+        overflow-y: auto;
+        min-height: 100vh;
+        gap: 48px;
+      }
+
+      .content-section {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.9)
+        );
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        margin-bottom: 32px;
+      }
+
+      .content-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      .content-section p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        text-align: center;
+      }
+
+      .notifications-list {
         max-width: 800px;
         margin: 0 auto;
-    }
+      }
 
-    .notification-card {
+      .notification-card {
         background: white;
         border-radius: 15px;
         padding: 20px;
@@ -72,24 +253,24 @@
         gap: 15px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         transition: transform 0.2s, box-shadow 0.2s;
-    }
+      }
 
-    .notification-card:hover {
+      .notification-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
+      }
 
-    .notification-card.unread {
+      .notification-card.unread {
         background: #f8f9fa;
         border-left: 4px solid #5a5a99;
-    }
+      }
 
-    .notification-card.important {
+      .notification-card.important {
         background: #fff3cd;
         border-left: 4px solid #ffc107;
-    }
+      }
 
-    .notification-icon {
+      .notification-icon {
         background: #f8f9fa;
         width: 50px;
         height: 50px;
@@ -97,177 +278,364 @@
         display: flex;
         align-items: center;
         justify-content: center;
-    }
+      }
 
-    .notification-icon i {
+      .notification-icon i {
         font-size: 24px;
         color: #5a5a99;
-    }
+      }
 
-    .notification-content {
+      .notification-content {
         flex: 1;
-    }
+      }
 
-    .notification-content h5 {
+      .notification-content h5 {
         margin: 0 0 5px 0;
         color: #333;
-    }
+      }
 
-    .notification-content p {
+      .notification-content p {
         margin: 0 0 5px 0;
         color: #666;
-    }
+      }
 
-    .notification-content small {
+      .notification-content small {
         font-size: 0.85rem;
-    }
+      }
 
-    /* Dark Mode Styles */
-    body.dark-mode {
-      background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
-      color: #f1f1f1 !important;
-    }
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .main-content {
-      background: #232526 !important;
-      color: #f1f1f1 !important;
-    }
+      body.dark-mode .main-content {
+        background: #232526 !important;
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .page-title {
-      color: #f1f1f1 !important;
-    }
+      body.dark-mode .page-title {
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .page-subtitle {
-      color: #b0b0b0 !important;
-    }
+      body.dark-mode .page-subtitle {
+        color: #b0b0b0 !important;
+      }
 
-    body.dark-mode .sidebar-container {
-      background: rgba(35, 35, 35, 0.95) !important;
-      color: #f1f1f1 !important;
-    }
+      body.dark-mode .sidebar-container {
+        background: rgba(35, 35, 35, 0.95) !important;
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .sidebar-header {
-      background: rgba(45, 45, 45, 0.8) !important;
-      border-bottom-color: #555 !important;
-    }
+      body.dark-mode .sidebar-header {
+        background: rgba(45, 45, 45, 0.8) !important;
+        border-bottom-color: #555 !important;
+      }
 
-    body.dark-mode .sidebar-nav a {
-      color: #b0b0b0 !important;
-      background: #333 !important;
-    }
+      body.dark-mode .sidebar-nav a {
+        color: #b0b0b0 !important;
+        background: #333 !important;
+      }
 
-    body.dark-mode .sidebar-nav a:hover {
-      color: #f1f1f1 !important;
-      background: #555 !important;
-    }
+      body.dark-mode .sidebar-nav a:hover {
+        color: #f1f1f1 !important;
+        background: #555 !important;
+      }
 
-    body.dark-mode .sidebar-nav a.active {
-      color: #f1f1f1 !important;
-      background: #6a4c9c !important;
-    }
+      body.dark-mode .sidebar-nav a.active {
+        color: #f1f1f1 !important;
+        background: #6a4c9c !important;
+      }
 
-    body.dark-mode .sidebar-user {
-      background: rgba(45, 45, 45, 0.8) !important;
-      border-bottom-color: #555 !important;
-    }
+      body.dark-mode .sidebar-user {
+        background: rgba(45, 45, 45, 0.8) !important;
+        border-bottom-color: #555 !important;
+      }
 
-    body.dark-mode .user-info h3 {
-      color: #f1f1f1 !important;
-    }
+      body.dark-mode .user-info h3 {
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .user-info p {
-      color: #b0b0b0 !important;
-    }
+      body.dark-mode .user-info p {
+        color: #b0b0b0 !important;
+      }
 
-    body.dark-mode .sidebar-title-text {
-      color: #8c73b8 !important;
-    }
+      body.dark-mode .content-section {
+        background: rgba(45, 45, 45, 0.95) !important;
+        border-color: #555 !important;
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .sidebar-task-item {
-      background: rgba(139, 92, 246, 0.2) !important;
-      color: #f1f1f1 !important;
-      border-color: #555 !important;
-    }
+      body.dark-mode .notification-card {
+        background: linear-gradient(160deg, rgba(45, 45, 45, 0.98) 0%, rgba(35, 35, 35, 0.92) 100%) !important;
+        border-color: #555 !important;
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .sidebar-task-item:hover {
-      background: rgba(139, 92, 246, 0.3) !important;
-      border-color: #8c73b8 !important;
-    }
+      body.dark-mode .notification-card:hover {
+        border-color: #6a4c9c !important;
+      }
 
-    body.dark-mode .notifications-container {
-      background: rgba(45, 45, 45, 0.95) !important;
-      border-color: #555 !important;
-      color: #f1f1f1 !important;
-    }
+      body.dark-mode .notification-content h5 {
+        color: #f1f1f1 !important;
+      }
 
-    body.dark-mode .notification-card {
-      background: linear-gradient(160deg, rgba(45, 45, 45, 0.98) 0%, rgba(35, 35, 35, 0.92) 100%) !important;
-      border-color: #555 !important;
-      color: #f1f1f1 !important;
-    }
+      body.dark-mode .notification-content p {
+        color: #b0b0b0 !important;
+      }
 
-    body.dark-mode .notification-card:hover {
-      border-color: #6a4c9c !important;
-    }
+      body.dark-mode .notification-content small {
+        color: #888 !important;
+      }
 
-    body.dark-mode .notification-title {
-      color: #f1f1f1 !important;
-    }
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .main-content {
+          margin-left: 320px;
+          padding-left: 32px;
+          padding-right: 32px;
+        }
 
-    body.dark-mode .notification-message {
-      color: #b0b0b0 !important;
-    }
+        .sidebar-container {
+          width: 320px !important;
+          min-width: 320px !important;
+        }
 
-    body.dark-mode .notification-time {
-      color: #888 !important;
-    }
+        .content-section {
+          padding: 40px 32px;
+        }
+      }
 
-    body.dark-mode .hamburger {
-      background: #333 !important;
-      border-color: #555 !important;
-    }
+      @media (max-width: 768px) {
+        .main-content {
+          margin-left: 0;
+          padding: 24px 16px;
+        }
 
-    body.dark-mode .hamburger span {
-      background: #f1f1f1 !important;
-    }
+        .sidebar-container {
+          position: fixed;
+          left: -100%;
+          top: 0;
+          height: 100vh;
+          width: 100%;
+          z-index: 1000;
+          transition: left 0.3s ease;
+        }
 
-    body.dark-mode input,
-    body.dark-mode textarea,
-    body.dark-mode select {
-      background: #333 !important;
-      color: #f1f1f1 !important;
-      border-color: #555 !important;
-    }
+        .sidebar-container.active {
+          left: 0;
+        }
 
-    body.dark-mode .card,
-    body.dark-mode .box,
-    body.dark-mode .panel {
-      background: #2c2c2c !important;
-      color: #f1f1f1 !important;
-      border-color: #444 !important;
-    }
+        .content-section {
+          padding: 24px 16px;
+          margin-bottom: 24px;
+        }
 
-    body.dark-mode a {
-      color: #8c73b8 !important;
-    }
+        .content-section h2 {
+          font-size: 1.8rem;
+        }
 
-    body.dark-mode .btn {
-      background: #6a4c9c !important;
-      color: #f1f1f1 !important;
-    }
-</style>
+        .notification-card {
+          padding: 20px;
+          margin-bottom: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% csrf_token %}
 
-<script>
-function applyThemeFromStorage() {
-  const theme = localStorage.getItem('themeMode') || 'light';
-  if(theme === 'dark') {
-    document.body.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-  }
-}
-document.addEventListener('DOMContentLoaded', function() {
-  applyThemeFromStorage();
-});
-</script>
-{% endblock %} 
+    <!-- Sidebar -->
+    <div class="sidebar-container" id="sidebarContainer">
+      <!-- Header with Logo and Navigation -->
+      <div class="sidebar-header">
+        <img
+          src="{% static 'iyihisset.png' %}"
+          alt="Logo"
+          class="sidebar-logo"
+        />
+        <div class="sidebar-nav">
+          <a href="{% url 'anasayfa' %}" data-translate="Home">{% trans "Ana Sayfa" %}</a>
+          <a href="{% url 'dashboard' %}" data-translate="Feel Good">{% trans "İyi Hisset" %}</a>
+          <a href="{% url 'profile-management' %}" data-translate="Profile Management">{% trans "Profil Yönetimi" %}</a>
+        </div>
+      </div>
+
+      <!-- User Info -->
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img src="{{profilePic.profile_pic.url}}" alt="" />
+        </div>
+        <div class="user-info">
+          <h3>{{ user.username.title }}</h3>
+          <p>{{ user.email }}</p>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <div class="sidebar-menu">
+        <a href="{% url 'anasayfa' %}" class="menu-item" data-translate="Home">
+          <span class="material-symbols-outlined">home</span>
+          <span>{% trans "Ana Sayfa" %}</span>
+        </a>
+        <a href="{% url 'dashboard' %}" class="menu-item" data-translate="Feel Good">
+          <span class="material-symbols-outlined">psychology</span>
+          <span>{% trans "İyi Hisset" %}</span>
+        </a>
+        <a href="{% url 'gunluk-kartlar' %}" class="menu-item" data-translate="Daily Cards">
+          <span class="material-symbols-outlined">calendar_today</span>
+          <span>{% trans "Günlük Kartlar" %}</span>
+        </a>
+        <a href="{% url 'destek-duvari' %}" class="menu-item" data-translate="Support Wall">
+          <span class="material-symbols-outlined">forum</span>
+          <span>{% trans "Destek Duvarı" %}</span>
+        </a>
+        <a href="{% url 'nefes-egzersizi' %}" class="menu-item" data-translate="Breathing Exercise">
+          <span class="material-symbols-outlined">air</span>
+          <span>{% trans "Nefes Egzersizi" %}</span>
+        </a>
+        <a href="{% url 'meditasyon' %}" class="menu-item" data-translate="Meditation">
+          <span class="material-symbols-outlined">self_improvement</span>
+          <span>{% trans "Meditasyon" %}</span>
+        </a>
+        <a href="{% url 'acil-destek' %}" class="menu-item" data-translate="Emergency Support">
+          <span class="material-symbols-outlined">emergency</span>
+          <span>{% trans "Acil Destek" %}</span>
+        </a>
+        <a href="{% url 'haftalik-raporlar' %}" class="menu-item" data-translate="Weekly Reports">
+          <span class="material-symbols-outlined">bar_chart</span>
+          <span>{% trans "Haftalık Raporlar" %}</span>
+        </a>
+        <a href="{% url 'bildirimler' %}" class="menu-item active" data-translate="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+          <span>{% trans "Bildirimler" %}</span>
+        </a>
+        <a href="{% url 'my-login' %}" class="menu-item">
+          <span class="material-symbols-outlined">logout</span>
+          <span data-translate="Log Out">{% trans "Çıkış Yap" %}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-section">
+        <h2 data-translate="Notifications">{% trans "Bildirimler" %}</h2>
+        <p data-translate="Stay updated with your latest activities and important information.">
+          {% trans "En son aktiviteleriniz ve önemli bilgilerle güncel kalın." %}
+        </p>
+        
+        <div class="notifications-list">
+          <!-- Okunmamış Bildirim -->
+          <div class="notification-card unread">
+            <div class="notification-icon">
+              <i class="material-symbols-outlined">task_alt</i>
+            </div>
+            <div class="notification-content">
+              <h5>{% trans "Günlük Görevleriniz Hazır!" %}</h5>
+              <p>{% trans "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!" %}</p>
+              <small class="text-muted">{% trans "5 dakika önce" %}</small>
+            </div>
+          </div>
+
+          <!-- Okunmuş Bildirim -->
+          <div class="notification-card">
+            <div class="notification-icon">
+              <i class="material-symbols-outlined">mood</i>
+            </div>
+            <div class="notification-content">
+              <h5>{% trans "Tebrikler!" %}</h5>
+              <p>{% trans "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız." %}</p>
+              <small class="text-muted">{% trans "2 saat önce" %}</small>
+            </div>
+          </div>
+
+          <!-- Önemli Bildirim -->
+          <div class="notification-card important">
+            <div class="notification-icon">
+              <i class="material-symbols-outlined">psychology</i>
+            </div>
+            <div class="notification-content">
+              <h5>{% trans "Yeni İçerik" %}</h5>
+              <p>{% trans "Stres yönetimi için yeni bir nefes egzersizi eklendi." %}</p>
+              <small class="text-muted">{% trans "Dün" %}</small>
+            </div>
+          </div>
+
+          <!-- Destek Bildirimi -->
+          <div class="notification-card">
+            <div class="notification-icon">
+              <i class="material-symbols-outlined">forum</i>
+            </div>
+            <div class="notification-content">
+              <h5>{% trans "Destek Mesajınız" %}</h5>
+              <p>{% trans "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi." %}</p>
+              <small class="text-muted">{% trans "2 gün önce" %}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bildirimler Include -->
+    {% include 'articles/includes/notifications.html' %}
+
+    <!-- Scripts -->
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
+    <script>
+
+
+      const observer = new MutationObserver(() => {
+        if (window.innerWidth <= 991) {
+          if (sidebarContainer.classList.contains("active")) {
+            document.body.style.overflow = "hidden";
+          } else {
+            document.body.style.overflow = "";
+          }
+        }
+      });
+      observer.observe(sidebarContainer, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+
+      // Initialize language system
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initializeLanguage === "function") {
+          initializeLanguage();
+        }
+      });
+
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if(theme === 'dark') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        applyThemeFromStorage();
+      });
+    </script>
+    <script>
+      function redirectIfSmallScreen() {
+        if (
+          window.innerWidth < 1300 &&
+          !window.location.pathname.includes("responsive.html")
+        ) {
+          localStorage.setItem(
+            "lastPage",
+            window.location.pathname + window.location.search
+          );
+          window.location.href = "{% url 'responsive' %}";
+        }
+      }
+      redirectIfSmallScreen();
+      window.addEventListener("resize", redirectIfSmallScreen);
+    </script>
+  </body>
+</html> 
