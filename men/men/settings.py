@@ -159,3 +159,11 @@ LANGUAGE_COOKIE_SAMESITE = 'Lax'
 
 # Dil tercihinin nasıl çözüleceği
 LANGUAGE_SESSION_KEY = 'django_language'
+
+# Authentication ayarları
+LOGIN_URL = '/my-login/'
+LOGOUT_REDIRECT_URL = '/my-login/'
+
+# Session ayarları
+SESSION_COOKIE_AGE = 1800  # 30 dakika
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Tarayıcı kapandığında session'ı sonlandır

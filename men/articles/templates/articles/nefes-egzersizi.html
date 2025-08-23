@@ -168,6 +168,24 @@
         transition: opacity 0.3s ease, transform 0.3s ease;
         min-height: 40px; /* Yükseklik sabitleme */
       }
+      
+      .motivational-message {
+        font-size: 1.4rem;
+        font-weight: 600;
+        font-family: "Inter", sans-serif;
+        color: var(--accent-color);
+        margin: 20px 0;
+        text-align: center;
+        min-height: 30px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.5s ease;
+      }
+      
+      .motivational-message.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
       /* Start/Stop Buttons */
       .breathing-controls {
@@ -481,30 +499,19 @@
         border-color: #444 !important;
       }
 
-      .sidebar-block .sidebar-title {
+      .sidebar-block.sidebar-title {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
-        height: auto;
-        min-height: 120px;
-        flex: 1 1 auto;
-        margin-bottom: 0;
         padding: 24px;
-        display: flex;
-        overflow-y: auto;
-        min-height: 0;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.9),
-          rgba(255, 255, 255, 0.7)
-        );
-        height: 100vh;
-      }
-      .sidebar-block.sidebar-title {
+        margin-bottom: 0;
+        flex: 1 1 auto;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
         height: 100vh;
         max-height: 100vh;
         overflow-y: auto;
-        overflow-x: hidden; /* yatay taşmayı da engellemek için */
+        overflow-x: hidden;
       }
 
       .sidebar-title-text {
@@ -535,6 +542,7 @@
         flex-direction: column;
         gap: 12px;
         width: 100%;
+        min-height: 0;
       }
       .sidebar-task-item {
         background: rgba(139, 92, 246, 0.1);
@@ -575,9 +583,12 @@
         left: 100%;
       }
       .sidebar-container {
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
+        width: 400px;
+        min-width: 400px;
+        max-width: 400px;
+        flex-shrink: 0;
+        z-index: 2;
+        background: #fff;
       }
       .sidebar-menu {
         flex: 1 1 auto;
@@ -596,10 +607,7 @@
         border-color: #333 !important;
       }
 
-      body.dark-mode .sidebar-header {
-        background: #2a2a2a !important;
-        border-color: #333 !important;
-      }
+      
 
       body.dark-mode .sidebar-nav a {
         background: #333 !important;
@@ -617,7 +625,7 @@
       }
 
       body.dark-mode .sidebar-user {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #333 !important;
       }
 
@@ -625,9 +633,14 @@
         color: #e0e0e0 !important;
       }
 
-      body.dark-mode .user-info p {
-        color: #b0b0b0 !important;
-      }
+              body.dark-mode .user-info p {
+          color: #b0b0b0 !important;
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
+        }
 
       body.dark-mode .sidebar-task-item {
         background: #333 !important;
@@ -693,7 +706,7 @@
       }
       body.dark-mode .sidebar-block.sidebar-title,
       body.iyi-dark .sidebar-block.sidebar-title {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         color: #eee !important;
         border-color: #25213d !important;
       }
@@ -704,6 +717,11 @@
       }
 
       @media (max-width: 991px) {
+        .sidebar-container {
+          width: 100vw;
+          min-width: 0;
+          max-width: 100vw;
+        }
         .main-content {
           margin-left: 0;
           padding-top: 80px;
@@ -832,12 +850,43 @@
       }
 
       .dashboard-user-avatar {
-        border: 2.5px solid #e2e8f0;
+        
       }
 
       .user-avatar img {
-        border: 2.5px solid #e2e8f0 !important;
+        
       }
+      /* Dark Mode — meditasyon ile aynı (override) */
+      body.dark-mode { background: #181818 !important; color: #e0e0e0 !important; }
+      body.dark-mode .main-content { background: #232323 !important; color: #e0e0e0 !important; }
+      body.dark-mode .page-title { color: #e0e0e0 !important; }
+      body.dark-mode .page-subtitle { color: #b0b0b0 !important; }
+      body.dark-mode .sidebar-container { background: #1a1a1a !important; border-color: #333 !important; }
+      body.dark-mode .sidebar-header { background: #181818 !important; border-color: #333 !important; }
+      body.dark-mode .sidebar-nav a { background: #333 !important; color: #e0e0e0 !important; }
+      body.dark-mode .sidebar-nav a:hover { background: #4a4a4a !important; color: #fff !important; }
+      body.dark-mode .sidebar-nav a.active { background: var(--primary-color) !important; color: #fff !important; }
+      body.dark-mode .sidebar-block.sidebar-title { background: #181818 !important; color: #f8f8ff !important; border-color: #29293a !important; }
+      body.dark-mode .sidebar-block.sidebar-title * { color: #f8f8ff !important; }
+      body.dark-mode .sidebar-user { background: #181818 !important; border-color: #333 !important; }
+      body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
+              body.dark-mode .user-info p { 
+          color: #b0b0b0 !important; 
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
+        }
+      body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
+      body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
+      body.dark-mode .sidebar-title-text { color: var(--primary-color) !important; }
+      body.dark-mode .menu-item { color: #e0e0e0 !important; }
+      body.dark-mode .menu-item:hover { background: #333 !important; color: var(--primary-color) !important; }
+      body.dark-mode .menu-item.active { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #fff !important; }
+
+      /* Ensure dark mode main content background */
+      body.dark-mode .main-content { background: #23232354 !important; }
     </style>
   </head>
   <body>
@@ -860,13 +909,7 @@
         </div>
       </div>
       <div class="sidebar-menu">
-        <div class="sidebar-block sidebar-title">
-          <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
-          <div class="sidebar-tasks">
-            <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-            <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
-          </div>
-        </div>
+        {% include 'articles/gorevlerim.html' %}
       </div>
     </div>
 
@@ -920,6 +963,8 @@
         </div>
 
         <div class="breathing-text-display" id="breathingText">{% trans "Hazır" %}</div>
+        
+        <div class="motivational-message" id="motivationalMessage"></div>
 
         <div class="breathing-controls">
           <button class="breathing-btn" id="startBtn">{% trans "Başla" %}</button>
@@ -931,20 +976,7 @@
       </div>
     </main>
 
-    <!-- BİLDİRİM ÇANI VE POPUP -->
-    <button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
-      <span class="material-symbols-outlined">notifications</span>
-    </button>
-    <div class="notification-popup" id="notificationPopup">
-      <div class="popup-title">{% trans "Bildirimler" %}</div>
-      <ul class="notification-list">
-        <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-        <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-        <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-        <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-        <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-      </ul>
-    </div>
+    {% include 'articles/includes/notifications.html' %}
 
     <!-- JS DOSYALARI -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -973,6 +1005,24 @@
         { name: "{% trans 'Tut' %}", path: pathHold, duration: 7000 },
         { name: "{% trans 'Nefes Ver' %}", path: pathExhale, duration: 8000 },
       ];
+      
+      // Motive edici cümleler
+      const motivationalMessages = {
+        tr: [
+          "{% trans 'Great! You completed the breathing exercise!' %}",
+          "{% trans 'Perfect! You took good care of yourself!' %}",
+          "{% trans 'Super! You should feel relaxed!' %}",
+          "{% trans 'Well done! You made time for yourself today!' %}",
+          "{% trans 'Excellent! Your breath control is improving!' %}"
+        ],
+        en: [
+          "Great! You completed the breathing exercise!",
+          "Perfect! You took good care of yourself!",
+          "Super! You should feel relaxed!",
+          "Well done! You made time for yourself today!",
+          "Excellent! Your breath control is improving!"
+        ]
+      };
       let phasePaths = [];
       function updateDurationsFromInputs() {
         const inhale = parseInt(document.getElementById("inhaleDuration")?.value) || 4;
@@ -1020,6 +1070,23 @@
           cycleCounterElement.style.display = show ? "block" : "none";
         }
       }
+      
+      function showMotivationalMessage() {
+        const messageElement = document.getElementById("motivationalMessage");
+        if (!messageElement) return;
+        
+        const currentLang = localStorage.getItem('selectedLanguage') || 'tr';
+        const messages = motivationalMessages[currentLang] || motivationalMessages.tr;
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        
+        messageElement.textContent = randomMessage;
+        messageElement.classList.add('show');
+        
+        // 5 saniye sonra mesajı gizle
+        setTimeout(() => {
+          messageElement.classList.remove('show');
+        }, 5000);
+      }
       function updateBreathingText(text, isReady = false) {
         breathingText.textContent = text;
         breathingText.style.color = isReady ? "var(--primary-color)" : "var(--accent-color)";
@@ -1047,6 +1114,11 @@
         highlightCurrentPhase(-1);
         setBallPositionOnPath(phaseDefs[0].path, 0);
         updateBreathingText("{% trans 'Hazır' %}", true);
+        
+        // Egzersiz bittiğinde motive edici cümle göster
+        if (cycleCurrent >= cycleTotal) {
+          showMotivationalMessage();
+        }
       }
       function animatePhase() {
         if (!isRunning) return;
@@ -1231,26 +1303,7 @@
       }
       redirectIfSmallScreen();
       window.addEventListener("resize", redirectIfSmallScreen);
-      // ---- BİLDİRİM POPUP ----
-      document.addEventListener('DOMContentLoaded', function() {
-        var bell = document.getElementById('notificationBell');
-        var popup = document.getElementById('notificationPopup');
-        if(bell && popup) {
-          bell.addEventListener('click', function(e) {
-            e.stopPropagation();
-            popup.classList.toggle('active');
-          });
-          document.addEventListener('click', function(e) {
-            if (
-              popup.classList.contains('active') &&
-              !popup.contains(e.target) &&
-              e.target !== bell
-            ) {
-              popup.classList.remove('active');
-            }
-          });
-        }
-      });
+      // Bildirim popup davranışı ortak include içinde
       // ---- DİL DEĞİŞTİRME SİSTEMİ ----
       function applyLanguage(lang) {
         localStorage.setItem('selectedLanguage', lang);
@@ -1267,6 +1320,6 @@
         if(langEnBtn) langEnBtn.onclick = function() { applyLanguage('en'); };
       });
     </script>
-    {% include 'articles/includes/notifications.html' %}
+    
   </body>
 </html>

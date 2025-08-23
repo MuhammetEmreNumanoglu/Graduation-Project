@@ -60,7 +60,11 @@ const translations = {
         "Feel Good": "İyi Hisset",
         "My Profile": "Profilim",
         "Log Out": "Çıkış Yap",
-        "Profil Yönetimi": "Profil Yönetimi",
+        "Profil Yönetimi": "Profile Management",
+        "Profile Management": "Profil Yönetimi",
+        "Help": "Yardım",
+        "Welcome": "Hoşgeldin",
+        "Hoş geldin!": "Welcome",
 
         // Dil ve tema değiştirme popup'ları
         "Language": "Dil",
@@ -98,6 +102,18 @@ const translations = {
         "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!": "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!",
         "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?": "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?",
         "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş": "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş",
+        // EN -> TR yansımaları (sunucu EN döndürdüğünde TR'ye çevirmek için)
+        "Emergency Support": "Acil Destek",
+        "Safe support system you can reach immediately when you need it": "İhtiyacınız olduğunda hemen ulaşabileceğiniz güvenli destek sistemi",
+        "Click the button to send an emergency message": "Acil durum mesajı göndermek için butona tıklayın",
+        "CALL ME NOW, I'M IN CRISIS!!!": "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!",
+        "I don't feel well right now, can you contact me?": "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?",
+        "I'm not well — please contact me if I don't respond in 10 minutes": "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş",
+        // Acil Destek toast metinleri (TR)
+        "Message Sent": "Mesaj Gönderildi",
+        "Your emergency message has been sent successfully. We will contact you as soon as possible.": "Acil durum mesajınız başarıyla gönderildi. En kısa sürede sizinle iletişime geçeceğiz.",
+        "No Message Selected": "Mesaj Seçilmedi",
+        "Please select a message first.": "Lütfen önce bir mesaj seçin.",
 
         // Dashboard sayfası çevirileri
         "Hoşgeldiniz": "Hoşgeldiniz",
@@ -131,6 +147,7 @@ const translations = {
         "İyi Hisset - Yardım Merkezi": "İyi Hisset - Yardım Merkezi",
         "Help Center - Feel Good": "Yardım Merkezi - İyi Hisset",
         "Help Center": "Yardım Merkezi",
+        "Help": "Yardım",
         "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.": "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır.",
         "Project Overview": "Projeye Genel Bakış",
         "Main Features": "Ana Özellikler",
@@ -210,6 +227,8 @@ const translations = {
         "Large": "Large",
         "Very Large": "Very Large",
         "Help Center": "Help Center",
+        "Yardım": "Help",
+        "Help": "Help",
         "Find answers to common questions and get support when you need it.": "Find answers to common questions and get support when you need it.",
         "Frequently Asked Questions": "Frequently Asked Questions",
         "How can I change my password?": "How can I change my password?",
@@ -233,6 +252,10 @@ const translations = {
         "My Profile": "My Profile",
         "Log Out": "Log Out",
         "Profil Yönetimi": "Profile Management",
+        "Profile Management": "Profile Management",
+        "Help": "Help",
+        "Hoş geldin": "Welcome",
+        "Hoş geldin!": "Welcome!",
 
         // Dil ve tema değiştirme popup'ları
         "Language": "Language",
@@ -270,6 +293,11 @@ const translations = {
         "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!": "CALL ME URGENTLY I'M HAVING A CRISIS !!!",
         "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?": "I'm not feeling well right now, can you reach out to me?",
         "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş": "I'm not feeling well — please check on me if I don't respond in 10 minutes",
+        // Acil Destek toast metinleri (EN)
+        "Message Sent": "Message Sent",
+        "Your emergency message has been sent successfully. We will contact you as soon as possible.": "Your emergency message has been sent successfully. We will contact you as soon as possible.",
+        "No Message Selected": "No Message Selected",
+        "Please select a message first.": "Please select a message first.",
 
         // Dashboard sayfası çevirileri
         "Hoşgeldiniz": "Welcome",
@@ -304,6 +332,10 @@ const translations = {
         "Focus on success": "Focus on success",
         "Notifications": "Notifications",
         "Welcome! Today is a great day.": "Welcome! Today is a great day.",
+        "Hoş geldin! Bugün harika bir gün.": "Welcome! Today is a great day.",
+        "Hoşgeldiniz": "Welcome",
+        "Hoş geldin": "Welcome",
+        "Hoş geldin!": "Welcome!",
         "A new breathing exercise has been added.": "A new breathing exercise has been added.",
         "Don't forget your daily reflection!": "Don't forget your daily reflection!",
         "A friend left a message on the support wall.": "A friend left a message on the support wall.",

@@ -25,13 +25,13 @@
     top: 32px;
     right: 48px;
     z-index: 1200;
-    background: linear-gradient(135deg, #a084e8 0%, #6c3eb4 100%);
+    background: linear-gradient(135deg, #a084e8 0%, #6c3eb4 100%) !important;
     border-radius: 50%;
     padding: 12px;
     border: none;
     cursor: pointer;
     font-size: 2.2rem;
-    color: #fff;
+    color: #fff !important;
     box-shadow: 0 4px 16px rgba(139, 92, 246, 0.13);
     transition: color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.18s;
     display: flex;
@@ -41,6 +41,16 @@
   
   .notification-bell:hover {
     transform: scale(1.08);
+  }
+  /* Dark mode bell style (anasayfa ile aynı) */
+  body.dark-mode .notification-bell {
+    background: linear-gradient(135deg, #6c3eb4 0%, #3a2a5d 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 32px rgba(80, 60, 120, 0.32) !important;
+  }
+  body.dark-mode .notification-bell:hover {
+    background: linear-gradient(135deg, #6c3eb4 0%, #3a2a5d 100%) !important;
+    color: #fff !important;
   }
   
   .notification-popup {

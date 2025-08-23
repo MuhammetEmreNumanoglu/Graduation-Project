@@ -181,35 +181,17 @@
             margin: 0;
         }
 
-        /* Sidebar Container */
+        /* Sidebar Container (anasayfa ile aynı) */
         .sidebar-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-soft);
-            display: flex;
-            flex-direction: column;
-            transition: var(--transition-smooth);
-            z-index: 1000;
-            border-radius: 0 20px 20px 0;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            overflow: hidden;
-            min-width: 280px;
             width: 400px;
+            min-width: 400px;
+            max-width: 400px;
+            flex-shrink: 0;
+            z-index: 2;
+            background: #fff;
         }
 
-        .sidebar-header {
-            padding: 24px;
-            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 0 20px 0 0;
-            flex-shrink: 0;
-        }
+        
 
         .sidebar-logo {
             width: 48px;
@@ -280,7 +262,6 @@
             object-fit: cover !important;
             border-radius: 50% !important;
             display: block;
-            border: 2.5px solid #e2e8f0 !important;
         }
 
         .user-info h3 {
@@ -332,11 +313,15 @@
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            transition: var(--transition-smooth);
+            /* Sadece boya/ışık değişimlerini animasyonla; layout değişmesin */
+            transition: background-color .25s ease, color .25s ease, box-shadow .25s ease, border-color .25s ease;
             cursor: pointer;
             border-radius: 12px;
-            border: 1px solid transparent;
+            border: 1px solid transparent; /* genişlik sabit kalsın */
+            border-width: 1px;
             white-space: nowrap;
+            position: relative;
+            min-height: 48px; /* yükseklik sabit, dikey kayma olmasın */
         }
 
         .menu-item:hover {
@@ -366,13 +351,15 @@
         /* Main Content */
         .main-content {
             flex: 1;
-            margin-left: 320px;
+            margin-left: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: var(--transition-smooth);
             padding: 48px 24px 24px 24px;
             overflow-y: auto;
+            min-width: 0;
+            max-width: calc(100vw - 400px);
         }
 
         .help-content {
@@ -384,7 +371,7 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 32px;
-            margin-bottom: 24px;
+            margin-bottom: 40px;
             box-shadow: var(--shadow-soft);
             border: 1px solid rgba(139, 92, 246, 0.1);
             transition: var(--transition-smooth);
@@ -531,45 +518,28 @@
             color: var(--text-primary);
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        }
+
+        #project-overview{
+            margin-top: 140px;
         }
 
         /* Responsive Design */
         @media (max-width: 991px) {
-            body {
-                flex-direction: column;
-            }
-            
-            .sidebar-container {
-                position: fixed;
-                left: -100vw;
-                top: 0;
-                z-index: 1040;
-                background: rgba(255,255,255,0.97);
-                height: 100vh;
-                min-width: 0;
+            body { flex-direction: column; }
+            .sidebar-container { width: 100vw; min-width: 0; max-width: 100vw; }
+            .main-content { 
+                margin-left: 0; 
+                padding: 24px 8px; 
                 max-width: 100vw;
-                width: 100vw;
-                padding: 0;
-                display: flex;
-                flex-direction: column;
-                box-shadow: 0 2px 16px rgba(140, 82, 255, 0.13);
-                transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
             }
-            
-            .sidebar-container.active {
-                left: 0;
-            }
-            
+        }
+        
+        @media (min-width: 1700px) {
             .main-content {
-                margin-left: 0;
-                padding: 24px 8px;
+                max-width: calc(100vw - 400px);
+                min-width: 800px;
             }
-            
-
         }
 
         @media (max-width: 600px) {
@@ -630,10 +600,7 @@
           border-color: #333 !important;
         }
 
-        body.dark-mode .sidebar-header {
-          background: #2a2a2a !important;
-          border-color: #333 !important;
-        }
+        
 
         body.dark-mode .sidebar-nav a {
           background: #333 !important;
@@ -651,7 +618,7 @@
         }
 
         body.dark-mode .sidebar-user {
-          background: #2a2a2a !important;
+          background: #181818 !important;
           border-color: #333 !important;
         }
 
@@ -661,6 +628,11 @@
 
         body.dark-mode .user-info p {
           color: #b0b0b0 !important;
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
         }
 
         body.dark-mode .menu-item {
@@ -694,13 +666,12 @@
         }
 
         body.dark-mode .help-content {
-          background: #2a2a2a !important;
           border-color: #444 !important;
           color: #e0e0e0 !important;
         }
 
         body.dark-mode .help-section {
-          background: #2a2a2a !important;
+          background: #181818 !important;
           border-color: #444 !important;
           color: #e0e0e0 !important;
         }
@@ -729,6 +700,26 @@
           color: #b0b0b0 !important;
         }
 
+        /* Dark mode: SSS kontrast iyileştirmeleri */
+        body.dark-mode .faq-item {
+          background: #262626 !important;
+          border-color: #3a3a3a !important;
+        }
+        body.dark-mode .faq-question {
+          background: #2f2f2f !important;
+          color: #e8e8e8 !important;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.25) !important;
+        }
+        body.dark-mode .faq-question:hover {
+          background: #3a3a3a !important;
+        }
+        body.dark-mode .faq-question .material-symbols-outlined {
+          color: #c084fc !important;
+        }
+        body.dark-mode .faq-answer p {
+          color: #d6d6d6 !important;
+        }
+
 
 
         body.dark-mode input,
@@ -742,7 +733,7 @@
         body.dark-mode .card,
         body.dark-mode .box,
         body.dark-mode .panel {
-          background: #2a2a2a !important;
+          background: #181818 !important;
           color: #e0e0e0 !important;
           border-color: #444 !important;
         }
@@ -901,8 +892,88 @@
         }
 
         .dashboard-user-avatar {
-            border: 2.5px solid #e2e8f0;
+            
         }
+        
+        /* Yardım Merkezi - data-translate bazlı renk (eski görünüm) */
+        .sidebar-menu .menu-item[data-translate="Help Center"] {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            color: #fff !important;
+            box-shadow: var(--shadow-soft);
+            border-color: transparent !important;
+        }
+        .sidebar-menu .menu-item[data-translate="Help Center"]:hover {
+            filter: brightness(1.02);
+        }
+        body.dark-mode .sidebar-menu .menu-item[data-translate="Help Center"] {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            color: #fff !important;
+            border-color: transparent !important;
+        }
+
+        /* Çıkış Yap - danger tonları */
+        .sidebar-menu .menu-item[data-translate="Log Out"] {
+            background: rgba(220, 38, 38, 0.08) !important;
+            color: #b91c1c !important;
+            border: 1px solid rgba(220, 38, 38, 0.15) !important;
+        }
+        .sidebar-menu .menu-item[data-translate="Log Out"]:hover {
+            background: rgba(220, 38, 38, 0.14) !important;
+            color: #991b1b !important;
+            border-color: rgba(220, 38, 38, 0.25) !important;
+        }
+        body.dark-mode .sidebar-menu .menu-item[data-translate="Log Out"] {
+            background: rgba(220, 38, 38, 0.12) !important;
+            color: #fca5a5 !important;
+            border-color: rgba(220, 38, 38, 0.25) !important;
+        }
+        body.dark-mode .sidebar-menu .menu-item[data-translate="Log Out"]:hover {
+            background: rgba(220, 38, 38, 0.2) !important;
+            color: #fecaca !important;
+            border-color: rgba(220, 38, 38, 0.35) !important;
+        }
+        
+        /* ScrollSpy aktif öğe: net görünür, kayma olmadan */
+        .sidebar-menu .menu-item.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            color: #fff !important;
+            border-color: transparent !important;
+            transform: none !important;
+            box-shadow: var(--shadow-soft) !important;
+        }
+        body.dark-mode .sidebar-menu .menu-item.active {
+            background: linear-gradient(135deg, rgba(108, 62, 180, 0.22), rgba(34, 34, 34, 0.92)) !important;
+            color: #e9e6ff !important;
+            border-color: rgba(136, 84, 208, 0.45) !important;
+            box-shadow: 0 6px 20px rgba(108, 62, 180, 0.25), inset 0 0 0 1px rgba(108, 62, 180, 0.25) !important;
+            transform: none !important;
+        }
+
+        body.dark-mode .sidebar-menu .menu-item.active::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #c084fc, #8b5cf6);
+            opacity: 0.95;
+        }
+
+        /* Dark mode: hover'da kayma olmasın */
+        body.dark-mode .sidebar-menu .menu-item:hover {
+            transform: none !important;
+        }
+
+        /* Sidebar background overrides */
+        body.dark-mode .sidebar-header,
+        body.dark-mode .sidebar-user,
+        body.dark-mode .sidebar-menu { background: #181818 !important; }
+
+        /* Ensure dark mode main content background */
+        body.dark-mode .main-content { background: #23232354 !important; }
     </style>
 </head>
 <body>
@@ -919,7 +990,7 @@
             <div class="sidebar-nav">
                 <a href="{% url 'anasayfa' %}" data-translate="Home">{% trans "Ana Sayfa" %}</a>
                 <a href="{% url 'dashboard' %}" data-translate="Feel Good">{% trans "İyi Hisset" %}</a>
-                <a href="#" class="active" data-translate="Help">{% trans "Yardım" %}</a>
+                <a href="{% url 'profile-management' %}" data-translate="Profile Management">{% trans "Profile Management" %}</a>
             </div>
         </div>
 
@@ -934,43 +1005,43 @@
         </div>
 
         <div class="sidebar-menu">
-            <a href="#project-overview" class="menu-item" data-translate="Project Overview" onclick="scrollToSection('project-overview')">
+            <a href="#" class="menu-item" data-translate="Project Overview" data-target="project-overview">
                 <span class="material-symbols-outlined">psychology</span>
                 {% trans "Projeye Genel Bakış" %}
             </a>
-            <a href="#main-features" class="menu-item" data-translate="Main Features" onclick="scrollToSection('main-features')">
+            <a href="#" class="menu-item" data-translate="Main Features" data-target="main-features">
                 <span class="material-symbols-outlined">star</span>
                 {% trans "Ana Özellikler" %}
             </a>
-            <a href="#emergency-support" class="menu-item" data-translate="Emergency Support System" onclick="scrollToSection('emergency-support')">
+            <a href="#" class="menu-item" data-translate="Emergency Support System" data-target="emergency-support">
                 <span class="material-symbols-outlined">emergency</span>
                 {% trans "Acil Destek Sistemi" %}
             </a>
-            <a href="#daily-cards" class="menu-item" data-translate="Daily Motivation Cards" onclick="scrollToSection('daily-cards')">
+            <a href="#" class="menu-item" data-translate="Daily Motivation Cards" data-target="daily-cards">
                 <span class="material-symbols-outlined">event_note</span>
                 {% trans "Günlük Motivasyon Kartları" %}
             </a>
-            <a href="#help-center" class="menu-item" data-translate="Support Wall" onclick="scrollToSection('help-center')">
+            <a href="#" class="menu-item" data-translate="Support Wall" data-target="help-center">
                 <span class="material-symbols-outlined">forum</span>
                 {% trans "Destek Duvarı" %}
             </a>
-            <a href="#weekly-reports" class="menu-item" data-translate="Weekly Reports" onclick="scrollToSection('weekly-reports')">
+            <a href="#" class="menu-item" data-translate="Weekly Reports" data-target="weekly-reports">
                 <span class="material-symbols-outlined">bar_chart</span>
                 {% trans "Haftalık Raporlar" %}
             </a>
-            <a href="#notification-system" class="menu-item" data-translate="Notification System" onclick="scrollToSection('notification-system')">
+            <a href="#" class="menu-item" data-translate="Notification System" data-target="notification-system">
                 <span class="material-symbols-outlined">notifications</span>
                 {% trans "Bildirim Sistemi" %}
             </a>
-            <a href="#account-management" class="menu-item" data-translate="Account Management" onclick="scrollToSection('account-management')">
+            <a href="#" class="menu-item" data-translate="Account Management" data-target="account-management">
                 <span class="material-symbols-outlined">account_circle</span>
                 {% trans "Hesap Yönetimi" %}
             </a>
-            <a href="#faq" class="menu-item" data-translate="Frequently Asked Questions" onclick="scrollToSection('faq')">
+            <a href="#" class="menu-item" data-translate="Frequently Asked Questions" data-target="faq">
                 <span class="material-symbols-outlined">help</span>
                 {% trans "Sıkça Sorulan Sorular" %}
             </a>
-            <a href="#" class="menu-item active" data-translate="Help Center">
+            <a href="#" class="menu-item" data-translate="Help Center">
                 <span class="material-symbols-outlined">help</span>
                 {% trans "Yardım Merkezi" %}
             </a>
@@ -1053,7 +1124,7 @@
                 </ul>
             </section>
 
-            <section id="faq" class="help-section">
+            <section id="faq" class="help-section" style="margin-bottom: 250px;">
                 <h2 data-translate="Frequently Asked Questions"><i class="material-symbols-outlined">help</i> {% trans "Sıkça Sorulan Sorular" %}</h2>
                 <div class="faq-container">
                     <div class="faq-item">
@@ -1110,19 +1181,7 @@
         </div>
     </main>
 
-    <button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
-      <span class="material-symbols-outlined">notifications</span>
-    </button>
-    <div class="notification-popup" id="notificationPopup">
-      <div class="popup-title">{% trans "Bildirimler" %}</div>
-      <ul class="notification-list">
-        <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-        <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-        <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-        <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-        <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-      </ul>
-    </div>
+    {% include 'articles/includes/notifications.html' %}
 
     <script src="{% static 'js/responsive-sidebar.js' %}"></script>
     <script src="{% static 'js/font-size-manager.js' %}"></script>
@@ -1174,15 +1233,37 @@
             }
         });
 
-        // Scroll to section function
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                
+        // Menü tıklamasında hedef bölüme kaydırma (anchor hizalı, jitter'sız)
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuContainer = document.querySelector('.sidebar-menu');
+            if (!menuContainer) return;
+            menuContainer.addEventListener('click', function(e){
+                const link = e.target.closest('a.menu-item[data-target]');
+                if (!link) return;
+                e.preventDefault();
+                const id = link.getAttribute('data-target');
+                const section = document.getElementById(id);
+                if (!section) return;
+
+                // ScrollSpy'ı geçici olarak kilitle
+                window.__spyLock = true;
+                try { clearTimeout(window.__spyUnlockTimer); } catch(_) {}
+
+                // Anında aktif geri bildirim
+                menuContainer.querySelectorAll('a.menu-item').forEach(el => el.classList.remove('active'));
+                link.classList.add('active');
+
+                // Hedefi ekran yüksekliğinin %35 çizgisine hizalayarak kaydır
+                const anchorY = Math.round(window.innerHeight * 0.35);
+                const rect = section.getBoundingClientRect();
+                const targetTop = Math.max(0, window.scrollY + rect.top - anchorY + 1);
+                window.scrollTo({ top: targetTop, behavior: 'smooth' });
+
+                // Kilidi kısa bir süre sonra kaldır (scroll davranışı tamamlanınca)
+                window.__spyUnlockTimer = setTimeout(function(){
+                    window.__spyLock = false;
+                }, 700);
+
                 // Mobile'da sidebar'ı kapat
                 if (window.innerWidth <= 991) {
                     const sidebarContainer = document.getElementById('sidebarContainer');
@@ -1190,8 +1271,8 @@
                     sidebarContainer.classList.remove('active');
                     hamburgerBtn.classList.remove('active');
                 }
-            }
-        }
+            });
+        });
     </script>
     <script>
         function redirectIfSmallScreen() {
@@ -1238,19 +1319,71 @@
         
         applyThemeFromStorage();
     </script>
+
     <script>
-    // Bildirim popup aç/kapat
-    const bell = document.getElementById('notificationBell');
-    const popup = document.getElementById('notificationPopup');
-    bell.addEventListener('click', function(e) {
-      e.stopPropagation();
-      popup.classList.toggle('active');
-    });
-    document.addEventListener('click', function(e) {
-      if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-        popup.classList.remove('active');
-      }
-    });
+        // ScrollSpy: Jitter'sız, rAF ile throttle edilen ve sabit bir anchor'a göre aktiflik
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuContainer = document.querySelector('.sidebar-menu');
+            if (!menuContainer) return;
+
+            const links = Array.from(menuContainer.querySelectorAll('a.menu-item[data-target]'));
+            const sections = links
+                .map(l => document.getElementById(l.getAttribute('data-target')))
+                .filter(Boolean);
+            const idToLink = new Map();
+            sections.forEach((sec, idx) => idToLink.set(sec.id, links[idx]));
+
+            let lastActiveId = null;
+            let ticking = false;
+
+            function setActive(id) {
+                if (!id || id === lastActiveId) return;
+                links.forEach(l => l.classList.remove('active'));
+                const link = idToLink.get(id);
+                if (link) link.classList.add('active');
+                lastActiveId = id;
+            }
+
+            function computeActive() {
+                if (window.__spyLock) return; // tıklama sonrası kilitliyken değişiklik yapma
+                const anchorY = Math.round(window.innerHeight * 0.35);
+                let candidate = null;
+                let candidateTop = -Infinity;
+                for (let i = 0; i < sections.length; i++) {
+                    const r = sections[i].getBoundingClientRect();
+                    if (r.top <= anchorY && r.top > candidateTop) {
+                        candidate = sections[i];
+                        candidateTop = r.top;
+                    }
+                }
+                if (!candidate && sections.length) {
+                    candidate = sections[0];
+                }
+                if (candidate) setActive(candidate.id);
+            }
+
+            function onScroll() {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    computeActive();
+                    ticking = false;
+                });
+            }
+
+            // İlk yükleme, scroll ve resize'da çalıştır
+            computeActive();
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', computeActive);
+
+            // Tıklamada anında geri bildirim
+            links.forEach(link => {
+                link.addEventListener('click', function () {
+                    const id = this.getAttribute('data-target');
+                    if (id) setActive(id);
+                });
+            });
+        });
     </script>
 </body>
 </html> 

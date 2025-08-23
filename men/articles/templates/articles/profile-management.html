@@ -64,13 +64,16 @@
         max-width: 100vw;
         min-width: 0;
         box-sizing: border-box;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         transition: var(--transition-smooth);
         padding-top: 48px;
         padding-bottom: 48px;
         overflow-y: auto;
         min-height: 100vh;
         gap: 48px;
+        width: calc(100% - 400px);
       }
 
       .content-section {
@@ -89,7 +92,7 @@
         overflow: hidden;
         width: 100%;
         max-width: 1200px;
-        margin-bottom: 48px;
+        margin: 0 auto 48px;
       }
 
       .content-section::before {
@@ -617,9 +620,79 @@
 
       /* Sidebar scroll */
       .sidebar-container {
-        overflow-y: auto;
+        overflow-y: hidden;
+        overflow-x: hidden;
         width: 400px !important;
         min-width: 400px !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Sidebar navigation styles */
+      .sidebar-nav {
+        margin-left: 12px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .sidebar-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition-smooth);
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: #f3eaff;
+      }
+
+      .sidebar-nav a:hover {
+        color: white;
+        background: #b993d6;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+      }
+
+      .sidebar-nav a.active {
+        color: white;
+        background: var(--primary-color);
+        box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+      }
+      .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+        padding-bottom: 12px;
+      }
+      .sidebar-menu .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-menu .menu-item.logout-item {
+        position: sticky;
+        bottom: 0;
+        margin-top: auto;
+        background: linear-gradient(135deg, #e9d5ff 20%, #f3eaff 80%);
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        font-weight: 700;
+        z-index: 2;
+      }
+      .sidebar-menu .menu-item.logout-item:hover {
+        background: linear-gradient(135deg, var(--primary-color) 10%, var(--secondary-color) 90%);
+        color: #fff;
+        border-color: var(--secondary-color);
       }
 
       .user-avatar {
@@ -647,7 +720,6 @@
         object-fit: cover;
         border-radius: 50%;
         display: block;
-        border: 2.5px solid #e2e8f0 !important;
       }
 
       /* Language Selector Styles */
@@ -770,6 +842,11 @@
       .dashboard-user-avatar {
         border: 2.5px solid #e2e8f0;
       }
+
+      /* Sidebar background overrides */
+      body.dark-mode .sidebar-header,
+      body.dark-mode .sidebar-user,
+      body.dark-mode .sidebar-menu { background: #181818 !important; }
     </style>
     <style>
       /* Dark mode - garanti çalışan */
@@ -784,13 +861,10 @@
         border-color: #333 !important;
       }
       
-      body.dark-mode .sidebar-header {
-        background: #2a2a2a !important;
-        border-color: #333 !important;
-      }
+      
       
       body.dark-mode .sidebar-user {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #333 !important;
       }
       
@@ -815,6 +889,11 @@
       
       body.dark-mode .user-info p {
         color: #b0b0b0 !important;
+        font-size: 0.9rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 200px !important;
       }
       
       body.dark-mode .menu-item {
@@ -830,6 +909,16 @@
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
         color: white !important;
       }
+      body.dark-mode .sidebar-menu .menu-item.logout-item {
+        background: #181818 !important;
+        border: 2px solid #555 !important;
+        color: #e0e0e0 !important;
+      }
+      body.dark-mode .sidebar-menu .menu-item.logout-item:hover {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        border-color: var(--primary-color) !important;
+        color: #fff !important;
+      }
       
       /* Main content dark mode */
       body.dark-mode .main-content,
@@ -837,14 +926,14 @@
       body.dark-mode .card,
       body.dark-mode .box,
       body.dark-mode .panel {
-        background: #232323 !important;
+        background: #23232354 !important;
         color: #e0e0e0 !important;
         border-color: #333 !important;
       }
       
       /* Settings category dark mode */
       body.dark-mode .settings-category {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #444 !important;
       }
       
@@ -908,7 +997,7 @@
       
       /* Settings cards dark mode */
       body.dark-mode .settings-card {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #444 !important;
       }
       
@@ -976,6 +1065,16 @@
       body.dark-mode .danger-zone p {
         color: #ff8e8e !important;
       }
+
+      /* Availability feedback for inputs */
+      .availability-valid {
+        border-color: #28a745 !important;
+        box-shadow: 0 0 0 0.4rem rgba(25, 135, 84, 0.25) !important;
+      }
+      .availability-invalid {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.5rem rgba(220, 53, 69, 0.25) !important;
+      }
     </style>
   </head>
   <body>
@@ -1000,8 +1099,7 @@
           <a
             href="{% url 'profile-management' %}"
             class="active"
-            data-translate="Profile Management"
-            >{% trans "Profil Yönetimi" %}</a
+            >Profil Yönetimi</a
           >
         </div>
       </div>
@@ -1047,7 +1145,7 @@
           <span class="material-symbols-outlined">help</span>
           <span>{% trans "Yardım Merkezi" %}</span>
         </a>
-        <a href="{% url 'my-login' %}" class="menu-item">
+        <a href="{% url 'my-login' %}" class="menu-item logout-item">
           <span class="material-symbols-outlined">logout</span>
           <span data-translate="Log Out">{% trans "Çıkış Yap" %}</span>
         </a>
@@ -1055,6 +1153,28 @@
     </div>
 
     <!-- Main Content -->
+    {% if messages %}
+      <style>
+        .message-toast-wrap { position: fixed; top: 16px; right: 16px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+        .message-toast { color: #fff; padding: 10px 14px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+        .message-toast-success { background: #28a745; }
+        .message-toast-error { background: #dc3545; }
+      </style>
+      <div class="message-toast-wrap">
+        {% for message in messages %}
+          <div class="message-toast {% if message.tags == 'success' %}message-toast-success{% else %}message-toast-error{% endif %}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function(){
+          document.querySelectorAll('.message-toast').forEach(function(el){
+            // Şifre mesajları biraz uzun kalsın
+            var ttl = el.classList.contains('message-toast-success') || el.classList.contains('message-toast-error') ? 6500 : 3000;
+            setTimeout(function(){ el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(function(){ if (el && el.parentNode) el.parentNode.removeChild(el); }, 300); }, ttl);
+          });
+        });
+      </script>
+    {% endif %}
     <main class="main-content">
       <div id="my-statistics" class="content-section">
         <h2 data-translate="My Statistics">{% trans "İstatistiklerim" %}</h2>
@@ -1129,6 +1249,34 @@
             </button>
           </div>
         </div>
+        <!-- Kişi Kaydetme (Ayarlar altı) -->
+        <div class="settings-category" id="emergency-contact-settings">
+          <h3>{% trans "Kişi Kaydetme" %}</h3>
+          <p>{% trans "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin." %}</p>
+          <div class="settings-cards">
+            <div class="settings-card">
+              <h3>{% trans "Acil Durum Kişisi" %}</h3>
+              <form method="POST" autocomplete="off" id="emergencyContactForm">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="id_relation">{% trans "Yakınlık" %}</label>
+                  <input type="text" name="relation" id="id_relation" class="form-control" value="{{ contact.relation|default_if_none:'' }}" placeholder="{% trans 'Örn: Anne, Baba, Arkadaş' %}" required />
+                </div>
+                <div class="form-group">
+                  <label for="id_full_name">{% trans "Ad Soyad" %}</label>
+                  <input type="text" name="full_name" id="id_full_name" class="form-control" value="{{ contact.full_name|default_if_none:'' }}" placeholder="{% trans 'Ad Soyad' %}" required />
+                </div>
+                <div class="form-group">
+                  <label for="id_phone">{% trans "Telefon Numarası" %}</label>
+                  <input type="text" name="phone" id="id_phone" class="form-control" value="{{ contact.phone|default_if_none:'' }}" placeholder="{% trans '05xx xxx xx xx' %}" required />
+                </div>
+                <div style="text-align:center; margin-top: 8px;">
+                  <button class="btn" type="submit">{% trans "Kaydet / Güncelle" %}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <!-- Hesap Bilgileri Kategorisi -->
         <div class="settings-category">
           <h3>{% trans "Hesap Bilgileri" %}</h3>
@@ -1138,7 +1286,7 @@
               <h3 data-translate="User Information">
                 {% trans "Kullanıcı Bilgileri" %}
               </h3>
-              <form method="POST" autocomplete="off">
+              <form method="POST" autocomplete="off" id="userInfoForm">
                 {% csrf_token %} {{ UserUpdateForm|crispy }}
                 <div style="text-align: center; margin-top: 16px">
                   <button
@@ -1225,6 +1373,7 @@
                 method="POST"
                 enctype="multipart/form-data"
                 autocomplete="off"
+                id="profilePhotoForm"
               >
                 {% csrf_token %} {{ ProfileUpdateForm|crispy }}
                 <div style="text-align: center; margin-top: 16px">
@@ -1265,13 +1414,6 @@
                   data-translate="Large"
                 >
                   {% trans "Büyük" %}
-                </button>
-                <button
-                  class="font-size-btn"
-                  data-size="very-large"
-                  data-translate="Very Large"
-                >
-                  {% trans "Çok Büyük" %}
                 </button>
               </div>
             </div>
@@ -1398,60 +1540,142 @@
         window.getGlobalTheme = getGlobalTheme;
       })();
 
-      // Password change validation
-      document.getElementById("passwordUpdateForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const current = document.getElementById("currentPassword").value;
-          const next = document.getElementById("newPassword").value;
-          const confirm = document.getElementById("confirmPassword").value;
+      // Password change validation (submit valid olduğunda formu gönder)
+      (function(){
+        const form = document.querySelector('form[action="{% url "update-password" %}"]');
+        if (!form) return;
+        form.addEventListener('submit', function(e){
+          function showClientToast(message){
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#dc3545;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(220,53,69,0.3);z-index:9999;font-weight:600;';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(()=>{ toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(()=>{ if (toast.parentNode) toast.remove(); },300); }, 6500);
+          }
+          const current = document.getElementById('currentPassword').value;
+          const next = document.getElementById('newPassword').value;
+          const confirm = document.getElementById('confirmPassword').value;
 
           if (!current || !next || !confirm) {
-            alert(
-              getTranslation('{% trans "Lütfen tüm alanları doldurunuz." %}')
-            );
+            e.preventDefault();
+            showClientToast(getTranslation('{% trans "Lütfen tüm alanları doldurunuz." %}'));
             return;
           }
           if (next !== confirm) {
-            alert(getTranslation('{% trans "Yeni şifreler eşleşmiyor." %}'));
+            e.preventDefault();
+            showClientToast(getTranslation('{% trans "Yeni şifreler eşleşmiyor." %}'));
             return;
           }
           if (current === next) {
-            alert(
-              getTranslation(
-                '{% trans "Yeni şifre mevcut şifre ile aynı olamaz." %}'
-              )
-            );
+            e.preventDefault();
+            showClientToast(getTranslation('{% trans "Yeni şifre mevcut şifre ile aynı olamaz." %}'));
             return;
           }
+          // valid ise default submit devam etsin
+        });
+      })();
 
-          // Burada gerçek şifre değiştirme işlemi yapılacak
-          alert(getTranslation('{% trans "Şifre başarıyla güncellendi!" %}'));
-          this.reset();
+      // Delete account form - dil duyarlı metin ve özel onay popup'ı
+      (function(){
+        function getRequiredDeletePhrase(){
+          try {
+            const lang = (localStorage.getItem('selectedLanguage') || document.documentElement.lang || 'tr').toLowerCase();
+            return lang.startsWith('en') ? 'DELETE MY ACCOUNT' : 'HESABIMI SİL';
+          } catch (e) { return 'HESABIMI SİL'; }
+        }
+        function updateDeleteUITexts(){
+          const phrase = getRequiredDeletePhrase();
+          const input = document.getElementById('deleteConfirm');
+          const label = document.querySelector('label[for="deleteConfirm"]');
+          if (input) input.setAttribute('placeholder', phrase);
+          if (label) {
+            const trText = (phrase === 'DELETE MY ACCOUNT')
+              ? "Type 'DELETE MY ACCOUNT' to confirm"
+              : "Onay için 'HESABIMI SİL' yazınız";
+            label.textContent = (typeof getTranslation === 'function') ? getTranslation(trText) : trText;
+            // Ayrıca data-confirm-text'i güncelle
+            input && input.setAttribute('data-confirm-text', trText);
+          }
+        }
+
+        function showConfirmModal(onConfirm){
+          // Var olanı kaldır
+          const existing = document.getElementById('delete-confirm-overlay');
+          if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+          const overlay = document.createElement('div');
+          overlay.id = 'delete-confirm-overlay';
+          overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:3000;opacity:0;transition:opacity .2s';
+          const modal = document.createElement('div');
+          modal.style.cssText = 'background:#fff;border-radius:14px;max-width:420px;width:92%;padding:24px;box-shadow:0 12px 32px rgba(0,0,0,.25);text-align:center;';
+          // Dark mode desteği
+          if (document.body.classList.contains('dark-mode')) {
+            modal.style.background = '#2a2a2a';
+            modal.style.color = '#e0e0e0';
+          }
+          const title = document.createElement('h3');
+          title.style.cssText = 'margin:0 0 8px 0;font-weight:800;color:#8b5cf6';
+          title.textContent = (typeof getTranslation === 'function') ? getTranslation('{% trans "Hesabı Sil" %}') : '{% trans "Hesabı Sil" %}';
+          const msg = document.createElement('p');
+          msg.style.cssText = 'margin:0 0 16px 0;opacity:.9;line-height:1.5;';
+          msg.textContent = (typeof getTranslation === 'function')
+            ? getTranslation('{% trans "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?" %}')
+            : '{% trans "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?" %}';
+          const btnRow = document.createElement('div');
+          btnRow.style.cssText = 'display:flex;gap:10px;justify-content:center;margin-top:6px;';
+          const cancelBtn = document.createElement('button');
+          cancelBtn.type = 'button';
+          cancelBtn.style.cssText = 'padding:10px 16px;border-radius:10px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:600;cursor:pointer;';
+          cancelBtn.textContent = (typeof getTranslation === 'function') ? getTranslation('{% trans "Vazgeç" %}') : '{% trans "Vazgeç" %}';
+          const confirmBtn = document.createElement('button');
+          confirmBtn.type = 'button';
+          confirmBtn.style.cssText = 'padding:10px 16px;border-radius:10px;border:none;background:linear-gradient(135deg,#dc3545,#c82333);color:#fff;font-weight:700;cursor:pointer;';
+          confirmBtn.textContent = (typeof getTranslation === 'function') ? getTranslation('{% trans "Hesabı Sil" %}') : '{% trans "Hesabı Sil" %}';
+          btnRow.appendChild(cancelBtn);
+          btnRow.appendChild(confirmBtn);
+          modal.appendChild(title);
+          modal.appendChild(msg);
+          modal.appendChild(btnRow);
+          overlay.appendChild(modal);
+          document.body.appendChild(overlay);
+          requestAnimationFrame(()=>{ overlay.style.opacity = '1'; });
+          function close(){ overlay.style.opacity = '0'; setTimeout(()=>{ if (overlay.parentNode) overlay.parentNode.removeChild(overlay); }, 180); }
+          cancelBtn.onclick = close;
+          overlay.onclick = function(e){ if (e.target === overlay) close(); };
+          confirmBtn.onclick = function(){ close(); if (typeof onConfirm === 'function') onConfirm(); };
+        }
+
+        const delForm = document.getElementById('deleteAccountForm');
+        if (!delForm) return;
+        updateDeleteUITexts();
+        // Dil butonları ile değiştiğinde placeholder ve label'i güncelle
+        document.querySelectorAll('.lang-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){ setTimeout(updateDeleteUITexts, 50); });
         });
 
-      // Delete account form
-      document
-        .getElementById("deleteAccountForm")
-        .addEventListener("submit", function (e) {
+        delForm.addEventListener('submit', function (e) {
           e.preventDefault();
-          const confirmVal = document.getElementById("deleteConfirm").value;
-          const confirmText = document.getElementById("deleteConfirm").getAttribute('data-confirm-text') || "Onay için 'HESABIMI SİL' yazınız.";
-          if (confirmVal !== "HESABIMI SİL") {
-            alert(confirmText);
+          const confirmInput = document.getElementById('deleteConfirm');
+          const requiredPhrase = getRequiredDeletePhrase();
+          const confirmVal = (confirmInput && confirmInput.value || '').trim();
+          if (confirmVal !== requiredPhrase) {
+            const msg = (requiredPhrase === 'DELETE MY ACCOUNT')
+              ? "Please type 'DELETE MY ACCOUNT' to confirm."
+              : "Onay için 'HESABIMI SİL' yazınız.";
+            if (window.__availabilityToast && window.__availabilityToast.showAvailabilityToast) {
+              window.__availabilityToast.showAvailabilityToast('error', msg);
+            } else {
+              alert(msg);
+            }
             return;
           }
-          if (
-            window.confirm(
-              getTranslation(
-                '{% trans "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?" %}'
-              )
-            )
-          ) {
-            alert(getTranslation('{% trans "Hesap silindi." %}'));
-            // Buraya gerçek silme işlemi eklenmeli
-          }
+          // Özel onay popup'ı
+          showConfirmModal(function(){
+            delForm.setAttribute('action', '{% url "delete-account" %}');
+            delForm.setAttribute('method', 'POST');
+            delForm.submit();
+          });
         });
+      })();
 
       // Sidebar menüde sadece tıklanan veya scroll ile ilgili section'a gelindiğinde ilgili menü item'ı active olsun
       function scrollToSection(sectionId) {
@@ -1505,6 +1729,15 @@
         if (typeof initializeLanguage === "function") {
           initializeLanguage();
         }
+        
+        // Sayfa yüklendiğinde kaydedilen çeviriyi uygula
+        const savedTranslation = localStorage.getItem('profileManagementTranslation');
+        if (savedTranslation) {
+          const headerProfileLink = document.querySelector('.sidebar-nav a[href*="profile-management"]');
+          if (headerProfileLink) {
+            headerProfileLink.textContent = savedTranslation;
+          }
+        }
       });
 
       // Language selector functionality
@@ -1516,6 +1749,9 @@
             if (typeof window.changeLanguage === "function") {
               window.changeLanguage(lang);
               // Popup artık changeLanguage fonksiyonu içinde gösteriliyor
+              
+              // Dil değişikliği sonrası sayfa içeriğini anlık güncelle
+              updatePageContent(lang);
             } else {
               // Fallback: Direkt popup göster
               showToast('language', lang);
@@ -1523,6 +1759,51 @@
           });
         });
       });
+
+      // Dil değişikliği sonrası sayfa içeriğini güncelle
+      function updatePageContent(lang) {
+        // Tüm data-translate attribute'ları olan elementleri bul
+        const translatableElements = document.querySelectorAll('[data-translate]');
+        
+        translatableElements.forEach(element => {
+          const translateKey = element.getAttribute('data-translate');
+          const translateText = element.getAttribute('data-translate-text');
+          
+          if (translateText) {
+            // data-translate-text attribute'u varsa onu kullan
+            element.textContent = translateText;
+          } else if (typeof getTranslation === 'function') {
+            // getTranslation fonksiyonu varsa onu kullan
+            const translation = getTranslation(translateKey);
+            if (translation) {
+              element.textContent = translation;
+            }
+          }
+        });
+        
+        // Özel durumlar için manuel güncelleme
+        const profileManagementLinks = document.querySelectorAll('a[href*="profile-management"]');
+        profileManagementLinks.forEach(link => {
+          if (lang === 'tr') {
+            link.textContent = 'Profil Yönetimi';
+          } else {
+            link.textContent = 'Profile Management';
+          }
+        });
+        
+        // Header'daki Profile Management yazısını güncelle
+        const headerProfileLink = document.querySelector('.sidebar-nav a[href*="profile-management"]');
+        if (headerProfileLink) {
+          if (lang === 'tr') {
+            headerProfileLink.textContent = 'Profil Yönetimi';
+          } else {
+            headerProfileLink.textContent = 'Profile Management';
+          }
+        }
+        
+        // localStorage'a kaydet
+        localStorage.setItem('profileManagementTranslation', lang === 'tr' ? 'Profil Yönetimi' : 'Profile Management');
+      }
 
       // Theme selector functionality
       document.addEventListener("DOMContentLoaded", function() {
@@ -1660,6 +1941,158 @@
       }
     </script>
     <script>
+      // Availability and submit handling toasts (non-stacking)
+      (function(){
+        function removeAvailabilityToasts(){
+          document.querySelectorAll('.availability-toast').forEach(function(t){
+            if (t && t.parentNode) t.parentNode.removeChild(t);
+          });
+        }
+        function showAvailabilityToast(type, message){
+          removeAvailabilityToasts();
+          const wrap = document.createElement('div');
+          wrap.className = 'availability-toast';
+          wrap.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10050;display:flex;flex-direction:column;gap:8px;';
+          const toast = document.createElement('div');
+          toast.style.cssText = 'color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);font-weight:600;';
+          toast.style.background = type === 'error' ? '#dc3545' : '#28a745';
+          toast.textContent = message;
+          wrap.appendChild(toast);
+          document.body.appendChild(wrap);
+          setTimeout(function(){
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity .3s';
+            setTimeout(function(){ if (wrap && wrap.parentNode) wrap.parentNode.removeChild(wrap); }, 300);
+          }, 2400);
+        }
+
+        // Expose minimal helpers
+        window.__availabilityToast = { showAvailabilityToast, removeAvailabilityToasts };
+      })();
+    </script>
+    <script>
+              // Kullanıcı adı / e-posta uygunluk kontrolü ve kırmızı toast
+        document.addEventListener('DOMContentLoaded', function() {
+          function showErrorToast(message) { window.__availabilityToast.showAvailabilityToast('error', message); }
+          function showSuccessToast(message) { window.__availabilityToast.showAvailabilityToast('success', message); }
+          
+          // Kullanıcı adı bitişik olması kontrolü
+          function checkUsernameFormat(username) {
+            return !username.includes(' ');
+          }
+
+        async function checkAvailability(field, value) {
+          if (!value) return true;
+          try {
+            const url = `{% url 'check-availability' %}?field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}`;
+            const res = await fetch(url, { credentials: 'same-origin' });
+            const data = await res.json();
+            return !!data.available;
+          } catch (e) { return true; }
+        }
+
+        let userForm = null;
+        document.querySelectorAll('form').forEach(function(f){
+          if (!userForm && f.querySelector('input[name="username"], input[name="email"]')) {
+            userForm = f;
+          }
+        });
+        if (!userForm) return;
+        const usernameInput = userForm.querySelector('input[name="username"]');
+        const emailInput = userForm.querySelector('input[name="email"]');
+
+        function setFieldState(inputEl, ok){
+          if (!inputEl) return;
+          const val = (inputEl.value||'').trim();
+          inputEl.classList.remove('availability-valid','availability-invalid');
+          if (!val){ return; }
+          inputEl.classList.add(ok ? 'availability-valid' : 'availability-invalid');
+        }
+
+        let usernameTimer, emailTimer;
+        if (usernameInput) {
+          usernameInput.addEventListener('input', () => {
+            clearTimeout(usernameTimer);
+            usernameTimer = setTimeout(async () => {
+              const ok = await checkAvailability('username', usernameInput.value.trim());
+              setFieldState(usernameInput, ok);
+              if (!ok) {
+                showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}');
+              } else {
+                showSuccessToast('{% trans "Bu kullanıcı adı/e-posta kullanılabilir" %}');
+              }
+            }, 400);
+          });
+        }
+        if (emailInput) {
+          emailInput.addEventListener('input', () => {
+            clearTimeout(emailTimer);
+            emailTimer = setTimeout(async () => {
+              const ok = await checkAvailability('email', emailInput.value.trim());
+              setFieldState(emailInput, ok);
+              if (!ok) {
+                showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}');
+              } else {
+                showSuccessToast('{% trans "Bu kullanıcı adı/e-posta kullanılabilir" %}');
+              }
+            }, 400);
+          });
+        }
+
+        // Intercept submit for redirect + dashboard toasts
+        const managedForm = document.getElementById('userInfoForm') || userForm;
+        if (managedForm) {
+          const initialUsername = usernameInput ? (usernameInput.value||'').trim() : '';
+          const initialEmail = emailInput ? (emailInput.value||'').trim() : '';
+          managedForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const checks = [];
+            if (usernameInput) checks.push(checkAvailability('username', usernameInput.value.trim()));
+            if (emailInput) checks.push(checkAvailability('email', emailInput.value.trim()));
+            const results = await Promise.all(checks);
+            let valid = true;
+            if (usernameInput && results[0] === false) { setFieldState(usernameInput, false); showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}'); valid = false; }
+            if (emailInput) {
+              const idx = usernameInput ? 1 : 0;
+              if (results[idx] === false) { setFieldState(emailInput, false); showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}'); valid = false; }
+            }
+            if (!valid) { return; }
+
+            // Submit form via fetch, then redirect with proper messages
+            try {
+              const fd = new FormData(managedForm);
+              const res = await fetch(window.location.href, {
+                method: 'POST',
+                body: fd,
+                credentials: 'same-origin'
+              });
+              if (!res.ok) {
+                showErrorToast('{% trans "Bir hata oluştu. Lütfen tekrar deneyiniz." %}');
+                return;
+              }
+              const usernameChanged = usernameInput ? (usernameInput.value||'').trim() !== initialUsername : false;
+              const emailChanged = emailInput ? (emailInput.value||'').trim() !== initialEmail : false;
+              const messages = [];
+              if (!usernameChanged && !emailChanged) {
+                messages.push({ type: 'info', text: '{% trans "Hiçbir değişiklik yapılamadı." %}' });
+              } else if (usernameChanged && !emailChanged) {
+                messages.push({ type: 'success', text: '{% trans "Kullanıcı adı başarıyla güncellenmiştir." %}' });
+              } else if (!usernameChanged && emailChanged) {
+                messages.push({ type: 'success', text: '{% trans "E-posta başarıyla güncellenmiştir." %}' });
+              } else {
+                messages.push({ type: 'success', text: '{% trans "Kullanıcı adı başarıyla güncellenmiştir." %}' });
+                messages.push({ type: 'success', text: '{% trans "E-posta başarıyla güncellenmiştir." %}' });
+              }
+              localStorage.setItem('profileUpdateToasts', JSON.stringify(messages));
+              window.location.href = "{% url 'dashboard' %}";
+            } catch (err) {
+              showErrorToast('{% trans "Bir hata oluştu. Lütfen tekrar deneyiniz." %}');
+            }
+          });
+        }
+      });
+    </script>
+    <script>
       function redirectIfSmallScreen() {
         if (
           window.innerWidth < 1300 &&
@@ -1735,6 +2168,164 @@
           }, stepTime);
         });
       });
+    </script>
+    <script>
+      // Phone 11-digit validation for emergency contact form
+      (function(){
+        function showECToast(type, message){
+          if (window.__availabilityToast && window.__availabilityToast.showAvailabilityToast) {
+            window.__availabilityToast.showAvailabilityToast(type, message);
+            return;
+          }
+          const t = document.createElement('div');
+          t.style.cssText='position:fixed;top:20px;right:20px;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);z-index:10060;font-weight:600;';
+          t.style.background = (type==='error') ? '#dc3545' : '#28a745';
+          t.textContent = message;
+          document.body.appendChild(t);
+          setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>{ if (t.parentNode) t.parentNode.removeChild(t); }, 300); }, 2400);
+        }
+        document.addEventListener('DOMContentLoaded', function(){
+          var f = document.getElementById('emergencyContactForm');
+          if (!f) return;
+          f.addEventListener('submit', function(e){
+            var phone = document.getElementById('id_phone');
+            if (!phone) return;
+            var digits = (phone.value||'').replace(/\D+/g,'');
+            if (digits.length < 11) {
+              e.preventDefault();
+              showECToast('error', '{% trans "Eksik girdiniz. Telefon numarası 11 haneli olmalı." %}');
+              return;
+            }
+            if (digits.length > 11) {
+              e.preventDefault();
+              showECToast('error', '{% trans "Fazla numara girdiniz. Telefon numarası 11 haneli olmalı." %}');
+              return;
+            }
+            // replace value with digits to keep consistent
+            phone.value = digits;
+          });
+        });
+      })();
+    </script>
+    <script>
+      // Profile photo form handling
+      document.addEventListener('DOMContentLoaded', function() {
+        const profilePhotoForm = document.getElementById('profilePhotoForm');
+        if (!profilePhotoForm) return;
+        
+        // Submit butonunu bul
+        const submitBtn = profilePhotoForm.querySelector('button[type="submit"]');
+        if (!submitBtn) return;
+        
+        // Dosya input'unu bul
+        const fileInput = profilePhotoForm.querySelector('input[type="file"]');
+        if (!fileInput) return;
+        
+        // Dosya seçimi değiştiğinde buton durumunu güncelle
+        function updateSubmitButtonState() {
+          const hasFile = fileInput.files && fileInput.files.length > 0;
+          submitBtn.disabled = !hasFile;
+          
+          if (hasFile) {
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+            submitBtn.style.background = 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))';
+          } else {
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
+            submitBtn.style.background = '#ccc';
+          }
+        }
+        
+        // Sayfa yüklendiğinde buton durumunu ayarla
+        updateSubmitButtonState();
+        
+        // Dosya seçimi değiştiğinde buton durumunu güncelle
+        fileInput.addEventListener('change', updateSubmitButtonState);
+        
+        profilePhotoForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          // Dosya seçimi kontrolü
+          if (!fileInput.files || fileInput.files.length === 0) {
+            // Dosya seçilmemiş - Hata mesajı göster (sayfa yenilenmeden)
+            showToast('error', '{% trans "Lütfen dosya seçiniz." %}');
+            return;
+          }
+          
+          try {
+            const formData = new FormData(this);
+            const response = await fetch(window.location.href, {
+              method: 'POST',
+              body: formData,
+              credentials: 'same-origin'
+            });
+            
+            if (response.ok) {
+              // Başarılı - Dashboard'a yönlendir ve başarı mesajı göster
+              const successMessage = {
+                    type: 'success',
+                    text: '{% trans "Profil fotoğrafınız başarıyla değiştirilmiştir." %}'
+                  };
+              localStorage.setItem('profileUpdateToasts', JSON.stringify([successMessage]));
+              window.location.href = "{% url 'dashboard' %}";
+            } else {
+              // Hata durumu
+              const errorMessage = {
+                    type: 'error',
+                    text: '{% trans "Profil fotoğrafınız güncellenemedi." %}'
+                  };
+              localStorage.setItem('profileUpdateToasts', JSON.stringify([errorMessage]));
+              window.location.href = "{% url 'dashboard' %}";
+            }
+          } catch (error) {
+            // Network hatası
+            const errorMessage = {
+                  type: 'error',
+                  text: '{% trans "Profil fotoğrafınız güncellenemedi." %}'
+                };
+            localStorage.setItem('profileUpdateToasts', JSON.stringify([errorMessage]));
+            window.location.href = "{% url 'dashboard' %}";
+          }
+        });
+      });
+      
+      // Toast gösterme fonksiyonu
+      function showToast(type, message) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: ${type === 'error' ? '#dc3545' : '#28a745'};
+          color: white;
+          padding: 12px 16px;
+          border-radius: 10px;
+          box-shadow: 0 8px 24px rgba(0,0,0,.15);
+          z-index: 10000;
+          font-weight: 600;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        `;
+        toast.textContent = message;
+        
+        document.body.appendChild(toast);
+        
+        // Toast'u göster
+        setTimeout(() => {
+          toast.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Toast'u gizle
+        setTimeout(() => {
+          toast.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        }, 3000);
+      }
     </script>
   </body>
 </html>

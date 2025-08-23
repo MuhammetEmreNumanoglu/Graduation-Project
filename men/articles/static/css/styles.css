@@ -53,12 +53,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card, .shadow-lg, .container .card, .container .shadow-lg {
-  background: var(--color-card) !important;
   border-radius: var(--card-radius) !important;
   box-shadow: var(--card-shadow) !important;
   border: none !important;
-  padding: 2rem 2.2rem;
-  margin-bottom: 2rem;
+  padding: 1rem 2.2rem;
   transition: box-shadow 0.3s, background 0.3s;
 }
 
@@ -103,19 +101,15 @@ input:focus, textarea:focus, select:focus {
 
 .navbar, .sidebar, .sidebar-header {
   background: var(--color-card) !important;
-  border-radius: var(--navbar-radius) !important;
-  box-shadow: var(--card-shadow) !important;
-  border: none !important;
 }
 
 .sidebar-header img, .navbar img.logo {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  box-shadow: 0 2px 12px 0 rgba(157,142,199,0.10);
-  background: var(--color-bg-subtle);
+  width: 48px;
+  height: 48px;
   object-fit: contain;
-  margin-bottom: 0.5rem;
+  border-radius: 12px;
+  background: #f7f8fa;
+  box-shadow: 0 2px 8px rgba(79, 82, 186, 0.08)
 }
 
 /* Chatbot alanı için özel font */
@@ -923,12 +917,15 @@ a:hover {
   width: 280px;
 }
 
-.sidebar-header img {
-  width: 40px;
-  height: 40px;
-  transition: all 0.3s ease;
-}
 
+.sidebar-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #f7f8fa;
+  box-shadow: 0 2px 8px rgba(79, 82, 186, 0.08);
+}
 .sidebar:hover .sidebar-header img {
   width: 50px;
   height: 50px;
@@ -1393,7 +1390,5 @@ body.font-size-extra-large .chat-form .form-control { font-size: 1.2rem; }
   justify-content: center;
 }
 
-.dashboard-user-avatar {
-  border: 2.5px solid #e2e8f0;
-}
+
 

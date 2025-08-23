@@ -1,292 +1,946 @@
+# Turkish translations for Feel Good System
+# Copyright (C) 2025 Feel Good System
+# This file is distributed under the same license as the Feel Good System package.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: men\n"
+"Project-Id-Version: Feel Good System 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 22:08+0300\n"
-"PO-Revision-Date: 2024-03-19 12:00+0000\n"
-"Last-Translator: \n"
-"Language-Team: Turkish\n"
+"POT-Creation-Date: 2025-08-20 20:25+0300\n"
+"PO-Revision-Date: 2025-08-20 20:25+0300\n"
+"Last-Translator: Feel Good System <info@feelgood.com>\n"
+"Language-Team: Turkish <tr@feelgood.com>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\articles\forms.py:23 .\articles\forms.py:36 .\articles\forms.py:51
+# Forms
 msgid "Kullanıcı Adı"
 msgstr "Kullanıcı Adı"
 
-#: .\articles\forms.py:24 .\articles\forms.py:52
 msgid "E-posta"
 msgstr "E-posta"
 
-#: .\articles\forms.py:25 .\articles\forms.py:37
 msgid "Şifre"
 msgstr "Şifre"
 
-#: .\articles\forms.py:26
 msgid "Şifre Tekrar"
 msgstr "Şifre Tekrar"
 
-#: .\articles\forms.py:29
-msgid ""
-"150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ "
-"karakterleri kullanılabilir."
-msgstr ""
-"150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ "
-"karakterleri kullanılabilir."
+msgid "Bu e-posta zaten alınmış."
+msgstr "Bu e-posta zaten alınmış."
 
-#: .\articles\forms.py:30 .\articles\templates\articles\register.html:26
+msgid "150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ karakterleri kullanılabilir."
+msgstr "150 karakter ya da daha az olmalı. Sadece harfler, rakamlar ve @/./+/-/_ karakterleri kullanılabilir."
+
 msgid "Şifreniz en az 8 karakter içermelidir."
 msgstr "Şifreniz en az 8 karakter içermelidir."
 
-#: .\articles\forms.py:31 .\articles\templates\articles\register.html:29
 msgid "Doğrulama için aynı şifreyi tekrar girin."
 msgstr "Doğrulama için aynı şifreyi tekrar girin."
 
-#: .\articles\forms.py:61
+msgid "Bu kullanıcı adı zaten alınmış."
+msgstr "Bu kullanıcı adı zaten alınmış."
+
 msgid "Profil Fotoğrafı"
 msgstr "Profil Fotoğrafı"
 
-#: .\articles\forms.py:69 .\articles\forms.py:82
 msgid "Başlık"
 msgstr "Başlık"
 
-#: .\articles\forms.py:70 .\articles\forms.py:83
 msgid "İçerik"
 msgstr "İçerik"
 
-#: .\articles\forms.py:73 .\articles\forms.py:86
 msgid "Başlık giriniz..."
 msgstr "Başlık giriniz..."
 
-#: .\articles\forms.py:74 .\articles\forms.py:87
 msgid "İçerik giriniz..."
 msgstr "İçerik giriniz..."
 
-#: .\articles\templates\articles\acil-destek.html:9
-#: .\articles\templates\articles\acil-destek.html:427
-msgid "Acil Destek"
-msgstr "Emergency Support"
-
-#: .\articles\templates\articles\acil-destek.html:428
-msgid "İhtiyacınız olduğunda hemen ulaşabileceğiniz güvenli destek sistemi"
-msgstr "Safe support system you can reach immediately when you need it"
-
-#: .\articles\templates\articles\acil-destek.html:434
-msgid "Acil durum mesajı göndermek için butona tıklayın"
-msgstr "Click the button to send an emergency message"
-
-#: .\articles\templates\articles\acil-destek.html:438
-#: .\articles\templates\articles\acil-destek.html:439
-msgid "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!"
-msgstr "CALL ME NOW, I'M IN CRISIS!!!"
-
-#: .\articles\templates\articles\acil-destek.html:442
-#: .\articles\templates\articles\acil-destek.html:443
-msgid "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?"
-msgstr "I don't feel well right now, can you contact me?"
-
-#: .\articles\templates\articles\acil-destek.html:446
-#: .\articles\templates\articles\acil-destek.html:447
-msgid "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş"
-msgstr "I'm not well — please contact me if I don't respond in 10 minutes"
-
-#: .\articles\templates\articles\anasayfa.html:8
+# Navigation
 msgid "Ana Sayfa"
-msgstr "Home"
+msgstr "Ana Sayfa"
 
-#: .\articles\templates\articles\bildirimler.html:6
-msgid "Bildirimler"
-msgstr "Notifications"
+msgid "İyi Hisset"
+msgstr "İyi Hisset"
 
-#: .\articles\templates\articles\bildirimler.html:15
-msgid "Günlük Görevleriniz Hazır!"
-msgstr "Your Daily Tasks Are Ready!"
+msgid "Profil Yönetimi"
+msgstr "Profil Yönetimi"
 
-#: .\articles\templates\articles\bildirimler.html:16
-msgid "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!"
-msgstr "3 new tasks added for today. Check them now!"
-
-#: .\articles\templates\articles\bildirimler.html:17
-msgid "5 dakika önce"
-msgstr "5 minutes ago"
-
-#: .\articles\templates\articles\bildirimler.html:27
-msgid "Tebrikler!"
-msgstr "Congratulations!"
-
-#: .\articles\templates\articles\bildirimler.html:28
-msgid "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız."
-msgstr "You completed your daily tasks 5 days in a row this week."
-
-#: .\articles\templates\articles\bildirimler.html:29
-msgid "2 saat önce"
-msgstr "2 hours ago"
-
-#: .\articles\templates\articles\bildirimler.html:39
-msgid "Yeni İçerik"
-msgstr "New Content"
-
-#: .\articles\templates\articles\bildirimler.html:40
-msgid "Stres yönetimi için yeni bir nefes egzersizi eklendi."
-msgstr "A new breathing exercise for stress management has been added."
-
-#: .\articles\templates\articles\bildirimler.html:41
-msgid "Dün"
-msgstr "Yesterday"
-
-#: .\articles\templates\articles\bildirimler.html:51
-msgid "Destek Mesajınız"
-msgstr "Your Support Message"
-
-#: .\articles\templates\articles\bildirimler.html:52
-msgid "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi."
-msgstr "3 new comments came to the message you shared on the support wall."
-
-#: .\articles\templates\articles\bildirimler.html:53
-msgid "2 gün önce"
-msgstr "2 days ago"
-
-#: .\articles\templates\articles\create-article.html:3
 msgid "Görevlerim"
 msgstr "Görevlerim"
 
-#: .\articles\templates\articles\create-article.html:11
-msgid "Tamamlanan Görevler"
-msgstr "Completed Tasks"
-
 msgid "Nefes Egzersizi"
-msgstr "Nefes Egzersizi"
-
-#: .\articles\templates\articles\create-article.html:16
-msgid "Günlük Nefes Egzersizi"
-msgstr "Daily Breathing Exercise"
-
-#: .\articles\templates\articles\create-article.html:17
-msgid "5 dakikalık nefes egzersizi tamamlandı"
-msgstr "5-minute breathing exercise completed"
-
-#: .\articles\templates\articles\create-article.html:18
-msgid "Bugün, 10:30"
-msgstr "Today, 10:30"
-
-#: .\articles\templates\articles\create-article.html:27
-msgid "Günlük Düşünce Günlüğü"
-msgstr "Daily Thought Journal"
-
-#: .\articles\templates\articles\create-article.html:28
-msgid "Bugünkü düşüncelerinizi kaydettiniz"
-msgstr "You recorded today's thoughts"
-
-#: .\articles\templates\articles\create-article.html:29
-msgid "Dün, 20:15"
-msgstr "Yesterday, 20:15"
-
-#: .\articles\templates\articles\create-article.html:42
-msgid "Bekleyen Görevler"
-msgstr "Pending Tasks"
-
-#: .\articles\templates\articles\create-article.html:47
-msgid "Haftalık Değerlendirme"
-msgstr "Weekly Assessment"
-
-#: .\articles\templates\articles\create-article.html:48
-msgid "Bu haftaki ilerlemenizi değerlendirin"
-msgstr "Evaluate your progress this week"
-
-#: .\articles\templates\articles\create-article.html:49
-msgid "Son Tarih: Yarın"
-msgstr "Due Date: Tomorrow"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:525
-msgid "Günlük Kartlar"
-msgstr "Günlük Kartlar"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:527
-msgid "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar"
-msgstr "Specially selected cards for new motivation and inspiration every day"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:535
-msgid "Bugünün Sözü"
-msgstr "Today's Quote"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:537
-msgid "Her gün yeni bir başlangıçtır. Kendine inan ve ilerle."
-msgstr "Every day is a new beginning. Believe in yourself and move forward."
-
-#: .\articles\templates\articles\gunluk-kartlar.html:540
-msgid "Bugün kendine güven"
-msgstr "Trust yourself today"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:550
-msgid "Motivasyon"
-msgstr "Motivation"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:552
-msgid "Küçük adımlar büyük değişimlere yol açar. Her gün bir adım at."
-msgstr "Small steps lead to big changes. Take one step every day."
-
-#: .\articles\templates\articles\gunluk-kartlar.html:555
-msgid "Adım adım ilerle"
-msgstr "Move forward step by step"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:565
-msgid "Düşünce"
-msgstr "Thought"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:567
-msgid "Olumlu düşünceler, olumlu sonuçlar doğurur. Bugün kendine iyi davran."
-msgstr "Positive thoughts bring positive results. Be kind to yourself today."
-
-#: .\articles\templates\articles\gunluk-kartlar.html:570
-msgid "Pozitif kal"
-msgstr "Stay positive"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:580
-msgid "Farkındalık"
-msgstr "Mindfulness"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:582
-msgid "Şu anı yaşa, geçmişi bırak, geleceği planla ama bugüne odaklan."
-msgstr "Live in the moment, let go of the past, plan the future but focus on today."
-
-#: .\articles\templates\articles\gunluk-kartlar.html:585
-msgid "Anı yaşa"
-msgstr "Live the moment"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:595
-msgid "İyileşme"
-msgstr "Healing"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:597
-msgid "Kendini sev ve kabul et. Mükemmel olmak zorunda değilsin, sadece kendin ol."
-msgstr "Love and accept yourself. You don't have to be perfect, just be yourself."
-
-#: .\articles\templates\articles\gunluk-kartlar.html:600
-msgid "Kendini sev"
-msgstr "Love yourself"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:610
-msgid "Başarı"
-msgstr "Success"
-
-#: .\articles\templates\articles\gunluk-kartlar.html:612
-msgid "Başarı yolculuğu, her gün atılan küçük adımlarla başlar. Bugün senin günün."
-msgstr "The journey to success begins with small steps taken every day. Today is your day."
-
-#: .\articles\templates\articles\gunluk-kartlar.html:615
-msgid "Başarıya odaklan"
-msgstr "Focus on success"
-
-msgid "My Tasks"
-msgstr "Görevlerim"
-
-msgid "Breathing Exercise"
 msgstr "Nefes Egzersizi"
 
 msgid "Günlük Yansıtma"
 msgstr "Günlük Yansıtma"
 
-msgid "Daily Reflection"
-msgstr "Günlük Yansıtma" 
+msgid "Günlük Kartlar"
+msgstr "Günlük Kartlar"
+
+msgid "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar"
+msgstr "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar"
+
+msgid "Destek Duvarı"
+msgstr "Destek Duvarı"
+
+msgid "Meditasyon"
+msgstr "Meditasyon"
+
+msgid "Bildirimler"
+msgstr "Bildirimler"
+
+msgid "Haftalık Raporlar"
+msgstr "Haftalık Raporlar"
+
+msgid "Çıkış Yap"
+msgstr "Çıkış Yap"
+
+msgid "Yardım Merkezi"
+msgstr "Yardım Merkezi"
+
+msgid "Profil fotoğrafınız başarıyla değiştirilmiştir."
+msgstr "Profil fotoğrafınız başarıyla değiştirilmiştir."
+
+msgid "Profil fotoğrafınız güncellenemedi."
+msgstr "Profil fotoğrafınız güncellenemedi."
+
+msgid "Lütfen dosya seçiniz."
+msgstr "Lütfen dosya seçiniz."
+
+# Motivational Messages
+msgid "Great! You completed the breathing exercise!"
+msgstr "Harika! Nefes egzersizini tamamladın!"
+
+msgid "Perfect! You took good care of yourself!"
+msgstr "Mükemmel! Kendine iyi baktın!"
+
+msgid "Super! You should feel relaxed!"
+msgstr "Süper! Rahatlamış hissetmelisin!"
+
+msgid "Well done! You made time for yourself today!"
+msgstr "Aferin! Bugün de kendine zaman ayırdın!"
+
+msgid "Excellent! Your breath control is improving!"
+msgstr "Harika! Nefes kontrolün gelişiyor!"
+
+# Dashboard
+msgid "Dashboard - İyi Hisset"
+msgstr "Dashboard - İyi Hisset"
+
+msgid "Yeni Sohbet"
+msgstr "Yeni Sohbet"
+
+msgid "Yeni Sohbet Başlat"
+msgstr "Yeni Sohbet Başlat"
+
+msgid "Sohbetleri Ara"
+msgstr "Sohbetleri Ara"
+
+msgid "Sohbetlerinizi arayın..."
+msgstr "Sohbetlerinizi arayın..."
+
+msgid "Geçmiş Sohbetler"
+msgstr "Geçmiş Sohbetler"
+
+msgid "Merhaba! Size nasıl yardımcı olabilirim?"
+msgstr "Merhaba! Size nasıl yardımcı olabilirim?"
+
+msgid "Mesajınızı yazın..."
+msgstr "Mesajınızı yazın..."
+
+msgid "Sohbeti Sil"
+msgstr "Sohbeti Sil"
+
+msgid "Bu sohbeti silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+msgstr "Bu sohbeti silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
+
+msgid "Hayır"
+msgstr "Hayır"
+
+msgid "Evet"
+msgstr "Evet"
+
+msgid "Kaygı Hakkında Sohbet"
+msgstr "Kaygı Hakkında Sohbet"
+
+msgid "Stres Yönetimi İpuçları"
+msgstr "Stres Yönetimi İpuçları"
+
+msgid "Günlük Motivasyon"
+msgstr "Günlük Motivasyon"
+
+msgid "Düzenle"
+msgstr "Düzenle"
+
+msgid "Sil"
+msgstr "Sil"
+
+# Daily Cards
+msgid "Bugünün Sözü"
+msgstr "Bugünün Sözü"
+
+msgid "Her gün yeni bir başlangıçtır. Kendine inan ve güçlü kal."
+msgstr "Her gün yeni bir başlangıçtır. Kendine inan ve güçlü kal."
+
+msgid "Bugün kendine güven"
+msgstr "Bugün kendine güven"
+
+msgid "Motivasyon"
+msgstr "Motivasyon"
+
+msgid "Küçük adımlar büyük değişimlere yol açar. Her gün bir adım at."
+msgstr "Küçük adımlar büyük değişimlere yol açar. Her gün bir adım at."
+
+msgid "Adım adım ilerle"
+msgstr "Adım adım ilerle"
+
+msgid "Düşünce"
+msgstr "Düşünce"
+
+msgid "Olumlu düşünceler, olumlu sonuçlar doğurur. Bugün kendine iyi davran."
+msgstr "Olumlu düşünceler, olumlu sonuçlar doğurur. Bugün kendine iyi davran."
+
+msgid "Pozitif kal"
+msgstr "Pozitif kal"
+
+msgid "Farkındalık"
+msgstr "Farkındalık"
+
+msgid "Şu anı yaşa, geçmişi bırak, geleceği planla ama bugüne odaklan."
+msgstr "Şu anı yaşa, geçmişi bırak, geleceği planla ama bugüne odaklan."
+
+msgid "Anı yaşa"
+msgstr "Anı yaşa"
+
+msgid "İyileşme"
+msgstr "İyileşme"
+
+msgid "Kendini sev ve kabul et. Mükemmel olmak zorunda değilsin, sadece kendin ol."
+msgstr "Kendini sev ve kabul et. Mükemmel olmak zorunda değilsin, sadece kendin ol."
+
+msgid "Kendini sev"
+msgstr "Kendini sev"
+
+msgid "Başarı"
+msgstr "Başarı"
+
+msgid "Başarı yolculuğu, her gün atılan küçük adımlarla başlar. Bugün senin günün."
+msgstr "Başarı yolculuğu, her gün atılan küçük adımlarla başlar. Bugün senin günün."
+
+msgid "Başarıya odaklan"
+msgstr "Başarıya odaklan"
+
+# Emergency Support
+msgid "Acil Destek"
+msgstr "Acil Destek"
+
+msgid "İhtiyacınız olduğunda hemen ulaşabileceğiniz güvenli destek sistemi"
+msgstr "İhtiyacınız olduğunda hemen ulaşabileceğiniz güvenli destek sistemi"
+
+msgid "Acil durum mesajı göndermek için butona tıklayın"
+msgstr "Acil durum mesajı göndermek için butona tıklayın"
+
+msgid "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!"
+msgstr "BENİ ARA ACİLL KRİZ GEÇİRİYORUM !!!"
+
+msgid "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?"
+msgstr "Şu an kendimi iyi hissetmiyorum bana ulaşır mısın ?"
+
+msgid "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş"
+msgstr "İyi değilim 10 dk içinde bir şey yazmazsam bana ulaş"
+
+msgid "Mesaj Gönderildi"
+msgstr "Mesaj Gönderildi"
+
+msgid "Your emergency message has been sent successfully. We will contact you as soon as possible."
+msgstr "Acil durum mesajınız başarıyla gönderildi. En kısa sürede sizinle iletişime geçeceğiz."
+
+msgid "No Message Selected"
+msgstr "Mesaj Seçilmedi"
+
+msgid "Please select a message first."
+msgstr "Lütfen önce bir mesaj seçin."
+
+# Home Page
+msgid "Hoşgeldin"
+msgstr "Hoşgeldin"
+
+msgid "İyi Hisset'e Hoşgeldin!"
+msgstr "İyi Hisset'e Hoşgeldin!"
+
+msgid "İyi Hisset sistemi ile sağlık ve mutlu olma yolunu bulun."
+msgstr "İyi Hisset sistemi ile sağlık ve mutlu olma yolunu bulun."
+
+msgid "ACİL DESTEK"
+msgstr "ACİL DESTEK"
+
+msgid "Hemen yardım almak için tıklayın"
+msgstr "Hemen yardım almak için tıklayın"
+
+msgid "Günlük aktivitelerinizi ve sağlık durumunuzu kaydedin."
+msgstr "Günlük aktivitelerinizi ve sağlık durumunuzu kaydedin."
+
+msgid "Diğer kullanıcılarla iletişime geçin ve destek alın."
+msgstr "Diğer kullanıcılarla iletişime geçin ve destek alın."
+
+msgid "Nefes egzersizleri yaparak solunum sisteminizi güçlendirin."
+msgstr "Nefes egzersizleri yaparak solunum sisteminizi güçlendirin."
+
+msgid "Meditasyon yaparak stres seviyenizi azaltın."
+msgstr "Meditasyon yaparak stres seviyenizi azaltın."
+
+# Notifications
+msgid "En son aktiviteleriniz ve önemli bilgilerle güncel kalın."
+msgstr "En son aktiviteleriniz ve önemli bilgilerle güncel kalın."
+
+msgid "Günlük Görevleriniz Hazır!"
+msgstr "Günlük Görevleriniz Hazır!"
+
+msgid "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!"
+msgstr "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!"
+
+msgid "5 dakika önce"
+msgstr "5 dakika önce"
+
+msgid "Tebrikler!"
+msgstr "Tebrikler!"
+
+msgid "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız."
+msgstr "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız."
+
+msgid "2 saat önce"
+msgstr "2 saat önce"
+
+msgid "Yeni İçerik"
+msgstr "Yeni İçerik"
+
+msgid "Stres yönetimi için yeni bir nefes egzersizi eklendi."
+msgstr "Stres yönetimi için yeni bir nefes egzersizi eklendi."
+
+msgid "Dün"
+msgstr "Dün"
+
+msgid "Destek Mesajınız"
+msgstr "Destek Mesajınız"
+
+msgid "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi."
+msgstr "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi."
+
+msgid "2 gün önce"
+msgstr "2 gün önce"
+
+# Tasks
+msgid "Tamamlanan Görevler"
+msgstr "Tamamlanan Görevler"
+
+msgid "Günlük Nefes Egzersizi"
+msgstr "Günlük Nefes Egzersizi"
+
+msgid "5 dakikalık nefes egzersizi tamamlandı"
+msgstr "5 dakikalık nefes egzersizi tamamlandı"
+
+msgid "Bugün, 10:30"
+msgstr "Bugün, 10:30"
+
+msgid "Günlük Düşünce Günlüğü"
+msgstr "Günlük Düşünce Günlüğü"
+
+msgid "Bugünkü düşüncelerinizi kaydettiniz"
+msgstr "Bugünkü düşüncelerinizi kaydettiniz"
+
+msgid "Dün, 20:15"
+msgstr "Dün, 20:15"
+
+msgid "Bekleyen Görevler"
+msgstr "Bekleyen Görevler"
+
+msgid "Haftalık Değerlendirme"
+msgstr "Haftalık Değerlendirme"
+
+msgid "Bu haftaki ilerlemenizi değerlendirin"
+msgstr "Bu haftaki ilerlemenizi değerlendirin"
+
+msgid "Son Tarih: Yarın"
+msgstr "Son Tarih: Yarın"
+
+msgid "Tamamla"
+msgstr "Tamamla"
+
+msgid "Meditasyon Seansı"
+msgstr "Meditasyon Seansı"
+
+msgid "10 dakikalık meditasyon seansı"
+msgstr "10 dakikalık meditasyon seansı"
+
+msgid "Son Tarih: Bugün"
+msgstr "Son Tarih: Bugün"
+
+msgid "Şimdi"
+msgstr "Şimdi"
+
+msgid "görevi tamamlandı!"
+msgstr "görevi tamamlandı!"
+
+# Breathing Exercise
+msgid "Nefes Al (sn)"
+msgstr "Nefes Al (sn)"
+
+msgid "Tut (sn)"
+msgstr "Tut (sn)"
+
+msgid "Nefes Ver (sn)"
+msgstr "Nefes Ver (sn)"
+
+msgid "Tekrar"
+msgstr "Tekrar"
+
+msgid "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin."
+msgstr "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin."
+
+msgid "Hazır"
+msgstr "Hazır"
+
+msgid "Başla"
+msgstr "Başla"
+
+msgid "Durdur"
+msgstr "Durdur"
+
+msgid "Döngü:"
+msgstr "Döngü:"
+
+msgid "Nefes Al"
+msgstr "Nefes Al"
+
+msgid "Tut"
+msgstr "Tut"
+
+msgid "Nefes Ver"
+msgstr "Nefes Ver"
+
+# Meditation
+msgid "Meditasyon - İyi Hisset"
+msgstr "Meditasyon - İyi Hisset"
+
+msgid "Tümü"
+msgstr "Tümü"
+
+msgid "Uyku & Rahatlama"
+msgstr "Uyku & Rahatlama"
+
+msgid "Odaklanma & Üretkenlik"
+msgstr "Odaklanma & Üretkenlik"
+
+msgid "Doğa & Farkındalık"
+msgstr "Doğa & Farkındalık"
+
+msgid "Sabah Aktivasyonu"
+msgstr "Sabah Aktivasyonu"
+
+msgid "Nefes & Sakinlik"
+msgstr "Nefes & Sakinlik"
+
+msgid "Derin Uyku İçin Yağmur"
+msgstr "Derin Uyku İçin Yağmur"
+
+msgid "Gece Meditasyonu"
+msgstr "Gece Meditasyonu"
+
+msgid "Ay Işığı Meditasyonu"
+msgstr "Ay Işığı Meditasyonu"
+
+msgid "Odaklanma Piyanosu"
+msgstr "Odaklanma Piyanosu"
+
+msgid "Çalışma Odaklanması"
+msgstr "Çalışma Odaklanması"
+
+msgid "Stres Azaltan Dalgalar"
+msgstr "Stres Azaltan Dalgalar"
+
+msgid "Orman Sesi Meditasyonu"
+msgstr "Orman Sesi Meditasyonu"
+
+msgid "Sabah Esnemesi"
+msgstr "Sabah Esnemesi"
+
+msgid "Güneş Doğuşu Meditasyonu"
+msgstr "Güneş Doğuşu Meditasyonu"
+
+msgid "Ateş Meditasyonu"
+msgstr "Ateş Meditasyonu"
+
+msgid "Sakinlik Meditasyonu"
+msgstr "Sakinlik Meditasyonu"
+
+# Support Wall
+msgid "Hikayeni Paylaş"
+msgstr "Hikayeni Paylaş"
+
+msgid "Hikayeni buraya yazabilirsin..."
+msgstr "Hikayeni buraya yazabilirsin..."
+
+msgid "Paylaş"
+msgstr "Paylaş"
+
+msgid "Henüz hiç mesaj yok."
+msgstr "Henüz hiç mesaj yok."
+
+msgid "Önceki"
+msgstr "Önceki"
+
+msgid "Sayfa"
+msgstr "Sayfa"
+
+msgid "Sonraki"
+msgstr "Sonraki"
+
+# Profile Management
+msgid "Profile Management"
+msgstr "Profil Yönetimi"
+
+msgid "İstatistiklerim"
+msgstr "İstatistiklerim"
+
+msgid "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl olduğunuzu görün."
+msgstr "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl olduğunuzu görün."
+
+msgid "Aktif Günler"
+msgstr "Aktif Günler"
+
+msgid "Sohbet Seansları"
+msgstr "Sohbet Seansları"
+
+msgid "Ruh Hali Puanı"
+msgstr "Ruh Hali Puanı"
+
+msgid "Ayarlarım"
+msgstr "Ayarlarım"
+
+msgid "Dil Seçimi"
+msgstr "Dil Seçimi"
+
+msgid "Site genelinde dil ayarlayın"
+msgstr "Site genelinde dil ayarlayın"
+
+msgid "Türkçe"
+msgstr "Türkçe"
+
+msgid "English"
+msgstr "English"
+
+msgid "Tema"
+msgstr "Tema"
+
+msgid "Site genelinde tema seçin"
+msgstr "Site genelinde tema seçin"
+
+msgid "Açık Mod"
+msgstr "Açık Mod"
+
+msgid "Koyu Mod"
+msgstr "Koyu Mod"
+
+msgid "Hesap Bilgileri"
+msgstr "Hesap Bilgileri"
+
+msgid "Kullanıcı bilgilerinizi güncelleyin"
+msgstr "Kullanıcı bilgilerinizi güncelleyin"
+
+msgid "Kullanıcı Bilgileri"
+msgstr "Kullanıcı Bilgileri"
+
+msgid "Bilgileri Güncelle"
+msgstr "Bilgileri Güncelle"
+
+msgid "Şifre Değiştir"
+msgstr "Şifre Değiştir"
+
+msgid "Mevcut Şifre"
+msgstr "Mevcut Şifre"
+
+msgid "Yeni Şifre"
+msgstr "Yeni Şifre"
+
+msgid "Yeni Şifre (Tekrar)"
+msgstr "Yeni Şifre (Tekrar)"
+
+msgid "Şifreyi Değiştir"
+msgstr "Şifreyi Değiştir"
+
+msgid "Görünüm"
+msgstr "Görünüm"
+
+msgid "Uygulama görünümünü özelleştirin"
+msgstr "Uygulama görünümünü özelleştirin"
+
+msgid "Fotoğrafı Güncelle"
+msgstr "Fotoğrafı Güncelle"
+
+msgid "Yazı Tipi Boyutu"
+msgstr "Yazı Tipi Boyutu"
+
+msgid "Site genelinde yazı boyutunu ayarlayın"
+msgstr "Site genelinde yazı boyutunu ayarlayın"
+
+msgid "Küçük"
+msgstr "Küçük"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Büyük"
+msgstr "Büyük"
+
+msgid "Çok Büyük"
+msgstr "Çok Büyük"
+
+msgid "Kişi Kaydetme"
+msgstr "Kişi Kaydetme"
+
+msgid "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin."
+msgstr "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin."
+
+msgid "Acil Durum Kişisi"
+msgstr "Acil Durum Kişisi"
+
+msgid "Yakınlık"
+msgstr "Yakınlık"
+
+msgid "Örn: Anne, Baba, Arkadaş"
+msgstr "Örn: Anne, Baba, Arkadaş"
+
+msgid "Ad Soyad"
+msgstr "Ad Soyad"
+
+msgid "Telefon Numarası"
+msgstr "Telefon Numarası"
+
+msgid "05xx xxx xx xx"
+msgstr "05xx xxx xx xx"
+
+msgid "Kaydet / Güncelle"
+msgstr "Kaydet / Güncelle"
+
+msgid "Acil durum kişisi kaydedildi."
+msgstr "Acil durum kişisi kaydedildi."
+
+# Help Center
+msgid "Yardım"
+msgstr "Yardım"
+
+msgid "Projeye Genel Bakış"
+msgstr "Projeye Genel Bakış"
+
+msgid "Ana Özellikler"
+msgstr "Ana Özellikler"
+
+msgid "Acil Destek Sistemi"
+msgstr "Acil Destek Sistemi"
+
+msgid "Günlük Motivasyon Kartları"
+msgstr "Günlük Motivasyon Kartları"
+
+msgid "Bildirim Sistemi"
+msgstr "Bildirim Sistemi"
+
+msgid "Hesap Yönetimi"
+msgstr "Hesap Yönetimi"
+
+msgid "İyi Hisset - Yardım Merkezi"
+msgstr "İyi Hisset - Yardım Merkezi"
+
+msgid "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını iyileştirmek için tasarlanmış kapsamlı bir ruh sağlığı uygulamasıdır."
+msgstr "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını iyileştirmek için tasarlanmış kapsamlı bir ruh sağlığı uygulamasıdır."
+
+msgid "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın."
+msgstr "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın."
+
+msgid "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin."
+msgstr "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin."
+
+msgid "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın."
+msgstr "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın."
+
+msgid "Acil durum butonu ile anında yardım çağırma"
+msgstr "Acil durum butonu ile anında yardım çağırma"
+
+msgid "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim"
+msgstr "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim"
+
+msgid "Konum paylaşımı ve hızlı müdahale"
+msgstr "Konum paylaşımı ve hızlı müdahale"
+
+msgid "Günlük motive edici sözler"
+msgstr "Günlük motive edici sözler"
+
+msgid "Etkileşimli kart tasarımı"
+msgstr "Etkileşimli kart tasarımı"
+
+msgid "Kişiselleştirilmiş içerik"
+msgstr "Kişiselleştirilmiş içerik"
+
+msgid "Anonim paylaşım seçeneği"
+msgstr "Anonim paylaşım seçeneği"
+
+msgid "Beğeni ve destek sistemi"
+msgstr "Beğeni ve destek sistemi"
+
+msgid "Topluluk desteği"
+msgstr "Topluluk desteği"
+
+msgid "Başarı istatistikleri"
+msgstr "Başarı istatistikleri"
+
+msgid "Kişisel gelişim analizi"
+msgstr "Kişisel gelişim analizi"
+
+msgid "Görev hatırlatıcıları"
+msgstr "Görev hatırlatıcıları"
+
+msgid "Başarı bildirimleri"
+msgstr "Başarı bildirimleri"
+
+msgid "Topluluk etkileşimleri"
+msgstr "Topluluk etkileşimleri"
+
+msgid "Profil fotoğrafı değiştirme"
+msgstr "Profil fotoğrafı değiştirme"
+
+msgid "Şifre güncelleme"
+msgstr "Şifre güncelleme"
+
+msgid "Dil ve görünüm ayarları"
+msgstr "Dil ve görünüm ayarları"
+
+msgid "Uygulamayı nasıl kullanmaya başlayabilirim?"
+msgstr "Uygulamayı nasıl kullanmaya başlayabilirim?"
+
+msgid "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Giriş yaptıktan sonra günlük görevlerinizi takip edebilir, sohbet botu ile etkileşime geçebilirsiniz."
+msgstr "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Giriş yaptıktan sonra günlük görevlerinizi takip edebilir, sohbet botu ile etkileşime geçebilirsiniz."
+
+msgid "Acil durumda nasıl yardım alabilirim?"
+msgstr "Acil durumda nasıl yardım alabilirim?"
+
+msgid "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize otomatik olarak mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından gerekli bilgileri girmeniz gerekiyor."
+msgstr "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize otomatik olarak mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından gerekli bilgileri girmeniz gerekiyor."
+
+msgid "Günlük kartlar nasıl çalışır?"
+msgstr "Günlük kartlar nasıl çalışır?"
+
+msgid "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve aktivite önerileri içerir. Bu kartlar gününüze pozitif başlamanıza yardımcı olur."
+msgstr "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve aktivite önerileri içerir. Bu kartlar gününüze pozitif başlamanıza yardımcı olur."
+
+msgid "Destek duvarında paylaşım yapabilir miyim?"
+msgstr "Destek duvarında paylaşım yapabilir miyim?"
+
+msgid "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da gönderilerinizi beğenebilir ve destekleyebilir."
+msgstr "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da gönderilerinizi beğenebilir ve destekleyebilir."
+
+msgid "Hesap ayarlarımı nasıl değiştirebilirim?"
+msgstr "Hesap ayarlarımı nasıl değiştirebilirim?"
+
+msgid "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap bilgilerinizi güncelleyebilirsiniz. Ayrıca dil ve tema seçeneklerini de buradan ayarlayabilirsiniz."
+msgstr "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap bilgilerinizi güncelleyebilirsiniz. Ayrıca dil ve tema seçeneklerini de buradan ayarlayabilirsiniz."
+
+# Login & Register
+msgid "Kullanıcı Girişi"
+msgstr "Kullanıcı Girişi"
+
+msgid "Bu alan zorunludur."
+msgstr "Bu alan zorunludur."
+
+msgid "Giriş Yap"
+msgstr "Giriş Yap"
+
+msgid "Hesabın yok mu?"
+msgstr "Hesabın yok mu?"
+
+msgid "Hesap Oluştur"
+msgstr "Hesap Oluştur"
+
+msgid "En fazla 150 karakter olabilir. Sadece harf, rakam ve @/./+/-/_ karakterleri kullanılabilir."
+msgstr "En fazla 150 karakter olabilir. Sadece harf, rakam ve @/./+/-/_ karakterleri kullanılabilir."
+
+msgid "Şifreniz diğer kişisel bilgilerinize çok benzer olamaz."
+msgstr "Şifreniz diğer kişisel bilgilerinize çok benzer olamaz."
+
+msgid "Şifreniz çok yaygın bir şifre olamaz."
+msgstr "Şifreniz çok yaygın bir şifre olamaz."
+
+msgid "Şifreniz tamamen sayısal olamaz."
+msgstr "Şifreniz tamamen sayısal olamaz."
+
+msgid "Bu kullanıcı adı uygun."
+msgstr "Bu kullanıcı adı uygun."
+
+msgid "Bu kullanıcı adında bir kullanıcı zaten mevcut."
+msgstr "Bu kullanıcı adında bir kullanıcı zaten mevcut."
+
+msgid "Kullanıcı adı uygun."
+msgstr "Kullanıcı adı uygun."
+
+msgid "Bu e-posta uygun."
+msgstr "Bu e-posta uygun."
+
+msgid "E-posta uygun."
+msgstr "E-posta uygun."
+
+msgid "Kaydol"
+msgstr "Kaydol"
+
+msgid "Hesabın zaten var mı?"
+msgstr "Hesabın zaten var mı?"
+
+# Messages
+msgid "Lütfen tüm alanları doldurunuz."
+msgstr "Lütfen tüm alanları doldurunuz."
+
+msgid "Yeni şifreler eşleşmiyor."
+msgstr "Yeni şifreler eşleşmiyor."
+
+msgid "Yeni şifre mevcut şifre ile aynı olamaz."
+msgstr "Yeni şifre mevcut şifre ile aynı olamaz."
+
+msgid "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?"
+msgstr "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?"
+
+msgid "Hesap silindi."
+msgstr "Hesap silindi."
+
+msgid "Vazgeç"
+msgstr "Vazgeç"
+
+msgid "Bu kullanıcı adı veya e-posta zaten alınmış"
+msgstr "Bu kullanıcı adı veya e-posta zaten alınmış"
+
+msgid "Bu kullanıcı adı/e-posta kullanılabilir"
+msgstr "Bu kullanıcı adı/e-posta kullanılabilir"
+
+msgid "Hiçbir değişiklik yapılamadı."
+msgstr "Hiçbir değişiklik yapılamadı."
+
+msgid "Kullanıcı adı başarıyla güncellenmiştir."
+msgstr "Kullanıcı adı başarıyla güncellenmiştir."
+
+msgid "E-posta başarıyla güncellenmiştir."
+msgstr "E-posta başarıyla güncellenmiştir."
+
+msgid "Bir hata oluştu. Lütfen tekrar deneyiniz."
+msgstr "Bir hata oluştu. Lütfen tekrar deneyiniz."
+
+# Phone validation
+msgid "Eksik girdiniz. Telefon numarası 11 haneli olmalı."
+msgstr "Eksik girdiniz. Telefon numarası 11 haneli olmalı."
+
+msgid "Fazla numara girdiniz. Telefon numarası 11 haneli olmalı."
+msgstr "Fazla numara girdiniz. Telefon numarası 11 haneli olmalı."
+
+# Menu
+msgid "Menüyü Aç/Kapat"
+msgstr "Menüyü Aç/Kapat"
+
+
+
+# User creation
+msgid "Kullanıcı Oluşturuldu!"
+msgstr "Kullanıcı Oluşturuldu!"
+
+# Account deletion
+msgid "Hesabınız başarıyla silindi."
+msgstr "Hesabınız başarıyla silindi."
+
+# Chat history
+msgid "Geçersiz history_id"
+msgstr "Geçersiz history_id"
+
+# Messages
+msgid "Mesaj eklendi."
+msgstr "Mesaj eklendi."
+
+# Invalid requests
+msgid "Geçersiz istek"
+msgstr "Geçersiz istek"
+
+msgid "Bilinmeyen alan"
+msgstr "Bilinmeyen alan"
+
+msgid "Mesaj bulunamadı."
+msgstr "Mesaj bulunamadı."
+
+# Profile photo
+msgid "Profil fotoğrafı başarıyla güncellendi!"
+msgstr "Profil fotoğrafı başarıyla güncellendi!"
+
+msgid "Fotoğraf dosyası bulunamadı."
+msgstr "Fotoğraf dosyası bulunamadı."
+
+msgid "Bir hata oluştu: "
+msgstr "Bir hata oluştu: "
+
+msgid "Sadece POST istekleri kabul edilir."
+msgstr "Sadece POST istekleri kabul edilir."
+
+# Phone number
+msgid "Telefon numarası gerekli."
+msgstr "Telefon numarası gerekli."
+
+msgid "Telefon numarası 11 haneli olmalıdır."
+msgstr "Telefon numarası 11 haneli olmalıdır."
+
+# Notifications
+msgid "Hoş geldin! Bugün harika bir gün."
+msgstr "Hoş geldin! Bugün harika bir gün."
+
+msgid "Yeni bir nefes egzersizi eklendi."
+msgstr "Yeni bir nefes egzersizi eklendi."
+
+msgid "Günlük yansıtmanı unutma!"
+msgstr "Günlük yansıtmanı unutma!"
+
+msgid "Bir arkadaşın destek duvarına mesaj bıraktı."
+msgstr "Bir arkadaşın destek duvarına mesaj bıraktı."
+
+msgid "Haftalık raporun hazır!"
+msgstr "Haftalık raporun hazır!"
+
+# Help questions
+msgid "How do I reset my password?"
+msgstr "Şifremi nasıl sıfırlayabilirim?"
+
+msgid "To reset your password, go to the profile page and click 'Change Password'."
+msgstr "Şifrenizi sıfırlamak için profil sayfasına gidin ve 'Şifre Değiştir' butonuna tıklayın."
+
+msgid "Sık Sorulan Sorular"
+msgstr "Sık Sorulan Sorular"
+
+msgid "Şifremi nasıl değiştirebilirim?"
+msgstr "Şifremi nasıl değiştirebilirim?"
+
+msgid "Profil fotoğrafımı nasıl güncelleyebilirim?"
+msgstr "Profil fotoğrafımı nasıl güncelleyebilirim?"
+
+msgid "Gizlilik ayarları nelerdir?"
+msgstr "Gizlilik ayarları nelerdir?"
+
+msgid "Destek ile nasıl iletişime geçebilirim?"
+msgstr "Destek ile nasıl iletişime geçebilirim?"
+
+msgid "Yardım Merkezini Ziyaret Et"
+msgstr "Yardım Merkezini Ziyaret Et"
+
+msgid "Hesabı Sil"
+msgstr "Hesabı Sil"
+
+msgid "Onay için 'HESABIMI SİL' yazınız"
+msgstr "Onay için 'HESABIMI SİL' yazınız"
+
+msgid "HESABIMI SİL"
+msgstr "HESABIMI SİL"
+
+msgid "Hesabımı Kalıcı Olarak Sil"
+msgstr "Hesabımı Kalıcı Olarak Sil"

@@ -107,10 +107,5 @@ p, span, div, a, button, input, textarea, label {
   overflow: visible !important;
 }
 
-.sidebar-section, .sidebar-container {
-  overflow: visible !important;
-}
 
-.dashboard-user-avatar {
-  border: 2.5px solid #e2e8f0;
-} 
+

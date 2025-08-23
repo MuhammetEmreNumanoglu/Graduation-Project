@@ -1,13 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .forms import CreateUserForm, LoginForm, ArticleForm, UpdateUserForm,UpdateProfileForm
+from .forms import CreateUserForm, LoginForm, ArticleForm, UpdateUserForm,UpdateProfileForm, EmergencyContactForm
 from django.contrib.auth.models import auth, User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import StreamingHttpResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from .ai_wrapper import LLMClient
-from .models import Article, Profile, ChatHistory, ChatHistoryContent, Like
+from .models import Article, Profile, ChatHistory, ChatHistoryContent, Like, EmergencyContact
 from django.http import JsonResponse
 from django.utils import translation
 from django.conf import settings
@@ -20,6 +20,7 @@ import json
 import uuid
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_GET
 
 
 # Create your views here.
@@ -35,7 +36,7 @@ def register(request):
         current_user = form.save(commit=False)
         form.save()
         profile = Profile.objects.create(user=current_user)
-        messages.success(request, "Kullanıcı Oluşturuldu!")
+        messages.success(request, _("Kullanıcı Oluşturuldu!"))
         return redirect("my-login")
     context = {"RegistrationForm": form}
     return render(request, "articles/register.html", context)
@@ -90,7 +91,7 @@ def stream_llm_response(request):
         else:
             chat_history = ChatHistory.objects.filter(history_id=history_id, user=request.user).first()
             if not chat_history:
-                return JsonResponse({"error": "Geçersiz history_id"}, status=400)
+                return JsonResponse({"error": _("Geçersiz history_id")}, status=400)
 
         ChatHistoryContent.objects.create(
             chat_history=chat_history,
@@ -130,8 +131,12 @@ def stream_llm_response(request):
 
 
 def user_logout(request):
+    # Session'ı temizle
     auth.logout(request)
-    return redirect("")
+    request.session.flush()  # Tüm session verilerini temizle
+    
+    # Login sayfasına yönlendir
+    return redirect("my-login")
 
 
 @login_required(login_url="my-login")
@@ -194,18 +199,32 @@ def profile_management(request):
     form = UpdateUserForm(instance=request.user)
     profile = Profile.objects.filter(user=request.user).first()
     form_2 = UpdateProfileForm(instance=profile)
+    # Emergency contacts
+    contact = EmergencyContact.objects.filter(user=request.user).first()
+    contact_form = EmergencyContactForm(instance=contact)
     if request.method == "POST":
-        form = UpdateUserForm(request.POST, instance=request.user)
-        form_2 = UpdateProfileForm(request.POST, request.FILES, instance=profile)
+        # Detect which form is sent by checking known fields
+        if 'relation' in request.POST and 'full_name' in request.POST and 'phone' in request.POST:
+            contact = EmergencyContact.objects.filter(user=request.user).first()
+            contact_form = EmergencyContactForm(request.POST, instance=contact)
+            if contact_form.is_valid():
+                obj = contact_form.save(commit=False)
+                obj.user = request.user
+                obj.save()
+                messages.success(request, _("Acil durum kişisi kaydedildi."))
+                return redirect("profile-management")
+        else:
+            form = UpdateUserForm(request.POST, instance=request.user)
+            form_2 = UpdateProfileForm(request.POST, request.FILES, instance=profile)
 
-        if form.is_valid():
-            form.save()
-            return redirect("dashboard")
-        if form_2.is_valid():
-            form_2.save()
-            return redirect("dashboard")
+            if form.is_valid():
+                form.save()
+                return redirect("dashboard")
+            if form_2.is_valid():
+                form_2.save()
+                return redirect("dashboard")
 
-    context = {"UserUpdateForm": form, 'ProfileUpdateForm': form_2}
+    context = {"UserUpdateForm": form, 'ProfileUpdateForm': form_2, 'EmergencyContactForm': contact_form, 'contact': contact}
     return render(request, "articles/profile-management.html", context)
 
 
@@ -214,7 +233,7 @@ def delete_account(request):
     if request.method == "POST":
         user = request.user
         user.delete()
-        messages.success(request, "Hesabınız başarıyla silindi.")
+        messages.success(request, _("Hesabınız başarıyla silindi."))
         return redirect("register")
     return render(request, "articles/delete-account.html")
 
@@ -238,7 +257,7 @@ def destek_duvari(request):
                 chat_history=ChatHistory.objects.get_or_create(user=request.user)[0]
             )
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({"success": True, "message": "Mesaj eklendi."})
+                return JsonResponse({"success": True, "message": _("Mesaj eklendi.")})
             return redirect("destek-duvari")
 
     # Sadece kullanıcının kendi mesajları
@@ -283,31 +302,37 @@ def update_password(request):
             new_password = request.POST.get('new_password')
             
             if not current_password or not new_password:
-                messages.error(request, _('Please fill in all fields'))
+                messages.error(request, _('Lütfen tüm alanları doldurunuz.'))
                 return redirect('profile-management')
             
             user = request.user
             if user.check_password(current_password):
                 if current_password == new_password:
-                    messages.error(request, _('New password cannot be the same as current password'))
+                    messages.error(request, _('Yeni şifre mevcut şifre ile aynı olamaz.'))
                     return redirect('profile-management')
                 
                 try:
                     validate_password(new_password, user)
                     user.set_password(new_password)
                     user.save()
-                    auth.logout(request)
-                    messages.success(request, _('Your password has been successfully updated. Please login with your new password.'))
-                    return redirect('my-login')
+                    # Oturumu koru ve anasayfaya yönlendir
+                    update_session_auth_hash(request, user)
+                    messages.success(request, _('Şifreniz başarıyla güncellendi.'))
+                    return redirect('anasayfa')
                 except ValidationError as e:
-                    messages.error(request, str(e))
+                    # Çoklu şifre doğrulama hatalarını tek tek göster
+                    try:
+                        for err in e:
+                            messages.error(request, str(err))
+                    except Exception:
+                        messages.error(request, _('Şifre güncellenemedi.'))
                     return redirect('profile-management')
             else:
-                messages.error(request, _('Current password is incorrect'))
+                messages.error(request, _('Mevcut şifre yanlış.'))
                 return redirect('profile-management')
                 
         except Exception as e:
-            messages.error(request, str(e))
+            messages.error(request, _('Şifre güncellenemedi.'))
             return redirect('profile-management')
     return redirect('profile-management')
 
@@ -362,12 +387,12 @@ def upload_photo(request):
                 profile.save()
                 return JsonResponse({
                     'success': True,
-                    'message': 'Profil fotoğrafı başarıyla güncellendi!'
+                    'message': _('Profil fotoğrafı başarıyla güncellendi!')
                 })
             else:
                 return JsonResponse({
                     'success': False,
-                    'error': 'Fotoğraf dosyası bulunamadı.'
+                    'error': _('Fotoğraf dosyası bulunamadı.')
                 }, status=400)
                 
         except Profile.DoesNotExist:
@@ -378,27 +403,51 @@ def upload_photo(request):
                 profile.save()
                 return JsonResponse({
                     'success': True,
-                    'message': 'Profil fotoğrafı başarıyla güncellendi!'
+                    'message': _('Profil fotoğrafı başarıyla güncellendi!')
                 })
             else:
                 return JsonResponse({
                     'success': False,
-                    'error': 'Fotoğraf dosyası bulunamadı.'
+                    'error': _('Fotoğraf dosyası bulunamadı.')
                 }, status=400)
                 
         except Exception as e:
             return JsonResponse({
                 'success': False,
-                'error': f'Bir hata oluştu: {str(e)}'
+                'error': _('Bir hata oluştu: ') + str(e)
             }, status=500)
     
     return JsonResponse({
         'success': False,
-        'error': 'Sadece POST istekleri kabul edilir.'
+        'error': _('Sadece POST istekleri kabul edilir.')
     }, status=405)
 
 def responsive(request):
     return render(request, 'articles/responsive.html')
+
+@require_GET
+def check_availability(request):
+    field = request.GET.get('field')
+    value = request.GET.get('value', '').strip()
+    current_user_id = None
+    if request.user.is_authenticated:
+        current_user_id = request.user.id
+
+    if not field or not value:
+        return JsonResponse({'available': False, 'error': _('Geçersiz istek')}, status=400)
+
+    if field == 'username':
+        qs = User.objects.filter(username__iexact=value)
+        if current_user_id:
+            qs = qs.exclude(pk=current_user_id)
+        return JsonResponse({'available': not qs.exists()})
+    elif field == 'email':
+        qs = User.objects.filter(email__iexact=value)
+        if current_user_id:
+            qs = qs.exclude(pk=current_user_id)
+        return JsonResponse({'available': not qs.exists()})
+    else:
+        return JsonResponse({'available': False, 'error': _('Bilinmeyen alan')}, status=400)
 
 @require_POST
 @login_required(login_url="my-login")
@@ -419,5 +468,5 @@ def like_story(request):
             story.save()
             return JsonResponse({"success": True, "likes": story.likes, "liked": True})
     except ChatHistoryContent.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Mesaj bulunamadı."}, status=404)
+        return JsonResponse({"success": False, "error": _("Mesaj bulunamadı.")}, status=404)
 

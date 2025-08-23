@@ -36,9 +36,41 @@
             background: #fff;
         }
         
+        /* Sidebar navigation styles */
+        .sidebar-nav {
+            margin-left: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+  
+        .sidebar-nav a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition-smooth);
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: #f3eaff;
+      }
+
+        .sidebar-nav a:hover {
+            color: white;
+            background: #b993d6;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+        }
+
+        .sidebar-nav a.active {
+            color: white;
+            background: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+        
         .sidebar-block {
             background: rgba(255, 255, 255, 0.8);
-            border-radius: 16px;
             box-shadow: 0 2px 8px rgba(139, 92, 246, 0.05);
             margin-bottom: 16px;
             padding: 20px;
@@ -121,18 +153,18 @@
         
         
         .sidebar-block.sidebar-title {
+            display: flex;
             flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;
-            height: auto;
-            min-height: 120px;
-            flex: 1 1 auto;
-            margin-bottom: 0;
             padding: 24px;
-            display: flex;
-            overflow-y: auto;
-            min-height: 0;
+            margin-bottom: 0;
+            flex: 1 1 auto;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         
         .sidebar-title-text {
@@ -161,6 +193,7 @@
             flex-direction: column;
             gap: 12px;
             width: 100%;
+            min-height: 0;
         }
         
         .sidebar-task-item {
@@ -203,7 +236,6 @@
         .main-content {
             flex: 1 1 0;
             min-width: 320px;
-            max-width: calc(100vw - 400px);
             width: 100%;
             padding: 48px 24px 24px 24px;
             display: flex;
@@ -520,7 +552,7 @@
         }
         
         .dashboard-user-avatar {
-            border: 2.5px solid #e2e8f0 !important;
+            
         }
         
         @media (max-width: 991px) {
@@ -764,11 +796,11 @@
         }
         
         body.dark-mode .dashboard-user-avatar {
-            border: 2.5px solid #e2e8f0 !important;
+            
         }
         
         .dashboard-user-avatar {
-            border: 2.5px solid #e2e8f0;
+            
         }
         
         /* Sidebar dark mode */
@@ -778,17 +810,26 @@
         }
         
         body.dark-mode .sidebar-header {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             border-color: #333 !important;
         }
         
         body.dark-mode .sidebar-user {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             border-color: #333 !important;
         }
         
         body.dark-mode .user-info h3 {
             color: #e0e0e0 !important;
+        }
+        
+        body.dark-mode .user-info p {
+            color: #b0b0b0 !important;
+            font-size: 0.9rem !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            max-width: 200px !important;
         }
         
         body.dark-mode .sidebar-task-item {
@@ -812,7 +853,7 @@
         }
         
         body.dark-mode .card, body.dark-mode .box, body.dark-mode .panel {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             color: #e0e0e0 !important;
             border-color: #444 !important;
         }
@@ -947,7 +988,6 @@ body.dark-mode .notification-bell:hover {
 
         @media (max-width: 1400px) {
             .main-content {
-                max-width: calc(100vw - 400px);
                 min-width: 320px;
                 width: 100%;
                 padding: 32px 8px 24px 8px;
@@ -955,8 +995,15 @@ body.dark-mode .notification-bell:hover {
                 align-items: flex-start;
             }
         }
+        
+        @media (min-width: 1700px) {
+            .main-content {
+                min-width: 800px;
+                overflow-x: visible;
+            }
+        }
         body.dark-mode .sidebar-block.sidebar-title {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             color: #f8f8ff !important;
             border-color: #29293a !important;
         }
@@ -982,6 +1029,35 @@ body.dark-mode .notification-bell:hover {
         body.dark-mode, body.dark-mode * {
             color: #f8f8ff !important;
         }
+    /* Dark Mode — meditasyon ile aynı */
+    body.dark-mode { background: #181818 !important; color: #e0e0e0 !important; }
+    body.dark-mode .main-content { background: #232323 !important; color: #e0e0e0 !important; }
+    body.dark-mode .page-title { color: #e0e0e0 !important; }
+    body.dark-mode .page-subtitle { color: #b0b0b0 !important; }
+    body.dark-mode .sidebar-container { background: #1a1a1a !important; border-color: #333 !important; }
+    body.dark-mode .sidebar-header { background: #181818 !important; border-color: #333 !important; }
+    body.dark-mode .sidebar-nav a { background: #333 !important; color: #e0e0e0 !important; }
+    body.dark-mode .sidebar-nav a:hover { background: #4a4a4a !important; color: #fff !important; }
+    body.dark-mode .sidebar-nav a.active { background: var(--primary-color) !important; color: #fff !important; }
+    body.dark-mode .sidebar-block.sidebar-title { background: #181818 !important; color: #f8f8ff !important; border-color: #29293a !important; }
+    body.dark-mode .sidebar-block.sidebar-title * { color: #f8f8ff !important; }
+    body.dark-mode .sidebar-user { background: #181818 !important; border-color: #333 !important; }
+    body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
+    body.dark-mode .user-info p { color: #b0b0b0 !important; }
+    body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
+    body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
+    body.dark-mode .sidebar-title-text { color: var(--primary-color) !important; }
+    body.dark-mode .menu-item { color: #e0e0e0 !important; }
+    body.dark-mode .menu-item:hover { background: #333 !important; color: var(--primary-color) !important; }
+    body.dark-mode .menu-item.active { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #fff !important; }
+
+        /* Sidebar background overrides */
+        body.dark-mode .sidebar-header,
+        body.dark-mode .sidebar-user,
+        body.dark-mode .sidebar-menu { background: #181818 !important; }
+
+        /* Ensure dark mode main content background */
+        body.dark-mode .main-content { background: #23232354 !important; }
     </style>
 </head>
 <body>
@@ -996,7 +1072,7 @@ body.dark-mode .notification-bell:hover {
             <div class="sidebar-nav">
                 <a href="{% url 'anasayfa' %}" class="active">{% trans "Ana Sayfa" %}</a>
                 <a href="{% url 'dashboard' %}">{% trans "İyi Hisset" %}</a>
-                <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+                <a href="{% url 'profile-management' %}" id="profileManagementLink">Profil Yönetimi</a>
             </div>
         </div>
         <div class="sidebar-user" style="display: flex; align-items: center; gap: 16px;">
@@ -1009,13 +1085,7 @@ body.dark-mode .notification-bell:hover {
             </div>
         </div>
        
-        <div class="sidebar-block sidebar-title">
-            <div class="sidebar-title-text" data-translate="My Tasks">{% trans "Görevlerim" %}</div>
-            <div class="sidebar-tasks">
-                <div class="sidebar-task-item" data-translate="Breathing Exercise">{% trans "Nefes Egzersizi" %}</div>
-                <div class="sidebar-task-item" data-translate="Daily Reflection">{% trans "Günlük Yansıtma" %}</div>
-            </div>
-        </div>
+        {% include 'articles/gorevlerim.html' %}
 
     </div>
     <header class="header-bar d-flex align-items-center">
@@ -1100,8 +1170,56 @@ body.dark-mode .notification-bell:hover {
         } catch(e){}
       }
     }
-    document.addEventListener('DOMContentLoaded', function() {
+    // Profile Management çevirisi - Hemen çalıştır
+    function updateProfileManagementText() {
+      const profileLink = document.getElementById('profileManagementLink');
+      if (profileLink) {
+        const currentLang = document.documentElement.lang || 'tr';
+        if (currentLang === 'tr' || currentLang === 'tr-TR') {
+          profileLink.textContent = 'Profil Yönetimi';
+        } else {
+          profileLink.textContent = 'Profile Management';
+        }
+      }
+    }
+
+    // Sayfa yüklenmeden önce çalıştır
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        applyThemeFromStorage();
+        updateProfileManagementText();
+        
+        // Dil değişikliklerini dinle
+        if (typeof initializeLanguage === 'function') {
+          initializeLanguage();
+          // Dil değişikliği sonrası tekrar çeviriyu uygula
+          setTimeout(updateProfileManagementText, 50);
+        }
+        
+        // Theme butonları
+        const lightBtn = document.getElementById('lightModeBtn');
+        const darkBtn = document.getElementById('darkModeBtn');
+        if(lightBtn) lightBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'light');
+          applyThemeFromStorage();
+        });
+        if(darkBtn) darkBtn.addEventListener('click', function() {
+          localStorage.setItem('themeMode', 'dark');
+          applyThemeFromStorage();
+        });
+      });
+    } else {
+      // Sayfa zaten yüklenmişse hemen çalıştır
       applyThemeFromStorage();
+      updateProfileManagementText();
+      
+      // Dil değişikliklerini dinle
+      if (typeof initializeLanguage === 'function') {
+        initializeLanguage();
+        setTimeout(updateProfileManagementText, 50);
+      }
+      
+      // Theme butonları
       const lightBtn = document.getElementById('lightModeBtn');
       const darkBtn = document.getElementById('darkModeBtn');
       if(lightBtn) lightBtn.addEventListener('click', function() {
@@ -1112,7 +1230,7 @@ body.dark-mode .notification-bell:hover {
         localStorage.setItem('themeMode', 'dark');
         applyThemeFromStorage();
       });
-    });
+    }
     </script>
     <script>
         if (window.innerWidth < 1300) {
@@ -1130,6 +1248,7 @@ body.dark-mode .notification-bell:hover {
     </script>
 
 <script>
+    
     function redirectIfSmallScreen() {
         if (window.innerWidth < 1300 && !window.location.pathname.includes('responsive.html')) {
             // Şu anki sayfanın yolunu kaydet

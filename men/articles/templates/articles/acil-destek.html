@@ -282,22 +282,32 @@
         }
 
         .toast-close {
-            background: none;
-            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--text-secondary);
             font-size: 1.5rem;
             cursor: pointer;
-            padding: 0;
-            width: 24px;
-            height: 24px;
+            padding: 4px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: color 0.2s;
+            transition: all 0.2s ease;
+            border-radius: 50%;
+            font-weight: bold;
+            line-height: 1;
         }
 
         .toast-close:hover {
             color: var(--emergency-red);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--emergency-red);
+            transform: scale(1.1);
+        }
+        
+        .toast-close:active {
+            transform: scale(0.95);
         }
 
 
@@ -391,6 +401,16 @@
             left: 0;
             width: 40px;
             height: 3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        .sidebar-title-text::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
             background: linear-gradient(
               135deg,
               var(--primary-color),
@@ -403,6 +423,25 @@
             flex-direction: column;
             gap: 12px;
             width: 100%;
+        }
+        /* Sidebar block (destek-duvari ile aynı görünüm) */
+        .sidebar-block.sidebar-title {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 24px;
+            margin-bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            max-height: 100vh;
+            overflow-x: hidden;
+        }
+        .sidebar-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 0;
         }
         .sidebar-task-item {
             background: rgba(139, 92, 246, 0.1);
@@ -467,10 +506,7 @@
           color: #f1f1f1 !important;
         }
 
-        body.dark-mode .sidebar-header {
-          background: rgba(45, 45, 45, 0.8) !important;
-          border-bottom-color: #555 !important;
-        }
+        
 
         body.dark-mode .sidebar-nav a {
           color: #b0b0b0 !important;
@@ -498,22 +534,35 @@
 
         body.dark-mode .user-info p {
           color: #b0b0b0 !important;
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
         }
 
         body.dark-mode .sidebar-title-text {
-          color: #8c73b8 !important;
+          color: var(--primary-color) !important;
         }
 
         body.dark-mode .sidebar-task-item {
-          background: rgba(139, 92, 246, 0.2) !important;
-          color: #f1f1f1 !important;
-          border-color: #555 !important;
+            background: #23233a !important;
+            color: #e0e0e0 !important;
+            border-color: #29293a !important;
+        }
+        body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
+
+        /* Dark mode: sidebar title block (destek-duvari ile aynı) */
+        body.dark-mode .sidebar-block.sidebar-title {
+          background: #181818 !important;
+          color: #f8f8ff !important;
+          border-color: #29293a !important;
+        }
+        body.dark-mode .sidebar-block.sidebar-title * {
+          color: #f8f8ff !important;
         }
 
-        body.dark-mode .sidebar-task-item:hover {
-          background: rgba(139, 92, 246, 0.3) !important;
-          border-color: #8c73b8 !important;
-        }
+        body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
 
         body.dark-mode .emergency-container {
           background: rgba(45, 45, 45, 0.95) !important;
@@ -568,10 +617,14 @@
 
         body.dark-mode .toast-close {
           color: #b0b0b0 !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          border-color: rgba(255, 255, 255, 0.2) !important;
         }
 
         body.dark-mode .toast-close:hover {
           color: #dc3545 !important;
+          background: rgba(255, 255, 255, 0.2) !important;
+          border-color: #dc3545 !important;
         }
 
 
@@ -636,7 +689,6 @@
             box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
             border: 1.5px solid #ece6fa;
             z-index: 1300;
-            overflow-y: auto;
             padding: 0;
             transform: translateY(-20px);
             transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1), visibility 0.35s;
@@ -659,7 +711,6 @@
             margin: 0;
             padding: 0 0 8px 0;
             max-height: 340px;
-            overflow-y: auto;
         }
         .notification-item {
             padding: 16px 24px;
@@ -687,6 +738,14 @@
             }
         }
     </style>
+    <style>
+        /* Sidebar background overrides */
+        body.dark-mode .sidebar-header,
+        body.dark-mode .sidebar-user,
+        body.dark-mode .sidebar-menu {
+            background: #181818 !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -697,7 +756,7 @@
             <div class="sidebar-nav">
                 <a href="{% url 'anasayfa' %}">Ana Sayfa</a>
                 <a href="{% url 'dashboard' %}">İyi Hisset</a>
-                <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+                <a href="{% url 'profile-management' %}" data-translate="Profile Management">{% trans "Profile Management" %}</a>
             </div>
         </div>
         <div class="sidebar-user">
@@ -709,13 +768,9 @@
                 <p>{{ user.email }}</p>
             </div>
         </div>
-        <div class="sidebar-block sidebar-title">
-            <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
-            <div class="sidebar-tasks">
-              <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-              <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
-            </div>
-          </div>
+        <div class="sidebar-menu">
+            {% include 'articles/gorevlerim.html' %}
+        </div>
     </div>
     
     <main class="main-content">
@@ -749,19 +804,7 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
-      <span class="material-symbols-outlined">notifications</span>
-    </button>
-    <div class="notification-popup" id="notificationPopup">
-      <div class="popup-title">{% trans "Bildirimler" %}</div>
-      <ul class="notification-list">
-        <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-        <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-        <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-        <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-        <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-      </ul>
-    </div>
+    {% include 'articles/includes/notifications.html' %}
 
     <script src="{% static 'js/responsive-sidebar.js' %}"></script>
     <script src="{% static 'js/font-size-manager.js' %}"></script>
@@ -800,10 +843,12 @@
             const toastContainer = document.getElementById('toastContainer');
             const existingToasts = toastContainer.querySelectorAll('.toast-error');
             
-            // Remove oldest toast if we have 2 or more
-            if (existingToasts.length >= 2) {
+            // Remove oldest toast if we have 5 or more (maksimum 5 popup)
+            if (existingToasts.length >= 5) {
                 const oldestToast = existingToasts[0];
-                closeToast(oldestToast.querySelector('.toast-close'));
+                if (oldestToast && oldestToast.parentNode) {
+                    oldestToast.parentNode.removeChild(oldestToast);
+                }
             }
             
             // Çeviri desteği
@@ -840,16 +885,14 @@
         }
 
         function closeToast(closeBtn) {
+            if (!closeBtn) return;
             const toast = closeBtn.closest('.toast-error');
             if (!toast) return;
             
-            toast.classList.add('hide');
-            
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 300);
+            // Hemen kaldır
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
         }
 
         // Emergency button functionality
@@ -860,9 +903,12 @@
                 const selectedMessage = document.querySelector('input[name="emergencyMessage"]:checked');
                 
                 if (selectedMessage) {
-                    showToast('Message Sent', 'Your emergency message has been sent successfully. We will contact you as soon as possible.', 'success');
+                    // Seçilen mesajı console'a yazdır
+                    console.log(selectedMessage.value);
+                    
+                    showToast('{% trans "Message Sent" %}', '{% trans "Your emergency message has been sent successfully. We will contact you as soon as possible." %}', 'success');
                 } else {
-                    showToast('No Message Selected', 'Please select a message first.', 'error');
+                    showToast('{% trans "No Message Selected" %}', '{% trans "Please select a message first." %}', 'error');
                 }
             });
         });
@@ -886,18 +932,7 @@
         window.addEventListener('resize', redirectIfSmallScreen);
     </script>
     <script>
-    // Bildirim popup aç/kapat
-    const bell = document.getElementById('notificationBell');
-    const popup = document.getElementById('notificationPopup');
-    bell.addEventListener('click', function(e) {
-      e.stopPropagation();
-      popup.classList.toggle('active');
-    });
-    document.addEventListener('click', function(e) {
-      if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-        popup.classList.remove('active');
-      }
-    });
+    // Bildirim popup davranışı ortak include içinde
     </script>
     <script>
     function applyThemeFromStorage() {

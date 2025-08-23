@@ -21,31 +21,516 @@
     </script>
     <script src="{% static 'js/lang.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body {
+        background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        transition: background 0.3s ease;
+      }
+      
+      /* Dark mode styles */
+      body.dark-mode {
+        background: linear-gradient(135deg, #0f0f1a 0%, #0d1428 100%) !important;
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .card {
+        background: rgba(20, 20, 20, 0.95) !important;
+        border-color: #333 !important;
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .card-header {
+        background: linear-gradient(135deg, #6b46c1, #805ad5) !important;
+        color: white !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .form-control {
+        background: #1a1a1a !important;
+        color: #f0f0f0 !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .form-control:focus {
+        background: #2a2a2a !important;
+        border-color: #8b5cf6 !important;
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .form-label {
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .btn {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+        color: white !important;
+        border-color: #6b46c1 !important;
+      }
+      
+      body.dark-mode .btn:hover {
+        background: linear-gradient(135deg, #7c3aed, #9333ea) !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4) !important;
+      }
+      
+      body.dark-mode .availability-hint {
+        color: #a0aec0 !important;
+      }
+      
+      body.dark-mode .text-muted {
+        color: #a0aec0 !important;
+      }
+      
+      body.dark-mode .alert {
+        background: #2d3748 !important;
+        border-color: #4a5568 !important;
+        color: #e0e0e0 !important;
+      }
+      
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      
+      .card {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      
+      .card-header {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+        color: white !important;
+        border-radius: 20px 20px 0 0 !important;
+        border: none !important;
+        text-align: center;
+        padding: 30px 20px !important;
+      }
+      
+      .card-body {
+        padding: 40px !important;
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 30px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3) !important;
+      }
+      
+      .form-control {
+        border-radius: 12px !important;
+        border: 2px solid #e2e8f0 !important;
+        padding: 12px 16px !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .form-control:focus {
+        border-color: #8b5cf6 !important;
+        box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25) !important;
+      }
+      
+      .alert {
+        border-radius: 12px !important;
+        border: none !important;
+      }
+      
+      .alert-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333) !important;
+        color: white !important;
+      }
+      
+      .alert-success {
+        background: linear-gradient(135deg, #28a745, #20c997) !important;
+        color: white !important;
+      }
+      
+      .text-center a {
+        color: #8b5cf6 !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: color 0.3s ease !important;
+      }
+      
+      .text-center a:hover {
+        color: #a855f7 !important;
+      }
+      
+      .availability-hint {
+        margin-top: 6px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: none; /* Başlangıçta gizli */
+      }
+      
+      /* Hata mesajları için özel stiller */
+      .availability-hint.error {
+        color: #dc3545 !important;
+        background-color: rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.2);
+      }
+      
+      .availability-hint.success {
+        color: #198754 !important;
+        background-color: rgba(25, 135, 84, 0.1);
+        border: 1px solid rgba(25, 135, 84, 0.2);
+      }
+      
+      /* Dark mode hata mesajları */
+      body.dark-mode .availability-hint.error {
+        color: #ff6b6b !important;
+        background-color: rgba(255, 107, 107, 0.1);
+        border: 1px solid rgba(255, 107, 107, 0.2);
+      }
+      
+      body.dark-mode .availability-hint.success {
+        color: #51cf66 !important;
+        background-color: rgba(81, 207, 102, 0.1);
+        border: 1px solid rgba(81, 207, 102, 0.2);
+      }
+      
+      /* Input kutusu kırmızı olma durumu */
+      .form-control.error {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+      }
+      
+      /* Dark mode input kutusu kırmızı olma durumu */
+      body.dark-mode .form-control.error {
+        border-color: #ff6b6b !important;
+        box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25) !important;
+      }
+      
+      /* Light mode styles */
+      .register-card {
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #232526 !important;
+        border: 1px solid #e0e0e0 !important;
+      }
+      
+      .register-card span {
+        color: #4a4a4a !important;
+      }
+      
+      .register-card .logo-soft {
+        filter: brightness(1);
+      }
+      
+      /* Sadece "Bu alan zorunludur" yazısı kırmızı olsun */
+      .register-card .required-field {
+        color: #dc3545 !important;
+        font-weight: 500 !important;
+        margin-top: 6px;
+        font-size: 0.9rem;
+      }
+      
+      /* Diğer tüm yazılar siyah olsun */
+      .register-card .help-text,
+      .register-card .invalid-feedback,
+      .register-card .form-text,
+      .register-card .text-muted,
+      .register-card small,
+      .register-card label,
+      .register-card .form-label {
+        color: #232526 !important;
+        font-weight: 500 !important;
+      }
+      
+      /* Crispy forms için özel stiller */
+      .register-card .form-text,
+      .register-card .invalid-feedback {
+        color: #232526 !important;
+        opacity: 0.9 !important;
+      }
+      
+      /* Bootstrap form validation için */
+      .register-card .was-validated .form-control:invalid ~ .invalid-feedback,
+      .register-card .was-validated .form-control:valid ~ .valid-feedback {
+        color: #232526 !important;
+      }
+      
+      /* Dark mode styles */
+      body.dark-mode .register-card {
+        background: rgba(30, 30, 30, 0.95) !important;
+        color: #f0f0f0 !important;
+        border: 1px solid #444 !important;
+      }
+      
+      body.dark-mode .register-card span {
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .register-card .logo-soft {
+        filter: brightness(1.2);
+      }
+      
+      /* Sadece "Bu alan zorunludur" yazısı kırmızı olsun */
+      body.dark-mode .register-card .required-field {
+        color: #dc3545 !important;
+        font-weight: 500 !important;
+        margin-top: 6px;
+        font-size: 0.9rem;
+      }
+      
+      /* Diğer tüm yazılar beyaz olsun */
+      body.dark-mode .register-card .help-text,
+      body.dark-mode .register-card .invalid-feedback,
+      body.dark-mode .register-card .form-text,
+      body.dark-mode .register-card .text-muted,
+      body.dark-mode .register-card small,
+      body.dark-mode .register-card label,
+      body.dark-mode .register-card .form-label {
+        color: #f0f0f0 !important;
+        font-weight: 500 !important;
+      }
+      
+      /* Crispy forms için özel stiller */
+      body.dark-mode .register-card .form-text,
+      body.dark-mode .register-card .invalid-feedback {
+        color: #f0f0f0 !important;
+        opacity: 0.9 !important;
+      }
+      
+      /* Bootstrap form validation için */
+      body.dark-mode .register-card .was-validated .form-control:invalid ~ .invalid-feedback,
+      body.dark-mode .register-card .was-validated .form-control:valid ~ .valid-feedback {
+        color: #f0f0f0 !important;
+      }
+      
+      /* Crispy forms hata mesajlarını kırmızı yap */
+      #error_1_id_username,
+      #error_1_id_email,
+      #error_1_id_password1,
+      #error_1_id_password2 {
+        color: #dc3545 !important;
+        font-weight: 500 !important;
+        font-size: 0.875rem !important;
+      }
+      
+      /* Dark mode'da da hata mesajlarını kırmızı yap */
+      body.dark-mode #error_1_id_username,
+      body.dark-mode #error_1_id_email,
+      body.dark-mode #error_1_id_password1,
+      body.dark-mode #error_1_id_password2 {
+        color: #dc3545 !important;
+        font-weight: 500 !important;
+        font-size: 0.875rem !important;
+      }
+    </style>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const validationMessages = {
-          required: '{% trans "Bu alan zorunludur." %}',
-          max_length:
-            '{% trans "En fazla 150 karakter olabilir. Sadece harf, rakam ve @/./+/-/_ karakterleri kullanılabilir." %}',
-          password_too_similar:
-            '{% trans "Şifreniz diğer kişisel bilgilerinize çok benzer olamaz." %}',
-          password_too_short:
-            '{% trans "Şifreniz en az 8 karakter içermelidir." %}',
-          password_common:
-            '{% trans "Şifreniz çok yaygın bir şifre olamaz." %}',
-          password_entirely_numeric:
-            '{% trans "Şifreniz tamamen sayısal olamaz." %}',
-          password_mismatch:
-            '{% trans "Doğrulama için aynı şifreyi tekrar girin." %}',
+        let activeToast = null;
+        function clearActiveToast(){ if (activeToast && activeToast.parentNode) { activeToast.parentNode.removeChild(activeToast); activeToast = null; } }
+        function showErrorToast(message) {
+          clearActiveToast();
+          const toast = document.createElement('div');
+          toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#dc3545;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(220,53,69,0.3);z-index:9999;font-weight:600;';
+          toast.textContent = message;
+          document.body.appendChild(toast);
+          activeToast = toast;
+          setTimeout(()=>{ if (activeToast===toast){ toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(()=>{ if (toast.parentNode) toast.remove(); if (activeToast===toast) activeToast=null; },300); } },3000);
+        }
+
+        function showSuccessToast(message) {
+          clearActiveToast();
+          const toast = document.createElement('div');
+          toast.style.cssText = 'position:fixed;top:20px;right:20px;background:#28a745;color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(40,167,69,0.3);z-index:9999;font-weight:600;';
+          toast.textContent = message;
+          document.body.appendChild(toast);
+          activeToast = toast;
+          setTimeout(()=>{ if (activeToast===toast){ toast.style.opacity='0'; toast.style.transition='opacity .3s'; setTimeout(()=>{ if (toast.parentNode) toast.remove(); if (activeToast===toast) activeToast=null; },300); } },2000);
+        }
+
+        async function checkAvailability(field, value) {
+          if (!value) return true;
+          try {
+            // Cache'i tamamen devre dışı bırak ve session'ı yenile
+            const url = `{% url 'check-availability' %}?field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}&t=${Date.now()}`;
+            const res = await fetch(url, { 
+              method: 'GET',
+              credentials: 'same-origin',
+              headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+                'Pragma': 'no-cache',
+                'Expires': '0',
+                'X-Requested-With': 'XMLHttpRequest'
+              }
+            });
+            
+            if (!res.ok) {
+              throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            
+            const data = await res.json();
+            return !!data.available;
+          } catch (e) { 
+            console.error('Availability check error:', e);
+            return true; 
+          }
+        }
+
+        // Dil koduna göre mesajları tanımla
+        const messages = {
+          tr: {
+            usernameAvailable: 'Bu kullanıcı adı uygun.',
+            usernameTaken: 'Bu kullanıcı adı daha önce alınmış.',
+            emailAvailable: 'Bu e-posta uygun.',
+            emailTaken: 'Bu e-posta daha önce alınmış.',
+            checking: 'Kontrol ediliyor...'
+          },
+          en: {
+            usernameAvailable: 'This username is available.',
+            usernameTaken: 'This username is already taken.',
+            emailAvailable: 'This email is available.',
+            emailTaken: 'This email is already taken.',
+            checking: 'Checking...'
+          }
         };
+        
+        // Mevcut dil kodunu al
+        let currentLang = window.language_code || 'tr';
+        let currentMessages = messages[currentLang] || messages.tr;
+        
+        // Debug için dil bilgisini yazdır
+        console.log('Current language code:', window.language_code);
+        console.log('Current language:', currentLang);
+        console.log('Current messages:', currentMessages);
+        
+        // Dil değişikliğini dinle ve mesajları güncelle
+        function updateLanguage() {
+          const newLang = window.language_code || 'tr';
+          if (newLang !== currentLang) {
+            console.log('Language changed from', currentLang, 'to', newLang);
+            currentLang = newLang;
+            currentMessages = messages[currentLang] || messages.tr;
+            console.log('Updated messages:', currentMessages);
+          }
+        }
+        
+        // Sayfa yüklendiğinde ve dil değişikliklerinde güncelle
+        document.addEventListener('DOMContentLoaded', updateLanguage);
+        window.addEventListener('languageChange', updateLanguage);
+
+        const validationMessages = {
+          tr: {
+            required: 'Bu alan zorunludur.',
+            max_length: 'En fazla 150 karakter olabilir. Sadece harf, rakam ve @/./+/-/_ karakterleri kullanılabilir.',
+            password_too_similar: 'Şifreniz diğer kişisel bilgilerinize çok benzer olamaz.',
+            password_too_short: 'Şifreniz en az 8 karakter içermelidir.',
+            password_common: 'Şifreniz çok yaygın bir şifre olamaz.',
+            password_entirely_numeric: 'Şifreniz tamamen sayısal olamaz.',
+            password_mismatch: 'Doğrulama için aynı şifreyi tekrar girin.'
+          },
+          en: {
+            required: 'This field is required.',
+            max_length: '150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+            password_too_similar: 'Your password can\'t be too similar to your other personal information.',
+            password_too_short: 'Your password must contain at least 8 characters.',
+            password_common: 'Your password can\'t be a commonly used password.',
+            password_entirely_numeric: 'Your password can\'t be entirely numeric.',
+            password_mismatch: 'Enter the same password as before, for verification.'
+          }
+        };
+        
+        const currentValidationMessages = validationMessages[currentLang] || validationMessages.tr;
 
         const form = document.querySelector("form");
         const inputs = form.querySelectorAll("input");
-
+        
+        // Crispy Forms'ın oluşturduğu input'ları bul
+        const usernameInput = form.querySelector('input[name="username"]');
+        const emailInput = form.querySelector('input[name="email"]');
+        
+        // Debug için input'ları kontrol et
+        console.log('Username input found:', usernameInput);
+        console.log('Email input found:', emailInput);
+        
+        // Inline durum mesajı için yardımcı
+        function ensureStatusEl(inputEl) {
+          if (!inputEl) return null;
+          
+          // Crispy Forms'ın oluşturduğu input container'ını bul
+          let inputContainer = inputEl.closest('.form-group') || inputEl.parentNode;
+          
+          // Mevcut hint'i bul veya oluştur
+          let status = inputContainer.querySelector('.availability-hint');
+          if (!status) {
+            status = document.createElement('div');
+            status.className = 'availability-hint';
+            status.style.cssText = 'margin-top:6px;font-size:.9rem;font-weight:bold;';
+            // Input'un hemen altına ekle
+            inputContainer.appendChild(status);
+          }
+          return status;
+        }
+        const usernameHint = ensureStatusEl(usernameInput);
+        const emailHint = ensureStatusEl(emailInput);
+        
+        // setHint fonksiyonu
+        function setHint(hintEl, ok, okText, errText, inputEl) {
+          if (!hintEl) return;
+          
+          // Debug için console'a yazdır
+          console.log('setHint called:', { ok, okText, errText, currentLang });
+          
+          // Mesajı göster
+          hintEl.style.display = 'block';
+          
+          if (ok === null) {
+            // Loading durumu
+            hintEl.textContent = errText; // Loading mesajı errText'te geliyor
+            hintEl.className = 'availability-hint';
+            hintEl.style.color = '#6c757d';
+            console.log('Loading state, className:', hintEl.className);
+            return;
+          }
+          
+          hintEl._last = ok;
+          if (ok) {
+            hintEl.textContent = okText;
+            hintEl.className = 'availability-hint success';
+            hintEl.style.color = '';
+            console.log('Success state, className:', hintEl.className);
+            if (inputEl) {
+              inputEl.classList.remove('error');
+            }
+          } else {
+            hintEl.textContent = errText;
+            hintEl.className = 'availability-hint error';
+            hintEl.style.color = '';
+            console.log('Error state, className:', hintEl.className);
+            if (inputEl) {
+              inputEl.classList.add('error');
+            }
+          }
+        }
+        
+        // Timer değişkenleri
+        let usernameTimer, emailTimer;
+        
+        // Form validation
         inputs.forEach((input) => {
           input.addEventListener("invalid", function (e) {
             const errorMessage = e.target.validationMessage;
-            for (const [key, value] of Object.entries(validationMessages)) {
+            for (const [key, value] of Object.entries(currentValidationMessages)) {
               if (errorMessage.includes(key)) {
                 e.target.setCustomValidity(value);
                 break;
@@ -57,110 +542,154 @@
             e.target.setCustomValidity("");
           });
         });
+        
+        // Username ve email input'larının altına gerçek zamanlı kontrol ekle
+        if (usernameInput) {
+          usernameInput.addEventListener('input', () => {
+            clearTimeout(usernameTimer);
+            usernameTimer = setTimeout(async () => {
+              const value = usernameInput.value.trim();
+              console.log('Username input event triggered, value:', value);
+              console.log('Current messages:', currentMessages);
+              
+              if (value.length > 0) {
+                // Loading göster
+                console.log('Showing loading message:', currentMessages.checking);
+                setHint(usernameHint, null, currentMessages.checking, currentMessages.checking, usernameInput);
+                usernameHint.className = 'availability-hint';
+                usernameHint.style.color = '#6c757d';
+                
+                const ok = await checkAvailability('username', value);
+                console.log('Availability check result:', ok);
+                console.log('Success message:', currentMessages.usernameAvailable);
+                console.log('Error message:', currentMessages.usernameTaken);
+                
+                setHint(
+                  usernameHint,
+                  ok,
+                  currentMessages.usernameAvailable,
+                  currentMessages.usernameTaken,
+                  usernameInput
+                );
+              } else {
+                // Boş ise mesajı temizle
+                if (usernameHint) {
+                  usernameHint.textContent = '';
+                  usernameHint.className = 'availability-hint';
+                  usernameHint.style.display = 'none';
+                }
+                usernameInput.classList.remove('error');
+              }
+            }, 500);
+          });
+        }
+        
+        if (emailInput) {
+          emailInput.addEventListener('input', () => {
+            clearTimeout(emailTimer);
+            emailTimer = setTimeout(async () => {
+              const value = emailInput.value.trim();
+              console.log('Email input event triggered, value:', value);
+              console.log('Current messages:', currentMessages);
+              
+              if (value.length > 0) {
+                // Loading göster
+                console.log('Showing loading message:', currentMessages.checking);
+                setHint(emailHint, null, currentMessages.checking, currentMessages.checking, emailInput);
+                emailHint.className = 'availability-hint';
+                emailHint.style.color = '#6c757d';
+                
+                const ok = await checkAvailability('email', value);
+                console.log('Availability check result:', ok);
+                console.log('Success message:', currentMessages.emailAvailable);
+                console.log('Error message:', currentMessages.emailTaken);
+                
+                setHint(
+                  emailHint,
+                  ok,
+                  currentMessages.emailAvailable,
+                  currentMessages.emailTaken,
+                  emailInput
+                );
+              } else {
+                // Boş ise mesajı temizle
+                if (emailHint) {
+                  emailHint.textContent = '';
+                  emailHint.className = 'availability-hint';
+                  emailHint.style.display = 'none';
+                }
+                emailInput.classList.remove('error');
+              }
+            }, 500);
+          });
+        }
+
+        // Form submit işlemi Django validation ile yapılacak
       });
     </script>
     <style>
-    .notification-bell {
-        position: fixed;
-        top: 32px;
-        right: 48px;
-        z-index: 1200;
-        background: linear-gradient(135deg, #a084e8 0%, #6c3eb4 100%);
-        border-radius: 50%;
-        padding: 12px;
-        border: none;
-        cursor: pointer;
-        font-size: 2.2rem;
-        color: #fff;
-        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.13);
-        transition: color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.18s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .notification-bell:hover {
-        transform: scale(1.08);
-    }
-    .notification-popup {
-        display: block;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        position: fixed;
-        top: 72px;
-        right: 48px;
-        width: 340px;
-        max-height: 270px;
-        background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
-        border: 1.5px solid #ece6fa;
-        z-index: 1300;
-        overflow-y: auto;
-        padding: 0;
-        transform: translateY(-20px);
-        transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1), visibility 0.35s;
-    }
-    .notification-popup.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateY(0);
-    }
-    .notification-popup .popup-title {
-        font-weight: 700;
-        font-size: 1.2rem;
-        padding: 18px 24px 8px 24px;
-        color: #8b5cf6;
-        border-bottom: 1px solid #ece6fa;
-    }
-    .notification-list {
-        list-style: none;
-        margin: 0;
-        padding: 0 0 8px 0;
-        max-height: 340px;
-        overflow-y: auto;
-    }
-    .notification-item {
-        padding: 16px 24px;
-        border-bottom: 1px solid #f3eaff;
-        font-size: 1rem;
-        color: #232526;
-        background: none;
-    }
-    .notification-item:last-child {
-        border-bottom: none;
-    }
-    @media (max-width: 600px) {
-        .notification-bell {
-            top: 16px;
-            right: 12px;
-            padding: 8px;
-            font-size: 1.5rem;
-        }
-        .notification-popup {
-            top: 48px;
-            right: 8px;
-            width: 95vw;
-            min-width: 0;
-            max-width: 98vw;
-        }
-    }
     .user-avatar img {
       border: 2.5px solid #e2e8f0 !important;
+    }
+    
+    .success-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: 500;
+      transform: translateX(100%);
+      animation: slideIn 0.5s ease-out forwards;
+      max-width: 350px;
+    }
+    
+    .notification-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .success-notification .material-symbols-outlined {
+      font-size: 24px;
+      color: #ffffff;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .success-notification {
+      transition: opacity 0.3s ease-out;
     }
     </style>
   </head>
 
-  <body>
-    <div class="container p-5">
-      <div class="row justify-content-center">
-        <div class="col-md-6 shadow-lg bg-white p-5 rounded-5">
+  <body style="height: 100vh; margin: 0; padding: 0;">
+    <div class="container-fluid p-5" style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+      <div class="row justify-content-center w-100">
+        <div class="col-md-5 shadow-lg px-5 rounded-5 register-card">
           <div
             class="d-flex justify-content-center align-items-center mb-4"
             style="gap: 16px"
           >
             <img
+            style="    background: linear-gradient(135deg, #b5aaff 0%, #e5e0ff 100%);
+            border-radius: 50%;
+            box-shadow: 0 2px 16px 0 rgba(157, 142, 199, 0.13);
+            padding: 0.5rem; height: 60px; "
               src="{% static 'iyihisset.png' %}"
               alt="İyi Hisset Logo"
               style="height: 60px"
@@ -188,19 +717,7 @@
         </div>
       </div>
     </div>
-    <button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
-      <span class="material-symbols-outlined">notifications</span>
-    </button>
-    <div class="notification-popup" id="notificationPopup">
-      <div class="popup-title">{% trans "Bildirimler" %}</div>
-      <ul class="notification-list">
-        <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-        <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-        <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-        <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-        <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-      </ul>
-    </div>
+
     <script>
       function redirectIfSmallScreen() {
         if (
@@ -215,22 +732,50 @@
           window.location.href = "{% url 'responsive' %}";
         }
       }
+      
+      // URL'de success parametresi varsa bildirim göster
+      function showSuccessNotification() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+          const notification = document.createElement('div');
+          notification.className = 'success-notification';
+          notification.innerHTML = `
+            <div class="notification-content">
+              <span class="material-symbols-outlined">check_circle</span>
+              <span>{% trans "Kullanıcı başarıyla oluşturuldu!" %}</span>
+            </div>
+          `;
+          document.body.appendChild(notification);
+          
+          // 3 saniye sonra bildirimi kaldır
+          setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+              document.body.removeChild(notification);
+            }, 300);
+          }, 3000);
+        }
+      }
+      
+      // Dark mode tema desteği
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if (theme === 'dark') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      }
+      
       redirectIfSmallScreen();
       window.addEventListener("resize", redirectIfSmallScreen);
+      
+      // Sayfa yüklendiğinde bildirimi kontrol et ve temayı uygula
+      document.addEventListener("DOMContentLoaded", function() {
+        showSuccessNotification();
+        applyThemeFromStorage();
+      });
     </script>
-    <script>
-    // Bildirim popup aç/kapat
-    const bell = document.getElementById('notificationBell');
-    const popup = document.getElementById('notificationPopup');
-    bell.addEventListener('click', function(e) {
-      e.stopPropagation();
-      popup.classList.toggle('active');
-    });
-    document.addEventListener('click', function(e) {
-      if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-        popup.classList.remove('active');
-      }
-    });
-    </script>
+
   </body>
 </html>

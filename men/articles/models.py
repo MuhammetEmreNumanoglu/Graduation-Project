@@ -38,3 +38,15 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ('user', 'story')
+
+
+class EmergencyContact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='emergency_contacts')
+    relation = models.CharField(max_length=64)
+    full_name = models.CharField(max_length=120)
+    phone = models.CharField(max_length=32)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.full_name} ({self.relation})"

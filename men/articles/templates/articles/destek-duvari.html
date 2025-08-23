@@ -47,20 +47,15 @@
       }
 
       .sidebar-container {
-        width: 400px !important;
-        min-width: 400px !important;
+        width: 400px;
+        min-width: 400px;
+        max-width: 400px;
+        flex-shrink: 0;
+        z-index: 2;
+        background: #fff;
       }
 
-      .sidebar-header {
-        padding: 24px;
-        border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 0 20px 0 0;
-        flex-shrink: 0;
-      }
+      
 
       .sidebar-logo {
         width: 48px;
@@ -216,6 +211,27 @@
         padding: 20px;
         margin-bottom: 16px;
         border: 1px solid rgba(139, 92, 246, 0.1);
+      }
+
+      /* Meditasyon sayfası ile aynı sidebar-title görünümü */
+      .sidebar-block.sidebar-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 24px;
+        margin-bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        max-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .sidebar-tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        min-height: 0;
       }
 
       .tasks-section h3 {
@@ -555,32 +571,9 @@
 
       /* Responsive Design */
       @media (max-width: 991px) {
-        body {
-          flex-direction: column;
-        }
-        .sidebar-container {
-          position: fixed;
-          left: -100vw;
-          top: 0;
-          z-index: 1040;
-          background: rgba(255, 255, 255, 0.97);
-          height: 100vh;
-          min-width: 0;
-          max-width: 100vw;
-          width: 100vw;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          box-shadow: 0 2px 16px rgba(140, 82, 255, 0.13);
-          transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .sidebar-container.active {
-          left: 0;
-        }
-        .main-content {
-          margin-left: 0;
-          padding: 24px 16px;
-        }
+        body { flex-direction: column; }
+        .sidebar-container { width: 100vw; min-width: 0; max-width: 100vw; }
+        .main-content { margin-left: 0; padding: 24px 16px; }
       }
 
       @media (max-width: 600px) {
@@ -701,10 +694,7 @@
         color: #f1f1f1 !important;
       }
 
-      body.dark-mode .sidebar-header {
-        background: rgba(45, 45, 45, 0.8) !important;
-        border-bottom-color: #555 !important;
-      }
+      
 
       body.dark-mode .sidebar-nav a {
         color: #b0b0b0 !important;
@@ -730,15 +720,20 @@
         color: #f1f1f1 !important;
       }
 
-      body.dark-mode .user-info p {
-        color: #b0b0b0 !important;
-      }
+              body.dark-mode .user-info p {
+          color: #b0b0b0 !important;
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
+        }
 
       body.dark-mode .sidebar-title-text {
         color: #8c73b8 !important;
       }
       body.dark-mode .sidebar-block.sidebar-title {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             color: #f8f8ff !important;
             border-color: #29293a !important;
         }
@@ -956,6 +951,41 @@
         color: #e0e0e0 !important;
         border-bottom: 1px solid #333 !important;
       }
+    /* Dark Mode — meditasyon ile aynı */
+    body.dark-mode { background: #181818 !important; color: #e0e0e0 !important; }
+    body.dark-mode .main-content { background: #232323 !important; color: #e0e0e0 !important; }
+    body.dark-mode .page-title, body.dark-mode .page-subtitle { color: #e0e0e0 !important; }
+    body.dark-mode .sidebar-container { background: #1a1a1a !important; border-color: #333 !important; }
+    
+    body.dark-mode .sidebar-nav a { background: #333 !important; color: #e0e0e0 !important; }
+    body.dark-mode .sidebar-nav a:hover { background: #4a4a4a !important; color: #fff !important; }
+    body.dark-mode .sidebar-nav a.active { background: var(--primary-color) !important; color: #fff !important; }
+    body.dark-mode .sidebar-block.sidebar-title { background: #181818 !important; color: #f8f8ff !important; border-color: #29293a !important; }
+    body.dark-mode .sidebar-block.sidebar-title * { color: #f8f8ff !important; }
+    body.dark-mode .sidebar-user { background: #181818 !important; border-color: #333 !important; }
+    body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
+            body.dark-mode .user-info p { 
+          color: #b0b0b0 !important; 
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
+        }
+    body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
+    body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
+    body.dark-mode .sidebar-title-text { color: var(--primary-color) !important; }
+    body.dark-mode .menu-item { color: #e0e0e0 !important; }
+    body.dark-mode .menu-item:hover { background: #333 !important; color: var(--primary-color) !important; }
+    body.dark-mode .menu-item.active { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #fff !important; }
+
+      /* Sidebar background overrides */
+      body.dark-mode .sidebar-header,
+      body.dark-mode .sidebar-user,
+      body.dark-mode .sidebar-menu { background: #181818 !important; }
+
+      /* Ensure dark mode main content background */
+      body.dark-mode .main-content { background: #23232354 !important; }
     </style>
   </head>
   <body>
@@ -979,30 +1009,11 @@
     </div>
   </div>
   <div class="sidebar-menu">
-    <div class="sidebar-block sidebar-title">
-      <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
-      <div class="sidebar-tasks">
-        <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-        <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
-      </div>
-    </div>
+    {% include 'articles/gorevlerim.html' %}
   </div>
 </div>
 
-<!-- Bildirim Butonu ve Popup -->
-<button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
-  <span class="material-symbols-outlined">notifications</span>
-</button>
-<div class="notification-popup" id="notificationPopup">
-  <div class="popup-title">{% trans "Bildirimler" %}</div>
-  <ul class="notification-list">
-    <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-    <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-    <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-    <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-    <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-  </ul>
-</div>
+{% include 'articles/includes/notifications.html' %}
 
 <main class="main-content">
   <div class="support-wall-container">
@@ -1056,20 +1067,7 @@
 <script src="{% static 'js/font-size-manager.js' %}"></script>
 <script src="{% static 'js/lang.js' %}"></script>
 
-<!-- Bildirim Popup -->
-<script>
-  const bell = document.getElementById('notificationBell');
-  const popup = document.getElementById('notificationPopup');
-  bell.addEventListener('click', function(e) {
-    e.stopPropagation();
-    popup.classList.toggle('active');
-  });
-  document.addEventListener('click', function(e) {
-    if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-      popup.classList.remove('active');
-    }
-  });
-</script>
+<!-- Bildirim Popup: davranış ortak include içinde -->
 <!-- Like-Button (Sıralama yok!) -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {

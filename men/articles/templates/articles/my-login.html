@@ -48,6 +48,155 @@
     <script>window.language_code = "{{ LANGUAGE_CODE }}";</script>
     <script src="{% static 'js/lang.js' %}"></script>
     <style>
+      body {
+        background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        transition: background 0.3s ease;
+      }
+      
+      /* Dark mode styles */
+      body.dark-mode {
+        background: linear-gradient(135deg, #0f0f1a 0%, #0d1428 100%) !important;
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .card {
+        background: rgba(20, 20, 20, 0.95) !important;
+        border-color: #333 !important;
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .card-header {
+        background: linear-gradient(135deg, #6b46c1, #805ad5) !important;
+        color: white !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .form-control {
+        background: #1a1a1a !important;
+        color: #f0f0f0 !important;
+        border-color: #333 !important;
+      }
+      
+      body.dark-mode .form-control:focus {
+        background: #2a2a2a !important;
+        border-color: #8b5cf6 !important;
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .form-label {
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .btn {
+        background: linear-gradient(135deg, #8b46c1, #805ad5) !important;
+        color: white !important;
+        border-color: #6b46c1 !important;
+      }
+      
+      body.dark-mode .btn:hover {
+        background: linear-gradient(135deg, #7c3aed, #9333ea) !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4) !important;
+      }
+      
+      body.dark-mode .text-muted {
+        color: #a0aec0 !important;
+      }
+      
+      body.dark-mode .alert {
+        background: #2d3748 !important;
+        border-color: #4a5568 !important;
+        color: #e0e0e0 !important;
+      }
+      
+      .container {
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      
+      .card {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+        backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        margin-top: 50px !important;
+        margin-bottom: 50px !important;
+      }
+      
+      .card-header {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+        color: white !important;
+        border-radius: 20px 20px 0 0 !important;
+        border: none !important;
+        text-align: center;
+        padding: 30px 20px !important;
+      }
+      
+      .card-body {
+        padding: 40px !important;
+      }
+      
+      .btn-primary {
+        background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 30px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .btn-primary:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3) !important;
+      }
+      
+      .form-control {
+        border-radius: 12px !important;
+        border: 2px solid #e2e8f0 !important;
+        padding: 12px 16px !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .form-control:focus {
+        border-color: #8b5cf6 !important;
+        box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25) !important;
+      }
+      
+      .alert {
+        border-radius: 12px !important;
+        border: none !important;
+      }
+      
+      .alert-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333) !important;
+        color: white !important;
+      }
+      
+      .alert-success {
+        background: linear-gradient(135deg, #28a745, #20c997) !important;
+        color: white !important;
+      }
+      
+      .text-center a {
+        color: #8b5cf6 !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        transition: color 0.3s ease !important;
+      }
+      
+      .text-center a:hover {
+        color: #a855f7 !important;
+      }
+      
     .notification-bell {
         position: fixed;
         top: 32px;
@@ -137,21 +286,152 @@
     .user-avatar img {
       border: 2.5px solid #e2e8f0 !important;
     }
+    /* Popup mesaj için ek stil */
+    .popup-message {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      z-index: 2000;
+      min-width: 220px;
+      max-width: 350px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      font-size: 1.1rem;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+    .popup-message.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+          .container {
+        position: relative;
+      }
+      
+      /* Light mode styles */
+      .login-card {
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #232526 !important;
+        border: 1px solid #e0e0e0 !important;
+      }
+      
+      .login-card h3 {
+        color: #232526 !important;
+      }
+      
+      .login-card .text-center a {
+        color: #6a4c9c !important;
+      }
+      
+      .login-card .text-center a:hover {
+        color: #8b5cf6 !important;
+      }
+      
+      .login-card .logo-soft {
+        filter: brightness(1);
+      }
+      
+      .login-card span {
+        color: #4a4a4a !important;
+      }
+      
+      /* Form validation messages for dark text in light mode */
+      .login-card .help-text,
+      .login-card .invalid-feedback,
+      .login-card .form-text,
+      .login-card .text-muted,
+      .login-card small {
+        color: #dc3545 !important;
+        font-weight: 500 !important;
+      }
+      
+      /* Crispy forms için özel stiller */
+      .login-card .form-text,
+      .login-card .invalid-feedback {
+        color: #dc3545 !important;
+        opacity: 0.9 !important;
+      }
+      
+      /* Bootstrap form validation için */
+      .login-card .was-validated .form-control:invalid ~ .invalid-feedback,
+      .login-card .was-validated .form-control:valid ~ .valid-feedback {
+        color: #dc3545 !important;
+      }
+      
+      /* AsteriskField class'larını gizle */
+      .asteriskField {
+        display: none !important;
+      }
+      
+      /* Dark mode styles */
+      body.dark-mode .login-card {
+        background: rgba(30, 30, 30, 0.95) !important;
+        color: #f0f0f0 !important;
+        border: 1px solid #444 !important;
+      }
+      
+      body.dark-mode .login-card h3 {
+        color: #f0f0f0 !important;
+      }
+      
+      body.dark-mode .login-card .text-center a {
+        color: #8b5cf6 !important;
+      }
+      
+      body.dark-mode .login-card .text-center a:hover {
+        color: #a855f7 !important;
+      }
+      
+      body.dark-mode .login-card .logo-soft {
+        filter: brightness(1.2);
+      }
+      
+      body.dark-mode .login-card span {
+        color: #e0e0e0 !important;
+      }
+      
+      /* Form validation messages for red text in dark mode */
+      body.dark-mode .login-card .help-text,
+      body.dark-mode .login-card .invalid-feedback,
+      body.dark-mode .login-card .form-text,
+      body.dark-mode .login-card .text-muted,
+      body.dark-mode .login-card small {
+        color: #ff6b6b !important;
+        font-weight: 500 !important;
+      }
+      
+      /* Crispy forms için özel stiller */
+      body.dark-mode .login-card .form-text,
+      body.dark-mode .login-card .invalid-feedback {
+        color: #ff6b6b !important;
+        opacity: 0.9 !important;
+      }
+      
+      /* Bootstrap form validation için */
+      body.dark-mode .login-card .was-validated .form-control:invalid ~ .invalid-feedback,
+      body.dark-mode .login-card .was-validated .form-control:valid ~ .valid-feedback {
+        color: #ff6b6b !important;
+      }
+      
+      /* Dark mode'da da AsteriskField class'larını gizle */
+      body.dark-mode .asteriskField {
+        display: none !important;
+      }
     </style>
   </head>
 
   <body class="login-page">
 
     <div class="container p-5">
-      <div class="text-center">
-        {% for message in messages %} {% if message.level == 25 %}
-        <p id="message" class="alert alert-success">{{ message }}</p>
-        {% endif %} {% endfor %}
-      </div>
-
+      {% for message in messages %}
+        {% if message.level == 25 %}
+          <div id="message" class="alert alert-success popup-message">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
       <div class="row justify-content-center">
-        <div class="col-md-6 shadow-lg bg-white p-5 rounded-5">
-          <h3>{% trans "Kullanıcı Girişi" %}</h3>
+        <div class="col-md-6 shadow-lg p-5 rounded-5 login-card">
+         <!-- <h3>{% trans "Kullanıcı Girişi" %}</h3> -->
 
           <div class="d-flex justify-content-center align-items-center mb-4" style="gap: 16px;">
             <img src="{% static 'iyihisset.png' %}" class="logo-soft" alt="İyi Hisset Logo" style="height: 60px;">
@@ -180,10 +460,32 @@
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/font-size-manager.js' %}"></script>
     <script>
+      // Tema kontrolü
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if(theme === 'dark') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      }
+      
       document.addEventListener('DOMContentLoaded', function() {
+        // Sayfa yüklendiğinde temayı uygula
+        applyThemeFromStorage();
+        
         if (typeof initializeLanguage === 'function') {
           initializeLanguage();
         }
+        // Popup mesajı 3 saniye sonra kaybolacak şekilde ayarla
+        var msg = document.getElementById('message');
+        if (msg) {
+          setTimeout(function() {
+            msg.classList.add('hide');
+          }, 3000);
+        }
+        // Dark mode temayı uygula
+        applyThemeFromStorage();
       });
     </script>
     <script>
@@ -194,6 +496,16 @@
               window.location.href = "{% url 'responsive' %}";
           }
       }
+      // Dark mode tema desteği
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if (theme === 'dark') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      }
+      
       redirectIfSmallScreen();
       window.addEventListener('resize', redirectIfSmallScreen);
   </script>
@@ -203,12 +515,12 @@
     // Bildirim popup aç/kapat
     const bell = document.getElementById('notificationBell');
     const popup = document.getElementById('notificationPopup');
-    bell.addEventListener('click', function(e) {
+    bell && bell.addEventListener('click', function(e) {
       e.stopPropagation();
       popup.classList.toggle('active');
     });
     document.addEventListener('click', function(e) {
-      if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
+      if (popup && popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
         popup.classList.remove('active');
       }
     });

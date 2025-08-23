@@ -239,7 +239,7 @@
         border: 2px solid var(--accent-color);
         box-shadow: var(--shadow-soft), 0 0 0 4px rgba(185, 147, 214, 0.1);
       }        body.dark-mode .sidebar-block.sidebar-title {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             color: #f8f8ff !important;
             border-color: #29293a !important;
         }
@@ -267,27 +267,11 @@
 
       /* Responsive Design */
       @media (max-width: 991px) {
-        body {
-          flex-direction: column;
-        }
+        body { flex-direction: column; }
         .sidebar-container {
-          position: fixed;
-          left: -100vw;
-          top: 0;
-          z-index: 1040;
-          background: rgba(255, 255, 255, 0.97);
-          height: 100vh;
+          width: 100vw;
           min-width: 0;
           max-width: 100vw;
-          width: 100vw;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          box-shadow: 0 2px 16px rgba(140, 82, 255, 0.13);
-          transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .sidebar-container.active {
-          left: 0;
         }
         .main-content {
           margin-left: 0;
@@ -297,7 +281,7 @@
 
       @media (max-width: 768px) {
         .cards-grid {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(2, 1fr);
           gap: 16px;
         }
 
@@ -315,6 +299,13 @@
 
         .card-title {
           font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .cards-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
         }
       }
 
@@ -340,9 +331,9 @@
           rgba(139, 92, 246, 0.1),
           rgba(139, 92, 246, 0.05)
         );
-        border-radius: 16px;
-        padding: 16px 20px;
-        font-size: 1.1rem;
+        border-radius: 12px;
+        padding: 16px ;
+        font-size: 1rem;
         color: var(--text-primary);
         font-weight: 500;
         box-shadow: 0 2px 8px rgba(140, 82, 255, 0.08);
@@ -394,8 +385,15 @@
       }
 
       .sidebar-container {
-        width: 400px !important;
-        min-width: 400px !important;
+        width: 400px;
+        min-width: 400px;
+        max-width: 400px;
+        flex-shrink: 0;
+        z-index: 2;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
       }
 
       .sidebar-title-text {
@@ -421,49 +419,33 @@
         );
         border-radius: 2px;
       }
+      /* Meditasyon sayfası ile aynı sidebar-title görünümü */
+      .sidebar-block.sidebar-title {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 24px;
+        margin-bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
+      }
+      .sidebar-menu {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+      }
       .sidebar-tasks {
         display: flex;
         flex-direction: column;
         gap: 12px;
         width: 100%;
-      }
-      .sidebar-task-item {
-        background: rgba(139, 92, 246, 0.1);
-        border-radius: 12px;
-        padding: 16px;
-        font-size: 1rem;
-        color: var(--text-primary);
-        font-weight: 500;
-        box-shadow: 0 1px 4px rgba(140, 82, 255, 0.04);
-        border: 1px solid transparent;
-        transition: var(--transition-smooth);
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-      }
-      .sidebar-task-item::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.5s;
-      }
-      .sidebar-task-item:hover {
-        background: rgba(139, 92, 246, 0.15);
-        box-shadow: 0 2px 8px rgba(140, 82, 255, 0.09);
-        border-color: rgba(139, 92, 246, 0.2);
-        transform: translateX(4px);
-      }
-      .sidebar-task-item:hover::before {
-        left: 100%;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
       }
 
       /* Dark Mode Styles */
@@ -516,10 +498,7 @@
         color: #f1f1f1 !important;
       }
 
-      body.dark-mode .sidebar-header {
-        background: rgba(45, 45, 45, 0.8) !important;
-        border-bottom-color: #555 !important;
-      }
+      
 
       body.dark-mode .sidebar-nav a {
         color: #b0b0b0 !important;
@@ -545,9 +524,14 @@
         color: #f1f1f1 !important;
       }
 
-      body.dark-mode .user-info p {
-        color: #b0b0b0 !important;
-      }
+              body.dark-mode .user-info p {
+          color: #b0b0b0 !important;
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
+        }
 
       body.dark-mode .sidebar-title-text {
         color: #8c73b8 !important;
@@ -683,6 +667,42 @@
           max-width: 98vw;
         }
       }
+    /* Dark Mode — meditasyon ile aynı */
+    body.dark-mode { background: #181818 !important; color: #e0e0e0 !important; }
+    body.dark-mode .main-content { background: #232323 !important; color: #e0e0e0 !important; }
+    body.dark-mode .page-title { color: #e0e0e0 !important; }
+    body.dark-mode .page-subtitle { color: #b0b0b0 !important; }
+    body.dark-mode .sidebar-container { background: #1a1a1a !important; border-color: #333 !important; }
+    
+    body.dark-mode .sidebar-nav a { background: #333 !important; color: #e0e0e0 !important; }
+    body.dark-mode .sidebar-nav a:hover { background: #4a4a4a !important; color: #fff !important; }
+    body.dark-mode .sidebar-nav a.active { background: var(--primary-color) !important; color: #fff !important; }
+    body.dark-mode .sidebar-block.sidebar-title { background: #181818 !important; color: #f8f8ff !important; border-color: #29293a !important; }
+    body.dark-mode .sidebar-block.sidebar-title * { color: #f8f8ff !important; }
+    body.dark-mode .sidebar-user { background: #181818 !important; border-color: #333 !important; }
+    body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
+            body.dark-mode .user-info p { 
+          color: #b0b0b0 !important; 
+          font-size: 0.9rem !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 200px !important;
+        }
+    body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
+    body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
+    body.dark-mode .sidebar-title-text { color: var(--primary-color) !important; }
+    body.dark-mode .menu-item { color: #e0e0e0 !important; }
+    body.dark-mode .menu-item:hover { background: #333 !important; color: var(--primary-color) !important; }
+    body.dark-mode .menu-item.active { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #fff !important; }
+
+      /* Sidebar background overrides */
+      body.dark-mode .sidebar-header,
+      body.dark-mode .sidebar-user,
+      body.dark-mode .sidebar-menu { background: #181818 !important; }
+
+      /* Ensure dark mode main content background */
+      body.dark-mode .main-content { background: #23232354 !important; }
     </style>
   </head>
   <body>
@@ -712,13 +732,7 @@
         </div>
       </div>
       <div class="sidebar-menu">
-        <div class="sidebar-block sidebar-title">
-          <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
-          <div class="sidebar-tasks">
-            <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-            <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
-          </div>
-        </div>
+        {% include 'articles/gorevlerim.html' %}
       </div>
     </div>
   
@@ -792,20 +806,7 @@
       </div>
     </main>
   
-    <!-- Bildirim Butonu ve Popup -->
-    <button class="notification-bell" id="notificationBell" aria-label="{% trans 'Bildirimler' %}">
-      <span class="material-symbols-outlined">notifications</span>
-    </button>
-    <div class="notification-popup" id="notificationPopup">
-      <div class="popup-title">{% trans "Bildirimler" %}</div>
-      <ul class="notification-list">
-        <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-        <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-        <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-        <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-        <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-      </ul>
-    </div>
+    {% include 'articles/includes/notifications.html' %}
   
     <!-- JS (responsive sidebar, theme, language, bildirim aç/kapa) -->
     <script>
@@ -831,18 +832,7 @@
       });
       observer.observe(sidebarContainer, { attributes: true, attributeFilter: ["class"] });
   
-      // Bildirim popup aç/kapat
-      const bell = document.getElementById('notificationBell');
-      const popup = document.getElementById('notificationPopup');
-      bell.addEventListener('click', function(e) {
-        e.stopPropagation();
-        popup.classList.toggle('active');
-      });
-      document.addEventListener('click', function(e) {
-        if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-          popup.classList.remove('active');
-        }
-      });
+      // Bildirim popup davranışı ortak include içinde
   
       // Card fade-in animation
       const cardObserver = new IntersectionObserver(

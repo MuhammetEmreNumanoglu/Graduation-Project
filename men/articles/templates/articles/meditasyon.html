@@ -58,7 +58,7 @@
       .main-content {
         justify-content: center;
         flex: 1;
-        margin-left: 320px;
+        margin-left: 400px;
         padding: 48px 32px;
         display: flex;
         flex-direction: column;
@@ -67,6 +67,7 @@
         box-sizing: border-box;
         position: relative;
         z-index: 1;
+        min-width: 0;
       }
 
       /* Category Filter */
@@ -481,25 +482,16 @@
 
       /* Responsive */
       @media (max-width: 991px) {
-
-
         .sidebar-container {
-          position: fixed;
-          left: -100vw;
-          top: 0;
-          height: 100vh;
           width: 100vw;
-          border-radius: 0;
-          border-right: none;
-        }
-
-        .sidebar-container.active {
-          left: 0;
+          min-width: 0;
+          max-width: 100vw;
         }
 
         .main-content {
           margin-left: 0;
           padding: 100px 24px 24px 24px;
+          max-width: 100vw;
         }
 
         body.sidebar-open {
@@ -635,8 +627,12 @@
       }
 
       .sidebar-container {
-        width: 400px !important;
-        min-width: 400px !important;
+        width: 400px;
+        min-width: 400px;
+        max-width: 400px;
+        flex-shrink: 0;
+        z-index: 2;
+        background: #fff;
       }
 
       .sidebar-title-text {
@@ -667,6 +663,7 @@
         flex-direction: column;
         gap: 12px;
         width: 100%;
+        min-height: 0;
       }
       .sidebar-task-item {
         background: rgba(139, 92, 246, 0.1);
@@ -732,10 +729,7 @@
         border-color: #333 !important;
       }
 
-      body.dark-mode .sidebar-header {
-        background: #2a2a2a !important;
-        border-color: #333 !important;
-      }
+      
 
       body.dark-mode .sidebar-nav a {
         background: #333 !important;
@@ -752,7 +746,7 @@
         color: white !important;
       }
       body.dark-mode .sidebar-block.sidebar-title {
-            background: #2a2a2a !important;
+            background: #181818 !important;
             color: #f8f8ff !important;
             border-color: #29293a !important;
         }
@@ -760,7 +754,7 @@
             color: #f8f8ff !important;
         }
       body.dark-mode .sidebar-user {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #333 !important;
       }
 
@@ -770,6 +764,11 @@
 
       body.dark-mode .user-info p {
         color: #b0b0b0 !important;
+        font-size: 0.9rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 200px !important;
       }
 
       body.dark-mode .menu-item {
@@ -821,7 +820,7 @@
       }
 
       body.dark-mode .meditation-card {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #444 !important;
         color: #e0e0e0 !important;
       }
@@ -840,7 +839,7 @@
       }
 
       body.dark-mode .audio-card {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         border-color: #444 !important;
         color: #e0e0e0 !important;
       }
@@ -867,8 +866,18 @@
       }
 
       body.dark-mode .back-btn {
-        background: #333 !important;
-        color: var(--primary-color) !important;
+        background: #444 !important;
+        color: #e0e0e0 !important;
+        border: 2px solid var(--primary-color) !important;
+        box-shadow: 0 4px 16px rgba(106, 76, 156, 0.3) !important;
+      }
+      
+      body.dark-mode .back-btn:hover {
+        background: #555 !important;
+        color: #ffffff !important;
+        border-color: var(--secondary-color) !important;
+        box-shadow: 0 6px 20px rgba(106, 76, 156, 0.4) !important;
+        transform: scale(1.05) !important;
       }
 
       body.dark-mode .volume-slider {
@@ -892,7 +901,7 @@
       body.dark-mode .card,
       body.dark-mode .box,
       body.dark-mode .panel {
-        background: #2a2a2a !important;
+        background: #181818 !important;
         color: #e0e0e0 !important;
         border-color: #444 !important;
       }
@@ -992,8 +1001,22 @@
           max-width: 98vw;
         }
       }
-    </style>
-  </head>
+
+      /* Sidebar background overrides */
+      body.dark-mode .sidebar-header,
+      body.dark-mode .sidebar-user,
+      body.dark-mode .sidebar-menu { background: #181818 !important; }
+
+      /* Ensure dark mode main content background */
+      body.dark-mode         .main-content { background: #23232354 !important; }
+        
+        @media (min-width: 1700px) {
+          .main-content {
+            min-width: 800px;
+          }
+        }
+      </style>
+    </head>
   <body>
     {% include 'articles/includes/notifications.html' %}
     <div class="sidebar-container" id="sidebarContainer">
@@ -1018,13 +1041,7 @@
           <p>{{ user.email }}</p>
         </div>
       </div>
-      <div class="sidebar-block sidebar-title">
-        <div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
-        <div class="sidebar-tasks">
-          <div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-          <div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
-        </div>
-      </div>
+      {% include 'articles/gorevlerim.html' %}
     </div>
 
     <main class="main-content">
@@ -1059,7 +1076,7 @@
           onclick="showPlayer(0)"
         >
           <img
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
+            src="{% static 'img/rain.jpg' %}"
             class="meditation-card-img"
             alt="Yağmur"
           />
@@ -1076,8 +1093,8 @@
           onclick="showPlayer(1)"
         >
           <img
-            src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/night.jpg' %}"
+          class="meditation-card-img"
             alt="Gece"
           />
           <div class="meditation-card-title">
@@ -1093,8 +1110,8 @@
           onclick="showPlayer(2)"
         >
           <img
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/moon.jpg' %}"
+          class="meditation-card-img"
             alt="Ay"
           />
           <div class="meditation-card-title">
@@ -1112,8 +1129,8 @@
           onclick="showPlayer(3)"
         >
           <img
-            src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/piano.jpg' %}"
+          class="meditation-card-img"
             alt="Piyano"
           />
           <div class="meditation-card-title">
@@ -1129,8 +1146,8 @@
           onclick="showPlayer(4)"
         >
           <img
-            src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/work.jpg' %}"
+          class="meditation-card-img"
             alt="Çalışma"
           />
           <div class="meditation-card-title">
@@ -1148,8 +1165,8 @@
           onclick="showPlayer(5)"
         >
           <img
-            src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/wave.jpg' %}"
+          class="meditation-card-img"
             alt="Dalgalar"
           />
           <div class="meditation-card-title">
@@ -1165,8 +1182,8 @@
           onclick="showPlayer(6)"
         >
           <img
-            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/forest.jpg' %}"
+          class="meditation-card-img"
             alt="Orman"
           />
           <div class="meditation-card-title">
@@ -1184,8 +1201,8 @@
           onclick="showPlayer(7)"
         >
           <img
-            src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/morning.jpg' %}"
+          class="meditation-card-img"
             alt="Sabah"
           />
           <div class="meditation-card-title">{% trans "Sabah Esnemesi" %}</div>
@@ -1199,8 +1216,8 @@
           onclick="showPlayer(8)"
         >
           <img
-            src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/sunset.jpg' %}"
+          class="meditation-card-img"
             alt="Güneş"
           />
           <div class="meditation-card-title">
@@ -1218,12 +1235,12 @@
           onclick="showPlayer(9)"
         >
           <img
-            src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/fire.jpg' %}"
+          class="meditation-card-img"
             alt="Nefes"
           />
           <div class="meditation-card-title">
-            {% trans "Derin Nefes Egzersizi" %}
+            {% trans "Ateş Meditasyonu" %}
           </div>
           <div class="meditation-card-category">
             {% trans "Nefes & Sakinlik" %}
@@ -1235,8 +1252,8 @@
           onclick="showPlayer(10)"
         >
           <img
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80"
-            class="meditation-card-img"
+          src="{% static 'img/calm.jpg' %}"
+          class="meditation-card-img"
             alt="Sakinlik"
           />
           <div class="meditation-card-title">
@@ -1255,19 +1272,6 @@
         style="display: none"
       ></div>
     </main>
-    <button class="notification-bell" id="notificationBell" aria-label="Bildirimler">
-      <span class="material-symbols-outlined">notifications</span>
-    </button>
-    <div class="notification-popup" id="notificationPopup">
-      <div class="popup-title">{% trans "Bildirimler" %}</div>
-      <ul class="notification-list">
-        <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-        <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-        <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-        <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-        <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
-      </ul>
-    </div>
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/responsive-sidebar.js' %}"></script>
     <script src="{% static 'js/font-size-manager.js' %}"></script>
@@ -1277,79 +1281,68 @@
       const podcasts = [
         {
           title: "{% trans 'Derin Uyku İçin Yağmur' %}",
-          image:
-            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/rain.jpg' %}",
+          audio: "/media/rain.mp3",
           category: "sleep",
         },
         {
           title: "{% trans 'Gece Meditasyonu' %}",
-          image:
-            "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/night.jpg' %}",
+          audio: "/media/night.mp3",
           category: "sleep",
         },
         {
           title: "{% trans 'Ay Işığı Meditasyonu' %}",
-          image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/moon.jpg' %}",
+          audio: "/media/night2.mp3",
           category: "sleep",
         },
         {
           title: "{% trans 'Odaklanma Piyanosu' %}",
-          image:
-            "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/piano.jpg' %}",
+          audio: "/media/piano.mp3",
           category: "focus",
         },
         {
           title: "{% trans 'Çalışma Odaklanması' %}",
-          image:
-            "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/work.jpg' %}",
+          audio: "/media/work.mp3",
           category: "focus",
         },
         {
           title: "{% trans 'Stres Azaltan Dalgalar' %}",
-          image:
-            "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/wave.jpg' %}",
+          audio: "/media/wave.mp3",
           category: "nature",
         },
         {
           title: "{% trans 'Orman Sesi Meditasyonu' %}",
-          image:
-            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/forest.jpg' %}",
+          audio: "/media/forest.mp3",
           category: "nature",
         },
         {
           title: "{% trans 'Sabah Esnemesi' %}",
-          image:
-            "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/morning.jpg' %}",
+          audio: "/media/morning.mp3",
           category: "morning",
         },
         {
           title: "{% trans 'Güneş Doğuşu Meditasyonu' %}",
-          image:
-            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=400&q=80",
+          image: "{% static 'img/sunset.jpg' %}",
           audio: "/media/Handpan by Yuki Koshimoto.mp3",
           category: "morning",
         },
         {
-          title: "{% trans 'Derin Nefes Egzersizi' %}",
-          image:
-            "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          title: "{% trans 'Ateş Meditasyonu' %}",
+          image: "{% static 'img/fire.jpg' %}",
+          audio: "/media/fire.mp3",
           category: "breathing",
         },
         {
           title: "{% trans 'Sakinlik Meditasyonu' %}",
-          image:
-            "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80",
-          audio: "/media/Handpan by Yuki Koshimoto.mp3",
+          image: "{% static 'img/calm.jpg' %}",
+          audio: "/media/calm.mp3",
           category: "breathing",
         },
       ];
@@ -1386,7 +1379,7 @@
       });
 
       // Show audio player
-      function showPlayer(index, resetTime = true) {
+      function showPlayer(index, resetTime = true, autoplay = false) {
         currentPodcastIndex = index;
         const podcast = podcasts[index];
 
@@ -1450,6 +1443,25 @@
 
         // Initialize audio player
         initializeAudioPlayer(resetTime);
+        
+        // Kaydedilen ayarları uygula - daha uzun gecikme ile
+        setTimeout(() => {
+          applySavedVolume();
+          applySavedSpeed();
+        }, 300);
+
+        // Autoplay istenirse otomatik başlat
+        if (autoplay) {
+          const audioEl = document.getElementById("audioElement");
+          const playBtn = document.getElementById("playBtn");
+          if (audioEl) {
+            audioEl.play().then(() => {
+              if (playBtn) {
+                playBtn.innerHTML = '<span class="material-symbols-outlined">pause</span>';
+              }
+            }).catch(() => {});
+          }
+        }
       }
 
       // Hide audio player
@@ -1478,12 +1490,28 @@
 
         currentAudio = audio;
         let isDragging = false;
+        
+        // Audio hazır olana kadar bekle
+        if (audio.readyState < 1) {
+          audio.addEventListener("loadedmetadata", function() {
+            // Audio hazır olduktan sonra event listener'ları ekle
+            setupAudioEventListeners();
+            // Total time'ı güncelle
+            updateTotalTime();
+          }, { once: true });
+          return;
+        }
+        
+        // Audio zaten hazırsa direkt event listener'ları ekle
+        setupAudioEventListeners();
+        // Total time'ı güncelle
+        updateTotalTime();
+        
+        function setupAudioEventListeners() {
 
         // Play/Pause functionality
         audio.addEventListener("loadedmetadata", function () {
-          document.getElementById("totalTime").textContent = formatTime(
-            audio.duration
-          );
+          updateTotalTime();
         });
 
         audio.addEventListener("timeupdate", function () {
@@ -1508,13 +1536,21 @@
             audio.play();
             playBtn.innerHTML =
               '<span class="material-symbols-outlined">pause</span>';
+          } else {
+            // Loop aktif değilse otomatik olarak sonraki şarkıya geç
+            setTimeout(() => {
+              nextTrack();
+            }, 1000);
           }
         });
 
         // Volume control
         volumeSlider.addEventListener("input", function () {
-          audio.volume = this.value / 100;
+          const volume = this.value / 100;
+          audio.volume = volume;
           updateVolumeIcon(this.value);
+          // Ses seviyesini localStorage'a kaydet
+          saveVolumeSettings(volume);
         });
 
         // Seek bar drag functionality
@@ -1527,12 +1563,19 @@
           if (isDragging) {
             const rect = seekBar.getBoundingClientRect();
             const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-            const progress = (clickX / rect.width) * 100;
             const seekTime = (clickX / rect.width) * audio.duration;
             
-            seekBarProgress.style.width = progress + "%";
-            seekBarHandle.style.left = `calc(${progress}% - 8px)`;
+            // UI'ı güncelle
+            updateSeekBar(seekTime, audio.duration);
+            
+            // Audio currentTime'ı güncelle
             audio.currentTime = seekTime;
+            
+            // Current time display'ı güncelle
+            const currentTimeDisplay = document.getElementById("currentTime");
+            if (currentTimeDisplay) {
+              currentTimeDisplay.textContent = formatTime(seekTime);
+            }
           }
         });
 
@@ -1540,21 +1583,54 @@
           isDragging = false;
         });
 
-        // Speed control
-        let speedIndex = 0;
+        // Speed control - localStorage ile kaydet
+        let speedIndex = parseInt(localStorage.getItem('meditationSpeedIndex')) || 0;
         const speeds = [1, 1.25, 1.5, 1.75, 2, 0.5, 0.75];
 
         function changeSpeed() {
+          const audio = document.getElementById("audioElement");
+          if (!audio) return;
+          
           speedIndex = (speedIndex + 1) % speeds.length;
           audio.playbackRate = speeds[speedIndex];
           speedBtn.textContent = speeds[speedIndex] + "x";
+          // localStorage'a kaydet
+          localStorage.setItem('meditationSpeedIndex', speedIndex.toString());
         }
+        
+        // Sayfa yüklendiğinde kaydedilen hızı uygula
+        function applySavedSpeed() {
+          const audio = document.getElementById("audioElement");
+          if (!audio) return;
+          
+          if (speeds[speedIndex]) {
+            audio.playbackRate = speeds[speedIndex];
+            speedBtn.textContent = speeds[speedIndex] + "x";
+          } else {
+            // Audio henüz hazır değilse bekle
+            audio.addEventListener("loadedmetadata", function() {
+              if (speeds[speedIndex]) {
+                audio.playbackRate = speeds[speedIndex];
+                speedBtn.textContent = speeds[speedIndex] + "x";
+              }
+            }, { once: true });
+          }
+        }
+        
+        // Global olarak erişilebilir yap
+        window.applySavedSpeed = applySavedSpeed;
 
+        // Global olarak erişilebilir yap
         window.changeSpeed = changeSpeed;
 
         if (resetTime) {
           audio.currentTime = 0;
         }
+        
+        // Kaydedilen ses seviyesi ve hız ayarlarını uygula
+        applySavedVolume();
+        applySavedSpeed();
+        } // setupAudioEventListeners fonksiyonunun kapanışı
       }
 
       // Toggle volume slider
@@ -1570,6 +1646,50 @@
           volumeBtn.innerHTML = '<span class="material-symbols-outlined">volume_up</span>';
         }
       }
+      
+      // Ses seviyesi ayarlarını localStorage ile kaydet
+      function saveVolumeSettings(volume) {
+        localStorage.setItem('meditationVolume', volume.toString());
+        updateVolumeIcon(volume);
+      }
+      
+      // Kaydedilen ses seviyesini uygula
+      function applySavedVolume() {
+        const audio = document.getElementById("audioElement");
+        if (!audio) return;
+        
+        const savedVolume = localStorage.getItem('meditationVolume');
+        if (savedVolume !== null) {
+          const volume = parseFloat(savedVolume);
+          audio.volume = volume;
+          updateVolumeIcon(volume);
+          
+          // Volume slider'ı güncelle
+          const volumeSlider = document.getElementById("volumeSlider");
+          if (volumeSlider) {
+            volumeSlider.value = volume * 100;
+          }
+        } else {
+          // Varsayılan ses seviyesi
+          audio.volume = 0.5;
+          updateVolumeIcon(0.5);
+          
+          const volumeSlider = document.getElementById("volumeSlider");
+          if (volumeSlider) {
+            volumeSlider.value = 50;
+          }
+        }
+        
+        // Audio henüz hazır değilse bekle
+        if (audio.readyState < 1) {
+          audio.addEventListener("loadedmetadata", function() {
+            applySavedVolume();
+          }, { once: true });
+        }
+      }
+      
+      // Global olarak erişilebilir yap
+      window.applySavedVolume = applySavedVolume;
 
       // Toggle play/pause
       function togglePlay() {
@@ -1590,6 +1710,8 @@
       // Seek functionality
       function seek(event) {
         const audio = document.getElementById("audioElement");
+        if (!audio || !audio.duration) return;
+        
         const seekBar = event.currentTarget;
         const rect = seekBar.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
@@ -1597,6 +1719,103 @@
         const seekTime = (clickX / seekBarWidth) * audio.duration;
 
         audio.currentTime = seekTime;
+        
+        // UI'ı güncelle
+        updateSeekBar(seekTime, audio.duration);
+        
+        // Current time display'ı güncelle
+        const currentTimeDisplay = document.getElementById("currentTime");
+        if (currentTimeDisplay) {
+          currentTimeDisplay.textContent = formatTime(seekTime);
+        }
+      }
+
+      // 10 sn ileri/geri işlemleri için güvenli sarmaya yardımcı
+      function safeSeek(deltaSeconds) {
+        const audio = document.getElementById("audioElement");
+        if (!audio) return;
+        
+        // Audio hazır değilse bekle
+        if (audio.readyState < 1 || isNaN(audio.duration)) {
+          audio.addEventListener("loadedmetadata", () => safeSeek(deltaSeconds), { once: true });
+          return;
+        }
+        
+        const duration = audio.duration;
+        const current = audio.currentTime;
+        const target = Math.max(0, Math.min(duration, current + deltaSeconds));
+        
+        // Audio currentTime'ı güncelle
+        audio.currentTime = target;
+        
+        // UI'ı güncelle
+        updateSeekBar(target, duration);
+        
+        // Current time display'ı güncelle
+        const currentTimeDisplay = document.getElementById("currentTime");
+        if (currentTimeDisplay) {
+          currentTimeDisplay.textContent = formatTime(target);
+        }
+      }
+
+      // Rewind 10 seconds - global olarak erişilebilir
+      function rewind() {
+        const audio = document.getElementById("audioElement");
+        if (!audio) return;
+        
+        // Audio hazır değilse bekle
+        if (audio.readyState < 1 || isNaN(audio.duration)) {
+          audio.addEventListener("loadedmetadata", () => rewind(), { once: true });
+          return;
+        }
+        
+        const duration = audio.duration;
+        const current = audio.currentTime;
+        const target = Math.max(0, current - 10);
+        
+        audio.currentTime = target;
+        updateSeekBar(target, duration);
+        
+        const currentTimeDisplay = document.getElementById("currentTime");
+        if (currentTimeDisplay) {
+          currentTimeDisplay.textContent = formatTime(target);
+        }
+      }
+
+      // Forward 10 seconds - global olarak erişilebilir
+      function forward() {
+        const audio = document.getElementById("audioElement");
+        if (!audio) return;
+        
+        // Audio hazır değilse bekle
+        if (audio.readyState < 1 || isNaN(audio.duration)) {
+          audio.addEventListener("loadedmetadata", () => forward(), { once: true });
+          return;
+        }
+        
+        const duration = audio.duration;
+        const current = audio.currentTime;
+        const target = Math.min(duration, current + 10);
+        
+        audio.currentTime = target;
+        updateSeekBar(target, duration);
+        
+        const currentTimeDisplay = document.getElementById("currentTime");
+        if (currentTimeDisplay) {
+          currentTimeDisplay.textContent = formatTime(target);
+        }
+      }
+      
+      // Seek bar'ı güncelle
+      function updateSeekBar(currentTime, duration) {
+        const seekBarProgress = document.getElementById("seekBarProgress");
+        const seekBarHandle = document.getElementById("seekBarHandle");
+        
+        if (seekBarProgress && seekBarHandle && duration > 0) {
+          const progress = (currentTime / duration) * 100;
+          seekBarProgress.style.width = progress + "%";
+          seekBarHandle.style.left = `calc(${progress}% - 8px)`;
+        }
       }
 
       // Format time
@@ -1605,32 +1824,45 @@
         const remainingSeconds = Math.floor(seconds % 60);
         return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
       }
+      
+      // Total time güncelleme
+      function updateTotalTime() {
+        const audio = document.getElementById("audioElement");
+        const totalTimeDisplay = document.getElementById("totalTime");
+        if (audio && totalTimeDisplay) {
+          // Audio hazır olana kadar bekle
+          if (audio.readyState >= 1 && !isNaN(audio.duration)) {
+            totalTimeDisplay.textContent = formatTime(audio.duration);
+          } else {
+            audio.addEventListener("loadedmetadata", function() {
+              if (!isNaN(audio.duration)) {
+                totalTimeDisplay.textContent = formatTime(audio.duration);
+              }
+            }, { once: true });
+          }
+        }
+      }
 
       // Previous track
       function previousTrack() {
         if (currentPodcastIndex > 0) {
-          showPlayer(currentPodcastIndex - 1, true);
+          showPlayer(currentPodcastIndex - 1, true, true);
         }
       }
 
       // Next track
       function nextTrack() {
         if (currentPodcastIndex < podcasts.length - 1) {
-          showPlayer(currentPodcastIndex + 1, true);
+          showPlayer(currentPodcastIndex + 1, true, true);
         }
       }
 
-      // Rewind 10 seconds
-      function rewind() {
-        const audio = document.getElementById("audioElement");
-        audio.currentTime = Math.max(0, audio.currentTime - 10);
-      }
+      // Rewind 10 seconds - artık yukarıda tanımlandı
+      // Forward 10 seconds - artık yukarıda tanımlandı
 
-      // Forward 10 seconds
-      function forward() {
-        const audio = document.getElementById("audioElement");
-        audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
-      }
+      // Make functions globally accessible
+      window.rewind = rewind;
+      window.forward = forward;
 
       // Toggle loop
       function toggleLoop() {
@@ -1661,38 +1893,42 @@
         }
       }
 
-      // Sidebar functionality
-      const hamburgerBtn = document.getElementById("hamburgerBtn");
-      const sidebarContainer = document.getElementById("sidebarContainer");
+      // Sidebar functionality - DOM yüklendikten sonra çalıştır
+      document.addEventListener("DOMContentLoaded", function() {
+        const hamburgerBtn = document.getElementById("hamburgerBtn");
+        const sidebarContainer = document.getElementById("sidebarContainer");
+        
+        if (hamburgerBtn && sidebarContainer) {
+          hamburgerBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            sidebarContainer.classList.toggle("active");
+            hamburgerBtn.classList.toggle("active");
+            document.body.classList.toggle("sidebar-open");
+          });
 
-      hamburgerBtn.addEventListener("click", function (e) {
-        e.stopPropagation();
-        sidebarContainer.classList.toggle("active");
-        hamburgerBtn.classList.toggle("active");
-        document.body.classList.toggle("sidebar-open");
-      });
+          document.addEventListener("click", function (e) {
+            if (
+              window.innerWidth <= 991 &&
+              sidebarContainer.classList.contains("active")
+            ) {
+              if (
+                !sidebarContainer.contains(e.target) &&
+                !hamburgerBtn.contains(e.target)
+              ) {
+                sidebarContainer.classList.remove("active");
+                hamburgerBtn.classList.remove("active");
+                document.body.classList.remove("sidebar-open");
+              }
+            }
+          });
 
-      document.addEventListener("click", function (e) {
-        if (
-          window.innerWidth <= 991 &&
-          sidebarContainer.classList.contains("active")
-        ) {
-          if (
-            !sidebarContainer.contains(e.target) &&
-            !hamburgerBtn.contains(e.target)
-          ) {
-            sidebarContainer.classList.remove("active");
-            hamburgerBtn.classList.remove("active");
-            document.body.classList.remove("sidebar-open");
-          }
-        }
-      });
-
-      window.addEventListener("resize", function () {
-        if (window.innerWidth > 991) {
-          sidebarContainer.classList.remove("active");
-          hamburgerBtn.classList.remove("active");
-          document.body.classList.remove("sidebar-open");
+          window.addEventListener("resize", function () {
+            if (window.innerWidth > 991) {
+              sidebarContainer.classList.remove("active");
+              hamburgerBtn.classList.remove("active");
+              document.body.classList.remove("sidebar-open");
+            }
+          });
         }
       });
 
@@ -1752,18 +1988,7 @@
       });
     </script>
     <script>
-    // Bildirim popup aç/kapat
-    const bell = document.getElementById('notificationBell');
-    const popup = document.getElementById('notificationPopup');
-    bell.addEventListener('click', function(e) {
-      e.stopPropagation();
-      popup.classList.toggle('active');
-    });
-    document.addEventListener('click', function(e) {
-      if (popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-        popup.classList.remove('active');
-      }
-    });
+    // Bildirim popup davranışı ortak include içinde
     </script>
   </body>
 </html>
