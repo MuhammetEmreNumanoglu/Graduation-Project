@@ -101,8 +101,6 @@ def stream_llm_response(request):
 
         llm = LLMClient(base_url="http://localhost:8008/api/llm", api_key="231")
 
-        stream = False
-
         exists_history = ChatHistoryContent.objects.filter(chat_history=chat_history)
         history = [{"role": msg.role, "content": msg.content} for msg in exists_history]
 
@@ -110,24 +108,17 @@ def stream_llm_response(request):
             history=history,
             model="llama-3.3-70b-versatile",
             provider="groq",
-            stream=stream
+            stream=False
         )
 
-        def event_stream():
-            for chunk in response_generator:
-                yield f"data: {chunk}\n\n"
+        response_content = response_generator.get('content')
 
-        if stream:
-            return StreamingHttpResponse(event_stream(), content_type='text/event-stream')
-        else:
-            response_content = response_generator.get('content')
-
-            ChatHistoryContent.objects.create(
-                chat_history=chat_history,
-                role="assistant",
-                content=response_content
-            )
-            return JsonResponse({"content": response_content, "history_id": history_id})
+        ChatHistoryContent.objects.create(
+            chat_history=chat_history,
+            role="assistant",
+            content=response_content
+        )
+        return JsonResponse({"content": response_content, "history_id": history_id})
 
 
 def user_logout(request):

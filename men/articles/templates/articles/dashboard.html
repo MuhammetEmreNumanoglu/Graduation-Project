@@ -24,6 +24,8 @@
     />
     <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
     <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
       :root {
         --primary-color: #8b5cf6;
@@ -1531,23 +1533,58 @@
       `;
       });
 
-      // Mesaj gönder (örnek)
+      function addMessage(text, sender) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        
+        const now = new Date();
+        const time = now.toLocaleTimeString('tr-TR', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: false 
+        });
+
+        const htmlContent = marked.parse(text);
+        
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <p>${htmlContent}</p>
+            </div>
+            <div class="message-time">${time}</div>
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      var history_id = null;
       chatForm.addEventListener("submit", function (e) {
         e.preventDefault();
         const message = messageInput.value.trim();
+    
         if (message) {
-          const now = new Date();
-          const time = now.toLocaleTimeString("tr-TR", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          });
-          const msgDiv = document.createElement("div");
-          msgDiv.className = "message user-message";
-          msgDiv.innerHTML = `<div class="message-content"><p>${message}</p></div><div class="message-time">${time}</div>`;
-          chatMessages.appendChild(msgDiv);
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-          messageInput.value = "";
+            const csrfToken = document.querySelector('[name=csrf-token]').content;
+            addMessage(message, 'user');
+            messageInput.value = '';
+            fetch("/llm_api/stream", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({ message: message, history_id })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Yanıt alınamadı");
+                response.json().then(res => {
+                    history_id = res.history_id
+                    addMessage(res.content, "bot")
+                })
+            })
+            .catch(error => {
+                console.error("Hata:", error);
+                addMessage("Bir hata oluştu. Lütfen tekrar deneyin.", "bot");
+            });
         }
       });
 

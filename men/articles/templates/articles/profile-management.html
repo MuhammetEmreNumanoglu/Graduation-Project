@@ -1752,6 +1752,16 @@
               
               // Dil değişikliği sonrası sayfa içeriğini anlık güncelle
               updatePageContent(lang);
+              try { localStorage.setItem('selectedLanguage', lang); } catch(e){}
+              // Manuel refresh etkisini taklit eden sert yenileme (cache-busting)
+              setTimeout(function(){
+                var url = window.location.href.split('#')[0];
+                // Var olan lang_force parametresini temizle
+                url = url.replace(/([?&])lang_force=[^&]*(&|$)/, function(match, p1, p2){ return p2 ? p1 : ''; });
+                var sep = url.indexOf('?') === -1 ? '?' : '&';
+                url = url + sep + 'lang_force=' + Date.now();
+                window.location.replace(url);
+              }, 50);
             } else {
               // Fallback: Direkt popup göster
               showToast('language', lang);

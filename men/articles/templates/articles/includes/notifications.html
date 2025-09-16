@@ -62,13 +62,13 @@
     top: 72px;
     right: 48px;
     width: 340px;
-    max-height: 270px;
+    max-height: none;
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
     border: 1.5px solid #ece6fa;
     z-index: 9999;
-    overflow-y: auto !important;
+    overflow: hidden;
     padding: 0;
     transform: translateY(-20px);
     transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1), visibility 0.35s;
@@ -89,11 +89,13 @@
     border-bottom: 1px solid #ece6fa;
   }
   
+  /* Yükseklik: 3 mesaj kadar alan göster, gerisi scroll */
+  .notification-popup { --notification-item-size: 56px; }
   .notification-list {
     list-style: none;
     margin: 0;
     padding: 0 0 8px 0;
-    max-height: 340px;
+    max-height: calc(var(--notification-item-size) * 4);
     overflow-y: auto;
   }
   
@@ -103,6 +105,9 @@
     font-size: 1rem;
     color: #232526;
     background: none;
+    min-height: var(--notification-item-size);
+    display: flex;
+    align-items: center;
   }
   
   .notification-item:last-child {
