@@ -55,6 +55,11 @@ class CreateUserForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput(), label=_('Kullanıcı Adı'))
     password = forms.CharField(widget=PasswordInput, label=_('Şifre'))
+    remember_me = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        label=_('Beni Hatırla')
+    )
 
 
 class UpdateUserForm(forms.ModelForm):

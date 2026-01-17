@@ -3,7 +3,7 @@ import requests
 
 class LLMClient:
     def __init__(self, base_url, api_key=None):
-        self.base_url = base_url.rstrip("/") + "/generate"
+        self.base_url = base_url.rstrip("/")
         self.api_key = api_key or os.getenv("AUTH_API_KEY")
 
     def generate(
@@ -22,7 +22,12 @@ class LLMClient:
         output_validation=None
     ):
         payload = {
-            "history": history,
+            # ESKİ HALİ (Hatalı):
+            # "history": history,
+            
+            # YENİ ve DOĞRU HALİ (DeepSeek Dokümantasyonuna Göre):
+            "messages": history,
+
             "model": model,
             "tools": tools or [],
             "provider": provider,

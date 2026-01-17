@@ -165,5 +165,6 @@ LOGIN_URL = '/my-login/'
 LOGOUT_REDIRECT_URL = '/my-login/'
 
 # Session ayarları
-SESSION_COOKIE_AGE = 1800  # 30 dakika
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Tarayıcı kapandığında session'ı sonlandır
+SESSION_COOKIE_AGE = 604800  # 7 gün (saniye cinsinden: 7 * 24 * 60 * 60)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Tarayıcı kapandığında session sonlanmasın (Remember Me için)
+SESSION_SAVE_EVERY_REQUEST = True  # Her istekte session'ı yenile
