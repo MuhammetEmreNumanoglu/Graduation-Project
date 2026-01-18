@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 Proje Adı
 
 Bu proje, Python ve Django kullanılarak geliştirilmiş bir web uygulamasıdır.  
@@ -40,3 +41,7 @@ Eğer adımları doğru uyguladıysanız, projeniz localhost üzerinde çalışm
 🎉 Keyfini Çıkarın!
 Projeyi başarılı bir şekilde çalıştırdıysanız, artık uygulamanızı test etmeye başlayabilirsiniz.
 Siteyi keşfedin 👨‍💻✨
+=======
+# Graduation-Project
+Graduation Project
+>>>>>>> d7da65b02eea3623fb990bda1b83d2787119fa4a

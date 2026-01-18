@@ -1136,6 +1136,26 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative; /* Badge için */
+      }
+      
+      /* Notification bell badge */
+      .notification-bell #unreadMessageBadge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: #dc3545;
+        color: white;
+        border-radius: 12px;
+        min-width: 20px;
+        height: 20px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       .notification-bell:hover {
@@ -1277,15 +1297,10 @@
         <div class="chat-interface">
           <div class="chat-header">
             <span class="material-symbols-outlined">chat</span>
-            <h2 class="chat-header-title">{% trans "İyi Hisset" %}</h2>
+            <h2 class="chat-header-title">{% trans "Psikolog ile Sohbet" %}</h2>
           </div>
           <div class="chat-messages" id="chatMessages">
-            <div class="message bot-message">
-              <div class="message-content">
-                <p>{% trans "Merhaba! Size nasıl yardımcı olabilirim?" %}</p>
-              </div>
-              <div class="message-time" id="botMessageTime"></div>
-            </div>
+            <!-- Mesajlar buraya yüklenecek -->
           </div>
           <div class="chat-input-container">
             <form id="chatForm" class="chat-form">
@@ -1420,13 +1435,39 @@
         let history_id = null;
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
-        function addMessage(text, sender) {
+        function addMessage(text, sender, timestamp, messageId = null) {
+            // Eğer mesaj ID'si varsa ve daha önce yüklendiyse ekleme
+            if (messageId && loadedMessageIds.has(messageId)) {
+                return;
+            }
+            
             const messageDiv = document.createElement('div');
-            const senderClass = sender === 'bot-loading' ? 'bot-message bot-loading-message' : `${sender}-message`;
+            let senderClass;
+            if (sender === 'psychologist') {
+                senderClass = 'bot-message';
+            } else if (sender === 'user') {
+                senderClass = 'user-message';
+            } else {
+                senderClass = sender === 'bot-loading' ? 'bot-message bot-loading-message' : `${sender}-message`;
+            }
             messageDiv.className = `message ${senderClass}`;
-            const now = new Date();
-            const time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', hour12: false });
-            const htmlContent = marked.parse(text);
+            
+            // Mesaj ID'sini data attribute olarak kaydet
+            if (messageId) {
+                messageDiv.setAttribute('data-message-id', messageId);
+                loadedMessageIds.add(messageId);
+            }
+            
+            let time;
+            if (timestamp) {
+                const date = new Date(timestamp);
+                time = date.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            } else {
+                const now = new Date();
+                time = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', hour12: false });
+            }
+            
+            const htmlContent = marked ? marked.parse(text) : text;
             messageDiv.innerHTML = `<div class="message-content">${htmlContent}</div><div class="message-time">${time}</div>`;
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1475,53 +1516,179 @@
             if (buttonContainer) buttonContainer.remove();
         });
 
+        // Polling ve badge için değişkenler
+        let lastMessageId = 0;
+        let messagePollInterval = null;
+        let loadedMessageIds = new Set();  // Duplicate önleme için
+
+        // Psikolog mesajlarını yükle - since parametresi ile incremental fetch
+        function loadPsychologistMessages(isInitial = false) {
+            let url = "/api/get-psychologist-messages/";
+            if (!isInitial && lastMessageId > 0) {
+                url += `?since=${lastMessageId}`;
+            }
+            
+            fetch(url, {
+                method: "GET",
+                headers: { "X-CSRFToken": csrfToken }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.messages && data.messages.length > 0) {
+                    if (isInitial) {
+                        chatMessages.innerHTML = '';
+                        loadedMessageIds.clear();  // Reset loaded IDs
+                    }
+                    
+                    let hasNewMessages = false;
+                    data.messages.forEach(msg => {
+                        // Duplicate kontrolü: eğer bu mesaj ID'si daha önce yüklendiyse atla
+                        if (msg.id && loadedMessageIds.has(msg.id)) {
+                            return;
+                        }
+                        
+                        const senderClass = msg.sender === 'user' ? 'user' : 'psychologist';
+                        addMessage(msg.text, senderClass, msg.created_at, msg.id);
+                        
+                        // Son mesaj ID'sini güncelle
+                        if (msg.id && msg.id > lastMessageId) {
+                            lastMessageId = msg.id;
+                        }
+                        hasNewMessages = true;
+                    });
+                    
+                    if (hasNewMessages && !isInitial) {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                } else if (isInitial) {
+                    chatMessages.innerHTML = '';
+                    loadedMessageIds.clear();
+                    addMessage("{% trans 'Psikolog ile sohbet başlatmak için mesaj gönderebilirsiniz.' %}", 'psychologist', new Date().toISOString(), null);
+                }
+                if (isInitial) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    markPsychologistMessagesRead();
+                }
+            })
+            .catch(error => {
+                console.error("Mesajlar yüklenemedi:", error);
+                if (isInitial) {
+                    chatMessages.innerHTML = '';
+                    addMessage("{% trans 'Psikolog ile sohbet başlatmak için mesaj gönderebilirsiniz.' %}", 'psychologist', new Date().toISOString(), null);
+                }
+            });
+        }
+
+        // Mesajları okundu işaretle
+        function markPsychologistMessagesRead() {
+            fetch("/api/mark-psychologist-messages-read/", {
+                method: "POST",
+                headers: { "X-CSRFToken": csrfToken }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateUnreadMessageBadge();
+                }
+            })
+            .catch(error => console.error("Mesajlar okundu işaretlenemedi:", error));
+        }
+
+        // Okunmamış mesaj sayısını güncelle (notification-bell badge)
+        function updateUnreadMessageBadge() {
+            fetch("/api/unread-message-count/", {
+                method: "GET",
+                headers: { "X-CSRFToken": csrfToken }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const badge = document.getElementById('unreadMessageBadge');
+                    if (badge) {
+                        if (data.count > 0) {
+                            badge.textContent = data.count > 99 ? '99+' : data.count;
+                            badge.style.display = 'flex';
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    }
+                }
+            })
+            .catch(error => console.error("Okunmamış mesaj sayısı yüklenemedi:", error));
+        }
+
+        // Polling başlat
+        function startMessagePolling() {
+            if (messagePollInterval) clearInterval(messagePollInterval);
+            messagePollInterval = setInterval(() => {
+                if (!document.hidden) {
+                    loadPsychologistMessages(false);
+                    updateUnreadMessageBadge();
+                }
+            }, 2000);
+        }
+
+        // Sayfa yüklendiğinde mesajları yükle ve polling başlat
+        loadPsychologistMessages(true);
+        updateUnreadMessageBadge();
+        startMessagePolling();
+        
+        // Sekme görünürlüğü değiştiğinde polling'i kontrol et
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                if (messagePollInterval) {
+                    clearInterval(messagePollInterval);
+                    messagePollInterval = setInterval(() => {
+                        loadPsychologistMessages(false);
+                        updateUnreadMessageBadge();
+                    }, 10000);
+                }
+            } else {
+                startMessagePolling();
+            }
+        });
+
         chatForm.addEventListener("submit", function (e) {
             e.preventDefault();
             const message = messageInput.value.trim();
             if (message) {
-                addMessage(message, 'user');
-                messageInput.value = '';
-                const existingActionButtons = document.querySelectorAll('.action-buttons');
-                existingActionButtons.forEach(btn => btn.remove());
-                addMessage('<p>{% trans "Yazıyor..." %}</p>', 'bot-loading');
-                fetch("/llm_api/stream", {
+                const formData = new FormData();
+                formData.append('text', message);
+                
+                fetch("/api/send-user-message/", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken },
-                    body: JSON.stringify({ message: message, history_id: history_id })
+                    headers: { "X-CSRFToken": csrfToken },
+                    body: formData
                 })
-                .then(response => {
-                    if (!response.ok) throw new Error("Yanıt alınamadı");
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    const loadingMessage = chatMessages.querySelector('.bot-loading-message');
-                    if(loadingMessage) loadingMessage.remove();
-                    history_id = data.history_id;
-                    addMessage(data.reply_text, "bot");
-                    if (data.suggested_action) {
-                        handleSuggestedAction(data.suggested_action);
+                    if (data.success) {
+                        messageInput.value = '';
+                        // Optimistic UI: mesajı anında ekle, ID'yi kaydet
+                        addMessage(message, 'user', data.created_at, data.message_id);
+                        if (data.message_id) {
+                            loadedMessageIds.add(data.message_id);
+                            if (data.message_id > lastMessageId) {
+                                lastMessageId = data.message_id;
+                            }
+                        }
+                    } else {
+                        alert("{% trans 'Mesaj gönderilemedi: ' %}" + data.error);
                     }
                 })
                 .catch(error => {
-                    const loadingMessage = chatMessages.querySelector('.bot-loading-message');
-                    if(loadingMessage) loadingMessage.remove();
                     console.error("Hata:", error);
-                    addMessage("{% trans 'Bir hata oluştu. Lütfen tekrar deneyin.' %}", "bot");
+                    alert("{% trans 'Bir hata oluştu. Lütfen tekrar deneyin.' %}");
                 });
             }
         });
 
         newChatBtn.addEventListener("click", function () {
-            history_id = null;
-            chatMessages.innerHTML = '';
-            addMessage("{% trans 'Merhaba! Size nasıl yardımcı olabilirim?' %}", 'bot');
+            loadPsychologistMessages();
         });
-        
-        // Başlangıçta ilk bot mesajını ekle
-        addMessage("{% trans 'Merhaba! Size nasıl yardımcı olabilirim?' %}", 'bot');
 
         // Başlat
-        renderChats(); // Bu fonksiyon artık boş bir listeyle çalışacak, gerçek veri entegrasyonu gerekecek.
+        renderChats([]);
     });
 </script>
   </body>

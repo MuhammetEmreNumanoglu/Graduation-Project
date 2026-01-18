@@ -7,6 +7,8 @@ from django.core.exceptions import ValidationError
 from . models import Article,Profile
 from .models import EmergencyContact
 from django.utils.translation import gettext_lazy as _
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
 
 
 
@@ -53,8 +55,33 @@ class CreateUserForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=TextInput(), label=_('Kullanıcı Adı'))
-    password = forms.CharField(widget=PasswordInput, label=_('Şifre'))
+    """
+    Üye giriş formu - Django AuthenticationForm'u genişletir.
+    Username/password ile giriş yapar, 'Remember Me' seçeneği ekler.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Crispy Forms'un kendi form tag'ini oluşturmasını engelle
+        # Template'de zaten form tag'i var, nested form oluşmasın
+        self.helper = FormHelper()
+        self.helper.form_tag = False  # Form tag oluşturma, template'deki form tag'ini kullan
+    
+    username = forms.CharField(
+        widget=TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('Kullanıcı adı giriniz'),
+            'autocomplete': 'username',
+        }),
+        label=_('Kullanıcı Adı')
+    )
+    password = forms.CharField(
+        widget=PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': _('Şifrenizi giriniz'),
+            'autocomplete': 'current-password',
+        }),
+        label=_('Şifre')
+    )
     remember_me = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),

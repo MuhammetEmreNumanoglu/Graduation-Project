@@ -7,7 +7,6 @@
     <title data-translate="Profile Management">
       {% trans "Profil Yönetimi" %}
     </title>
-    <title data-translate="Help Center - Feel Good">{% trans "Help Center - Feel Good" %}</title>
     <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
     <link
       rel="stylesheet"
@@ -1090,12 +1089,18 @@
           class="sidebar-logo"
         />
         <div class="sidebar-nav">
+          {% if is_psychologist %}
+          <a href="{% url 'psychologist-dashboard' %}" data-translate="Home"
+            >{% trans "Ana Sayfa" %}</a
+          >
+          {% else %}
           <a href="{% url 'anasayfa' %}" data-translate="Home"
             >{% trans "Ana Sayfa" %}</a
           >
           <a href="{% url 'dashboard' %}" data-translate="Feel Good"
             >{% trans "İyi Hisset" %}</a
           >
+          {% endif %}
           <a
             href="{% url 'profile-management' %}"
             class="active"
@@ -1107,16 +1112,32 @@
       <!-- User Info -->
       <div class="sidebar-user">
         <div class="user-avatar">
+          {% if is_psychologist %}
+            {% if psychologist_profile and psychologist_profile.profile_pic %}
+              <img src="{{ psychologist_profile.profile_pic.url }}" alt="" />
+            {% else %}
+              <img src="{% static 'default-image.jpg' %}" alt="" />
+            {% endif %}
+          {% elif profilePic and profilePic.profile_pic %}
           <img src="{{profilePic.profile_pic.url}}" alt="" />
+          {% else %}
+            <img src="{% static 'default-image.jpg' %}" alt="" />
+          {% endif %}
         </div>
         <div class="user-info">
+          {% if is_psychologist %}
+            <h3>{{ psychologist_username|default:"Kristin" }}</h3>
+            <p>{{ psychologist_email|default:"kristin@gmail.com" }}</p>
+          {% else %}
           <h3>{{ user.username.title }}</h3>
           <p>{{ user.email }}</p>
+          {% endif %}
         </div>
       </div>
 
       <!-- Menu -->
       <div class="sidebar-menu">
+        {% if not is_psychologist %}
         <a
           href="#my-statistics"
           class="menu-item active"
@@ -1126,16 +1147,18 @@
           <span class="material-symbols-outlined">bar_chart</span>
           <span>{% trans "İstatistiklerim" %}</span>
         </a>
+        {% endif %}
 
         <a
           href="#settings"
-          class="menu-item"
+          class="menu-item {% if is_psychologist %}active{% endif %}"
           onclick="scrollToSection('settings')"
           data-translate="Settings"
         >
           <span class="material-symbols-outlined">settings</span>
           <span>{% trans "Ayarlar" %}</span>
         </a>
+        {% if not is_psychologist %}
         <a
           href="#help-center"
           class="menu-item"
@@ -1145,6 +1168,7 @@
           <span class="material-symbols-outlined">help</span>
           <span>{% trans "Yardım Merkezi" %}</span>
         </a>
+        {% endif %}
         <a href="{% url 'my-login' %}" class="menu-item logout-item">
           <span class="material-symbols-outlined">logout</span>
           <span data-translate="Log Out">{% trans "Çıkış Yap" %}</span>
@@ -1176,6 +1200,7 @@
       </script>
     {% endif %}
     <main class="main-content">
+      {% if not is_psychologist %}
       <div id="my-statistics" class="content-section">
         <h2 data-translate="My Statistics">{% trans "İstatistiklerim" %}</h2>
         <p
@@ -1212,6 +1237,7 @@
           </div>
         </div>
       </div>
+      {% endif %}
 
       <div id="settings" class="content-section">
         <h2 data-translate="Settings">{% trans "Ayarlarım" %}</h2>
@@ -1249,7 +1275,8 @@
             </button>
           </div>
         </div>
-        <!-- Kişi Kaydetme (Ayarlar altı) -->
+        <!-- Kişi Kaydetme (Ayarlar altı) - Sadece üye için -->
+        {% if not is_psychologist %}
         <div class="settings-category" id="emergency-contact-settings">
           <h3>{% trans "Kişi Kaydetme" %}</h3>
           <p>{% trans "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin." %}</p>
@@ -1277,6 +1304,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
         <!-- Hesap Bilgileri Kategorisi -->
         <div class="settings-category">
           <h3>{% trans "Hesap Bilgileri" %}</h3>
@@ -1421,6 +1449,7 @@
         </div>
       </div>
 
+      {% if not is_psychologist %}
       <div id="help-center" class="content-section">
         <h2 data-translate="Help Center">{% trans "Yardım Merkezi" %}</h2>
         <p
@@ -1499,6 +1528,7 @@
           </form>
         </div>
       </div>
+      {% endif %}
     </main>
 
     <script src="{% static 'js/lang.js' %}"></script>
@@ -1507,13 +1537,25 @@
     <script src="{% static 'js/responsive-sidebar.js' %}"></script>
     <script>
       (function() {
+        // Role bazlı storage key'leri
+        {% if is_psychologist %}
+        const themeKey = 'ui_psychologist_theme';
+        const langKey = 'ui_psychologist_language';
+        {% else %}
+        const themeKey = 'ui_member_theme';
+        const langKey = 'ui_member_language';
+        {% endif %}
+        
         function setGlobalTheme(theme) {
           try {
             if (theme === 'dark') {
               document.body.classList.add('dark-mode');
+              localStorage.setItem(themeKey, 'dark');
+              // Geriye dönük uyumluluk için eski key'i de güncelle
               localStorage.setItem('themeMode', 'dark');
             } else {
               document.body.classList.remove('dark-mode');
+              localStorage.setItem(themeKey, 'light');
               localStorage.setItem('themeMode', 'light');
             }
           } catch (e) {
@@ -1527,7 +1569,8 @@
         }
         function getGlobalTheme() {
           try {
-            return localStorage.getItem('themeMode') || 'light';
+            // Önce role bazlı key'i kontrol et, yoksa eski key'i kullan
+            return localStorage.getItem(themeKey) || localStorage.getItem('themeMode') || 'light';
           } catch (e) {
             console.error('localStorage read failed', e);
             return 'light';
@@ -1740,19 +1783,35 @@
         }
       });
 
-      // Language selector functionality
+      // Language selector functionality - Role bazlı storage key kullan
       document.addEventListener("DOMContentLoaded", function () {
+        {% if is_psychologist %}
+        const langKey = 'ui_psychologist_language';
+        {% else %}
+        const langKey = 'ui_member_language';
+        {% endif %}
+        
+        // Sayfa yüklendiğinde role bazlı dili yükle
+        const savedLang = localStorage.getItem(langKey) || localStorage.getItem('selectedLanguage') || 'tr';
+        if (savedLang && typeof initializeLanguage === 'function') {
+          localStorage.setItem('selectedLanguage', savedLang);
+          initializeLanguage();
+        }
+        
         const langButtons = document.querySelectorAll(".lang-btn");
         langButtons.forEach((btn) => {
           btn.addEventListener("click", function () {
             const lang = this.getAttribute("data-lang");
+            // Role bazlı key'e kaydet
+            localStorage.setItem(langKey, lang);
+            localStorage.setItem('selectedLanguage', lang);
+            
             if (typeof window.changeLanguage === "function") {
               window.changeLanguage(lang);
               // Popup artık changeLanguage fonksiyonu içinde gösteriliyor
               
               // Dil değişikliği sonrası sayfa içeriğini anlık güncelle
               updatePageContent(lang);
-              try { localStorage.setItem('selectedLanguage', lang); } catch(e){}
               // Manuel refresh etkisini taklit eden sert yenileme (cache-busting)
               setTimeout(function(){
                 var url = window.location.href.split('#')[0];
@@ -1815,12 +1874,33 @@
         localStorage.setItem('profileManagementTranslation', lang === 'tr' ? 'Profil Yönetimi' : 'Profile Management');
       }
 
-      // Theme selector functionality
+      // Theme selector functionality - Role bazlı storage key kullan
       document.addEventListener("DOMContentLoaded", function() {
+        {% if is_psychologist %}
+        const themeKey = 'ui_psychologist_theme';
+        {% else %}
+        const themeKey = 'ui_member_theme';
+        {% endif %}
+        
         const themeButtons = document.querySelectorAll('.theme-btn');
         themeButtons.forEach(btn => {
           btn.addEventListener('click', function() {
             const theme = this.getAttribute('data-theme');
+            // Role bazlı key'e kaydet
+            localStorage.setItem(themeKey, theme);
+            localStorage.setItem('themeMode', theme); // Geriye dönük uyumluluk
+            
+            // Tema değişikliğini uygula
+            if (typeof setGlobalTheme === 'function') {
+              setGlobalTheme(theme);
+            } else {
+              if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+              } else {
+                document.body.classList.remove('dark-mode');
+              }
+            }
+            
             // Show theme change toast
             showToast('theme', theme);
           });
@@ -2122,8 +2202,12 @@
     <script>
     // Menü ve section id eşleşmeleri
     const menuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+    {% if is_psychologist %}
+    const sectionIds = ['settings'];
+    {% else %}
     const sectionIds = ['my-statistics', 'settings', 'help-center', 'account-delete'];
-    const sections = sectionIds.map(id => document.getElementById(id));
+    {% endif %}
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(section => section !== null);
 
     function onScrollActiveMenu() {
       let scrollPosition = window.scrollY || document.documentElement.scrollTop;

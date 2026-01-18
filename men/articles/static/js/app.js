@@ -1,25 +1,52 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Sidebar toggle
+    // Sidebar toggle - Sadece sidebar varsa çalışsın
+    try {
+        // Tüm querySelector çağrılarını null check ile yap
     const menuToggle = document.querySelector('.menu-toggle');
     const sidebar = document.querySelector('.sidebar');
     const closeSidebar = document.querySelector('.close-sidebar');
 
-    if (menuToggle && sidebar) {
+        // Null check - eğer hiçbir element yoksa sessizce çık
+        if (!menuToggle && !sidebar && !closeSidebar) {
+            return;
+        }
+
+        // Menu toggle event listener - null check ile
+        if (menuToggle && sidebar && typeof menuToggle.addEventListener === 'function') {
+            try {
         menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
+                    if (sidebar && sidebar.classList && typeof sidebar.classList.toggle === 'function') {
+                sidebar.classList.toggle('active');
+            }
         });
+            } catch (e) {
+                // Event listener eklenirken hata oluşursa sessizce devam et
+            }
     }
 
-    if (closeSidebar && sidebar) {
+        // Close sidebar event listener - null check ile
+        if (closeSidebar && sidebar && typeof closeSidebar.addEventListener === 'function') {
+            try {
         closeSidebar.addEventListener('click', function() {
-            sidebar.classList.remove('active');
+                    if (sidebar && sidebar.classList && typeof sidebar.classList.remove === 'function') {
+                sidebar.classList.remove('active');
+            }
         });
+            } catch (e) {
+                // Event listener eklenirken hata oluşursa sessizce devam et
+            }
+        }
+    } catch (e) {
+        // Tüm hatalar için sessizce devam et
+        // Console'a yazma, sadece sessizce çık
     }
 
     // Global Font Size Management
-    // Load saved font size from localStorage
-    const savedFontSize = localStorage.getItem('fontSize') || 'medium';
-    applyGlobalFontSize(savedFontSize);
+    // Load saved font size from localStorage - sadece body varsa çalışsın
+    if (document.body) {
+        const savedFontSize = localStorage.getItem('fontSize') || 'medium';
+        applyGlobalFontSize(savedFontSize);
+    }
 
     // GLOBAL THEME MANAGEMENT (modular, FOUC engelleyici, hata loglu)
     (function() {
@@ -61,6 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function applyGlobalFontSize(size) {
+    // body kontrolü yap - null ise çalışma
+    if (!document.body) {
+        return;
+    }
+    
     // Remove all font size classes from body
     document.body.classList.remove('font-size-small', 'font-size-medium', 'font-size-large', 'font-size-extra-large');
     

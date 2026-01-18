@@ -1,17 +1,11 @@
 {% load i18n %}
 <div class="sidebar-block sidebar-title">
 	<div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
-	<div class="sidebar-tasks">
-		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div><div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div><div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>		<div class="sidebar-task-item">{% trans "Nefes Egzersizi" %}</div>
-		<div class="sidebar-task-item">{% trans "Günlük Yansıtma" %}</div>
+	<div class="sidebar-tasks" id="sidebarTasks">
+		{% for task in tasks %}
+		<div class="sidebar-task-item">{{ task.text }}</div>
+		{% empty %}
+		<div class="sidebar-task-item" style="opacity: 0.6;">{% trans "Henüz görev yok" %}</div>
+		{% endfor %}
 	</div>
 </div>
-
-

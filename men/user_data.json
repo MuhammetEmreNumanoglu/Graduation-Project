@@ -1,11 +1,3 @@
 {
-  "users": [
-    {
-      "id": 4,
-      "username": "emre10",
-      "email": "emre10@gmail.com",
-      "password_hash": "pbkdf2_sha256$1200000$STrrIUZ93XsRMHaOBuSzt4$+6g2QvvGcasBJh+5+QtYp26YX4c6Vrds+tCN7tAQPNk=",
-      "created_at": null
-    }
-  ]
+  "users": []
 }

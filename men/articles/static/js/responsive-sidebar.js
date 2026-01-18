@@ -74,8 +74,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarSections = document.querySelectorAll('.sidebar-section');
     sidebarSections.forEach(section => {
         const h3 = section.querySelector('h3');
-        if (h3 && !h3.style.getPropertyValue('--before-content')) {
+        if (h3 && h3.style) {
+            if (!h3.style.getPropertyValue('--before-content')) {
             h3.style.setProperty('--before-content', '');
+            }
         }
     });
     
@@ -83,15 +85,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarBlocks = document.querySelectorAll('.sidebar-block');
     sidebarBlocks.forEach(block => {
         const h3 = block.querySelector('h3');
-        if (h3 && !h3.style.getPropertyValue('--before-content')) {
+        if (h3 && h3.style) {
+            if (!h3.style.getPropertyValue('--before-content')) {
             h3.style.setProperty('--before-content', '');
+            }
         }
     });
     
     // Add smooth transitions to all sidebar elements
     const sidebarElements = document.querySelectorAll('.sidebar-container, .sidebar-header, .sidebar-user, .sidebar-menu, .sidebar-sections, .sidebar-section, .sidebar-block, .menu-item');
     sidebarElements.forEach(element => {
+        if (element && element.style) {
         element.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
     });
     
     // Prevent content from overlapping sidebar

@@ -1,0 +1,211 @@
+{% load static %} {% load i18n %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% trans "Psikolog Sohbet" %} - {{ target_user.username }}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <style>
+      :root {
+        --primary-color: #8b5cf6;
+        --secondary-color: #a855f7;
+      }
+      
+      body {
+        background: linear-gradient(135deg, #b993d6 0%, #8ca6db 100%);
+        min-height: 100vh;
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+      }
+      
+      .chat-header {
+        background: white;
+        padding: 1.5rem 2rem;
+        border-radius: 16px 16px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      
+      .chat-header h2 {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+      }
+      
+      .back-btn {
+        padding: 0.5rem 1rem;
+        background: #e2e8f0;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #64748b;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .chat-container {
+        background: white;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+      }
+      
+      .chat-messages {
+        flex: 1;
+        padding: 2rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .message {
+        max-width: 70%;
+        padding: 1rem;
+        border-radius: 12px;
+      }
+      
+      .message.psychologist {
+        align-self: flex-end;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+      }
+      
+      .message.user {
+        align-self: flex-start;
+        background: #f1f5f9;
+        color: #1e293b;
+      }
+      
+      .chat-input-container {
+        padding: 1.5rem 2rem;
+        border-top: 2px solid #e2e8f0;
+        display: flex;
+        gap: 1rem;
+      }
+      
+      .chat-input-container textarea {
+        flex: 1;
+        padding: 0.75rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        resize: none;
+        font-family: inherit;
+      }
+      
+      .chat-input-container textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+      
+      .send-btn {
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-header">
+      <div>
+        <a href="{% url 'psychologist-dashboard' %}" class="back-btn">
+          <span class="material-symbols-outlined">arrow_back</span>
+          {% trans "Geri" %}
+        </a>
+        <h2 style="margin-left: 1rem; display: inline;">{{ target_user.username }}</h2>
+      </div>
+    </div>
+    
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        {% for msg in messages %}
+        <div class="message {{ msg.sender }}">
+          <div>{{ msg.text }}</div>
+          <div style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.8;">
+            {{ msg.created_at|date:"d.m.Y H:i" }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <div class="chat-input-container">
+        <textarea id="messageInput" placeholder="{% trans 'Mesajınızı yazın...' %}" rows="2"></textarea>
+        <button class="send-btn" onclick="sendMessage()">
+          <span class="material-symbols-outlined">send</span>
+        </button>
+      </div>
+    </div>
+    
+    <script>
+      const csrfToken = document.querySelector('[name=csrf-token]').content;
+      const userId = {{ target_user.id }};
+      
+      function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const text = input.value.trim();
+        
+        if (!text) return;
+        
+        const formData = new FormData();
+        formData.append('user_id', userId);
+        formData.append('text', text);
+        
+        fetch('/api/send-psychologist-message/', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrfToken
+          },
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            input.value = '';
+            addMessage(text, 'psychologist', data.created_at);
+          } else {
+            alert('{% trans "Hata:" %} ' + data.error);
+          }
+        })
+        .catch(error => {
+          alert('{% trans "Bir hata oluştu!" %}');
+        });
+      }
+      
+      function addMessage(text, sender, time) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+        messageDiv.innerHTML = `
+          <div>${text}</div>
+          <div style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.8;">${time}</div>
+        `;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+      
+      document.getElementById('messageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    </script>
+  </body>
+</html>
+

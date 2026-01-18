@@ -1,3 +1,6 @@
+/* Google Fonts Import - @import kuralları en üstte olmalı */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:wght@700&family=Playfair+Display:wght@700&family=Nunito:wght@400;700&display=swap');
+
 :root {
   --primary-lilac: #9d8ec7;
   --light-lilac: #e6e0ff;
@@ -32,8 +35,6 @@
   --color-sidebar-link-active: #fff;
   --color-sidebar-link-bg-active: var(--color-primary);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:wght@700&family=Playfair+Display:wght@700&family=Nunito:wght@400;700&display=swap');
 
 body {
   background: var(--color-bg);

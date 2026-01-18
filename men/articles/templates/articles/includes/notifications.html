@@ -9,12 +9,12 @@
 <!-- Bildirim Popup -->
 <div class="notification-popup" id="notificationPopup">
   <div class="popup-title">{% trans "Bildirimler" %}</div>
-  <ul class="notification-list">
-    <li class="notification-item">{% trans "Hoş geldin! Bugün harika bir gün." %}</li>
-    <li class="notification-item">{% trans "Yeni bir nefes egzersizi eklendi." %}</li>
-    <li class="notification-item">{% trans "Günlük yansıtmanı unutma!" %}</li>
-    <li class="notification-item">{% trans "Bir arkadaşın destek duvarına mesaj bıraktı." %}</li>
-    <li class="notification-item">{% trans "Haftalık raporun hazır!" %}</li>
+  <ul class="notification-list" id="notificationList">
+    {% for notification in notifications %}
+    <li class="notification-item">{{ notification.text }}</li>
+    {% empty %}
+    <li class="notification-item" style="opacity: 0.6;">{% trans "Henüz bildirim yok" %}</li>
+    {% endfor %}
   </ul>
 </div>
 
