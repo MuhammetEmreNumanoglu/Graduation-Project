@@ -371,12 +371,19 @@
                 'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
                 'Pragma': 'no-cache',
                 'Expires': '0',
-                'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
               }
             });
             
             if (!res.ok) {
               throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            
+            // Content-Type kontrolü
+            const contentType = res.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+              throw new Error('Server JSON döndürmedi');
             }
             
             const data = await res.json();
@@ -549,20 +556,14 @@
             clearTimeout(usernameTimer);
             usernameTimer = setTimeout(async () => {
               const value = usernameInput.value.trim();
-              console.log('Username input event triggered, value:', value);
-              console.log('Current messages:', currentMessages);
               
               if (value.length > 0) {
                 // Loading göster
-                console.log('Showing loading message:', currentMessages.checking);
                 setHint(usernameHint, null, currentMessages.checking, currentMessages.checking, usernameInput);
                 usernameHint.className = 'availability-hint';
                 usernameHint.style.color = '#6c757d';
                 
                 const ok = await checkAvailability('username', value);
-                console.log('Availability check result:', ok);
-                console.log('Success message:', currentMessages.usernameAvailable);
-                console.log('Error message:', currentMessages.usernameTaken);
                 
                 setHint(
                   usernameHint,
@@ -580,7 +581,7 @@
                 }
                 usernameInput.classList.remove('error');
               }
-            }, 500);
+            }, 300);  // Debounce 300ms
           });
         }
         
@@ -620,7 +621,7 @@
                 }
                 emailInput.classList.remove('error');
               }
-            }, 500);
+            }, 300);  // Debounce 300ms'e düşürüldü
           });
         }
 

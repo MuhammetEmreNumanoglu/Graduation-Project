@@ -41,15 +41,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle window resize
+    // Handle window resize - 1200px eşiği
     window.addEventListener('resize', function() {
-        if (window.innerWidth > 1200) {
-            hamburger.classList.remove('active');
-            sidebarContainer.classList.remove('active');
+        if (window.innerWidth >= 1200) {
+            // 1200px ve üzeri: sidebar açık ve sabit, toggle gizli
+            if (hamburger) hamburger.classList.remove('active');
+            if (sidebarContainer) sidebarContainer.classList.remove('active');
             body.classList.remove('sidebar-open');
             overlay.classList.remove('active');
         }
     });
+    
+    // Sayfa yüklendiğinde 1200px kontrolü
+    if (window.innerWidth >= 1200) {
+        if (hamburger) hamburger.style.display = 'none';
+        if (sidebarContainer) sidebarContainer.classList.add('always-open');
+    } else {
+        if (hamburger) hamburger.style.display = 'block';
+    }
     
     // Add hamburger menu to pages that don't have it
     if (!hamburger && sidebarContainer) {

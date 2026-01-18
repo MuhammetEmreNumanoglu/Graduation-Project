@@ -546,7 +546,7 @@
                 {% if LoginForm.username.errors %}
                   <div class="text-danger small">{{ LoginForm.username.errors }}</div>
                 {% endif %}
-              </div>
+            </div>
               <div class="form-group mb-3">
                 <label for="id_password" class="form-label">{{ LoginForm.password.label }}</label>
                 {{ LoginForm.password }}
@@ -653,16 +653,16 @@
       const registerLink = document.getElementById('registerLink');
       
         // Sayfa yüklendiğinde tüm input'lardan required attribute'unu kaldır - Django validation'a bırak
-        setTimeout(function() {
+      setTimeout(function() {
           // Üye form'undaki input'lardan required'ı kaldır
           if (userLoginForm) {
             const userInputs = userLoginForm.querySelectorAll('input');
             userInputs.forEach(input => {
-              input.removeAttribute('required');
-              input.setCustomValidity('');
-            });
-          }
-        }, 100);
+            input.removeAttribute('required');
+            input.setCustomValidity('');
+          });
+        }
+      }, 100);
   </script>
 
     </div>
@@ -672,14 +672,14 @@
     const popup = document.getElementById('notificationPopup');
     if (bell && popup) {
       bell.addEventListener('click', function(e) {
-        e.stopPropagation();
+      e.stopPropagation();
         if (popup && popup.classList) popup.classList.toggle('active');
-      });
-      document.addEventListener('click', function(e) {
+    });
+    document.addEventListener('click', function(e) {
         if (popup && popup.classList && popup.classList.contains('active') && !popup.contains(e.target) && e.target !== bell) {
-          popup.classList.remove('active');
-        }
-      });
+        popup.classList.remove('active');
+      }
+    });
     }
     </script>
   </body>

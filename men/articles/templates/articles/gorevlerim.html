@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 <div class="sidebar-block sidebar-title">
 	<div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
@@ -9,3 +10,5 @@
 		{% endfor %}
 	</div>
 </div>
+<!-- Ortak Görev Servisi -->
+<script src="{% static 'js/tasks.js' %}"></script>

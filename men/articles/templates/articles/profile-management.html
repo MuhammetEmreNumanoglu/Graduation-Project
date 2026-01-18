@@ -56,7 +56,7 @@
       /* Main Content - Enhanced for desktop */
       .main-content {
         flex: 1;
-        margin-left: 400px;
+        /* margin-left: 400px; */
         margin-right: 0;
         padding-left: 48px;
         padding-right: 48px;
@@ -619,12 +619,16 @@
 
       /* Sidebar scroll */
       .sidebar-container {
-        overflow-y: hidden;
+        overflow-y: auto;
         overflow-x: hidden;
         width: 400px !important;
         min-width: 400px !important;
         height: 100vh !important;
+        max-height: 100vh !important;
         min-height: 100vh !important;
+        position: fixed !important;
+        left: 0;
+        top: 0;
         display: flex;
         flex-direction: column;
       }
@@ -850,7 +854,7 @@
     <style>
       /* Dark mode - garanti çalışan */
       body.dark-mode {
-        background: #181818 !important;
+        background: #292727 !important; 
         color: #e0e0e0 !important;
       }
       
@@ -1212,27 +1216,21 @@
 
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-number">28</div>
+            <div class="stat-number" id="statActiveDays">0</div>
             <div class="stat-label" data-translate="Days Active">
               {% trans "Aktif Günler" %}
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-number">156</div>
+            <div class="stat-number" id="statChatSessions">0</div>
             <div class="stat-label" data-translate="Chat Sessions">
               {% trans "Sohbet Seansları" %}
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-number">89%</div>
-            <div class="stat-label" data-translate="Mood Score">
-              {% trans "Ruh Hali Puanı" %}
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">42</div>
-            <div class="stat-label" data-translate="Completed Tasks">
-              {% trans "Tamamlanan Görevler" %}
+            <div class="stat-number" id="statTaskCount">0</div>
+            <div class="stat-label" data-translate="Task Count">
+              {% trans "Görev Sayısı" %}
             </div>
           </div>
         </div>
@@ -1532,6 +1530,57 @@
     </main>
 
     <script src="{% static 'js/lang.js' %}"></script>
+    <script>
+      // CSRF token helper
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      
+      // İstatistikleri yükle
+      function loadMemberStats() {
+        fetch('/api/member/stats/', {
+          method: 'GET',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const activeDaysEl = document.getElementById('statActiveDays');
+            const chatSessionsEl = document.getElementById('statChatSessions');
+            const taskCountEl = document.getElementById('statTaskCount');
+            
+            if (activeDaysEl) activeDaysEl.textContent = data.active_days || 0;
+            if (chatSessionsEl) chatSessionsEl.textContent = data.chat_sessions || 0;
+            if (taskCountEl) taskCountEl.textContent = data.task_count || 0;
+          }
+        })
+        .catch(error => {
+          console.error('İstatistikler yüklenemedi:', error);
+        });
+      }
+      
+      // Sayfa yüklendiğinde istatistikleri yükle
+      document.addEventListener('DOMContentLoaded', function() {
+        {% if not is_psychologist %}
+        loadMemberStats();
+        // Her 30 saniyede bir güncelle
+        setInterval(loadMemberStats, 30000);
+        {% endif %}
+      });
+    </script>
     <script src="{% static 'js/font-size-manager.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
     <script src="{% static 'js/responsive-sidebar.js' %}"></script>
@@ -1548,12 +1597,16 @@
         
         function setGlobalTheme(theme) {
           try {
+            // Root seviyesinde theme yönetimi - tek kaynak
+            document.documentElement.setAttribute('data-theme', theme);
             if (theme === 'dark') {
+              document.documentElement.classList.add('dark-mode');
               document.body.classList.add('dark-mode');
               localStorage.setItem(themeKey, 'dark');
               // Geriye dönük uyumluluk için eski key'i de güncelle
               localStorage.setItem('themeMode', 'dark');
             } else {
+              document.documentElement.classList.remove('dark-mode');
               document.body.classList.remove('dark-mode');
               localStorage.setItem(themeKey, 'light');
               localStorage.setItem('themeMode', 'light');
@@ -1564,7 +1617,9 @@
           // Buton aktifliklerini güncelle
           var btns = document.querySelectorAll('.theme-btn');
           btns.forEach(function(btn) {
-            btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
+            if (btn && btn.classList) {
+              btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
+            }
           });
         }
         function getGlobalTheme() {
@@ -1890,15 +1945,30 @@
             localStorage.setItem(themeKey, theme);
             localStorage.setItem('themeMode', theme); // Geriye dönük uyumluluk
             
-            // Tema değişikliğini uygula
+            // Tema değişikliğini uygula - root seviyesinde ve tüm sayfalarda senkronize
             if (typeof setGlobalTheme === 'function') {
               setGlobalTheme(theme);
             } else {
+              // Root seviyesinde theme yönetimi
+              document.documentElement.setAttribute('data-theme', theme);
               if (theme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
                 document.body.classList.add('dark-mode');
               } else {
+                document.documentElement.classList.remove('dark-mode');
                 document.body.classList.remove('dark-mode');
               }
+            }
+            
+            // Storage event'i dispatch et (diğer tab'lar için)
+            try {
+              window.dispatchEvent(new StorageEvent('storage', {
+                key: themeKey,
+                newValue: theme,
+                oldValue: localStorage.getItem(themeKey)
+              }));
+            } catch (e) {
+              // Storage event desteklenmiyorsa sessizce devam et
             }
             
             // Show theme change toast

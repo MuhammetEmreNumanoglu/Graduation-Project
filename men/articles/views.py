@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .ai_wrapper import LLMClient 
 # YENİ: Gelişmiş AI servislerimizi ve yeni modellerimizi import ediyoruz
 from .ai_services import call_ai_model, get_updated_memory_json
-from .models import Article, Profile, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage
+from .models import Article, Profile, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity
 from django.http import JsonResponse
 from django.utils import translation, timezone
 from django.conf import settings
@@ -80,6 +80,11 @@ def my_login(request):
                     profile.save()
                 
                 auth.login(request, user)
+                
+                # LoginActivity kaydı - aktif günler için
+                from datetime import date
+                LoginActivity.objects.get_or_create(user=user, login_date=date.today())
+                
                 remember_me = form.cleaned_data.get('remember_me', False)
                 
                 if remember_me:
@@ -620,25 +625,26 @@ def responsive(request):
 
 @require_GET
 def check_availability(request):
+    """Username ve email için anlık DB kontrolü - JSON döner"""
     field = request.GET.get('field')
     value = request.GET.get('value', '').strip()
     current_user_id = None
     if request.user.is_authenticated:
         current_user_id = request.user.id
     if not field or not value:
-        return JsonResponse({'available': False, 'error': _('Geçersiz istek')}, status=400)
+        return JsonResponse({'available': False, 'error': _('Geçersiz istek')}, status=400, content_type='application/json')
     if field == 'username':
         qs = User.objects.filter(username__iexact=value)
         if current_user_id:
             qs = qs.exclude(pk=current_user_id)
-        return JsonResponse({'available': not qs.exists()})
+        return JsonResponse({'available': not qs.exists()}, content_type='application/json')
     elif field == 'email':
         qs = User.objects.filter(email__iexact=value)
         if current_user_id:
             qs = qs.exclude(pk=current_user_id)
-        return JsonResponse({'available': not qs.exists()})
+        return JsonResponse({'available': not qs.exists()}, content_type='application/json')
     else:
-        return JsonResponse({'available': False, 'error': _('Bilinmeyen alan')}, status=400)
+        return JsonResponse({'available': False, 'error': _('Bilinmeyen alan')}, status=400, content_type='application/json')
 
 @require_POST
 @login_required(login_url="my-login")
@@ -741,7 +747,12 @@ def send_task(request):
             return JsonResponse({"success": False, "error": _("Kullanıcı profili bulunamadı.")}, status=404)
         
         task = Task.objects.create(user=user, text=text)
-        return JsonResponse({"success": True, "task_id": task.id, "message": _("Görev başarıyla gönderildi.")})
+        
+        # Otomatik bildirim oluştur
+        notification_text = _('Psikolog tarafından "{}" görevi verilmiştir.').format(text)
+        Notification.objects.create(user=user, text=notification_text)
+        
+        return JsonResponse({"success": True, "task_id": task.id, "message": _("Görev başarıyla gönderildi.")}, content_type='application/json')
     except User.DoesNotExist:
         return JsonResponse({"success": False, "error": _("Kullanıcı bulunamadı.")}, status=404)
     except Exception as e:
@@ -1025,6 +1036,64 @@ def get_unread_message_count(request):
         return JsonResponse({"success": False, "error": str(e)}, status=500, content_type='application/json')
 
 
+@login_required(login_url="my-login")
+def get_member_badges(request):
+    """Üye için tüm okunmamış sayıları getir (bildirimler + mesajlar + görevler)"""
+    try:
+        # Okunmamış bildirimler
+        unread_notifications = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).count()
+        
+        # Okunmamış mesajlar (psikologdan gelen)
+        unread_messages = PsychologistMessage.objects.filter(
+            user=request.user,
+            sender='psychologist',
+            is_read=False
+        ).count()
+        
+        # Okunmamış görevler (is_completed=False olanlar)
+        unread_tasks = Task.objects.filter(
+            user=request.user,
+            is_completed=False
+        ).count()
+        
+        # Toplam badge sayısı
+        total_badge = unread_notifications + unread_messages + unread_tasks
+        
+        return JsonResponse({
+            "success": True,
+            "unread_notifications": unread_notifications,
+            "unread_messages": unread_messages,
+            "unread_tasks": unread_tasks,
+            "total": total_badge
+        }, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=500, content_type='application/json')
+
+
+@require_POST
+@login_required(login_url="my-login")
+def mark_notifications_read(request):
+    """Üye için tüm bildirimleri okundu olarak işaretle"""
+    try:
+        updated = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).update(is_read=True, read_at=timezone.now())
+        
+        return JsonResponse({
+            "success": True,
+            "updated_count": updated
+        }, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({
+            "success": False,
+            "error": str(e)
+        }, status=500, content_type='application/json')
+
+
 @require_POST
 @psychologist_required
 def mark_messages_read(request):
@@ -1077,6 +1146,39 @@ def mark_psychologist_messages_read(request):
         return JsonResponse({
             "success": True,
             "updated_count": updated
+        }, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({
+            "success": False,
+            "error": str(e)
+        }, status=500, content_type='application/json')
+
+
+@login_required(login_url="my-login")
+def get_member_stats(request):
+    """Üye için istatistikleri getir - DB'den gerçek veriler"""
+    try:
+        from django.db.models import Count, Q
+        from django.utils import timezone
+        from datetime import date
+        
+        # Aktif Günler: LoginActivity'den unique gün sayısı
+        active_days = LoginActivity.objects.filter(user=request.user).values('login_date').distinct().count()
+        
+        # Sohbet Seansları: Kullanıcının mesaj gönderdiği unique gün sayısı
+        chat_sessions = PsychologistMessage.objects.filter(
+            user=request.user,
+            sender='user'
+        ).values('created_at__date').distinct().count()
+        
+        # Görev Sayısı: Psikologun verdiği toplam görev adedi
+        task_count = Task.objects.filter(user=request.user).count()
+        
+        return JsonResponse({
+            "success": True,
+            "active_days": active_days,
+            "chat_sessions": chat_sessions,
+            "task_count": task_count
         }, content_type='application/json')
     except Exception as e:
         return JsonResponse({

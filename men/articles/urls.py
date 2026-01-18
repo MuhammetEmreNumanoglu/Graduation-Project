@@ -45,9 +45,13 @@ urlpatterns = [
     path('api/get-psychologist-messages/', views.get_psychologist_messages, name='get-psychologist-messages'),
     path('api/get-user-messages/', views.get_user_messages, name='get-user-messages'),
     path('api/get-user-tasks/', views.get_user_tasks, name='get-user-tasks'),
+    path('api/member/tasks/', views.get_user_tasks, name='get-member-tasks'),  # Alias for consistency
     path('api/get-user-notifications/', views.get_user_notifications, name='get-user-notifications'),
     path('api/unread-counts/', views.get_unread_counts, name='get-unread-counts'),
     path('api/unread-message-count/', views.get_unread_message_count, name='get-unread-message-count'),
     path('api/mark-messages-read/', views.mark_messages_read, name='mark-messages-read'),
     path('api/mark-psychologist-messages-read/', views.mark_psychologist_messages_read, name='mark-psychologist-messages-read'),
+    path('api/member/badges/', views.get_member_badges, name='get-member-badges'),
+    path('api/member/mark-notifications-read/', views.mark_notifications_read, name='mark-notifications-read'),
+    path('api/member/stats/', views.get_member_stats, name='get-member-stats'),
 ]

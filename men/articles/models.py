@@ -128,3 +128,19 @@ class PsychologistMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender} -> {self.user.username}: {self.text[:50]}"
+
+
+class LoginActivity(models.Model):
+    """Kullanıcı giriş aktivitelerini takip eder - aktif günler için"""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='login_activities')
+    login_date = models.DateField(auto_now_add=True)  # Sadece tarih, saat yok
+    
+    class Meta:
+        unique_together = ('user', 'login_date')  # Aynı gün için tek kayıt
+        ordering = ['-login_date']
+        indexes = [
+            models.Index(fields=['user', 'login_date']),
+        ]
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.login_date}"

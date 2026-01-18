@@ -29,13 +29,26 @@
         --secondary-color: #8ca6db;
         --accent-color: #b993d6;
         --background-light: #f9f9f9;
-        --text-primary: #2c3e50;
-        --text-secondary: #7f8c8d;
         --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
         --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
         --border-radius: 20px;
         --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         --font-scale: 1;
+      }
+      
+      /* Light mode için daha koyu metin renkleri - CSS değişkenleri ile */
+      html:not([data-theme="dark"]):not(.dark-mode),
+      html[data-theme="light"] {
+        --text-primary: #0d1117;
+        --text-secondary: #161b22;
+      }
+      
+      /* Dark mode için mevcut kontrast */
+      html[data-theme="dark"],
+      html.dark-mode,
+      .dark-mode {
+        --text-primary: #e0e0e0;
+        --text-secondary: #b0b0b0;
       }
       
       /* Font size scaling */
@@ -163,13 +176,13 @@
       .user-info h3 {
         font-size: 1.1rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #141111;
         margin-bottom: 4px;
       }
 
       .user-info p {
         font-size: 0.9rem;
-        color: var(--text-secondary);
+        color: #312d2d;
         margin: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -242,7 +255,7 @@
 
       .sidebar-user-card.active .user-card-info .user-name,
       .sidebar-user-card.active .user-card-info .last-message-time {
-        color: white;
+        color: #141111;
       }
 
       .user-card-info {
@@ -312,7 +325,7 @@
 
       .sidebar-user-card.active .action-icon {
         background: rgba(255, 255, 255, 0.2);
-        color: white;
+        color: #6c3eb4;
       }
 
       .sidebar-user-card.active .action-icon:hover {
@@ -321,7 +334,7 @@
 
       .main-content {
         flex: 1;
-        margin-left: 320px;
+        /* margin-left: 320px; */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -560,6 +573,149 @@
         color: #64748b;
       }
 
+      /* Light Mode Styles */
+      body:not(.dark-mode) {
+        background: linear-gradient(135deg, #e5e0ff 0%, #d1d9f0 100%);
+      }
+      
+      body:not(.dark-mode) .sidebar-container {
+        background: #fff;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      body:not(.dark-mode) .sidebar-header {
+        background: rgba(255, 255, 255, 0.95);
+        border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+      }
+      
+      body:not(.dark-mode) .sidebar-user-card {
+        background: rgba(139, 92, 246, 0.08);
+        border: 1px solid rgba(139, 92, 246, 0.15);
+        color: var(--text-primary);
+      }
+      
+      body:not(.dark-mode) .sidebar-user-card:hover {
+        background: rgba(212, 200, 219, 0.88);
+        border-color: rgba(139, 92, 246, 0.25);
+      }
+      
+      body:not(.dark-mode) .user-card-info .user-name {
+        color: #141111;
+      }
+      
+      body:not(.dark-mode) .user-card-info .last-message-time {
+        color: var(--text-secondary);
+      }
+      
+      body:not(.dark-mode) .chat-interface {
+        background: #fff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      body:not(.dark-mode) .chat-messages {
+        background: #f9fafb;
+      }
+      
+      body:not(.dark-mode) .message.user {
+        background: #e2e8f0;
+        color: #141111;
+      }
+      
+      body:not(.dark-mode) .empty-chat {
+        color: var(--text-secondary);
+      }
+      
+      body:not(.dark-mode) .chat-input-container {
+        border-top: 1px solid #e2e8f0;
+        background: #fff;
+      }
+      
+      body:not(.dark-mode) .chat-input-container textarea {
+        border-color: #e2e8f0;
+        background: #fff;
+        color:black;
+      }
+      
+      body:not(.dark-mode) .chat-input-container textarea:focus {
+        border-color: var(--primary-color);
+      }
+      
+      body:not(.dark-mode) .modal-content {
+        background: #fff;
+        color: var(--text-primary);
+      }
+      
+      /* Dark Mode Styles */
+      body.dark-mode {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      }
+      
+      body.dark-mode .sidebar-container {
+        background: #1e1e2e;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      }
+      
+      body.dark-mode .sidebar-header {
+        background: rgba(30, 30, 46, 0.95);
+        border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+      }
+      
+      body.dark-mode .sidebar-user-card {
+        background: rgba(139, 92, 246, 0.15);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #e0e0e0;
+      }
+      
+      body.dark-mode .sidebar-user-card:hover {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: rgba(139, 92, 246, 0.4);
+      }
+      
+      body.dark-mode .user-card-info .user-name {
+        color: #e0e0e0;
+      }
+      
+      body.dark-mode .user-card-info .last-message-time {
+        color: #b0b0b0;
+      }
+      
+      body.dark-mode .chat-interface {
+        background: #231f22;
+      }
+      
+      body.dark-mode .chat-messages {
+        background: #1a1a1a;
+      }
+      
+      body.dark-mode .message.user {
+        background: #2d2d3a;
+        color: #e0e0e0;
+      }
+      
+      body.dark-mode .empty-chat {
+        color: #b0b0b0;
+      }
+      
+      body.dark-mode .chat-input-container {
+        border-top: 1px solid #444;
+        background: #231f22;
+      }
+      
+      body.dark-mode .chat-input-container textarea {
+        border-color: #444;
+        background: #2d2d3a;
+        color: #e0e0e0;
+      }
+      
+      body.dark-mode .chat-input-container textarea:focus {
+        border-color: var(--primary-color);
+      }
+      
+      body.dark-mode .modal-content {
+        background: #2d2d3a;
+        color: #e0e0e0;
+      }
+
       @media (max-width: 991px) {
         body {
           flex-direction: column;
@@ -578,13 +734,15 @@
     </style>
     <script>
       // Psikolog için role bazlı storage key'leri ile dark mode, font size ve language ayarları
-      (function() {
-        // Dark mode - role bazlı key kullan
+      // Theme yükleme fonksiyonu - global scope
+      function loadPsychologistTheme() {
         const themeKey = 'ui_psychologist_theme';
         if (!localStorage.getItem(themeKey)) {
           localStorage.setItem(themeKey, 'dark');
         }
         const themeMode = localStorage.getItem(themeKey) || 'dark';
+        // Root seviyesinde theme yönetimi - tek kaynak
+        document.documentElement.setAttribute('data-theme', themeMode);
         if (themeMode === 'dark') {
           document.documentElement.classList.add('dark-mode');
           document.body.classList.add('dark-mode');
@@ -592,6 +750,23 @@
           document.documentElement.classList.remove('dark-mode');
           document.body.classList.remove('dark-mode');
         }
+      }
+      
+      (function() {
+        // Sayfa yüklendiğinde theme'i yükle
+        loadPsychologistTheme();
+        
+        // Storage event listener - profile-management'tan gelen değişiklikleri dinle
+        window.addEventListener('storage', function(e) {
+          if (e.key === 'ui_psychologist_theme') {
+            loadPsychologistTheme();
+          }
+        });
+        
+        // Focus event - başka sekmeden dönünce theme'i kontrol et
+        window.addEventListener('focus', function() {
+          loadPsychologistTheme();
+        });
         
         // Font size - role bazlı key kullan
         const fontSizeKey = 'ui_psychologist_font_size';
@@ -666,7 +841,12 @@
       })();
     </script>
   </head>
-  <body class="dark-mode">
+  <body>
+    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" style="display: none;">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <!-- Sidebar -->
     <div class="sidebar-container" id="sidebarContainer">
       <div class="sidebar-header">

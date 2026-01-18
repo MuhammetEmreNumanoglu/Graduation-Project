@@ -14,6 +14,8 @@
       window.language_code = "{{ LANGUAGE_CODE }}";
     </script>
     <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/notifications.js' %}"></script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
@@ -1136,7 +1138,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative; /* Badge için */
       }
       
       /* Notification bell badge */
@@ -1235,6 +1236,11 @@
     </style>
   </head>
   <body>
+    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" style="display: none;">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <div class="sidebar-container" id="sidebarContainer">
       <div class="sidebar-header">
         <img
@@ -1594,27 +1600,55 @@
             .catch(error => console.error("Mesajlar okundu işaretlenemedi:", error));
         }
 
-        // Okunmamış mesaj sayısını güncelle (notification-bell badge)
-        function updateUnreadMessageBadge() {
-            fetch("/api/unread-message-count/", {
+        // Badge elementi oluştur (yoksa)
+        function ensureBadgeElement() {
+            let notificationBell = document.getElementById('notificationBell');
+            if (!notificationBell) {
+                // Notification bell yoksa oluştur
+                notificationBell = document.createElement('button');
+                notificationBell.id = 'notificationBell';
+                notificationBell.className = 'notification-bell';
+                notificationBell.setAttribute('aria-label', '{% trans "Bildirimler" %}');
+                notificationBell.innerHTML = '<span class="material-symbols-outlined">notifications</span>';
+                document.body.appendChild(notificationBell);
+            }
+            
+            let badge = document.getElementById('unreadBadge');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.id = 'unreadBadge';
+                badge.className = 'unread-badge';
+                notificationBell.appendChild(badge);
+            }
+            return badge;
+        }
+
+        // Okunmamış sayıları güncelle (notification-bell badge) - tüm badge'ler için
+        function updateUnreadBadges() {
+            fetch("/api/member/badges/", {
                 method: "GET",
                 headers: { "X-CSRFToken": csrfToken }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const badge = document.getElementById('unreadMessageBadge');
-                    if (badge) {
-                        if (data.count > 0) {
-                            badge.textContent = data.count > 99 ? '99+' : data.count;
-                            badge.style.display = 'flex';
-                        } else {
-                            badge.style.display = 'none';
-                        }
+                    const badge = ensureBadgeElement();
+                    const total = data.total || 0;
+                    
+                    if (total > 0) {
+                        badge.textContent = total > 99 ? '99+' : total;
+                        badge.style.display = 'flex';
+                    } else {
+                        badge.style.display = 'none';
                     }
                 }
             })
-            .catch(error => console.error("Okunmamış mesaj sayısı yüklenemedi:", error));
+            .catch(error => console.error("Badge sayıları yüklenemedi:", error));
+        }
+        
+        // Eski fonksiyon için backward compatibility
+        function updateUnreadMessageBadge() {
+            updateUnreadBadges();
         }
 
         // Polling başlat
@@ -1623,15 +1657,27 @@
             messagePollInterval = setInterval(() => {
                 if (!document.hidden) {
                     loadPsychologistMessages(false);
-                    updateUnreadMessageBadge();
+                    // Badge'ler notifications.js tarafından yönetiliyor
+                    if (window.NotificationsService && window.NotificationsService.updateBadges) {
+                        window.NotificationsService.updateBadges();
+                    } else {
+                        updateUnreadBadges();
+                    }
                 }
             }, 2000);
         }
 
         // Sayfa yüklendiğinde mesajları yükle ve polling başlat
         loadPsychologistMessages(true);
-        updateUnreadMessageBadge();
+        updateUnreadBadges();  // Badge'leri güncelle
         startMessagePolling();
+        
+        // Badge polling - 5 saniyede bir güncelle
+        setInterval(() => {
+            if (!document.hidden) {
+                updateUnreadBadges();
+            }
+        }, 5000);
         
         // Sekme görünürlüğü değiştiğinde polling'i kontrol et
         document.addEventListener('visibilitychange', function() {
@@ -1645,7 +1691,20 @@
                 }
             } else {
                 startMessagePolling();
+                updateUnreadBadges();  // Sekme görünür olunca badge'leri güncelle
             }
+        });
+
+        // Enter gönder, Shift+Enter alt satır
+        messageInput.addEventListener("keydown", function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                if (message) {
+                    chatForm.dispatchEvent(new Event('submit'));
+                }
+            }
+            // Shift+Enter için default davranış (alt satıra geç) korunur
         });
 
         chatForm.addEventListener("submit", function (e) {

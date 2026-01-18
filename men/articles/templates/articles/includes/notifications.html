@@ -4,6 +4,7 @@
 <!-- Bildirim Zili -->
 <button class="notification-bell" id="notificationBell" aria-label="{% trans 'Bildirimler' %}">
   <span class="material-symbols-outlined">notifications</span>
+  <span class="unread-badge" id="unreadBadge" style="display: none;">0</span>
 </button>
 
 <!-- Bildirim Popup -->
@@ -18,10 +19,13 @@
   </ul>
 </div>
 
+<!-- Ortak Bildirim Servisi -->
+<script src="{% static 'js/notifications.js' %}"></script>
+
 <!-- Bildirimler CSS -->
 <style>
   .notification-bell {
-    position: fixed;
+    position: fixed !important;
     top: 32px;
     right: 48px;
     z-index: 1200;
@@ -62,7 +66,7 @@
     top: 72px;
     right: 48px;
     width: 340px;
-    max-height: none;
+    max-height: 60vh; /* Sayfa boyunu uzatmaması için */
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
@@ -89,13 +93,13 @@
     border-bottom: 1px solid #ece6fa;
   }
   
-  /* Yükseklik: 3 mesaj kadar alan göster, gerisi scroll */
+  /* Yükseklik: max-height ile sınırlı, gerisi scroll */
   .notification-popup { --notification-item-size: 56px; }
   .notification-list {
     list-style: none;
     margin: 0;
     padding: 0 0 8px 0;
-    max-height: calc(var(--notification-item-size) * 4);
+    max-height: calc(60vh - 60px); /* Popup başlığı için alan bırak */
     overflow-y: auto;
   }
   
@@ -149,25 +153,28 @@
   }
 </style>
 
-<!-- Bildirimler JavaScript -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const bell = document.getElementById("notificationBell");
-  const popup = document.getElementById("notificationPopup");
-  if (bell && popup) {
-    bell.addEventListener("click", function (e) {
-      e.stopPropagation();
-      popup.classList.toggle("active");
-    });
-    document.addEventListener("click", function (e) {
-      if (
-        popup.classList.contains("active") &&
-        !popup.contains(e.target) &&
-        e.target !== bell
-      ) {
-        popup.classList.remove("active");
-      }
-    });
+<!-- Badge CSS -->
+<style>
+  .notification-bell {
+    position: relative; /* Badge için */
   }
-});
-</script> 
+  
+  .notification-bell .unread-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #dc3545;
+    color: white;
+    border-radius: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+</style> 
