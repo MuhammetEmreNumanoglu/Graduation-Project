@@ -1329,6 +1329,36 @@
       </div>
     </main>
 
+    <!-- Günlük Ruh Hali Modal -->
+    <div id="moodModalOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:3000;">
+      <div id="moodModal" style="background:#fff;border-radius:18px;max-width:520px;width:92%;padding:22px 20px;box-shadow:0 18px 60px rgba(0,0,0,.18);border:1px solid rgba(139,92,246,.18);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
+          <div style="font-weight:800;color:#8b5cf6;font-size:1.25rem;">{% trans "Bugün nasıl hissediyorsun?" %}</div>
+          <button type="button" id="moodModalClose" style="border:none;background:transparent;font-size:1.3rem;cursor:pointer;color:#64748b;">×</button>
+        </div>
+        <div style="color:#64748b;line-height:1.5;margin-bottom:14px;">{% trans "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin." %}</div>
+
+        <div id="moodChoices" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px;">
+          <button type="button" class="mood-choice" data-mood="very_good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Çok iyi" %}</button>
+          <button type="button" class="mood-choice" data-mood="good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "İyi" %}</button>
+          <button type="button" class="mood-choice" data-mood="neutral" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Nötr" %}</button>
+          <button type="button" class="mood-choice" data-mood="bad" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Kötü" %}</button>
+          <button type="button" class="mood-choice" data-mood="very_bad" style="grid-column:1/-1;padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Çok kötü" %}</button>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label for="moodNote" style="display:block;font-weight:700;margin-bottom:6px;color:#1e293b;">{% trans "Kısa not (opsiyonel)" %}</label>
+          <input id="moodNote" type="text" maxlength="280" placeholder="{% trans 'Örn: Bugün biraz gergindim…' %}" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;outline:none;" />
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button type="button" id="moodSkip" style="padding:10px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-weight:700;color:#64748b;">{% trans "Şimdi değil" %}</button>
+          <button type="button" id="moodSubmit" style="padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#8b5cf6,#a855f7);cursor:pointer;font-weight:800;color:#fff;" disabled>{% trans "Kaydet" %}</button>
+        </div>
+        <div id="moodError" style="display:none;margin-top:10px;color:#dc3545;font-weight:700;"></div>
+      </div>
+    </div>
+
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal">
         <h3 class="modal-title">Sohbeti Sil</h3>
@@ -1750,6 +1780,112 @@
         // Başlat
         renderChats([]);
     });
+</script>
+
+<script>
+  // CSRF helper
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  (function(){
+    const overlay = document.getElementById('moodModalOverlay');
+    const closeBtn = document.getElementById('moodModalClose');
+    const skipBtn = document.getElementById('moodSkip');
+    const submitBtn = document.getElementById('moodSubmit');
+    const noteInput = document.getElementById('moodNote');
+    const err = document.getElementById('moodError');
+    let selectedMood = null;
+
+    if (!overlay) return;
+
+    function showModal() { overlay.style.display = 'flex'; }
+    function hideModal() { overlay.style.display = 'none'; }
+    function setError(message){
+      if (!message) { err.style.display = 'none'; err.textContent = ''; return; }
+      err.style.display = 'block';
+      err.textContent = message;
+    }
+    function updateSubmitState(){
+      submitBtn.disabled = !selectedMood;
+      submitBtn.style.opacity = selectedMood ? '1' : '0.6';
+      submitBtn.style.cursor = selectedMood ? 'pointer' : 'not-allowed';
+    }
+
+    document.querySelectorAll('.mood-choice').forEach(btn => {
+      btn.addEventListener('click', function(){
+        selectedMood = this.getAttribute('data-mood');
+        document.querySelectorAll('.mood-choice').forEach(b => {
+          b.style.borderColor = '#e2e8f0';
+          b.style.background = '#f8fafc';
+          b.style.boxShadow = 'none';
+        });
+        this.style.borderColor = '#8b5cf6';
+        this.style.background = 'rgba(139,92,246,.10)';
+        this.style.boxShadow = '0 8px 24px rgba(139,92,246,.12)';
+        setError('');
+        updateSubmitState();
+      });
+    });
+
+    function maybeAskTodayMood(){
+      fetch('/api/member/mood/today/', {
+        method: 'GET',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') },
+        credentials: 'same-origin'
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.success && data.has_mood === false) {
+          showModal();
+        }
+      })
+      .catch(() => { /* sessiz geç */ });
+    }
+
+    closeBtn.addEventListener('click', hideModal);
+    skipBtn.addEventListener('click', hideModal);
+    overlay.addEventListener('click', function(e){ if (e.target === overlay) hideModal(); });
+
+    submitBtn.addEventListener('click', function(){
+      if (!selectedMood) return;
+      setError('');
+      const fd = new FormData();
+      fd.append('mood', selectedMood);
+      fd.append('note', (noteInput.value || '').trim());
+
+      fetch('/api/member/mood/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': getCookie('csrftoken') },
+        credentials: 'same-origin',
+        body: fd
+      })
+      .then(async r => {
+        const data = await r.json().catch(() => null);
+        if (r.ok && data && data.success) {
+          hideModal();
+          return;
+        }
+        const msg = (data && data.error) ? data.error : '{% trans "Kaydedilemedi. Lütfen tekrar deneyin." %}';
+        setError(msg);
+      })
+      .catch(() => setError('{% trans "Kaydedilemedi. Lütfen tekrar deneyin." %}'));
+    });
+
+    updateSubmitState();
+    document.addEventListener('DOMContentLoaded', maybeAskTodayMood);
+  })();
 </script>
   </body>
 </html>

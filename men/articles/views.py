@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .ai_wrapper import LLMClient 
 # YENİ: Gelişmiş AI servislerimizi ve yeni modellerimizi import ediyoruz
 from .ai_services import call_ai_model, get_updated_memory_json
-from .models import Article, Profile, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity
+from .models import Article, Profile, DailyMood, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity
 from django.http import JsonResponse
 from django.utils import translation, timezone
 from django.conf import settings
@@ -435,6 +435,12 @@ def profile_management(request):
     contact = EmergencyContact.objects.filter(user=request.user).first()
     contact_form = EmergencyContactForm(instance=contact)
     if request.method == "POST":
+        # Hayat Hikayem güncellemesi (uzun metin)
+        if 'life_story' in request.POST:
+            profile.life_story = (request.POST.get('life_story') or '').strip()
+            profile.save(update_fields=['life_story'])
+            messages.success(request, _("Hayat hikayeniz kaydedildi."))
+            return redirect("profile-management")
         # Detect which form is sent by checking known fields
         if 'relation' in request.POST and 'full_name' in request.POST and 'phone' in request.POST:
             contact = EmergencyContact.objects.filter(user=request.user).first()
@@ -458,6 +464,51 @@ def profile_management(request):
 
     context = {"UserUpdateForm": form, 'ProfileUpdateForm': form_2, 'EmergencyContactForm': contact_form, 'contact': contact, 'is_psychologist': False}
     return render(request, "articles/profile-management.html", context)
+
+
+@require_GET
+@login_required(login_url="my-login")
+def get_today_mood(request):
+    """Üye için bugünkü ruh hali var mı?"""
+    from datetime import date
+    today = date.today()
+    obj = DailyMood.objects.filter(user=request.user, date=today).first()
+    if not obj:
+        return JsonResponse({"success": True, "has_mood": False}, content_type='application/json')
+    return JsonResponse({
+        "success": True,
+        "has_mood": True,
+        "date": obj.date.isoformat(),
+        "mood": obj.mood,
+        "mood_label": obj.get_mood_display(),
+        "note": obj.note or ""
+    }, content_type='application/json')
+
+
+@require_POST
+@login_required(login_url="my-login")
+def submit_today_mood(request):
+    """Üye için günde 1 kez ruh hali kaydı."""
+    from datetime import date
+    mood = (request.POST.get('mood') or '').strip()
+    note = (request.POST.get('note') or '').strip()
+
+    valid_moods = {k for (k, _) in DailyMood.MOOD_CHOICES}
+    if mood not in valid_moods:
+        return JsonResponse({"success": False, "error": _("Geçersiz ruh hali seçimi.")}, status=400, content_type='application/json')
+
+    today = date.today()
+    obj = DailyMood.objects.filter(user=request.user, date=today).first()
+    if obj:
+        return JsonResponse({"success": False, "error": _("Bugünkü ruh hali zaten kaydedilmiş.")}, status=409, content_type='application/json')
+
+    DailyMood.objects.create(
+        user=request.user,
+        date=today,
+        mood=mood,
+        note=note[:280] if note else None,
+    )
+    return JsonResponse({"success": True, "message": _("Ruh haliniz kaydedildi.")}, content_type='application/json')
 
 
 @login_required(login_url="my-login")
@@ -713,12 +764,85 @@ def psychologist_chat(request, user_id):
         return redirect('psychologist-dashboard')
     
     messages = PsychologistMessage.objects.filter(user=target_user).order_by('created_at')
+
+    # Sağ bilgi paneli verileri
+    from datetime import date, timedelta
+    today = date.today()
+    today_mood = DailyMood.objects.filter(user=target_user, date=today).first()
+    recent_moods = list(
+        DailyMood.objects.filter(user=target_user, date__gte=today - timedelta(days=7))
+        .order_by('-date')[:7]
+    )
+    target_profile = Profile.objects.filter(user=target_user).first()
+    life_story = (target_profile.life_story if target_profile else "") or ""
     
     context = {
         'target_user': target_user,
-        'messages': messages
+        'messages': messages,
+        'today_mood': today_mood,
+        'recent_moods': recent_moods,
+        'life_story': life_story,
     }
     return render(request, "articles/psychologist-chat.html", context)
+
+
+@require_GET
+@psychologist_required
+def get_user_insights(request):
+    """Psikolog dashboard chat için: seçilen kullanıcıya ait ruh hali + hayat hikayesi."""
+    user_id = request.GET.get('user_id')
+    if not user_id:
+        return JsonResponse({
+            "success": False,
+            "error": _("Kullanıcı ID gerekli.")
+        }, status=400, content_type='application/json')
+
+    try:
+        target_user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({
+            "success": False,
+            "error": _("Kullanıcı bulunamadı.")
+        }, status=404, content_type='application/json')
+
+    # Profil opsiyonel; rol kısıtlaması kaldırıldı ki eski/veri hatalı hesaplarda da çalışsın
+    try:
+        profile = Profile.objects.get(user=target_user)
+    except Profile.DoesNotExist:
+        profile = None
+
+    from datetime import date, timedelta
+    today = date.today()
+    today_mood = DailyMood.objects.filter(user=target_user, date=today).first()
+    recent_qs = DailyMood.objects.filter(
+        user=target_user,
+        date__gte=today - timedelta(days=7)
+    ).order_by('-date')[:7]
+
+    data = {
+        "success": True,
+        "today_mood": None,
+        "recent_moods": [],
+        "life_story": (profile.life_story if profile else "") or "",
+    }
+
+    if today_mood:
+        data["today_mood"] = {
+            "date": today_mood.date.isoformat(),
+            "mood": today_mood.mood,
+            "mood_label": today_mood.get_mood_display(),
+            "note": today_mood.note or "",
+        }
+
+    for m in recent_qs:
+        data["recent_moods"].append({
+            "date": m.date.isoformat(),
+            "mood": m.mood,
+            "mood_label": m.get_mood_display(),
+            "note": m.note or "",
+        })
+
+    return JsonResponse(data, content_type='application/json')
 
 
 @require_POST

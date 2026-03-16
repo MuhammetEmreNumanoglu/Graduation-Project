@@ -29,6 +29,37 @@ class Profile(models.Model):
     # Role alanı: 'member' veya 'psychologist'
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
 
+    # Kullanıcının uzun metin girebileceği alan (Ayarlar/Profil)
+    life_story = models.TextField(null=True, blank=True)
+
+
+class DailyMood(models.Model):
+    MOOD_CHOICES = [
+        ('very_good', 'Çok iyi'),
+        ('good', 'İyi'),
+        ('neutral', 'Nötr'),
+        ('bad', 'Kötü'),
+        ('very_bad', 'Çok kötü'),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='daily_moods')
+    date = models.DateField()
+    mood = models.CharField(max_length=20, choices=MOOD_CHOICES)
+    note = models.CharField(max_length=280, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'date')
+        ordering = ['-date', '-created_at']
+        indexes = [
+            models.Index(fields=['user', 'date']),
+            models.Index(fields=['date']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.date}: {self.get_mood_display()}"
+
 class ChatHistory(models.Model):
     history_id = models.CharField(max_length=64, blank=False, null=False)
     title = models.CharField(max_length=255, blank=True, null=True)

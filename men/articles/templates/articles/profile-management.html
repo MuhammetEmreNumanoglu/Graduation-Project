@@ -1304,6 +1304,36 @@
           </div>
         </div>
         {% endif %}
+
+        {% if not is_psychologist %}
+        <!-- Hayat Hikayem -->
+        <div class="settings-category" id="life-story-settings">
+          <h3>{% trans "Hayat Hikayem" %}</h3>
+          <p>{% trans "Psikoloğunuzun sizi daha iyi tanıması için isterseniz hayat hikayenizi paylaşabilirsiniz." %}</p>
+          <div class="settings-cards">
+            <div class="settings-card">
+              <h3>{% trans "Hayat Hikayem" %}</h3>
+              <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="life_story">{% trans "Metin" %}</label>
+                  <textarea
+                    id="life_story"
+                    name="life_story"
+                    class="form-control"
+                    rows="8"
+                    placeholder="{% trans 'İsterseniz buraya uzun bir metin yazabilirsiniz...' %}"
+                  >{{ profilePic.life_story|default_if_none:'' }}</textarea>
+                </div>
+                <div style="text-align:center; margin-top: 8px;">
+                  <button class="btn" type="submit">{% trans "Kaydet / Güncelle" %}</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
         <!-- Hesap Bilgileri Kategorisi -->
         <div class="settings-category">
           <h3>{% trans "Hesap Bilgileri" %}</h3>

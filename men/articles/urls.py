@@ -54,4 +54,9 @@ urlpatterns = [
     path('api/member/badges/', views.get_member_badges, name='get-member-badges'),
     path('api/member/mark-notifications-read/', views.mark_notifications_read, name='mark-notifications-read'),
     path('api/member/stats/', views.get_member_stats, name='get-member-stats'),
+    # Psikolog - üye içgörüleri (ruh hali + hayat hikayesi)
+    path('api/psychologist/user-insights/', views.get_user_insights, name='get-user-insights'),
+    # Üye - günlük ruh hali
+    path('api/member/mood/today/', views.get_today_mood, name='get-today-mood'),
+    path('api/member/mood/', views.submit_today_mood, name='submit-today-mood'),
 ]

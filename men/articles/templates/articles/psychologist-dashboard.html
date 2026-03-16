@@ -743,6 +743,10 @@
         const themeMode = localStorage.getItem(themeKey) || 'dark';
         // Root seviyesinde theme yönetimi - tek kaynak
         document.documentElement.setAttribute('data-theme', themeMode);
+        // Global themeMode ile senkronize et ki diğer script'ler çakışmasın
+        try {
+          localStorage.setItem('themeMode', themeMode);
+        } catch (e) {}
         if (themeMode === 'dark') {
           document.documentElement.classList.add('dark-mode');
           document.body.classList.add('dark-mode');
@@ -755,6 +759,7 @@
       (function() {
         // Sayfa yüklendiğinde theme'i yükle
         loadPsychologistTheme();
+        document.addEventListener('DOMContentLoaded', loadPsychologistTheme);
         
         // Storage event listener - profile-management'tan gelen değişiklikleri dinle
         window.addEventListener('storage', function(e) {
@@ -926,29 +931,66 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <div class="chat-interface" id="chatInterface">
-        <div class="chat-header">
-          <span class="material-symbols-outlined">chat</span>
-          <h2 class="chat-header-title" id="chatHeaderTitle">
-            {% trans "Bir kullanıcı seçin" %}
-          </h2>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-          <div class="empty-chat">
-            {% trans "Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin" %}
+      <div style="display:flex;gap:18px;align-items:stretch;width:100%;max-width:1320px;margin:0 auto;">
+        <div class="chat-interface" id="chatInterface" style="flex:1 1 auto;min-width:0;">
+          <div class="chat-header">
+            <span class="material-symbols-outlined">chat</span>
+            <h2 class="chat-header-title" id="chatHeaderTitle">
+              {% trans "Bir kullanıcı seçin" %}
+            </h2>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="empty-chat">
+              {% trans "Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin" %}
+            </div>
+          </div>
+          <div class="chat-input-container" id="chatInputContainer" style="display: none;">
+            <textarea
+              id="messageInput"
+              placeholder="{% trans 'Mesajınızı yazın...' %}"
+              rows="1"
+            ></textarea>
+            <button class="send-btn" onclick="sendMessage()">
+              <span class="material-symbols-outlined">send</span>
+              {% trans "Gönder" %}
+            </button>
           </div>
         </div>
-        <div class="chat-input-container" id="chatInputContainer" style="display: none;">
-          <textarea
-            id="messageInput"
-            placeholder="{% trans 'Mesajınızı yazın...' %}"
-            rows="1"
-          ></textarea>
-          <button class="send-btn" onclick="sendMessage()">
-            <span class="material-symbols-outlined">send</span>
-            {% trans "Gönder" %}
-          </button>
-        </div>
+
+        <!-- Sağ bilgi paneli: seçilen kullanıcının bugünkü ruh hali ve hayat hikayesi -->
+        <aside id="userInsightsPanel" style="width:360px;min-width:360px;background:rgba(255,255,255,0.96);border-radius:18px;box-shadow:0 4px 18px rgba(15,23,42,.15);padding:14px 14px 18px 14px;display:flex;flex-direction:column;gap:10px;">
+          <div style="padding:10px 10px 6px 10px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px;">
+            <span class="material-symbols-outlined">info</span>
+            <span>{% trans "Kullanıcı Bilgileri" %}</span>
+          </div>
+          <div id="insightsEmpty" style="padding:10px 6px 4px 6px;font-size:0.9rem;color:#64748b;">
+            {% trans "Bir kullanıcı seçtiğinizde bugünkü ruh hali ve hayat hikayesi burada görünecek." %}
+          </div>
+          <div id="insightsContent" style="display:none;flex-direction:column;gap:10px;">
+            <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:10px 10px 12px 10px;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:700;color:#8b5cf6;">
+                <span class="material-symbols-outlined" style="font-size:1.2rem;">mood</span>
+                <span>{% trans "Bugünkü ruh hali" %}</span>
+              </div>
+              <div id="insightTodayMood" style="font-size:0.95rem;color:#0f172a;"></div>
+              <div id="insightTodayNote" style="font-size:0.9rem;color:#64748b;margin-top:4px;"></div>
+            </div>
+            <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:10px 10px 12px 10px;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:700;color:#8b5cf6;">
+                <span class="material-symbols-outlined" style="font-size:1.2rem;">history</span>
+                <span>{% trans "Son günler" %}</span>
+              </div>
+              <ul id="insightRecentMoods" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:0.9rem;"></ul>
+            </div>
+            <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:10px 10px 12px 10px;">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:700;color:#8b5cf6;">
+                <span class="material-symbols-outlined" style="font-size:1.2rem;">description</span>
+                <span>{% trans "Hayat Hikayem" %}</span>
+              </div>
+              <div id="insightLifeStory" style="white-space:pre-wrap;font-size:0.9rem;color:#0f172a;max-height:220px;overflow:auto;"></div>
+            </div>
+          </div>
+        </aside>
       </div>
     </main>
 
@@ -1108,9 +1150,95 @@
         lastMessageId = 0;  // Reset lastMessageId when opening new chat
         loadedMessageIds.clear();  // Reset loaded message IDs
         loadMessages(userId, true);
+        loadUserInsights(userId);
         
         // Polling'i başlat
         startMessagePolling(userId);
+      }
+
+      function loadUserInsights(userId) {
+        const emptyEl = document.getElementById('insightsEmpty');
+        const contentEl = document.getElementById('insightsContent');
+        const todayMoodEl = document.getElementById('insightTodayMood');
+        const todayNoteEl = document.getElementById('insightTodayNote');
+        const recentListEl = document.getElementById('insightRecentMoods');
+        const lifeStoryEl = document.getElementById('insightLifeStory');
+
+        if (!emptyEl || !contentEl) return;
+
+        emptyEl.style.display = 'block';
+        contentEl.style.display = 'none';
+
+        fetch(`/api/psychologist/user-insights/?user_id=${userId}`, {
+          method: 'GET',
+          headers: { 'X-CSRFToken': csrfToken },
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (!data || !data.success) {
+            return;
+          }
+
+          emptyEl.style.display = 'none';
+          contentEl.style.display = 'flex';
+
+          // Bugünkü ruh hali
+          if (data.today_mood) {
+            if (todayMoodEl) {
+              todayMoodEl.textContent = data.today_mood.mood_label || '';
+            }
+            if (todayNoteEl) {
+              todayNoteEl.textContent = data.today_mood.note || '';
+              todayNoteEl.style.display = data.today_mood.note ? 'block' : 'none';
+            }
+          } else {
+            if (todayMoodEl) {
+              todayMoodEl.textContent = '{% trans "Bugün için ruh hali kaydı yok." %}';
+            }
+            if (todayNoteEl) {
+              todayNoteEl.style.display = 'none';
+            }
+          }
+
+          // Son günler
+          if (recentListEl) {
+            recentListEl.innerHTML = '';
+            if (data.recent_moods && data.recent_moods.length) {
+              data.recent_moods.forEach(m => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                  <div style="display:flex;justify-content:space-between;gap:6px;">
+                    <div>
+                      <div style="font-weight:600;">${m.mood_label || ''}</div>
+                      ${m.note ? `<div style="font-size:.85rem;color:#64748b;">${m.note}</div>` : ''}
+                    </div>
+                    <div style="font-size:.8rem;color:#64748b;white-space:nowrap;">
+                      ${m.date || ''}
+                    </div>
+                  </div>
+                `;
+                recentListEl.appendChild(li);
+              });
+            } else {
+              const li = document.createElement('li');
+              li.textContent = '{% trans "Henüz ruh hali geçmişi yok." %}';
+              recentListEl.appendChild(li);
+            }
+          }
+
+          // Hayat hikayesi
+          if (lifeStoryEl) {
+            const txt = data.life_story || '';
+            if (txt.trim()) {
+              lifeStoryEl.textContent = txt;
+            } else {
+              lifeStoryEl.textContent = '{% trans "Kullanıcı henüz hayat hikayesini paylaşmadı." %}';
+            }
+          }
+        })
+        .catch(() => {
+          // Hata durumunda sessiz kal, paneli boş bırak
+        });
       }
 
       function loadMessages(userId, isInitial = false) {
