@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .ai_wrapper import LLMClient 
 # YENİ: Gelişmiş AI servislerimizi ve yeni modellerimizi import ediyoruz
 from .ai_services import call_ai_model, get_updated_memory_json
-from .models import Article, Profile, DailyMood, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity
+from .models import Article, Profile, DailyMood, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity, PsychologistUserRelation
 from django.http import JsonResponse
 from django.utils import translation, timezone
 from django.conf import settings
@@ -225,20 +225,35 @@ def member_required(view_func):
 
 def psychologist_required(view_func):
     """Psikolog kontrolü yapan decorator - DB'den role kontrolü"""
+    from functools import wraps
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
+        # AJAX mi yoksa normal sayfa isteği mi?
+        is_ajax = (
+            request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+            or 'application/json' in request.headers.get('Accept', '')
+            or request.content_type == 'application/json'
+        )
+
         if not request.user.is_authenticated:
+            if is_ajax:
+                return JsonResponse({'success': False, 'error': 'Kimlik doğrulaması gerekli.'}, status=401, content_type='application/json')
             return redirect('psychologist-login')
-        
+
         # Profile'dan role kontrolü
         try:
             profile = Profile.objects.get(user=request.user)
             if profile.role != 'psychologist':
+                if is_ajax:
+                    return JsonResponse({'success': False, 'error': 'Bu işlem için psikolog yetkisi gerekli.'}, status=403, content_type='application/json')
                 messages.error(request, _("Bu sayfaya erişim için psikolog hesabı gereklidir."))
                 return redirect('psychologist-login')
         except Profile.DoesNotExist:
+            if is_ajax:
+                return JsonResponse({'success': False, 'error': 'Profil bulunamadı.'}, status=403, content_type='application/json')
             messages.error(request, _("Profil bulunamadı. Lütfen tekrar giriş yapın."))
             return redirect('psychologist-login')
-        
+
         return view_func(request, *args, **kwargs)
     return wrapper
 
@@ -736,13 +751,20 @@ def psychologist_dashboard(request):
     # Psikologun kendi ID'sini ve admin/superuser'ları filtrele
     member_users = [user for user in member_users if user.id != request.user.id and not user.is_staff and not user.is_superuser]
     
-    # Her kullanıcı için son mesaj zamanını hesapla
+    # Her kullanıcı için son mesaj zamanını ve kategoriyi hesapla
     users_with_last_message = []
     for user in member_users:
         last_message = PsychologistMessage.objects.filter(user=user).order_by('-created_at').first()
+        # Psikolog-kullanıcı ilişkisini al veya oluştur (category/notes için)
+        relation, _ = PsychologistUserRelation.objects.get_or_create(
+            psychologist=request.user,
+            user=user,
+            defaults={'category': 'normal'}
+        )
         users_with_last_message.append({
             'user': user,
-            'last_message_time': last_message.created_at if last_message else None
+            'last_message_time': last_message.created_at if last_message else None,
+            'category': relation.category,
         })
     
     # Son mesaj zamanına göre sırala (en yeni üstte)
@@ -1309,3 +1331,210 @@ def get_member_stats(request):
             "success": False,
             "error": str(e)
         }, status=500, content_type='application/json')
+
+
+# ==========================================================
+# === PSİKOLOG PANELİ YENİ API'LERİ ===
+# ==========================================================
+
+@psychologist_required
+@require_GET
+def get_private_notes(request):
+    """Psikologun seçili kullanıcıya ait özel notunu getir"""
+    user_id = request.GET.get('user_id')
+    if not user_id:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı ID gerekli.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        relation = PsychologistUserRelation.objects.filter(
+            psychologist=request.user, user=target_user
+        ).first()
+        notes = relation.private_notes if relation else ''
+        return JsonResponse({'success': True, 'notes': notes or ''}, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı bulunamadı.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@psychologist_required
+@require_POST
+def save_private_notes(request):
+    """Psikologun seçili kullanıcıya ait özel notunu kaydet"""
+    import traceback as tb
+    user_id = request.POST.get('user_id')
+    notes = request.POST.get('notes', '').strip()
+    if not user_id:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı ID gerekli.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        # Önce ilişkinin var olduğundan emin ol (yok ise oluştur)
+        PsychologistUserRelation.objects.get_or_create(
+            psychologist=request.user,
+            user=target_user,
+            defaults={'category': 'normal'}
+        )
+        # clear() ile aynı yaklaşımla güncelle — filter().update() doğrudan SQL UPDATE çalıştırır
+        PsychologistUserRelation.objects.filter(
+            psychologist=request.user,
+            user=target_user
+        ).update(private_notes=notes if notes else None)
+        return JsonResponse({'success': True, 'message': _('Not kaydedildi.')}, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı bulunamadı.')}, status=404, content_type='application/json')
+    except Exception as e:
+        error_detail = tb.format_exc()
+        return JsonResponse({'success': False, 'error': str(e), 'detail': error_detail[-500:]}, status=500, content_type='application/json')
+
+
+
+@psychologist_required
+@require_POST
+def clear_private_notes(request):
+    """Psikologun seçili kullanıcıya ait özel notunu temizle"""
+    user_id = request.POST.get('user_id')
+    if not user_id:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı ID gerekli.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        PsychologistUserRelation.objects.filter(
+            psychologist=request.user, user=target_user
+        ).update(private_notes=None)
+        return JsonResponse({'success': True, 'message': _('Not temizlendi.')}, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı bulunamadı.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@psychologist_required
+@require_POST
+def update_user_category(request):
+    """Kullanıcı kategorisini güncelle (acil / supheli / normal)"""
+    import traceback as tb
+    user_id = request.POST.get('user_id')
+    category = request.POST.get('category', '').strip()
+    valid_categories = {'acil', 'supheli', 'normal'}
+    if not user_id or category not in valid_categories:
+        return JsonResponse({'success': False, 'error': _('Geçersiz kullanıcı ID veya kategori.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        # Önce ilişkinin var olduğundan emin ol
+        PsychologistUserRelation.objects.get_or_create(
+            psychologist=request.user,
+            user=target_user,
+            defaults={'category': 'normal'}
+        )
+        # clear() ile aynı yaklaşım — filter().update() doğrudan SQL UPDATE
+        PsychologistUserRelation.objects.filter(
+            psychologist=request.user,
+            user=target_user
+        ).update(category=category)
+        return JsonResponse({'success': True, 'category': category, 'message': _('Kategori güncellendi.')}, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı bulunamadı.')}, status=404, content_type='application/json')
+    except Exception as e:
+        error_detail = tb.format_exc()
+        return JsonResponse({'success': False, 'error': str(e), 'detail': error_detail[-500:]}, status=500, content_type='application/json')
+
+
+@psychologist_required
+@require_GET
+def get_user_usage_stats(request):
+    """Seçili kullanıcının son 7 günlük giriş/kullanım verisi"""
+    user_id = request.GET.get('user_id')
+    if not user_id:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı ID gerekli.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        from datetime import date, timedelta
+        today = date.today()
+        # Son 7 gün için tarih listesi oluştur (6 gün önce → bugün)
+        days = [today - timedelta(days=i) for i in range(6, -1, -1)]
+        # LoginActivity'den gerçek giriş kayıtlarını al
+        login_set = set(
+            LoginActivity.objects.filter(
+                user=target_user,
+                login_date__gte=days[0]
+            ).values_list('login_date', flat=True)
+        )
+        chart_data = []
+        for d in days:
+            chart_data.append({
+                'date': d.isoformat(),
+                'label': d.strftime('%d/%m'),
+                'day_name': ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'][d.weekday()],
+                'logged_in': d in login_set,
+                'sessions': 1 if d in login_set else 0,
+            })
+        total_active = sum(1 for d in chart_data if d['logged_in'])
+        return JsonResponse({
+            'success': True,
+            'chart_data': chart_data,
+            'total_active_days': total_active,
+        }, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı bulunamadı.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@psychologist_required
+@require_POST
+def bulk_notify(request):
+    """
+    Kategori bazlı toplu bildirim gönder.
+    Psikologun seçtiği kategorilerdeki (acil/supheli/normal) kullanıcılara bildirim gönderir.
+    """
+    try:
+        text = (request.POST.get('text') or '').strip()
+        categories_raw = request.POST.getlist('categories[]')
+        if not categories_raw:
+            cat_str = request.POST.get('categories', '')
+            categories_raw = [c.strip() for c in cat_str.split(',') if c.strip()]
+
+        if not text:
+            return JsonResponse({'success': False, 'error': _('Bildirim metni boş olamaz.')}, status=400, content_type='application/json')
+        if not categories_raw:
+            return JsonResponse({'success': False, 'error': _('En az bir kategori seçmelisiniz.')}, status=400, content_type='application/json')
+
+        valid_categories = {'acil', 'supheli', 'normal'}
+        categories = [c for c in categories_raw if c in valid_categories]
+        if not categories:
+            return JsonResponse({'success': False, 'error': _('Geçersiz kategori seçimi.')}, status=400, content_type='application/json')
+
+        # Psikologun seçili kategorilerdeki kullanıcılarını bul
+        target_relations = PsychologistUserRelation.objects.filter(
+            psychologist=request.user,
+            category__in=categories
+        ).select_related('user')
+
+        target_users = [rel.user for rel in target_relations]
+
+        if not target_users:
+            cat_labels = {'acil': 'Acil', 'supheli': 'Şüpheli', 'normal': 'Normal'}
+            selected_labels = ', '.join([cat_labels.get(c, c) for c in categories])
+            return JsonResponse({
+                'success': False,
+                'error': _('Seçilen kategorilerde ({}) kayıtlı kullanıcı bulunamadı.').format(selected_labels)
+            }, status=404, content_type='application/json')
+
+        # Toplu bildirim oluştur
+        notifications = [
+            Notification(user=u, text=text)
+            for u in target_users
+        ]
+        Notification.objects.bulk_create(notifications)
+
+        cat_labels = {'acil': 'Acil', 'supheli': 'Şüpheli', 'normal': 'Normal'}
+        selected_labels = ', '.join([cat_labels.get(c, c) for c in categories])
+        return JsonResponse({
+            'success': True,
+            'sent_count': len(target_users),
+            'message': _('{} kategorisindeki {} kullanıcıya bildirim gönderildi.').format(
+                selected_labels, len(target_users)
+            )
+        }, content_type='application/json')
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')

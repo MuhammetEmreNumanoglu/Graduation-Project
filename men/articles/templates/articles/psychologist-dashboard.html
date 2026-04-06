@@ -731,6 +731,311 @@
           padding: 24px 16px;
         }
       }
+
+      /* ===== KATEGORİ BADGE STİLLERİ ===== */
+      .category-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        margin-top: 4px;
+        text-transform: uppercase;
+        cursor: pointer;
+        border: none;
+        transition: var(--transition-smooth);
+      }
+      .category-badge.acil   { background: #fee2e2; color: #dc2626; }
+      .category-badge.supheli { background: #fef9c3; color: #b45309; }
+      .category-badge.normal  { background: #dcfce7; color: #16a34a; }
+      .sidebar-user-card.active .category-badge.acil   { background: rgba(220,38,38,0.2); color: #fca5a5; }
+      .sidebar-user-card.active .category-badge.supheli { background: rgba(180,83,9,0.2);  color: #fcd34d; }
+      .sidebar-user-card.active .category-badge.normal  { background: rgba(22,163,74,0.2); color: #86efac; }
+      .category-dropdown {
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.14);
+        z-index: 200;
+        min-width: 130px;
+        overflow: hidden;
+        display: none;
+      }
+      .category-dropdown.open { display: block; }
+      .category-dropdown-item {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: background .15s;
+      }
+      .category-dropdown-item:hover { background: #f3eaff; }
+      .category-dropdown-item .dot {
+        width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+      }
+      .cat-dot-acil   { background: #dc2626; }
+      .cat-dot-supheli { background: #d97706; }
+      .cat-dot-normal  { background: #16a34a; }
+      body.dark-mode .category-dropdown {
+        background: #2d2d3a; border-color: #444; color: #e0e0e0;
+      }
+      body.dark-mode .category-dropdown-item:hover { background: #3a3a4a; }
+
+      /* ===== SOL NOT PANELİ ===== */
+      .notes-panel {
+        width: 240px;
+        min-width: 240px;
+        max-width: 240px;
+        background: rgba(255,255,255,0.97);
+        border-radius: 18px;
+        box-shadow: 0 4px 18px rgba(15,23,42,.12);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        overflow: hidden;
+        transition: var(--transition-smooth);
+        flex-shrink: 0;
+      }
+      .notes-panel-header {
+        padding: 12px 14px 10px 14px;
+        background: linear-gradient(135deg, #6c3eb4, #8ca6db);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex-shrink: 0;
+      }
+      .notes-panel-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+        overflow-y: auto;
+      }
+      .notes-panel textarea {
+        flex: 1;
+        width: 100%;
+        min-height: 180px;
+        resize: vertical;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px;
+        font-family: inherit;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        transition: border-color .2s;
+        box-sizing: border-box;
+        background: #f9fafb;
+        color: #0f172a;
+      }
+      .notes-panel textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        background: #fff;
+      }
+      .notes-panel-actions { display: flex; gap: 7px; flex-shrink: 0; }
+      .notes-save-btn {
+        flex: 1;
+        padding: 8px 0;
+        background: linear-gradient(135deg, #6c3eb4, #8ca6db);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+      }
+      .notes-save-btn:hover { opacity: .88; transform: translateY(-1px); }
+      .notes-clear-btn {
+        padding: 8px 12px;
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+      }
+      .notes-clear-btn:hover { background: #fee2e2; color: #dc2626; }
+      .notes-status {
+        font-size: 0.75rem;
+        text-align: center;
+        min-height: 14px;
+        font-weight: 500;
+      }
+      .notes-status.ok   { color: #16a34a; }
+      .notes-status.err  { color: #dc2626; }
+      .notes-empty-hint {
+        font-size: 0.82rem;
+        color: #94a3b8;
+        text-align: center;
+        padding: 10px 6px;
+      }
+      body.dark-mode .notes-panel {
+        background: #1e1e2e;
+        box-shadow: 0 4px 18px rgba(0,0,0,.3);
+      }
+      body.dark-mode .notes-panel textarea {
+        background: #2d2d3a;
+        color: #e0e0e0;
+        border-color: #444;
+      }
+      body.dark-mode .notes-panel textarea:focus {
+        background: #353545;
+        border-color: var(--primary-color);
+      }
+      body.dark-mode .notes-clear-btn { background: #2d2d3a; color: #94a3b8; }
+      body.dark-mode .notes-clear-btn:hover { background: #3f1e1e; color: #fca5a5; }
+      body.dark-mode .notes-empty-hint { color: #6b7280; }
+
+      /* ===== KULLANIM GRAFİĞİ (CSS BAR CHART) ===== */
+      .usage-chart-section {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        padding: 10px 10px 12px 10px;
+        margin-top: 2px;
+      }
+      .usage-chart-title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: #8b5cf6;
+        font-size: 0.88rem;
+      }
+      .usage-bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 5px;
+        height: 60px;
+      }
+      .usage-bar-wrap {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        cursor: default;
+        position: relative;
+      }
+      .usage-bar {
+        width: 100%;
+        border-radius: 4px 4px 0 0;
+        min-height: 4px;
+        transition: opacity .2s;
+      }
+      .usage-bar.active-day  { background: linear-gradient(180deg,#8b5cf6,#6c3eb4); }
+      .usage-bar.inactive-day { background: #e2e8f0; }
+      .usage-bar-label {
+        font-size: 0.65rem;
+        color: #94a3b8;
+        font-weight: 600;
+        text-align: center;
+      }
+      .usage-bar-wrap:hover .usage-bar { opacity: .75; }
+      .usage-bar-wrap:hover .usage-tooltip { display: block; }
+      .usage-tooltip {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 4px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1e1e2e;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        z-index: 50;
+        pointer-events: none;
+      }
+      .usage-summary {
+        font-size: 0.75rem;
+        color: #64748b;
+        text-align: center;
+        margin-top: 6px;
+      }
+      body.dark-mode .usage-chart-section {
+        background: #2d2d3a;
+        border-color: #444;
+      }
+      body.dark-mode .usage-bar.inactive-day { background: #444; }
+      body.dark-mode .usage-bar-label { color: #6b7280; }
+      body.dark-mode .usage-summary { color: #9ca3af; }
+
+      /* ===== BELL BUTONU ===== */
+      .bell-btn {
+        margin-left: auto;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(108,62,180,0.12);
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition-smooth);
+        flex-shrink: 0;
+      }
+      .bell-btn:hover { background: var(--primary-color); color: #fff; transform: scale(1.08); }
+      .bell-btn:focus { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+      body.dark-mode .bell-btn { background: rgba(139,92,246,0.2); color: #a78bfa; }
+      body.dark-mode .bell-btn:hover { background: var(--primary-color); color: #fff; }
+
+      /* ===== TOPLU BİLDİRİM MODAL ===== */
+      .bulk-category-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+      .bulk-cat-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 2px solid #e2e8f0;
+        cursor: pointer;
+        transition: border-color .2s, background .2s;
+        user-select: none;
+      }
+      .bulk-cat-option:hover { border-color: #8b5cf6; background: #f3eaff; }
+      .bulk-cat-option.selected-acil   { border-color: #dc2626; background: #fee2e2; }
+      .bulk-cat-option.selected-supheli { border-color: #d97706; background: #fef9c3; }
+      .bulk-cat-option.selected-normal  { border-color: #16a34a; background: #dcfce7; }
+      .bulk-cat-option input[type=checkbox] { accent-color: #8b5cf6; width: 16px; height: 16px; }
+      .bulk-cat-label { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 7px; }
+      .bulk-result-msg {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        display: none;
+        margin-top: 4px;
+      }
+      .bulk-result-msg.success { background: #dcfce7; color: #16a34a; display: block; }
+      .bulk-result-msg.error   { background: #fee2e2; color: #dc2626; display: block; }
+      body.dark-mode .bulk-cat-option { border-color: #444; background: #2d2d3a; }
+      body.dark-mode .bulk-cat-option:hover { border-color: #8b5cf6; background: #3a3050; }
     </style>
     <script>
       // Psikolog için role bazlı storage key'leri ile dark mode, font size ve language ayarları
@@ -749,10 +1054,10 @@
         } catch (e) {}
         if (themeMode === 'dark') {
           document.documentElement.classList.add('dark-mode');
-          document.body.classList.add('dark-mode');
+          if (document.body) document.body.classList.add('dark-mode');
         } else {
           document.documentElement.classList.remove('dark-mode');
-          document.body.classList.remove('dark-mode');
+          if (document.body) document.body.classList.remove('dark-mode');
         }
       }
       
@@ -878,6 +1183,10 @@
           <h3>{{ user.username.title }}</h3>
           <p title="{{ user.email }}">{{ user.email }}</p>
         </div>
+        <!-- Bell: Toplu bildirim butonu -->
+        <button class="bell-btn" id="bellBtn" onclick="openBulkNotifyModal()" title="Toplu bildirim gönder">
+          <span class="material-symbols-outlined" style="font-size:1.2rem;">notifications</span>
+        </button>
       </div>
       <div class="sidebar-menu">
         <div class="users-list" id="usersList">
@@ -886,6 +1195,7 @@
             class="sidebar-user-card"
             data-user-id="{{ user_data.user.id }}"
             data-user-name="{{ user_data.user.username }}"
+            data-category="{{ user_data.category }}"
           >
             <div class="user-card-info">
               <div class="user-name-wrapper">
@@ -897,6 +1207,31 @@
                 {% else %}
                   {% trans "Henüz mesaj yok" %}
                 {% endif %}
+              </div>
+              <!-- Kategori badge + dropdown -->
+              <div style="position:relative;display:inline-block;">
+                <button
+                  class="category-badge {{ user_data.category }}"
+                  id="catbadge-{{ user_data.user.id }}"
+                  onclick="event.stopPropagation(); toggleCategoryDropdown({{ user_data.user.id }})"
+                  title="Kategoriyi değiştir"
+                >
+                  <span class="material-symbols-outlined" style="font-size:.75rem;">
+                    {% if user_data.category == 'acil' %}warning{% elif user_data.category == 'supheli' %}help{% else %}check_circle{% endif %}
+                  </span>
+                  {% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Şüpheli{% else %}Normal{% endif %}
+                </button>
+                <div class="category-dropdown" id="catdrop-{{ user_data.user.id }}">
+                  <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'acil')">
+                    <span class="dot cat-dot-acil"></span> Acil
+                  </div>
+                  <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'supheli')">
+                    <span class="dot cat-dot-supheli"></span> Şüpheli
+                  </div>
+                  <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'normal')">
+                    <span class="dot cat-dot-normal"></span> Normal
+                  </div>
+                </div>
               </div>
             </div>
             <div class="user-card-actions">
@@ -929,9 +1264,34 @@
       </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content: 3 sütunlu layout -->
     <main class="main-content">
-      <div style="display:flex;gap:18px;align-items:stretch;width:100%;max-width:1320px;margin:0 auto;">
+      <div style="display:flex;gap:14px;align-items:stretch;width:100%;max-width:1420px;margin:0 auto;">
+
+        <!-- SOL: Kişiye Özel Notlar Paneli -->
+        <aside class="notes-panel" id="notesPanel" style="display:none;">
+          <div class="notes-panel-header">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">edit_note</span>
+            <span>Kişiye Özel Notlar</span>
+          </div>
+          <div class="notes-panel-body">
+            <div class="notes-empty-hint" id="notesEmptyHint">Bir kullanıcı seçince notlar yüklenir.</div>
+            <textarea
+              id="privateNoteTextarea"
+              placeholder="Bu kullanıcıya özel notunuzu buraya yazın..."
+              style="display:none;"
+            ></textarea>
+            <div class="notes-panel-actions" id="notesActions" style="display:none;">
+              <button class="notes-save-btn" onclick="savePrivateNote()">Kaydet</button>
+              <button class="notes-clear-btn" onclick="clearPrivateNote()" title="Notu temizle">
+                <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
+              </button>
+            </div>
+            <div class="notes-status" id="notesStatus"></div>
+          </div>
+        </aside>
+
+        <!-- ORTA: Chat Arayüzü -->
         <div class="chat-interface" id="chatInterface" style="flex:1 1 auto;min-width:0;">
           <div class="chat-header">
             <span class="material-symbols-outlined">chat</span>
@@ -957,9 +1317,9 @@
           </div>
         </div>
 
-        <!-- Sağ bilgi paneli: seçilen kullanıcının bugünkü ruh hali ve hayat hikayesi -->
-        <aside id="userInsightsPanel" style="width:360px;min-width:360px;background:rgba(255,255,255,0.96);border-radius:18px;box-shadow:0 4px 18px rgba(15,23,42,.15);padding:14px 14px 18px 14px;display:flex;flex-direction:column;gap:10px;">
-          <div style="padding:10px 10px 6px 10px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px;">
+        <!-- SAĞ: Kullanıcı Bilgileri Paneli -->
+        <aside id="userInsightsPanel" style="width:330px;min-width:330px;background:rgba(255,255,255,0.96);border-radius:18px;box-shadow:0 4px 18px rgba(15,23,42,.15);padding:14px 14px 18px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:80vh;">
+          <div style="padding:10px 10px 6px 10px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px;flex-shrink:0;">
             <span class="material-symbols-outlined">info</span>
             <span>{% trans "Kullanıcı Bilgileri" %}</span>
           </div>
@@ -987,7 +1347,18 @@
                 <span class="material-symbols-outlined" style="font-size:1.2rem;">description</span>
                 <span>{% trans "Hayat Hikayem" %}</span>
               </div>
-              <div id="insightLifeStory" style="white-space:pre-wrap;font-size:0.9rem;color:#0f172a;max-height:220px;overflow:auto;"></div>
+              <div id="insightLifeStory" style="white-space:pre-wrap;font-size:0.9rem;color:#0f172a;max-height:160px;overflow:auto;"></div>
+            </div>
+            <!-- Son 7 Gün Kullanım Grafiği -->
+            <div class="usage-chart-section" id="usageChartSection">
+              <div class="usage-chart-title">
+                <span class="material-symbols-outlined" style="font-size:1.1rem;">bar_chart</span>
+                <span>Son 7 Gün Kullanımı</span>
+              </div>
+              <div class="usage-bars" id="usageBars">
+                <!-- JS tarafından doldurulacak -->
+              </div>
+              <div class="usage-summary" id="usageSummary"></div>
             </div>
           </div>
         </aside>
@@ -1043,6 +1414,51 @@
             <button type="submit" class="btn btn-primary">{% trans "Gönder" %}</button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Toplu Bildirim Modalı -->
+    <div id="bulkNotifyModal" class="modal">
+      <div class="modal-content" style="max-width:480px;">
+        <div class="modal-header">Kimlere bildirim göndermek istiyorsunuz?</div>
+        <div class="modal-form">
+          <div class="bulk-category-group">
+            <label class="bulk-cat-option" id="bulkOptAcil" onclick="toggleBulkCat('acil', this)">
+              <input type="checkbox" id="bulkChkAcil" value="acil">
+              <span class="bulk-cat-label">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dc2626;"></span>
+                Acil
+              </span>
+            </label>
+            <label class="bulk-cat-option" id="bulkOptSupheli" onclick="toggleBulkCat('supheli', this)">
+              <input type="checkbox" id="bulkChkSupheli" value="supheli">
+              <span class="bulk-cat-label">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#d97706;"></span>
+                Şüpheli
+              </span>
+            </label>
+            <label class="bulk-cat-option" id="bulkOptNormal" onclick="toggleBulkCat('normal', this)">
+              <input type="checkbox" id="bulkChkNormal" value="normal">
+              <span class="bulk-cat-label">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16a34a;"></span>
+                Normal
+              </span>
+            </label>
+          </div>
+          <textarea
+            id="bulkNotifyText"
+            placeholder="Göndermek istediğiniz bildirimi yazın..."
+            rows="4"
+            style="width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.9rem;resize:vertical;box-sizing:border-box;"
+          ></textarea>
+          <div class="bulk-result-msg" id="bulkResultMsg"></div>
+          <div class="modal-buttons">
+            <button type="button" class="btn btn-secondary" onclick="closeBulkNotifyModal()">İptal</button>
+            <button type="button" class="btn btn-primary" id="bulkSendBtn" onclick="sendBulkNotify()">
+              <span id="bulkSendLabel">Gönder</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1147,10 +1563,16 @@
 
         // Mesajları okundu işaretle ve yükle
         markMessagesAsRead(userId);
-        lastMessageId = 0;  // Reset lastMessageId when opening new chat
-        loadedMessageIds.clear();  // Reset loaded message IDs
+        lastMessageId = 0;
+        loadedMessageIds.clear();
         loadMessages(userId, true);
         loadUserInsights(userId);
+        loadPrivateNotes(userId);
+        loadUsageStats(userId);
+
+        // Not panelini göster
+        const notesPanel = document.getElementById('notesPanel');
+        if (notesPanel) notesPanel.style.display = 'flex';
         
         // Polling'i başlat
         startMessagePolling(userId);
@@ -1560,6 +1982,273 @@
           }
         });
       });
+
+      // ===== KATEGORİ YÖNETİMİ =====
+
+      function toggleCategoryDropdown(userId) {
+        // Tüm açık dropdown'ları kapat
+        document.querySelectorAll('.category-dropdown.open').forEach(d => {
+          if (!d.id.endsWith('-' + userId)) d.classList.remove('open');
+        });
+        const drop = document.getElementById('catdrop-' + userId);
+        if (drop) drop.classList.toggle('open');
+      }
+
+      // Dışarı tıklanınca dropdown'ları kapat
+      document.addEventListener('click', function() {
+        document.querySelectorAll('.category-dropdown.open').forEach(d => d.classList.remove('open'));
+      });
+
+      function setCategory(userId, category) {
+        const formData = new FormData();
+        formData.append('user_id', userId);
+        formData.append('category', category);
+
+        fetch('/api/psychologist/user-category/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+          body: formData,
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            // Badge'i güncelle
+            const badge = document.getElementById('catbadge-' + userId);
+            if (badge) {
+              badge.className = 'category-badge ' + category;
+              const icons = { acil: 'warning', supheli: 'help', normal: 'check_circle' };
+              const labels = { acil: 'Acil', supheli: 'Şüpheli', normal: 'Normal' };
+              badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:.75rem;">${icons[category]}</span>${labels[category]}`;
+            }
+            // Dropdown'ı kapat
+            const drop = document.getElementById('catdrop-' + userId);
+            if (drop) drop.classList.remove('open');
+            // Kart data-category güncelle
+            const card = document.querySelector(`.sidebar-user-card[data-user-id="${userId}"]`);
+            if (card) card.setAttribute('data-category', category);
+          }
+        })
+        .catch(err => console.error('Kategori güncellenemedi:', err));
+      }
+
+      // ===== KİŞİYE ÖZEL NOTLAR =====
+
+      function loadPrivateNotes(userId) {
+        const textarea = document.getElementById('privateNoteTextarea');
+        const hint = document.getElementById('notesEmptyHint');
+        const actions = document.getElementById('notesActions');
+        const status = document.getElementById('notesStatus');
+        if (!textarea) return;
+
+        // Kullanıcı değişince hemen sıfırla — eski notun görünmesini önle
+        textarea.value = '';
+        textarea.style.display = 'block';
+        if (status) { status.textContent = ''; status.className = 'notes-status'; }
+        if (hint) hint.style.display = 'none';
+        if (actions) actions.style.display = 'flex';
+
+        fetch(`/api/psychologist/private-notes/?user_id=${userId}`, {
+          headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+        })
+        .then(r => r.json())
+        .then(data => {
+          // Hâlâ aynı kullanıcı açıksa güncelle (hızlı geçişlerde yarış koşulu önlemi)
+          if (data.success) {
+            textarea.value = data.notes || '';
+          }
+        })
+        .catch(() => {
+          // Hata durumunda textarea boş kalır — bu doğru davranış
+          textarea.value = '';
+        });
+      }
+
+
+      function savePrivateNote() {
+        if (!currentUserId) return;
+        const textarea = document.getElementById('privateNoteTextarea');
+        const status = document.getElementById('notesStatus');
+        if (!textarea) return;
+
+        const formData = new FormData();
+        formData.append('user_id', currentUserId);
+        formData.append('notes', textarea.value);
+
+        fetch('/api/psychologist/private-notes/save/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+          body: formData,
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (status) {
+            status.textContent = data.success ? '✓ Kaydedildi' : '✗ Hata oluştu';
+            status.className = 'notes-status ' + (data.success ? 'ok' : 'err');
+            setTimeout(() => { status.textContent = ''; status.className = 'notes-status'; }, 2500);
+          }
+        })
+        .catch(() => {
+          if (status) { status.textContent = '✗ Bağlantı hatası'; status.className = 'notes-status err'; }
+        });
+      }
+
+      function clearPrivateNote() {
+        if (!currentUserId) return;
+        if (!confirm('Bu kullanıcıya ait notu temizlemek istediğinize emin misiniz?')) return;
+        const textarea = document.getElementById('privateNoteTextarea');
+        const status = document.getElementById('notesStatus');
+
+        const formData = new FormData();
+        formData.append('user_id', currentUserId);
+
+        fetch('/api/psychologist/private-notes/clear/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+          body: formData,
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            if (textarea) textarea.value = '';
+            if (status) {
+              status.textContent = '✓ Not temizlendi';
+              status.className = 'notes-status ok';
+              setTimeout(() => { status.textContent = ''; status.className = 'notes-status'; }, 2000);
+            }
+          }
+        })
+        .catch(() => {
+          if (status) { status.textContent = '✗ Hata oluştu'; status.className = 'notes-status err'; }
+        });
+      }
+
+      // ===== KULLANIM GRAFİĞİ =====
+
+      function loadUsageStats(userId) {
+        const barsEl = document.getElementById('usageBars');
+        const summaryEl = document.getElementById('usageSummary');
+        if (!barsEl) return;
+
+        barsEl.innerHTML = '<div style="color:#94a3b8;font-size:0.75rem;text-align:center;width:100%;">Yükleniyor...</div>';
+
+        fetch(`/api/psychologist/usage-stats/?user_id=${userId}`, {
+          headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success || !data.chart_data) { barsEl.innerHTML = ''; return; }
+
+          barsEl.innerHTML = '';
+          const maxVal = 1; // binary: logged_in veya değil
+          data.chart_data.forEach(day => {
+            const barHeight = day.logged_in ? 52 : 8;
+            const wrap = document.createElement('div');
+            wrap.className = 'usage-bar-wrap';
+            wrap.innerHTML = `
+              <div class="usage-tooltip">${day.label} — ${day.logged_in ? 'Aktif' : 'Pasif'}</div>
+              <div class="usage-bar ${day.logged_in ? 'active-day' : 'inactive-day'}" style="height:${barHeight}px;"></div>
+              <div class="usage-bar-label">${day.day_name}</div>
+            `;
+            barsEl.appendChild(wrap);
+          });
+
+          if (summaryEl) {
+            summaryEl.textContent = `Son 7 günde ${data.total_active_days} gün aktif`;
+          }
+        })
+        .catch(() => { if (barsEl) barsEl.innerHTML = ''; });
+      }
+
+      // ===== TOPLU BİLDİRİM MODAL =====
+
+      function openBulkNotifyModal() {
+        const modal = document.getElementById('bulkNotifyModal');
+        if (modal) modal.classList.add('active');
+        // Sıfırla
+        ['bulkChkAcil','bulkChkSupheli','bulkChkNormal'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.checked = false;
+        });
+        ['bulkOptAcil','bulkOptSupheli','bulkOptNormal'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.className = 'bulk-cat-option';
+        });
+        const txt = document.getElementById('bulkNotifyText');
+        if (txt) txt.value = '';
+        const msg = document.getElementById('bulkResultMsg');
+        if (msg) { msg.textContent = ''; msg.className = 'bulk-result-msg'; }
+      }
+
+      function closeBulkNotifyModal() {
+        const modal = document.getElementById('bulkNotifyModal');
+        if (modal) modal.classList.remove('active');
+      }
+
+      function toggleBulkCat(cat, labelEl) {
+        const chk = labelEl.querySelector('input[type=checkbox]');
+        if (!chk) return;
+        chk.checked = !chk.checked;
+        const clsMap = { acil: 'selected-acil', supheli: 'selected-supheli', normal: 'selected-normal' };
+        if (chk.checked) {
+          labelEl.classList.add(clsMap[cat]);
+        } else {
+          labelEl.classList.remove(clsMap[cat]);
+        }
+      }
+
+      function sendBulkNotify() {
+        const text = (document.getElementById('bulkNotifyText') || {}).value || '';
+        const categories = [];
+        if (document.getElementById('bulkChkAcil') && document.getElementById('bulkChkAcil').checked) categories.push('acil');
+        if (document.getElementById('bulkChkSupheli') && document.getElementById('bulkChkSupheli').checked) categories.push('supheli');
+        if (document.getElementById('bulkChkNormal') && document.getElementById('bulkChkNormal').checked) categories.push('normal');
+
+        const msgEl = document.getElementById('bulkResultMsg');
+        const sendBtn = document.getElementById('bulkSendBtn');
+        const sendLabel = document.getElementById('bulkSendLabel');
+
+        if (!text.trim()) {
+          if (msgEl) { msgEl.textContent = 'Lütfen bir bildirim metni yazın.'; msgEl.className = 'bulk-result-msg error'; }
+          return;
+        }
+        if (categories.length === 0) {
+          if (msgEl) { msgEl.textContent = 'Lütfen en az bir kategori seçin.'; msgEl.className = 'bulk-result-msg error'; }
+          return;
+        }
+
+        // Loading state
+        if (sendBtn) sendBtn.disabled = true;
+        if (sendLabel) sendLabel.textContent = 'Gönderiliyor...';
+        if (msgEl) { msgEl.textContent = ''; msgEl.className = 'bulk-result-msg'; }
+
+        const formData = new FormData();
+        formData.append('text', text.trim());
+        categories.forEach(c => formData.append('categories[]', c));
+
+        fetch('/api/psychologist/bulk-notify/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken, 'X-Requested-With': 'XMLHttpRequest' },
+          body: formData,
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (sendBtn) sendBtn.disabled = false;
+          if (sendLabel) sendLabel.textContent = 'Gönder';
+          if (msgEl) {
+            msgEl.textContent = data.message || (data.error || 'Bir hata oluştu.');
+            msgEl.className = 'bulk-result-msg ' + (data.success ? 'success' : 'error');
+          }
+          if (data.success) {
+            setTimeout(() => closeBulkNotifyModal(), 2500);
+          }
+        })
+        .catch(() => {
+          if (sendBtn) sendBtn.disabled = false;
+          if (sendLabel) sendLabel.textContent = 'Gönder';
+          if (msgEl) { msgEl.textContent = 'Bağlantı hatası oluştu.'; msgEl.className = 'bulk-result-msg error'; }
+        });
+      }
+
     </script>
   </body>
 </html>

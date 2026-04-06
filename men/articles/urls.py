@@ -56,7 +56,18 @@ urlpatterns = [
     path('api/member/stats/', views.get_member_stats, name='get-member-stats'),
     # Psikolog - üye içgörüleri (ruh hali + hayat hikayesi)
     path('api/psychologist/user-insights/', views.get_user_insights, name='get-user-insights'),
+    # Psikolog - kişiye özel notlar
+    path('api/psychologist/private-notes/', views.get_private_notes, name='get-private-notes'),
+    path('api/psychologist/private-notes/save/', views.save_private_notes, name='save-private-notes'),
+    path('api/psychologist/private-notes/clear/', views.clear_private_notes, name='clear-private-notes'),
+    # Psikolog - kullanıcı kategori yönetimi
+    path('api/psychologist/user-category/', views.update_user_category, name='update-user-category'),
+    # Psikolog - son 7 gün kullanım grafiği
+    path('api/psychologist/usage-stats/', views.get_user_usage_stats, name='get-user-usage-stats'),
+    # Psikolog - toplu bildirim gönder
+    path('api/psychologist/bulk-notify/', views.bulk_notify, name='bulk-notify'),
     # Üye - günlük ruh hali
     path('api/member/mood/today/', views.get_today_mood, name='get-today-mood'),
     path('api/member/mood/', views.submit_today_mood, name='submit-today-mood'),
 ]
+

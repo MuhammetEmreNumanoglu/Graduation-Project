@@ -175,3 +175,55 @@ class LoginActivity(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.login_date}"
+
+
+# ==========================================================
+# === PSİKOLOG-KULLANICI İLİŞKİ MODELİ ===
+# ==========================================================
+
+class PsychologistUserRelation(models.Model):
+    """
+    Psikolog ile kullanıcı arasındaki ilişki modeli.
+    category ve private_notes burada tutulur — psikolog bazlı ayrıştırma için.
+    Aynı kullanıcı farklı psikologlarda farklı kategoriye ve nota sahip olabilir.
+    """
+    CATEGORY_CHOICES = [
+        ('acil', 'Acil'),
+        ('supheli', 'Şüpheli'),
+        ('normal', 'Normal'),
+    ]
+
+    psychologist = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='managed_users',
+        verbose_name='Psikolog'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='psychologist_relations',
+        verbose_name='Kullanıcı'
+    )
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='normal',
+        verbose_name='Kategori'
+    )
+    private_notes = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name='Kişiye Özel Notlar'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('psychologist', 'user')
+        ordering = ['-updated_at']
+        verbose_name = 'Psikolog-Kullanıcı İlişkisi'
+        verbose_name_plural = 'Psikolog-Kullanıcı İlişkileri'
+
+    def __str__(self):
+        return f"{self.psychologist.username} → {self.user.username} [{self.category}]"
