@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <script src="{% static 'js/app.js' %}"></script>
     <title>{% trans "Hesap Oluştur" %}</title>
     <script>
       window.language_code = "{{ LANGUAGE_CODE }}";
@@ -495,18 +496,16 @@
         function setHint(hintEl, ok, okText, errText, inputEl) {
           if (!hintEl) return;
           
-          // Debug için console'a yazdır
-          console.log('setHint called:', { ok, okText, errText, currentLang });
-          
-          // Mesajı göster
+          // Mesajı göster ve CSS'i sıfırla
           hintEl.style.display = 'block';
+          hintEl.style.visibility = 'visible';
+          hintEl.style.opacity = '1';
           
           if (ok === null) {
             // Loading durumu
-            hintEl.textContent = errText; // Loading mesajı errText'te geliyor
+            hintEl.textContent = errText; 
             hintEl.className = 'availability-hint';
             hintEl.style.color = '#6c757d';
-            console.log('Loading state, className:', hintEl.className);
             return;
           }
           
@@ -514,18 +513,18 @@
           if (ok) {
             hintEl.textContent = okText;
             hintEl.className = 'availability-hint success';
-            hintEl.style.color = '';
-            console.log('Success state, className:', hintEl.className);
+            hintEl.style.setProperty('color', '#198754', 'important');
             if (inputEl) {
               inputEl.classList.remove('error');
+              inputEl.style.borderColor = '#198754';
             }
           } else {
             hintEl.textContent = errText;
             hintEl.className = 'availability-hint error';
-            hintEl.style.color = '';
-            console.log('Error state, className:', hintEl.className);
+            hintEl.style.setProperty('color', '#dc3545', 'important');
             if (inputEl) {
               inputEl.classList.add('error');
+              inputEl.style.borderColor = '#dc3545';
             }
           }
         }
@@ -552,76 +551,73 @@
         
         // Username ve email input'larının altına gerçek zamanlı kontrol ekle
         if (usernameInput) {
+          console.log('Attaching input listener to username field');
           usernameInput.addEventListener('input', () => {
             clearTimeout(usernameTimer);
             usernameTimer = setTimeout(async () => {
               const value = usernameInput.value.trim();
-              
               if (value.length > 0) {
-                // Loading göster
                 setHint(usernameHint, null, currentMessages.checking, currentMessages.checking, usernameInput);
-                usernameHint.className = 'availability-hint';
-                usernameHint.style.color = '#6c757d';
-                
                 const ok = await checkAvailability('username', value);
-                
-                setHint(
-                  usernameHint,
-                  ok,
-                  currentMessages.usernameAvailable,
-                  currentMessages.usernameTaken,
-                  usernameInput
-                );
+                setHint(usernameHint, ok, currentMessages.usernameAvailable, currentMessages.usernameTaken, usernameInput);
               } else {
-                // Boş ise mesajı temizle
                 if (usernameHint) {
                   usernameHint.textContent = '';
-                  usernameHint.className = 'availability-hint';
                   usernameHint.style.display = 'none';
                 }
                 usernameInput.classList.remove('error');
               }
-            }, 300);  // Debounce 300ms
+            }, 200); // 200ms debounce for faster response
           });
         }
         
         if (emailInput) {
+          console.log('Attaching input listener to email field');
           emailInput.addEventListener('input', () => {
             clearTimeout(emailTimer);
             emailTimer = setTimeout(async () => {
               const value = emailInput.value.trim();
-              console.log('Email input event triggered, value:', value);
-              console.log('Current messages:', currentMessages);
-              
               if (value.length > 0) {
-                // Loading göster
-                console.log('Showing loading message:', currentMessages.checking);
                 setHint(emailHint, null, currentMessages.checking, currentMessages.checking, emailInput);
-                emailHint.className = 'availability-hint';
-                emailHint.style.color = '#6c757d';
-                
                 const ok = await checkAvailability('email', value);
-                console.log('Availability check result:', ok);
-                console.log('Success message:', currentMessages.emailAvailable);
-                console.log('Error message:', currentMessages.emailTaken);
-                
-                setHint(
-                  emailHint,
-                  ok,
-                  currentMessages.emailAvailable,
-                  currentMessages.emailTaken,
-                  emailInput
-                );
+                setHint(emailHint, ok, currentMessages.emailAvailable, currentMessages.emailTaken, emailInput);
               } else {
-                // Boş ise mesajı temizle
                 if (emailHint) {
                   emailHint.textContent = '';
-                  emailHint.className = 'availability-hint';
                   emailHint.style.display = 'none';
                 }
                 emailInput.classList.remove('error');
               }
-            }, 300);  // Debounce 300ms'e düşürüldü
+            }, 200); // 200ms debounce for faster response
+          });
+        }
+
+        // Password strength and matching validation
+        const pass1 = form.querySelector('input[name="password1"]');
+        const pass2 = form.querySelector('input[name="password2"]');
+        const passHint = ensureStatusEl(pass1);
+        const matchHint = ensureStatusEl(pass2);
+
+        if (pass1) {
+          pass1.addEventListener('input', () => {
+            const val = pass1.value;
+            if (val.length < 8) {
+              setHint(passHint, false, "", currentValidationMessages.password_too_short, pass1);
+            } else {
+              setHint(passHint, true, "{% trans 'Şifre uzunluğu uygun.' %}", "", pass1);
+              passHint.setAttribute('data-translate', 'Şifre uzunluğu uygun.');
+            }
+          });
+        }
+
+        if (pass2) {
+          pass2.addEventListener('input', () => {
+            if (pass1.value !== pass2.value) {
+              setHint(matchHint, false, "", currentValidationMessages.password_mismatch, pass2);
+            } else {
+              setHint(matchHint, true, "{% trans 'Şifreler eşleşiyor.' %}", "", pass2);
+              matchHint.setAttribute('data-translate', 'Şifreler eşleşiyor.');
+            }
           });
         }
 

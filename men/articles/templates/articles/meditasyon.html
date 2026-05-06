@@ -1762,48 +1762,36 @@
       // Rewind 10 seconds - global olarak erişilebilir
       function rewind() {
         const audio = document.getElementById("audioElement");
-        if (!audio) return;
+        if (!audio || isNaN(audio.duration)) return;
         
-        // Audio hazır değilse bekle
-        if (audio.readyState < 1 || isNaN(audio.duration)) {
-          audio.addEventListener("loadedmetadata", () => rewind(), { once: true });
-          return;
-        }
+        const target = Math.max(0, audio.currentTime - 10);
         
-        const duration = audio.duration;
-        const current = audio.currentTime;
-        const target = Math.max(0, current - 10);
-        
-        audio.currentTime = target;
-        updateSeekBar(target, duration);
-        
-        const currentTimeDisplay = document.getElementById("currentTime");
-        if (currentTimeDisplay) {
-          currentTimeDisplay.textContent = formatTime(target);
+        // Seekable kontrolü
+        if (audio.readyState > 0) {
+            audio.currentTime = target;
+            updateSeekBar(target, audio.duration);
+            const currentTimeDisplay = document.getElementById("currentTime");
+            if (currentTimeDisplay) {
+                currentTimeDisplay.textContent = formatTime(target);
+            }
         }
       }
 
       // Forward 10 seconds - global olarak erişilebilir
       function forward() {
         const audio = document.getElementById("audioElement");
-        if (!audio) return;
+        if (!audio || isNaN(audio.duration)) return;
         
-        // Audio hazır değilse bekle
-        if (audio.readyState < 1 || isNaN(audio.duration)) {
-          audio.addEventListener("loadedmetadata", () => forward(), { once: true });
-          return;
-        }
+        const target = Math.min(audio.duration, audio.currentTime + 10);
         
-        const duration = audio.duration;
-        const current = audio.currentTime;
-        const target = Math.min(duration, current + 10);
-        
-        audio.currentTime = target;
-        updateSeekBar(target, duration);
-        
-        const currentTimeDisplay = document.getElementById("currentTime");
-        if (currentTimeDisplay) {
-          currentTimeDisplay.textContent = formatTime(target);
+        // Seekable kontrolü
+        if (audio.readyState > 0) {
+            audio.currentTime = target;
+            updateSeekBar(target, audio.duration);
+            const currentTimeDisplay = document.getElementById("currentTime");
+            if (currentTimeDisplay) {
+                currentTimeDisplay.textContent = formatTime(target);
+            }
         }
       }
       

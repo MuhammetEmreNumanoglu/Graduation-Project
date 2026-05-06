@@ -742,67 +742,8 @@
       <div class="daily-cards-container">
         <h1 class="page-title">{% trans "Günlük Kartlar" %}</h1>
         <p class="page-subtitle">{% trans "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar" %}</p>
-        <div class="cards-grid">
-          <!-- Card 1 -->
-          <div class="daily-card card-lavender" onclick="selectCard(this)">
-            <div class="card-content">
-              <span class="material-symbols-outlined card-icon">auto_awesome</span>
-              <h3 class="card-title">{% trans "Bugünün Sözü" %}</h3>
-              <p class="card-quote">{% trans "Her gün yeni bir başlangıçtır. Kendine inan ve güçlü kal." %}</p>
-              <p class="card-encouragement">{% trans "Bugün kendine güven" %}</p>
-            </div>
-            <span class="material-symbols-outlined overlay-icon">edit_note</span>
-          </div>
-          <!-- Card 2 -->
-          <div class="daily-card card-blue" onclick="selectCard(this)">
-            <div class="card-content">
-              <span class="material-symbols-outlined card-icon">favorite</span>
-              <h3 class="card-title">{% trans "Motivasyon" %}</h3>
-              <p class="card-quote">{% trans "Küçük adımlar büyük değişimlere yol açar. Her gün bir adım at." %}</p>
-              <p class="card-encouragement">{% trans "Adım adım ilerle" %}</p>
-            </div>
-            <span class="material-symbols-outlined overlay-icon">trending_up</span>
-          </div>
-          <!-- Card 3 -->
-          <div class="daily-card card-beige" onclick="selectCard(this)">
-            <div class="card-content">
-              <span class="material-symbols-outlined card-icon">psychology</span>
-              <h3 class="card-title">{% trans "Düşünce" %}</h3>
-              <p class="card-quote">{% trans "Olumlu düşünceler, olumlu sonuçlar doğurur. Bugün kendine iyi davran." %}</p>
-              <p class="card-encouragement">{% trans "Pozitif kal" %}</p>
-            </div>
-            <span class="material-symbols-outlined overlay-icon">lightbulb</span>
-          </div>
-          <!-- Card 4 -->
-          <div class="daily-card card-mint" onclick="selectCard(this)">
-            <div class="card-content">
-              <span class="material-symbols-outlined card-icon">self_improvement</span>
-              <h3 class="card-title">{% trans "Farkındalık" %}</h3>
-              <p class="card-quote">{% trans "Şu anı yaşa, geçmişi bırak, geleceği planla ama bugüne odaklan." %}</p>
-              <p class="card-encouragement">{% trans "Anı yaşa" %}</p>
-            </div>
-            <span class="material-symbols-outlined overlay-icon">visibility</span>
-          </div>
-          <!-- Card 5 -->
-          <div class="daily-card card-peach" onclick="selectCard(this)">
-            <div class="card-content">
-              <span class="material-symbols-outlined card-icon">healing</span>
-              <h3 class="card-title">{% trans "İyileşme" %}</h3>
-              <p class="card-quote">{% trans "Kendini sev ve kabul et. Mükemmel olmak zorunda değilsin, sadece kendin ol." %}</p>
-              <p class="card-encouragement">{% trans "Kendini sev" %}</p>
-            </div>
-            <span class="material-symbols-outlined overlay-icon">favorite</span>
-          </div>
-          <!-- Card 6 -->
-          <div class="daily-card card-lavender-light" onclick="selectCard(this)">
-            <div class="card-content">
-              <span class="material-symbols-outlined card-icon">star</span>
-              <h3 class="card-title">{% trans "Başarı" %}</h3>
-              <p class="card-quote">{% trans "Başarı yolculuğu, her gün atılan küçük adımlarla başlar. Bugün senin günün." %}</p>
-              <p class="card-encouragement">{% trans "Başarıya odaklan" %}</p>
-            </div>
-            <span class="material-symbols-outlined overlay-icon">emoji_events</span>
-          </div>
+        <div class="cards-grid" id="dailyCardsGrid">
+          <!-- Dinamik olarak doldurulacak -->
         </div>
       </div>
     </main>
@@ -894,12 +835,66 @@
       redirectIfSmallScreen();
       window.addEventListener("resize", redirectIfSmallScreen);
   
-      // (Varsa) Dil fonksiyonları başlat
+      // Günlük Kartları Oluşturma ve Random Seçme Logic
+      function renderDailyCards() {
+        const grid = document.getElementById('dailyCardsGrid');
+        if (!grid || typeof DAILY_CARDS_POOL === 'undefined') return;
+
+        const lang = localStorage.getItem('selectedLanguage') || 'tr';
+        
+        // Tarihe göre sabit random seçimi (Seed based shuffle)
+        const today = new Date();
+        const dateSeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+        
+        function seededRandom(seed) {
+          const x = Math.sin(seed) * 10000;
+          return x - Math.floor(x);
+        }
+
+        // Havuzu kopyala ve karıştır
+        let pool = [...DAILY_CARDS_POOL];
+        let shuffled = [];
+        let seed = dateSeed;
+        
+        while (pool.length > 0) {
+          const index = Math.floor(seededRandom(seed++) * pool.length);
+          shuffled.push(pool.splice(index, 1)[0]);
+        }
+
+        // İlk 6 kartı al
+        const selectedCards = shuffled.slice(0, 6);
+        
+        grid.innerHTML = '';
+        selectedCards.forEach((card, i) => {
+          const cardData = card[lang] || card.tr;
+          const cardHtml = `
+            <div class="daily-card ${card.color}" onclick="selectCard(this)" style="animation-delay: ${0.1 * (i+1)}s">
+              <div class="card-content">
+                <span class="material-symbols-outlined card-icon">${card.icon}</span>
+                <h3 class="card-title">${cardData.title}</h3>
+                <p class="card-quote">${cardData.quote}</p>
+                <p class="card-encouragement">${cardData.encour}</p>
+              </div>
+              <span class="material-symbols-outlined overlay-icon">flare</span>
+            </div>
+          `;
+          grid.innerHTML += cardHtml;
+        });
+
+        // Animation observer re-attach
+        document.querySelectorAll(".daily-card").forEach(card => cardObserver.observe(card));
+      }
+
+      // Dil fonksiyonları başlat
       document.addEventListener("DOMContentLoaded", function () {
+        renderDailyCards();
         if (typeof initializeLanguage === "function") {
           initializeLanguage();
         }
       });
+      
+      // Dil değiştiğinde kartları tekrar render et
+      window.addEventListener('languageChanged', renderDailyCards);
     </script>
   </body>
 </html>

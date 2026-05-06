@@ -59,9 +59,9 @@
                 if (currentPopup) {
                     currentPopup.classList.toggle('active');
                     if (currentPopup.classList.contains('active')) {
-                        // Popup açıldığında bildirimleri yükle ve okundu işaretle
+                        // Popup açıldığında bildirimleri yükle ve hepsini okundu işaretle
                         loadNotifications();
-                        markNotificationsRead();
+                        markAllAsRead(); // Sadece bildirimleri değil, mesajları da temizle ki badge geri gelmesin
                     }
                 }
             });
@@ -128,14 +128,19 @@
                         data.notifications.forEach(notif => {
                             const item = document.createElement('li');
                             item.className = 'notification-item';
-                            item.textContent = notif.text;
+                            item.innerHTML = `
+                                <div class="notification-text">${notif.text}</div>
+                                <button class="delete-notif-btn" onclick="NotificationsService.deleteNotification(${notif.id}, event)" title="Sil">
+                                    <span class="material-symbols-outlined">close</span>
+                                </button>
+                            `;
                             list.appendChild(item);
                         });
                     } else {
                         const item = document.createElement('li');
                         item.className = 'notification-item';
                         item.style.opacity = '0.6';
-                        item.textContent = 'Henüz bildirim yok';
+                        item.innerHTML = '<div class="notification-text">Henüz bildirim yok</div>';
                         list.appendChild(item);
                     }
                 }
@@ -146,7 +151,7 @@
     
     // Bildirimleri okundu işaretle
     function markNotificationsRead() {
-        fetch("/api/member/mark-notifications-read/", {
+        return fetch("/api/member/mark-notifications-read/", {
             method: "POST",
             headers: { "X-CSRFToken": csrfToken }
         })
@@ -155,8 +160,49 @@
             if (data.success) {
                 updateBadges();
             }
+            return data;
         })
-        .catch(error => console.error("Bildirimler okundu işaretlenemedi:", error));
+        .catch(error => {
+            console.error("Bildirimler okundu işaretlenemedi:", error);
+            throw error;
+        });
+    }
+
+    // Tümünü okundu işaretle (Bildirimler + Mesajlar)
+    function markAllAsRead() {
+        const p1 = markNotificationsRead();
+        const p2 = fetch("/api/member/mark-psychologist-messages-read/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken }
+        }).then(res => res.json());
+
+        Promise.all([p1, p2])
+            .then(() => {
+                updateBadges();
+            })
+            .catch(err => console.error("Hepsi okundu işaretlenirken hata:", err));
+    }
+
+    // Bildirim sil
+    function deleteNotification(notifId, event) {
+        if (event) event.stopPropagation();
+        
+        fetch("/api/member/delete-notification/", {
+            method: "POST",
+            headers: { 
+                "X-CSRFToken": csrfToken,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ notification_id: notifId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadNotifications();
+                updateBadges();
+            }
+        })
+        .catch(error => console.error("Bildirim silinemedi:", error));
     }
     
     // Public API
@@ -175,7 +221,9 @@
         },
         updateBadges: updateBadges,
         loadNotifications: loadNotifications,
-        markNotificationsRead: markNotificationsRead
+        markNotificationsRead: markNotificationsRead,
+        markAllAsRead: markAllAsRead,
+        deleteNotification: deleteNotification
     };
     
     // Sayfa yüklendiğinde otomatik başlat
@@ -187,4 +235,3 @@
         window.NotificationsService.init();
     }
 })();
-

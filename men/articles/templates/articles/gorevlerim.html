@@ -1,14 +1,45 @@
 {% load static %}
 {% load i18n %}
 <div class="sidebar-block sidebar-title">
-	<div class="sidebar-title-text">{% trans "Görevlerim" %}</div>
+	<div class="sidebar-title-text" data-translate="Görevlerim">{% trans "Görevlerim" %}</div>
 	<div class="sidebar-tasks" id="sidebarTasks">
 		{% for task in tasks %}
-		<div class="sidebar-task-item">{{ task.text }}</div>
+		  {% if not task.is_completed %}
+		  <div class="sidebar-task-item" data-task-id="{{ task.id }}" style="cursor:pointer;" onclick="window.location.href='{{ task.get_url }}';">
+			  <span style="font-size:1.1rem;margin-right:6px;">
+				  {% if task.text == 'breathing_exercise' %}🌬️
+				  {% elif task.text == 'meditation' %}🧘
+				  {% elif task.text == 'daily_cards' %}🃏
+				  {% elif task.text == 'support_wall' %}🤝
+				  {% else %}📝{% endif %}
+			  </span>
+			  <span class="task-text" style="flex:1;" data-translate="{{ task.get_task_type_display_name }}">{{ task.get_task_type_display_name }}</span>
+			  <span style="font-size:0.7rem;color:#8b5cf6;margin-left:4px;">→</span>
+		  </div>
+		  {% endif %}
 		{% empty %}
-		<div class="sidebar-task-item" style="opacity: 0.6;">{% trans "Henüz görev yok" %}</div>
+		  <div class="sidebar-task-item" style="opacity: 0.6;" data-translate="Henüz görev yok">{% trans "Henüz görev yok" %}</div>
+		{% endfor %}
+		
+		{% for task in tasks %}
+		  {% if task.is_completed %}
+		  {% if forloop.first %}
+		  <div style="border-top:1px solid #ede9fe;margin:8px 0 6px 0;font-size:0.7rem;color:#9ca3af;font-weight:600;" data-translate="Tamamlananlar">{% trans "Tamamlananlar" %}</div>
+		  {% endif %}
+		  <div class="sidebar-task-item" data-task-id="{{ task.id }}" style="opacity:0.55;">
+			  <span style="font-size:1.1rem;margin-right:6px;">
+				  {% if task.text == 'breathing_exercise' %}🌬️
+				  {% elif task.text == 'meditation' %}🧘
+				  {% elif task.text == 'daily_cards' %}🃏
+				  {% elif task.text == 'support_wall' %}🤝
+				  {% else %}📝{% endif %}
+			  </span>
+			  <span class="task-text" style="flex:1;text-decoration:line-through;" data-translate="{{ task.get_task_type_display_name }}">{{ task.get_task_type_display_name }}</span>
+			  <span class="task-completed" style="color:#16a34a;font-weight:700;">✓</span>
+		  </div>
+		  {% endif %}
 		{% endfor %}
 	</div>
 </div>
-<!-- Ortak Görev Servisi -->
-<script src="{% static 'js/tasks.js' %}"></script>
+<!-- Ortak Görev Servisi (Poller & auto-complete icin) -->
+<script src="{% static 'js/tasks.js' %}?v=3"></script>

@@ -1330,30 +1330,41 @@
     </main>
 
     <!-- Günlük Ruh Hali Modal -->
+    <style>
+      #moodModal { transition: background 0.3s, border-color 0.3s; }
+      body.dark-mode #moodModal { background: #1e1e26 !important; border-color: #333 !important; box-shadow: 0 18px 60px rgba(0,0,0,.4) !important; }
+      body.dark-mode #moodModal .mood-title { color: #a78bfa !important; }
+      body.dark-mode #moodModal .mood-desc { color: #94a3b8 !important; }
+      body.dark-mode #moodModal .mood-choice { background: #2d2d3a !important; border-color: #444 !important; color: #e2e8f0 !important; }
+      body.dark-mode #moodModal .mood-choice:hover { border-color: #8b5cf6 !important; }
+      body.dark-mode #moodModal label { color: #e2e8f0 !important; }
+      body.dark-mode #moodModal input { background: #2d2d3a !important; border-color: #444 !important; color: #fff !important; }
+      body.dark-mode #moodModal #moodSkip { background: #2d2d3a !important; border-color: #444 !important; color: #94a3b8 !important; }
+    </style>
     <div id="moodModalOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:3000;">
       <div id="moodModal" style="background:#fff;border-radius:18px;max-width:520px;width:92%;padding:22px 20px;box-shadow:0 18px 60px rgba(0,0,0,.18);border:1px solid rgba(139,92,246,.18);">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
-          <div style="font-weight:800;color:#8b5cf6;font-size:1.25rem;">{% trans "Bugün nasıl hissediyorsun?" %}</div>
+          <div class="mood-title" style="font-weight:800;color:#8b5cf6;font-size:1.25rem;" data-translate="Bugün nasıl hissediyorsun?">{% trans "Bugün nasıl hissediyorsun?" %}</div>
           <button type="button" id="moodModalClose" style="border:none;background:transparent;font-size:1.3rem;cursor:pointer;color:#64748b;">×</button>
         </div>
-        <div style="color:#64748b;line-height:1.5;margin-bottom:14px;">{% trans "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin." %}</div>
+        <div class="mood-desc" style="color:#64748b;line-height:1.5;margin-bottom:14px;" data-translate="Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin.">{% trans "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin." %}</div>
 
         <div id="moodChoices" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px;">
-          <button type="button" class="mood-choice" data-mood="very_good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Çok iyi" %}</button>
-          <button type="button" class="mood-choice" data-mood="good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "İyi" %}</button>
-          <button type="button" class="mood-choice" data-mood="neutral" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Nötr" %}</button>
-          <button type="button" class="mood-choice" data-mood="bad" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Kötü" %}</button>
-          <button type="button" class="mood-choice" data-mood="very_bad" style="grid-column:1/-1;padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;">{% trans "Çok kötü" %}</button>
+          <button type="button" class="mood-choice" data-mood="very_good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Very good">{% trans "Çok iyi" %}</button>
+          <button type="button" class="mood-choice" data-mood="good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Good">{% trans "İyi" %}</button>
+          <button type="button" class="mood-choice" data-mood="neutral" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Nötr">{% trans "Nötr" %}</button>
+          <button type="button" class="mood-choice" data-mood="bad" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Bad">{% trans "Kötü" %}</button>
+          <button type="button" class="mood-choice" data-mood="very_bad" style="grid-column:1/-1;padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Very bad">{% trans "Çok kötü" %}</button>
         </div>
 
         <div style="margin-bottom:12px;">
-          <label for="moodNote" style="display:block;font-weight:700;margin-bottom:6px;color:#1e293b;">{% trans "Kısa not (opsiyonel)" %}</label>
-          <input id="moodNote" type="text" maxlength="280" placeholder="{% trans 'Örn: Bugün biraz gergindim…' %}" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;outline:none;" />
+          <label for="moodNote" style="display:block;font-weight:700;margin-bottom:6px;color:#1e293b;" data-translate="Kısa not (opsiyonel)">{% trans "Kısa not (opsiyonel)" %}</label>
+          <input id="moodNote" type="text" maxlength="280" placeholder="{% trans 'Örn: Bugün biraz gergindim…' %}" data-translate="Örn: Bugün biraz gergindim…" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;outline:none;" />
         </div>
 
         <div style="display:flex;gap:10px;justify-content:flex-end;">
-          <button type="button" id="moodSkip" style="padding:10px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-weight:700;color:#64748b;">{% trans "Şimdi değil" %}</button>
-          <button type="button" id="moodSubmit" style="padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#8b5cf6,#a855f7);cursor:pointer;font-weight:800;color:#fff;" disabled>{% trans "Kaydet" %}</button>
+          <button type="button" id="moodSkip" style="padding:10px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-weight:700;color:#64748b;" data-translate="Şimdi değil">{% trans "Şimdi değil" %}</button>
+          <button type="button" id="moodSubmit" style="padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#8b5cf6,#a855f7);cursor:pointer;font-weight:800;color:#fff;" disabled data-translate="Kaydet">{% trans "Kaydet" %}</button>
         </div>
         <div id="moodError" style="display:none;margin-top:10px;color:#dc3545;font-weight:700;"></div>
       </div>

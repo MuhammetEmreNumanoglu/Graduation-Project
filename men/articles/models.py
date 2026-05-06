@@ -19,17 +19,10 @@ class Profile(models.Model):
         ('member', 'Member'),
         ('psychologist', 'Psychologist'),
     ]
-    
-    # Düzeltme: `default` değeri dosya yolunu string olarak almalıdır.
-    profile_pic = models.ImageField(null=True, blank=True,default='default-image.png',upload_to='media/')
-    
-    # Düzeltme: Bu alan ForeignKey değil, OneToOneField olmalı ki her kullanıcının tek bir profili olsun.
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
-    # Role alanı: 'member' veya 'psychologist'
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
 
-    # Kullanıcının uzun metin girebileceği alan (Ayarlar/Profil)
+    profile_pic = models.ImageField(null=True, blank=True, default='default-image.png', upload_to='media/')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
     life_story = models.TextField(null=True, blank=True)
 
 
@@ -60,18 +53,20 @@ class DailyMood(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.date}: {self.get_mood_display()}"
 
+
 class ChatHistory(models.Model):
     history_id = models.CharField(max_length=64, blank=False, null=False)
     title = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)
 
+
 class ChatHistoryContent(models.Model):
-    # Düzeltme: Bot rolü için 'assistant' daha standart bir isimlendirmedir.
-    role=models.CharField(choices=[('user', 'User'), ('assistant', 'Assistant')], max_length=10)
-    content=models.TextField()
-    chat_history=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.chathistory')
+    role = models.CharField(choices=[('user', 'User'), ('assistant', 'Assistant')], max_length=10)
+    content = models.TextField()
+    chat_history = models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='articles.chathistory')
     likes = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -93,8 +88,9 @@ class EmergencyContact(models.Model):
     def __str__(self):
         return f"{self.full_name} ({self.relation})"
 
+
 # ==========================================================
-# === YENİ EKLENEN GELİŞMİŞ AI HAFIZA MODELİ ===
+# === GELİŞMİŞ AI HAFIZA MODELİ ===
 # ==========================================================
 class UserAIAssistantProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='ai_profile')
@@ -111,8 +107,16 @@ class UserAIAssistantProfile(models.Model):
 # ==========================================================
 
 class Task(models.Model):
-    """Psikolog tarafından üyelere gönderilen görevler"""
+    """Psikolog tarafından üyelere gönderilen görevler (kart tabanlı)"""
+    TASK_TYPE_CHOICES = [
+        ('breathing_exercise', 'Nefes Egzersizi'),
+        ('meditation', 'Meditasyon'),
+        ('daily_cards', 'Günlük Kartlar'),
+        ('support_wall', 'Destek Duvarı'),
+    ]
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tasks')
+    # text alanı artık görev tipi anahtarını (ör. 'breathing_exercise') tutar
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_completed = models.BooleanField(default=False)
@@ -123,6 +127,21 @@ class Task(models.Model):
 
     def __str__(self):
         return f"Task for {self.user.username} - {self.text[:50]}"
+
+    def get_task_type_display_name(self):
+        """Görev tipi anahtarından Türkçe display ismini döner."""
+        display_map = dict(self.TASK_TYPE_CHOICES)
+        return display_map.get(self.text, self.text)
+        
+    def get_url(self):
+        """Görev tipine göre yönlendirilecek URL'yi döner."""
+        route_map = {
+            'breathing_exercise': '/nefes-egzersizi',
+            'meditation': '/meditasyon',
+            'daily_cards': '/gunluk-kartlar',
+            'support_wall': '/destek-duvari',
+        }
+        return route_map.get(self.text, '#')
 
 
 class Notification(models.Model):
@@ -146,7 +165,7 @@ class PsychologistMessage(models.Model):
         ('user', 'User'),
         ('psychologist', 'Psychologist'),
     ]
-    
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='psychologist_messages')
     sender = models.CharField(max_length=20, choices=SENDER_CHOICES)
     text = models.TextField()
@@ -164,15 +183,15 @@ class PsychologistMessage(models.Model):
 class LoginActivity(models.Model):
     """Kullanıcı giriş aktivitelerini takip eder - aktif günler için"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='login_activities')
-    login_date = models.DateField(auto_now_add=True)  # Sadece tarih, saat yok
-    
+    login_date = models.DateField(auto_now_add=True)
+
     class Meta:
-        unique_together = ('user', 'login_date')  # Aynı gün için tek kayıt
+        unique_together = ('user', 'login_date')
         ordering = ['-login_date']
         indexes = [
             models.Index(fields=['user', 'login_date']),
         ]
-    
+
     def __str__(self):
         return f"{self.user.username} - {self.login_date}"
 
@@ -184,12 +203,11 @@ class LoginActivity(models.Model):
 class PsychologistUserRelation(models.Model):
     """
     Psikolog ile kullanıcı arasındaki ilişki modeli.
-    category ve private_notes burada tutulur — psikolog bazlı ayrıştırma için.
-    Aynı kullanıcı farklı psikologlarda farklı kategoriye ve nota sahip olabilir.
+    category ve private_notes burada tutulur.
     """
     CATEGORY_CHOICES = [
         ('acil', 'Acil'),
-        ('supheli', 'Şüpheli'),
+        ('supheli', 'Takip'),   # "Şüpheli" → "Takip" olarak güncellendi
         ('normal', 'Normal'),
     ]
 
@@ -227,3 +245,109 @@ class PsychologistUserRelation(models.Model):
 
     def __str__(self):
         return f"{self.psychologist.username} → {self.user.username} [{self.category}]"
+
+
+# ==========================================================
+# === SEANS DEĞERLENDİRME MODELİ ===
+# ==========================================================
+
+class SessionRating(models.Model):
+    """Psikolog tarafından her kullanıcı için günlük seans değerlendirmesi (1-10)"""
+    psychologist = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='given_ratings',
+        verbose_name='Psikolog'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='received_ratings',
+        verbose_name='Kullanıcı'
+    )
+    rating = models.IntegerField(verbose_name='Değerlendirme (1-10)')
+    note = models.TextField(null=True, blank=True, verbose_name='Seans Notu')
+    session_date = models.DateField(verbose_name='Seans Tarihi')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('psychologist', 'user', 'session_date')
+        ordering = ['-session_date']
+        verbose_name = 'Seans Değerlendirmesi'
+        verbose_name_plural = 'Seans Değerlendirmeleri'
+
+    def __str__(self):
+        return f"{self.psychologist.username} → {self.user.username} [{self.session_date}]: {self.rating}/10"
+
+
+# ==========================================================
+# === FORUM (DESTEK DUVARI) MODELLERİ ===
+# ==========================================================
+
+class ForumPost(models.Model):
+    """Destek Duvarı / Forum gönderileri"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='forum_posts'
+    )
+    content = models.TextField(verbose_name='İçerik')
+    likes_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Forum Gönderisi'
+        verbose_name_plural = 'Forum Gönderileri'
+
+    def __str__(self):
+        return f"{self.user.username}: {self.content[:60]}"
+
+
+class ForumComment(models.Model):
+    """Forum gönderisine anonim yorumlar"""
+    post = models.ForeignKey(
+        ForumPost,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='forum_comments'
+    )
+    content = models.TextField(verbose_name='Yorum')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = 'Forum Yorumu'
+        verbose_name_plural = 'Forum Yorumları'
+
+    def __str__(self):
+        return f"Comment on post #{self.post.id}: {self.content[:40]}"
+
+
+class ForumLike(models.Model):
+    """Kullanıcı başına forum beğenisi — tekrarlı beğeni yok"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='forum_likes'
+    )
+    post = models.ForeignKey(
+        ForumPost,
+        on_delete=models.CASCADE,
+        related_name='post_likes'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+        verbose_name = 'Forum Beğenisi'
+        verbose_name_plural = 'Forum Beğenileri'
+
+    def __str__(self):
+        return f"{self.user.username} liked post #{self.post.id}"

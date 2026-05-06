@@ -1393,3 +1393,12 @@ body.font-size-extra-large .chat-form .form-control { font-size: 1.2rem; }
 
 
 
+
+/* Password Toggle Eye Icon */
+.password-toggle-wrapper { position: relative; display: flex; align-items: center; }
+.password-toggle-wrapper input { padding-right: 48px !important; width: 100%; }
+.password-toggle-btn { position: absolute; right: 12px; background: none; border: none; padding: 8px; cursor: pointer; color: var(--color-text-secondary); display: flex; align-items: center; justify-content: center; transition: color 0.2s, transform 0.2s; z-index: 5; user-select: none; }
+.password-toggle-btn:hover { color: var(--color-primary); transform: scale(1.1); }
+.password-toggle-btn .material-symbols-outlined { font-size: 20px; }
+body.dark-mode .password-toggle-btn { color: #b0b0b0; }
+body.dark-mode .password-toggle-btn:hover { color: var(--color-primary); }

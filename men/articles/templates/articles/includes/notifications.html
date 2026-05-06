@@ -9,15 +9,53 @@
 
 <!-- Bildirim Popup -->
 <div class="notification-popup" id="notificationPopup">
-  <div class="popup-title">{% trans "Bildirimler" %}</div>
-  <ul class="notification-list" id="notificationList">
+  <div class="popup-title" data-translate="Bildirimler">{% trans "Bildirimler" %}</div>
+  <ul class="notification-list" id="notificationList" style="max-height: 200px; overflow-y: auto;">
     {% for notification in notifications %}
     <li class="notification-item">{{ notification.text }}</li>
     {% empty %}
-    <li class="notification-item" style="opacity: 0.6;">{% trans "Henüz bildirim yok" %}</li>
+    <li class="notification-item" style="opacity: 0.6;" data-translate="Henüz bildirim yok">{% trans "Henüz bildirim yok" %}</li>
     {% endfor %}
   </ul>
+  <div class="popup-footer" style="padding: 10px; border-top: 1px solid #ece6fa; text-align: center;">
+    <button id="markAllReadBtn" style="background: none; border: none; color: #8b5cf6; cursor: pointer; font-weight: 600; font-size: 0.9rem;" data-translate="Bütün mesajlar okundu olarak işaretle">{% trans "Bütün bildirimleri okundu olarak işaretle" %}</button>
+  </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const footer = document.querySelector('.popup-footer');
+    const markBtn = document.getElementById('markAllReadBtn');
+    
+    function markAllAsRead() {
+      if (window.NotificationsService && typeof window.NotificationsService.markAllAsRead === 'function') {
+        window.NotificationsService.markAllAsRead();
+        
+        // UI updates
+        const list = document.getElementById('notificationList');
+        const currentLang = document.documentElement.lang || 'tr';
+        const emptyMsg = (currentLang === 'tr' || currentLang === 'tr-TR') ? 'Henüz bildirim yok' : 'No notifications yet';
+        if (list) list.innerHTML = `<li class="notification-item" style="opacity: 0.6;" data-translate="Henüz bildirim yok">${emptyMsg}</li>`;
+        
+        const badge = document.getElementById('unreadBadge');
+        if (badge) badge.style.display = 'none';
+      }
+    }
+
+    if (footer) {
+      footer.addEventListener('click', function(e) {
+        // Only trigger if clicked directly or via button
+        markAllAsRead();
+      });
+    }
+    
+    if (markBtn) {
+      markBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // Parent handler handles it
+      });
+    }
+  });
+</script>
 
 <!-- Ortak Bildirim Servisi -->
 <script src="{% static 'js/notifications.js' %}"></script>
@@ -112,6 +150,44 @@
     min-height: var(--notification-item-size);
     display: flex;
     align-items: center;
+    justify-content: space-between; /* İkonu sağa yaslamak için */
+    gap: 12px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  
+  .notification-item:hover {
+    background: #fbf9ff;
+  }
+  
+  .notification-text {
+    flex: 1;
+    line-height: 1.4;
+  }
+  
+  .delete-notif-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+  
+  .delete-notif-btn:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    transform: scale(1.1);
+  }
+  
+  .delete-notif-btn .material-symbols-outlined {
+    font-size: 18px;
   }
   
   .notification-item:last-child {

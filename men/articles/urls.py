@@ -35,7 +35,8 @@ urlpatterns = [
     path('responsive.html', views.responsive, name='responsive'),
     path('like/', views.like_story, name='like_story'),
     path('check-availability', views.check_availability, name='check-availability'),
-    # Psikolog sistemi URL'leri
+
+    # === PSIKOLOG SISTEMI ===
     path('psychologist-dashboard', views.psychologist_dashboard, name='psychologist-dashboard'),
     path('psychologist-chat/<int:user_id>', views.psychologist_chat, name='psychologist-chat'),
     path('api/send-task/', views.send_task, name='send-task'),
@@ -45,7 +46,7 @@ urlpatterns = [
     path('api/get-psychologist-messages/', views.get_psychologist_messages, name='get-psychologist-messages'),
     path('api/get-user-messages/', views.get_user_messages, name='get-user-messages'),
     path('api/get-user-tasks/', views.get_user_tasks, name='get-user-tasks'),
-    path('api/member/tasks/', views.get_user_tasks, name='get-member-tasks'),  # Alias for consistency
+    path('api/member/tasks/', views.get_user_tasks, name='get-member-tasks'),
     path('api/get-user-notifications/', views.get_user_notifications, name='get-user-notifications'),
     path('api/unread-counts/', views.get_unread_counts, name='get-unread-counts'),
     path('api/unread-message-count/', views.get_unread_message_count, name='get-unread-message-count'),
@@ -53,21 +54,37 @@ urlpatterns = [
     path('api/mark-psychologist-messages-read/', views.mark_psychologist_messages_read, name='mark-psychologist-messages-read'),
     path('api/member/badges/', views.get_member_badges, name='get-member-badges'),
     path('api/member/mark-notifications-read/', views.mark_notifications_read, name='mark-notifications-read'),
+    path('api/member/delete-notification/', views.delete_notification, name='delete-notification'),
     path('api/member/stats/', views.get_member_stats, name='get-member-stats'),
-    # Psikolog - üye içgörüleri (ruh hali + hayat hikayesi)
+
+    # Psikolog - kullanici icgoruleri
     path('api/psychologist/user-insights/', views.get_user_insights, name='get-user-insights'),
-    # Psikolog - kişiye özel notlar
+    # Psikolog - ozel notlar
     path('api/psychologist/private-notes/', views.get_private_notes, name='get-private-notes'),
     path('api/psychologist/private-notes/save/', views.save_private_notes, name='save-private-notes'),
     path('api/psychologist/private-notes/clear/', views.clear_private_notes, name='clear-private-notes'),
-    # Psikolog - kullanıcı kategori yönetimi
+    # Psikolog - kullanici kategori
     path('api/psychologist/user-category/', views.update_user_category, name='update-user-category'),
-    # Psikolog - son 7 gün kullanım grafiği
+    # Psikolog - kullanim grafigi
     path('api/psychologist/usage-stats/', views.get_user_usage_stats, name='get-user-usage-stats'),
-    # Psikolog - toplu bildirim gönder
+    # Psikolog - toplu bildirim
     path('api/psychologist/bulk-notify/', views.bulk_notify, name='bulk-notify'),
-    # Üye - günlük ruh hali
+    # Psikolog - seans degerlendirme (YENi)
+    path('api/psychologist/session-rating/', views.save_session_rating, name='save-session-rating'),
+    path('api/psychologist/session-ratings/', views.get_session_ratings, name='get-session-ratings'),
+    # Psikolog - atanan gorevler (YENi)
+    path('api/psychologist/user-tasks/', views.get_user_assigned_tasks, name='get-user-assigned-tasks'),
+
+    # === UYE ===
     path('api/member/mood/today/', views.get_today_mood, name='get-today-mood'),
     path('api/member/mood/', views.submit_today_mood, name='submit-today-mood'),
-]
+    # Uye - gorev tamamlama (YENi)
+    path('api/member/complete-task/', views.complete_task, name='complete-task'),
 
+    # === FORUM (DESTEK DUVARI) API (YENi) ===
+    path('api/forum/post/', views.create_forum_post, name='create-forum-post'),
+    path('api/forum/like/', views.like_forum_post, name='like-forum-post'),
+    path('api/forum/comment/', views.add_forum_comment, name='add-forum-comment'),
+    path('api/forum/comments/', views.get_forum_comments, name='get-forum-comments'),
+    path("api/psychologist/delete-message/", views.delete_psychologist_message, name="delete_psychologist_message"),
+]

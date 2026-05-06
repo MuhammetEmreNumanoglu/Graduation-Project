@@ -1016,105 +1016,216 @@
 
 {% include 'articles/includes/notifications.html' %}
 
+
+<!-- Forum CSS additions -->
+<style>
+  .forum-post-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 12px rgba(108,62,180,0.07);
+    border: 1px solid #f0eaff;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .forum-post-card:hover { box-shadow: 0 6px 24px rgba(108,62,180,0.12); transform: translateY(-2px); }
+  .forum-post-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
+  .forum-anon-badge { background:#f3eaff; color:#6c3eb4; border-radius:20px; padding:3px 12px; font-size:0.8rem; font-weight:600; }
+  .forum-post-date { color:#9ca3af; font-size:0.8rem; }
+  .forum-post-body { font-size:1rem; line-height:1.7; color:#2c3e50; margin-bottom:1rem; word-break:break-word; }
+  .forum-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .forum-like-btn {
+    background:#fff; border:1.5px solid #e2e8f0; border-radius:50px;
+    padding:5px 16px; font-size:0.88rem; font-weight:600; cursor:pointer;
+    display:flex; align-items:center; gap:6px; color:#6c3eb4;
+    transition:all 0.2s;
+  }
+  .forum-like-btn.liked { background:#ffe6ea; border-color:#e74c3c; color:#e74c3c; }
+  .forum-like-btn:hover { transform:translateY(-1px); box-shadow:0 2px 8px rgba(108,62,180,0.12); }
+  .forum-comment-toggle {
+    background:none; border:none; color:#8b5cf6; font-size:0.85rem; font-weight:600;
+    cursor:pointer; padding:5px 10px; border-radius:8px; transition:background 0.2s;
+  }
+  .forum-comment-toggle:hover { background:#f3eaff; }
+  .forum-comments-section { margin-top:1rem; border-top:1px solid #f0eaff; padding-top:0.8rem; display:none; }
+  .forum-comments-section.open { display:block; }
+  .forum-comment-item {
+    background:#f9f7ff; border-radius:10px; padding:8px 12px;
+    margin-bottom:6px; font-size:0.87rem; color:#374151;
+  }
+  .forum-comment-date { font-size:0.74rem; color:#9ca3af; margin-top:2px; }
+  .forum-comment-form { display:flex; gap:8px; margin-top:8px; }
+  .forum-comment-input {
+    flex:1; padding:8px 12px; border:1.5px solid #e2e8f0; border-radius:10px;
+    font-family:inherit; font-size:0.87rem; background:#fff;
+  }
+  .forum-comment-input:focus { outline:none; border-color:#8b5cf6; }
+  .forum-comment-send {
+    background:linear-gradient(135deg,#8b5cf6,#6c3eb4); color:#fff;
+    border:none; border-radius:10px; padding:8px 16px; font-weight:600;
+    font-size:0.85rem; cursor:pointer; transition:opacity 0.2s;
+  }
+  .forum-comment-send:hover { opacity:0.85; }
+  .no-posts-msg { text-align:center; padding:48px 0; color:#9ca3af; font-size:1.05rem; }
+  /* Dark mode */
+  body.dark-mode .forum-post-card { background:#2c2c2c; border-color:#444; color:#e0e0e0; }
+  body.dark-mode .forum-post-body { color:#d1d5db; }
+  body.dark-mode .forum-anon-badge { background:#3a2d5a; color:#c084fc; }
+  body.dark-mode .forum-like-btn { background:#2a2040; border-color:#3a2a5d; color:#c084fc; }
+  body.dark-mode .forum-like-btn.liked { background:#3d1f2a; border-color:#e74c3c; color:#ff6b81; }
+  body.dark-mode .forum-comment-item { background:#353545; color:#d1d5db; }
+  body.dark-mode .forum-comment-input { background:#353545; color:#e0e0e0; border-color:#555; }
+  body.dark-mode .forum-comments-section { border-top-color:#444; }
+</style>
+
 <main class="main-content">
   <div class="support-wall-container">
-    <h1 class="page-title">{% trans "Destek Duvarı" %}</h1>
-    <!-- Hikaye Paylaşma Formu -->
+    <h1 class="page-title" data-translate="Destek Duvarı">{% trans "Destek Duvarı" %}</h1>
+
+    <!-- Post form -->
     <div class="story-form-card">
-      <h2 class="form-title">{% trans "Hikayeni Paylaş" %}</h2>
-      <form id="storyForm" method="POST">
+      <h2 class="form-title" data-translate="Hikayeni Paylaş">{% trans "Hikayeni Paylaş" %}</h2>
+      <form id="forumPostForm">
         {% csrf_token %}
-        <textarea class="story-textarea" id="storyText" name="storyText" placeholder="{% trans 'Hikayeni buraya yazabilirsin...' %}" minlength="4" required></textarea>
-        <button type="submit" class="share-button mt-3">{% trans "Paylaş" %}</button>
+        <textarea class="story-textarea" id="forumPostContent"
+          placeholder="{% trans 'Hikayeni buraya yazabilirsin...' %}" minlength="4" required></textarea>
+        <div id="forumPostError" style="color:#dc2626;font-size:0.82rem;min-height:14px;margin:4px 0;"></div>
+        <button type="submit" class="share-button mt-3" data-translate="Paylaş">{% trans "Paylaş" %}</button>
       </form>
     </div>
-    <!-- Hikayeler Listesi -->
-    <div id="storiesList">
-      {% for msg in messages %}
-        <div class="story-card" style="position:relative;" data-id="{{ msg.id }}" data-likes="{{ msg.likes }}">
-          <div class="story-content">{{ msg.content }}</div>
-          <div class="story-footer" style="display:flex;justify-content:space-between;align-items:flex-end;">
-            <div class="story-timestamp" style="font-size:0.9em; color:#666; font-weight:400;align-self:flex-start;min-width:140px;">{{ msg.created_at|date:'d.m.Y H:i' }}</div>
-            <div class="like-button-container">
-              <button class="like-button{% if msg.id in liked_messages %} liked{% endif %}" data-id="{{ msg.id }}">
-                <span class="like-icon material-symbols-outlined">{% if msg.id in liked_messages %}favorite{% else %}favorite_border{% endif %}</span>
-                <span class="likes-count">{{ msg.likes }}</span>
-              </button>
-              <div class="floating-hearts"></div>
-            </div>
-          </div>
+
+    <!-- Posts list -->
+    <div id="forumPostsList">
+      {% for post in posts %}
+      <div class="forum-post-card" data-post-id="{{ post.id }}">
+        <div class="forum-post-meta">
+          <span class="forum-anon-badge">&#128100; {% trans "Anonim" %}</span>
+          <span class="forum-post-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
         </div>
+        <div class="forum-post-body">{{ post.content }}</div>
+        <div class="forum-actions">
+          <button class="forum-like-btn {% if post.id in liked_post_ids %}liked{% endif %}"
+            onclick="toggleForumLike(this, {{ post.id }})" id="like-btn-{{ post.id }}">
+            <span>{% if post.id in liked_post_ids %}❤️{% else %}🤍{% endif %}</span>
+            <span class="like-count" id="like-count-{{ post.id }}">{{ post.likes_count }}</span>
+          </button>
+          <button class="forum-comment-toggle" onclick="toggleComments({{ post.id }})">
+            💬 <span id="comment-count-{{ post.id }}">{{ post.comments.count }}</span> {% trans "Yorumlar" %}
+          </button>
+        </div>
+        <!-- Comments section -->
+        <div class="forum-comments-section" id="comments-{{ post.id }}">
+          <div class="forum-comments-list" id="comments-list-{{ post.id }}">
+            {% for c in post.comments.all %}
+            <div class="forum-comment-item">
+              <div>{{ c.content }}</div>
+              <div class="forum-comment-date">{% trans "Anonim" %} · {{ c.created_at|date:'d.m.Y H:i' }}</div>
+            </div>
+            {% empty %}
+            <div style="font-size:0.82rem;color:#9ca3af;padding:4px 0;">{% trans "Henüz yorum yok." %}</div>
+            {% endfor %}
+          </div>
+          <form class="forum-comment-form" onsubmit="submitComment(event, {{ post.id }})">
+            <input type="text" class="forum-comment-input" id="comment-input-{{ post.id }}"
+              placeholder="{% trans 'Yorum ekle...' %}" required />
+            <button type="submit" class="forum-comment-send">{% trans "Gönder" %}</button>
+          </form>
+        </div>
+      </div>
       {% empty %}
-        <div style="text-align:center; color:#aaa;">{% trans "Henüz hiç mesaj yok." %}</div>
+      <div class="no-posts-msg">
+        <div style="font-size:2.5rem;margin-bottom:12px;">🕊️</div>
+        <div data-translate="Henüz gönderi yok.">{% trans "Henüz gönderi yok." %}</div>
+        <div style="font-size:0.9rem;margin-top:6px;" data-translate="İlk paylaşan sen ol!">{% trans "İlk paylaşan sen ol!" %}</div>
+      </div>
       {% endfor %}
     </div>
-    <!-- Sayfalama -->
-    {% if messages.has_other_pages %}
-    <div class="pagination-container" style="margin-top:32px;display:flex;justify-content:center;align-items:center;gap:16px;">
-      {% if messages.has_previous %}
-        <a href="?page={{ messages.previous_page_number }}" class="pagination-button">&laquo; {% trans "Önceki" %}</a>
+
+    <!-- Pagination -->
+    {% if posts.has_other_pages %}
+    <div class="pagination-container" style="margin-top:32px;">
+      {% if posts.has_previous %}
+        <a href="?page={{ posts.previous_page_number }}" class="pagination-button">« {% trans "Önceki" %}</a>
       {% endif %}
-      <span style="font-size:1.1em; color:#888;">{% trans "Sayfa" %} {{ messages.number }} / {{ messages.paginator.num_pages }}</span>
-      {% if messages.has_next %}
-        <a href="?page={{ messages.next_page_number }}" class="pagination-button">{% trans "Sonraki" %} &raquo;</a>
+      <span class="page-info">{% trans "Sayfa" %} <span class="current-page">{{ posts.number }}</span> / {{ posts.paginator.num_pages }}</span>
+      {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}" class="pagination-button">{% trans "Sonraki" %} »</a>
       {% endif %}
     </div>
     {% endif %}
   </div>
 </main>
 
+
 <!-- JS dosyaları -->
 <script src="{% static 'js/responsive-sidebar.js' %}"></script>
 <script src="{% static 'js/font-size-manager.js' %}"></script>
 <script src="{% static 'js/lang.js' %}"></script>
+<script src="{% static 'js/tasks.js' %}"></script>
 
 <!-- Bildirim Popup: davranış ortak include içinde -->
 <!-- Like-Button (Sıralama yok!) -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".like-button").forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        const storyId = btn.getAttribute("data-id");
-        fetch("{% url 'like_story' %}", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-CSRFToken": "{{ csrf_token }}",
-          },
-          body: "story_id=" + storyId,
-        })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            if (data.liked) {
-              btn.classList.add("liked");
-              btn.querySelector(".like-icon").textContent = "favorite";
-            } else {
-              btn.classList.remove("liked");
-              btn.querySelector(".like-icon").textContent = "favorite_border";
-            }
-            btn.querySelector(".likes-count").textContent = data.likes;
-            // SIRALAMA YOK! Sadece like sayısı güncellenir
-          }
-        });
-      });
-    });
+  const CSRF = "{{ csrf_token }}";
 
-    // Sadece sayfa ilk yüklenince sıralama yap:
-    sortStoriesByLikes();
-    function sortStoriesByLikes() {
-      const list = document.getElementById("storiesList");
-      const items = Array.from(list.querySelectorAll(".story-card"));
-      items.sort((a, b) => {
-        const aLike = parseInt(a.getAttribute("data-likes") || "0", 10);
-        const bLike = parseInt(b.getAttribute("data-likes") || "0", 10);
-        if (bLike !== aLike) return bLike - aLike;
-        return parseInt(b.getAttribute("data-id")) - parseInt(a.getAttribute("data-id"));
-      });
-      items.forEach(item => list.appendChild(item));
-    }
+  // Create new post
+  document.getElementById('forumPostForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const content = document.getElementById('forumPostContent').value.trim();
+    const errEl = document.getElementById('forumPostError');
+    if (!content || content.length < 4) { if(errEl) errEl.textContent='En az 4 karakter girin.'; return; }
+    if(errEl) errEl.textContent='';
+    const fd = new FormData();
+    fd.append('content', content);
+    fetch('/api/forum/post/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r=>r.json()).then(data=>{ if(data.success) window.location.reload(); });
   });
+
+  // Toggle like
+  function toggleForumLike(btn, postId) {
+    const fd = new FormData(); fd.append('post_id', postId);
+    fetch('/api/forum/like/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r=>r.json()).then(data=>{
+      if(!data.success) return;
+      const countEl = document.getElementById('like-count-'+postId);
+      if(countEl) countEl.textContent = data.likes_count;
+      const icon = btn.querySelector('span:first-child');
+      if(data.liked) { btn.classList.add('liked'); if(icon) icon.textContent='❤️'; }
+      else { btn.classList.remove('liked'); if(icon) icon.textContent='🤍'; }
+    });
+  }
+
+  // Toggle comments panel
+  function toggleComments(postId) {
+    const section = document.getElementById('comments-'+postId);
+    if(!section) return;
+    section.classList.toggle('open');
+  }
+
+  // Submit comment
+  function submitComment(e, postId) {
+    e.preventDefault();
+    const inp = document.getElementById('comment-input-'+postId);
+    const content = inp ? inp.value.trim() : '';
+    if(!content) return;
+    const fd = new FormData();
+    fd.append('post_id', postId); fd.append('content', content);
+    fetch('/api/forum/comment/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
+    .then(r=>r.json()).then(data=>{
+      if(!data.success) return;
+      const listEl = document.getElementById('comments-list-'+postId);
+      if(listEl) {
+        const div = document.createElement('div');
+        div.className = 'forum-comment-item';
+        div.innerHTML = `<div>${data.comment.content}</div><div class="forum-comment-date">Anonim · ${data.comment.created_at}</div>`;
+        listEl.appendChild(div);
+      }
+      if(inp) inp.value = '';
+      // Update count
+      const countEl = document.getElementById('comment-count-'+postId);
+      if(countEl) countEl.textContent = parseInt(countEl.textContent||0) + 1;
+    });
+  }
 </script>
 <!-- Tema -->
 <script>

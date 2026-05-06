@@ -85,7 +85,42 @@ document.addEventListener('DOMContentLoaded', function() {
         window.setGlobalTheme = setGlobalTheme;
         window.getGlobalTheme = getGlobalTheme;
     })();
+
+    // Initialize Password Toggle
+    initPasswordToggle();
 });
+
+// Password Toggle Visibility Logic
+function initPasswordToggle() {
+    const passwordInputs = document.querySelectorAll('input[type="password"]');
+    
+    passwordInputs.forEach(input => {
+        // Skip if already wrapped
+        if (input.parentElement.classList.contains('password-toggle-wrapper')) return;
+
+        // Wrapper oluştur
+        const wrapper = document.createElement('div');
+        wrapper.className = 'password-toggle-wrapper';
+        input.parentNode.insertBefore(wrapper, input);
+        wrapper.appendChild(input);
+
+        // Toggle butonu oluştur
+        const toggleBtn = document.createElement('button');
+        toggleBtn.type = 'button';
+        toggleBtn.className = 'password-toggle-btn';
+        toggleBtn.setAttribute('aria-label', 'Şifreyi göster/gizle');
+        toggleBtn.innerHTML = '<span class="material-symbols-outlined">visibility</span>';
+
+        wrapper.appendChild(toggleBtn);
+
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isPassword = input.getAttribute('type') === 'password';
+            input.setAttribute('type', isPassword ? 'text' : 'password');
+            this.innerHTML = `<span class="material-symbols-outlined">${isPassword ? 'visibility_off' : 'visibility'}</span>`;
+        });
+    });
+}
 
 function applyGlobalFontSize(size) {
     // body kontrolü yap - null ise çalışma

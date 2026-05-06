@@ -176,7 +176,7 @@
       .user-info h3 {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #141111;
+        color: var(--text-primary);
         margin-bottom: 4px;
       }
 
@@ -245,17 +245,21 @@
       }
 
       .sidebar-user-card.active {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
-        color: white;
+        background: rgba(139, 92, 246, 0.25);
+        border-color: var(--primary-color);
+        color: var(--text-primary);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+      }
+
+      body.dark-mode .sidebar-user-card.active {
+        background: rgba(139, 92, 246, 0.2);
+        border-color: var(--primary-color);
+        color: #fff;
       }
 
       .sidebar-user-card.active .user-card-info .user-name,
       .sidebar-user-card.active .user-card-info .last-message-time {
-        color: #141111;
+        color: inherit;
       }
 
       .user-card-info {
@@ -324,12 +328,37 @@
       }
 
       .sidebar-user-card.active .action-icon {
-        background: rgba(255, 255, 255, 0.2);
-        color: #6c3eb4;
+        background: var(--primary-color);
+        color: white;
       }
 
       .sidebar-user-card.active .action-icon:hover {
-        background: rgba(255, 255, 255, 0.3);
+        background: var(--secondary-color);
+      }
+
+      /* Dark mode styles */
+      body.dark-mode .sidebar-user-card {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      body.dark-mode .sidebar-user-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      body.dark-mode .action-icon {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e0e0e0;
+      }
+
+      body.dark-mode .action-icon:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+      }
+
+      body.dark-mode .sidebar-user-card.active .action-icon {
+        background: var(--primary-color);
+        color: #fff;
       }
 
       .main-content {
@@ -749,10 +778,10 @@
         transition: var(--transition-smooth);
       }
       .category-badge.acil   { background: #fee2e2; color: #dc2626; }
-      .category-badge.supheli { background: #fef9c3; color: #b45309; }
+      .category-badge.supheli { background: #dbeafe; color: #1d4ed8; }
       .category-badge.normal  { background: #dcfce7; color: #16a34a; }
       .sidebar-user-card.active .category-badge.acil   { background: rgba(220,38,38,0.2); color: #fca5a5; }
-      .sidebar-user-card.active .category-badge.supheli { background: rgba(180,83,9,0.2);  color: #fcd34d; }
+      .sidebar-user-card.active .category-badge.supheli { background: rgba(29,78,216,0.25); color: #93c5fd; }
       .sidebar-user-card.active .category-badge.normal  { background: rgba(22,163,74,0.2); color: #86efac; }
       .category-dropdown {
         position: absolute;
@@ -783,7 +812,7 @@
         width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
       }
       .cat-dot-acil   { background: #dc2626; }
-      .cat-dot-supheli { background: #d97706; }
+      .cat-dot-supheli { background: #1d4ed8; }
       .cat-dot-normal  { background: #16a34a; }
       body.dark-mode .category-dropdown {
         background: #2d2d3a; border-color: #444; color: #e0e0e0;
@@ -792,9 +821,9 @@
 
       /* ===== SOL NOT PANELİ ===== */
       .notes-panel {
-        width: 240px;
-        min-width: 240px;
-        max-width: 240px;
+        width: 290px;
+        min-width: 290px;
+        max-width: 290px;
         background: rgba(255,255,255,0.97);
         border-radius: 18px;
         box-shadow: 0 4px 18px rgba(15,23,42,.12);
@@ -1036,7 +1065,191 @@
       .bulk-result-msg.error   { background: #fee2e2; color: #dc2626; display: block; }
       body.dark-mode .bulk-cat-option { border-color: #444; background: #2d2d3a; }
       body.dark-mode .bulk-cat-option:hover { border-color: #8b5cf6; background: #3a3050; }
+
+      /* ===== DARK MODE - METIN RENK DUZELTMELERI ===== */
+      body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
+      body.dark-mode .user-info p  { color: #b0b0b0 !important; }
+      body.dark-mode #insightTodayMood { color: #e0e0e0; }
+      body.dark-mode #insightLifeStory { color: #d1d5db; }
+      body.dark-mode #insightTodayNote { color: #9ca3af; }
+      body.dark-mode #insightsContent > div { background: #2d2d3a !important; border-color: #444 !important; }
+      body.dark-mode #insightsContent [style*='color:#0f172a'] { color: #e0e0e0 !important; }
+      body.dark-mode #insightsContent [style*='color:#64748b'] { color: #9ca3af !important; }
+      body.dark-mode #userInsightsPanel { background: rgba(30,30,46,0.97) !important; }
+      body.dark-mode .sidebar-nav a { color: #e0e0e0; }
+
+      /* ===== SEANS DEGERLENDIRME BOLUMU ===== */
+      .rating-chart-section {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        padding: 12px 12px 14px 12px;
+        margin-top: 10px;
+      }
+      .rating-chart-title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: #8b5cf6;
+        font-size: 0.88rem;
+      }
+      .rating-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .rating-slider-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .rating-slider-row label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #64748b;
+        white-space: nowrap;
+      }
+      .rating-slider-row input[type=range] {
+        flex: 1;
+        accent-color: #8b5cf6;
+      }
+      .rating-value-badge {
+        background: linear-gradient(135deg, #8b5cf6, #6c3eb4);
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.85rem;
+        border-radius: 8px;
+        padding: 2px 8px;
+        min-width: 28px;
+        text-align: center;
+      }
+      .rating-note-input {
+        width: 100%;
+        padding: 7px 10px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.82rem;
+        resize: none;
+        background: #f9fafb;
+        color: #0f172a;
+        transition: border-color .2s;
+        box-sizing: border-box;
+      }
+      .rating-note-input:focus { outline: none; border-color: #8b5cf6; background: #fff; }
+      .rating-save-btn {
+        width: 100%;
+        padding: 8px 0;
+        background: linear-gradient(135deg, #8b5cf6, #6c3eb4);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .rating-save-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+      .rating-status { font-size: 0.75rem; text-align: center; min-height: 14px; font-weight: 500; }
+      .rating-status.ok  { color: #16a34a; }
+      .rating-status.err { color: #dc2626; }
+      body.dark-mode .rating-chart-section { background: #2d2d3a; border-color: #444; }
+      body.dark-mode .rating-note-input { background: #353545; color: #e0e0e0; border-color: #555; }
+      body.dark-mode .rating-note-input:focus { background: #3d3d50; border-color: #8b5cf6; }
+      body.dark-mode .rating-slider-row label { color: #9ca3af; }
+
+      /* ===== ATANAN GOREVLER PANELI (SAG) ===== */
+      .assigned-tasks-section {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        padding: 12px 12px 14px 12px;
+        margin-top: 10px;
+      }
+      .assigned-tasks-title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: #8b5cf6;
+        font-size: 0.88rem;
+      }
+      .assigned-task-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: #f8f9ff;
+        border: 1px solid #ede9fe;
+        margin-bottom: 6px;
+        font-size: 0.82rem;
+      }
+      .assigned-task-item.completed { background: #f0fdf4; border-color: #bbf7d0; }
+      .assigned-task-badge {
+        padding: 2px 7px;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .badge-completed { background: #dcfce7; color: #16a34a; }
+      .badge-pending   { background: #fef9c3; color: #b45309; }
+      .assigned-task-icon { font-size: 1.1rem; }
+      body.dark-mode .assigned-tasks-section { background: #2d2d3a; border-color: #444; }
+      body.dark-mode .assigned-task-item { background: #353545; border-color: #444; color: #d1d5db; }
+      body.dark-mode .assigned-task-item.completed { background: #1a2e1a; border-color: #16a34a44; }
+
+      /* ===== GOREV ATAMA KARTLARI (MODAL) ===== */
+      .task-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 4px;
+      }
+      .action-card {
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        background: #f9fafb;
+        user-select: none;
+      }
+      .action-card:hover { border-color: #8b5cf6; background: #f3eaff; transform: translateY(-2px); }
+      .action-card.selected { border-color: #8b5cf6; background: linear-gradient(135deg, #f3eaff, #ede9fe); box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
+      .action-card-icon { 
+        width: 50px; 
+        height: 50px; 
+        margin: 0 auto 10px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        overflow: hidden; 
+        border-radius: 10px; 
+      }
+      .action-card-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .action-card-icon span { font-size: 1.8rem; }
+      .action-card-title { font-weight: 700; font-size: 0.85rem; color: #374151; margin-bottom: 3px; }
+      .action-card-desc  { font-size: 0.72rem; color: #6b7280; }
+      .action-card.selected .action-card-title { color: #6c3eb4; }
+      body.dark-mode .action-card { background: #2d2d3a; border-color: #444; color: #e0e0e0; }
+      body.dark-mode .action-card:hover { border-color: #8b5cf6; background: #3a3050; }
+      body.dark-mode .action-card.selected { background: #3a2d5a; border-color: #8b5cf6; }
+      body.dark-mode .action-card-title { color: #e0e0e0; }
+      body.dark-mode .action-card-desc  { color: #9ca3af; }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
       // Psikolog için role bazlı storage key'leri ile dark mode, font size ve language ayarları
       // Theme yükleme fonksiyonu - global scope
@@ -1219,14 +1432,14 @@
                   <span class="material-symbols-outlined" style="font-size:.75rem;">
                     {% if user_data.category == 'acil' %}warning{% elif user_data.category == 'supheli' %}help{% else %}check_circle{% endif %}
                   </span>
-                  {% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Şüpheli{% else %}Normal{% endif %}
+                  {% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Takip{% else %}Normal{% endif %}
                 </button>
                 <div class="category-dropdown" id="catdrop-{{ user_data.user.id }}">
                   <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'acil')">
                     <span class="dot cat-dot-acil"></span> Acil
                   </div>
                   <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'supheli')">
-                    <span class="dot cat-dot-supheli"></span> Şüpheli
+                    <span class="dot cat-dot-supheli"></span> Takip
                   </div>
                   <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'normal')">
                     <span class="dot cat-dot-normal"></span> Normal
@@ -1299,11 +1512,12 @@
               {% trans "Bir kullanıcı seçin" %}
             </h2>
           </div>
-          <div class="chat-messages" id="chatMessages">
+          <div class="chat-messages" id="chatMessages" style="flex: 1; overflow-y: auto;">
             <div class="empty-chat">
               {% trans "Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin" %}
             </div>
           </div>
+
           <div class="chat-input-container" id="chatInputContainer" style="display: none;">
             <textarea
               id="messageInput"
@@ -1353,38 +1567,87 @@
             <div class="usage-chart-section" id="usageChartSection">
               <div class="usage-chart-title">
                 <span class="material-symbols-outlined" style="font-size:1.1rem;">bar_chart</span>
-                <span>Son 7 Gün Kullanımı</span>
+                <span data-translate="Son 7 Gün Kullanımı">{% trans "Son 7 Gün Kullanımı" %}</span>
               </div>
               <div class="usage-bars" id="usageBars">
                 <!-- JS tarafından doldurulacak -->
               </div>
               <div class="usage-summary" id="usageSummary"></div>
             </div>
+
+            <!-- Seans Degerlendirme Bolumu -->
+            <div class="rating-chart-section" id="ratingChartSection">
+              <div class="rating-chart-title">
+                <span class="material-symbols-outlined" style="font-size:1.1rem;">star_rate</span>
+                <span data-translate="Seans Değerlendirmesi">{% trans "Seans Değerlendirmesi" %}</span>
+              </div>
+              <canvas id="ratingChart" height="120"></canvas>
+              <div class="rating-inputs">
+                <div class="rating-slider-row">
+                  <label for="ratingSlider" data-translate="Puan:">{% trans "Puan:" %}</label>
+                  <input type="range" id="ratingSlider" min="1" max="10" value="5" oninput="document.getElementById('ratingValueBadge').textContent=this.value">
+                  <span class="rating-value-badge" id="ratingValueBadge">5</span>
+                </div>
+                <textarea class="rating-note-input" id="ratingNoteInput" rows="2" placeholder="{% trans 'Seans notu (isteğe bağlı)...' %}"></textarea>
+                <button class="rating-save-btn" onclick="saveSessionRating()" type="button" data-translate="Değerlendirmeyi Kaydet">{% trans "Değerlendirmeyi Kaydet" %}</button>
+                <div class="rating-status" id="ratingStatus"></div>
+              </div>
+            </div>
+
+            <!-- Atanan Gorevler -->
+            <div class="assigned-tasks-section" id="assignedTasksSection">
+              <div class="assigned-tasks-title">
+                <span class="material-symbols-outlined" style="font-size:1.1rem;">task_alt</span>
+                <span data-translate="Atanan Görevler">{% trans "Atanan Görevler" %}</span>
+              </div>
+              <div id="assignedTasksList"><div style="font-size:0.8rem;color:#9ca3af;">{% trans "Yükleniyor..." %}</div></div>
+            </div>
+
           </div>
         </aside>
       </div>
     </main>
 
-    <!-- Task Modal -->
+    <!-- Task Modal - Action Cards -->
     <div id="taskModal" class="modal">
       <div class="modal-content">
-        <div class="modal-header">{% trans "Görev Gönder" %}</div>
+        <div class="modal-header" data-translate="Görev Gönder">{% trans "Görev Gönder" %}</div>
         <form class="modal-form" id="taskForm">
           <input type="hidden" id="taskUserId" name="user_id" />
-          <textarea
-            id="taskText"
-            name="text"
-            placeholder="{% trans 'Görev metnini yazın...' %}"
-            required
-          ></textarea>
-          <div class="modal-buttons">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onclick="closeTaskModal()"
-            >
-              {% trans "İptal" %}
-            </button>
+          <input type="hidden" id="taskTypeInput" name="text" value="" />
+          <div class="task-cards-grid">
+            <div class="action-card" data-task="breathing_exercise" onclick="selectTaskCard(this)">
+              <div class="action-card-icon">
+                <img src="{% static 'img/breathing.png' %}" alt="Nefes Egzersizi" onerror="this.innerHTML='🌬️'">
+              </div>
+              <div class="action-card-title" data-translate="Nefes Egzersizi">{% trans "Nefes Egzersizi" %}</div>
+              <div class="action-card-desc" data-translate="Nefes tekniklerini uygula">{% trans "Nefes tekniklerini uygula" %}</div>
+            </div>
+            <div class="action-card" data-task="meditation" onclick="selectTaskCard(this)">
+              <div class="action-card-icon">
+                <img src="{% static 'img/calm.jpg' %}" alt="Meditasyon" onerror="this.innerHTML='🧘'">
+              </div>
+              <div class="action-card-title" data-translate="Meditasyon">{% trans "Meditasyon" %}</div>
+              <div class="action-card-desc" data-translate="Günlük meditasyon yap">{% trans "Günlük meditasyon yap" %}</div>
+            </div>
+            <div class="action-card" data-task="daily_cards" onclick="selectTaskCard(this)">
+              <div class="action-card-icon">
+                <img src="{% static 'img/morning.jpg' %}" alt="Günlük Kartlar" onerror="this.innerHTML='🃏'">
+              </div>
+              <div class="action-card-title" data-translate="Günlük Kartlar">{% trans "Günlük Kartlar" %}</div>
+              <div class="action-card-desc" data-translate="Motivasyon kartlarını gör">{% trans "Motivasyon kartlarını gör" %}</div>
+            </div>
+            <div class="action-card" data-task="support_wall" onclick="selectTaskCard(this)">
+              <div class="action-card-icon">
+                <img src="{% static 'img/forest.jpg' %}" alt="Destek Duvarı" onerror="this.innerHTML='🤝'">
+              </div>
+              <div class="action-card-title" data-translate="Destek Duvarı">{% trans "Destek Duvarı" %}</div>
+              <div class="action-card-desc" data-translate="Forumda paylaşım yap">{% trans "Forumda paylaşım yap" %}</div>
+            </div>
+          </div>
+          <div id="taskCardError" style="font-size:0.78rem;color:#dc2626;text-align:center;min-height:16px;margin-top:4px;"></div>
+          <div class="modal-buttons" style="margin-top:8px;">
+            <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">{% trans "İptal" %}</button>
             <button type="submit" class="btn btn-primary">{% trans "Gönder" %}</button>
           </div>
         </form>
@@ -1420,28 +1683,28 @@
     <!-- Toplu Bildirim Modalı -->
     <div id="bulkNotifyModal" class="modal">
       <div class="modal-content" style="max-width:480px;">
-        <div class="modal-header">Kimlere bildirim göndermek istiyorsunuz?</div>
+        <div class="modal-header" data-translate="Kimlere bildirim göndermek istiyorsunuz?">{% trans "Kimlere bildirim göndermek istiyorsunuz?" %}</div>
         <div class="modal-form">
           <div class="bulk-category-group">
             <label class="bulk-cat-option" id="bulkOptAcil" onclick="toggleBulkCat('acil', this)">
               <input type="checkbox" id="bulkChkAcil" value="acil">
               <span class="bulk-cat-label">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dc2626;"></span>
-                Acil
+                {% trans "Acil" %}
               </span>
             </label>
             <label class="bulk-cat-option" id="bulkOptSupheli" onclick="toggleBulkCat('supheli', this)">
               <input type="checkbox" id="bulkChkSupheli" value="supheli">
               <span class="bulk-cat-label">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#d97706;"></span>
-                Şüpheli
+                {% trans "Takip" %}
               </span>
             </label>
             <label class="bulk-cat-option" id="bulkOptNormal" onclick="toggleBulkCat('normal', this)">
               <input type="checkbox" id="bulkChkNormal" value="normal">
               <span class="bulk-cat-label">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16a34a;"></span>
-                Normal
+                {% trans "Normal" %}
               </span>
             </label>
           </div>
@@ -1551,31 +1814,203 @@
 
         // Chat başlığını güncelle
         const chatHeader = document.getElementById('chatHeaderTitle');
-        if (chatHeader) {
-          chatHeader.textContent = userName;
-        }
+        if (chatHeader) chatHeader.textContent = userName;
 
         // Mesaj girişini göster
         const chatInputContainer = document.getElementById('chatInputContainer');
-        if (chatInputContainer && chatInputContainer.style) {
-          chatInputContainer.style.display = 'flex';
-        }
+        if (chatInputContainer && chatInputContainer.style) chatInputContainer.style.display = 'flex';
 
         // Mesajları okundu işaretle ve yükle
         markMessagesAsRead(userId);
         lastMessageId = 0;
         loadedMessageIds.clear();
         loadMessages(userId, true);
+        const chatActions = document.getElementById('chatActions');
+        if (chatActions) chatActions.style.display = 'flex';
         loadUserInsights(userId);
         loadPrivateNotes(userId);
         loadUsageStats(userId);
+        loadSessionRatings(userId);
+        loadAssignedTasks(userId);
 
         // Not panelini göster
         const notesPanel = document.getElementById('notesPanel');
         if (notesPanel) notesPanel.style.display = 'flex';
-        
+
         // Polling'i başlat
         startMessagePolling(userId);
+      }
+
+      // ===== GOREV KART SECIMI =====
+      function selectTaskCard(card) {
+        document.querySelectorAll('.action-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        const taskType = card.getAttribute('data-task');
+        const inp = document.getElementById('taskTypeInput');
+        if (inp) inp.value = taskType;
+        const errEl = document.getElementById('taskCardError');
+        if (errEl) errEl.textContent = '';
+      }
+
+      // Task form submit: validate card selection
+      document.addEventListener('DOMContentLoaded', function() {
+        const taskForm = document.getElementById('taskForm');
+        if (taskForm) {
+          taskForm.addEventListener('submit', function(e) {
+            const inp = document.getElementById('taskTypeInput');
+            const errEl = document.getElementById('taskCardError');
+            if (!inp || !inp.value) {
+              e.preventDefault();
+              if (errEl) errEl.textContent = 'Lütfen bir görev türü seçin.';
+              return;
+            }
+          });
+        }
+      });
+
+      // ===== SEANS DEGERLENDIRME (Chart.js) =====
+      let ratingChartInstance = null;
+
+      function loadSessionRatings(userId) {
+        fetch(`/api/psychologist/session-ratings/?user_id=${userId}`, {
+          headers: { 'X-CSRFToken': csrfToken }
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success) return;
+          const ratings = data.ratings || [];
+          const labels = ratings.map(r => r.label);
+          const values = ratings.map(r => r.rating);
+
+          const canvas = document.getElementById('ratingChart');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+
+          if (ratingChartInstance) ratingChartInstance.destroy();
+
+          const isDark = document.body.classList.contains('dark-mode');
+          ratingChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labels.length ? labels : ['--'],
+              datasets: [{
+                label: 'Seans Puanı',
+                data: values.length ? values : [null],
+                borderColor: '#8b5cf6',
+                backgroundColor: 'rgba(139,92,246,0.13)',
+                tension: 0.4,
+                fill: true,
+                pointRadius: 5,
+                pointBackgroundColor: '#8b5cf6',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    afterBody: (ctx) => {
+                      const idx = ctx[0].dataIndex;
+                      const note = ratings[idx] ? ratings[idx].note : '';
+                      return note ? `Not: ${note}` : '';
+                    }
+                  }
+                }
+              },
+              scales: {
+                y: {
+                  min: 1, max: 10,
+                  ticks: { color: isDark ? '#9ca3af' : '#64748b', font: { size: 10 }, stepSize: 1 },
+                  grid: { color: isDark ? '#3d3d50' : '#e2e8f0' }
+                },
+                x: {
+                  ticks: { color: isDark ? '#9ca3af' : '#64748b', font: { size: 10 } },
+                  grid: { color: isDark ? '#3d3d50' : '#e2e8f0' }
+                }
+              }
+            }
+          });
+        })
+        .catch(() => {});
+      }
+
+      function saveSessionRating() {
+        if (!currentUserId) return;
+        const rating = document.getElementById('ratingSlider').value;
+        const note = (document.getElementById('ratingNoteInput').value || '').trim();
+        const statusEl = document.getElementById('ratingStatus');
+        if (statusEl) { statusEl.textContent = ''; statusEl.className = 'rating-status'; }
+
+        const today = new Date().toISOString().split('T')[0];
+        const fd = new FormData();
+        fd.append('user_id', currentUserId);
+        fd.append('rating', rating);
+        fd.append('note', note);
+        fd.append('session_date', today);
+
+        fetch('/api/psychologist/session-rating/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken },
+          body: fd
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (statusEl) {
+            statusEl.textContent = data.success ? 'Kaydedildi ✓' : (data.error || 'Hata');
+            statusEl.className = 'rating-status ' + (data.success ? 'ok' : 'err');
+          }
+          if (data.success) {
+            loadSessionRatings(currentUserId);
+            const noteInp = document.getElementById('ratingNoteInput');
+            const slider = document.getElementById('ratingSlider');
+            const badge = document.getElementById('ratingValueBadge');
+            if (noteInp) noteInp.value = '';
+            if (slider) slider.value = 5;
+            if (badge) badge.textContent = '5';
+          }
+        })
+        .catch(() => {
+          if (statusEl) { statusEl.textContent = 'Bağlantı hatası'; statusEl.className = 'rating-status err'; }
+        });
+      }
+
+      // ===== ATANAN GOREVLER (SAG PANEL) =====
+      const TASK_ICONS = {
+        breathing_exercise: '🌬️',
+        meditation: '🧘',
+        daily_cards: '🃏',
+        support_wall: '🤝',
+      };
+
+      function loadAssignedTasks(userId) {
+        const listEl = document.getElementById('assignedTasksList');
+        if (!listEl) return;
+        listEl.innerHTML = '<div style="font-size:0.8rem;color:#9ca3af;">Yükleniyor...</div>';
+        fetch(`/api/psychologist/user-tasks/?user_id=${userId}`, {
+          headers: { 'X-CSRFToken': csrfToken }
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success || !data.tasks || !data.tasks.length) {
+            listEl.innerHTML = '<div style="font-size:0.8rem;color:#9ca3af;">Henüz görev atanmamış.</div>';
+            return;
+          }
+          listEl.innerHTML = data.tasks.map(t => `
+            <div class="assigned-task-item ${t.is_completed ? 'completed' : ''}">
+              <span class="assigned-task-icon">${TASK_ICONS[t.text] || '📝'}</span>
+              <span style="flex:1;">${t.display_name}</span>
+              <span class="assigned-task-badge ${t.is_completed ? 'badge-completed' : 'badge-pending'}">
+                ${t.is_completed ? 'Tamamlandı' : 'Bekliyor'}
+              </span>
+            </div>
+          `).join('');
+        })
+        .catch(() => {
+          if (listEl) listEl.innerHTML = '<div style="font-size:0.8rem;color:#dc2626;">Yüklenemedi</div>';
+        });
       }
 
       function loadUserInsights(userId) {
@@ -1717,7 +2152,7 @@
                 
                 const senderClass =
                   msg.sender === 'psychologist' ? 'psychologist' : 'user';
-                addMessageToUI(msg.text, senderClass, msg.created_at);
+                addMessageToUI(msg.text, senderClass, msg.created_at, msg.id);
                 
                 // Mesaj ID'sini kaydet
                 if (msg.id) {
@@ -1754,8 +2189,10 @@
           });
       }
 
-      function addMessageToUI(text, sender, time) {
+      function addMessageToUI(text, sender, time, id) {
         const messagesDiv = document.getElementById('chatMessages');
+        if (!messagesDiv) return;
+        
         const emptyChat = messagesDiv.querySelector('.empty-chat');
         if (emptyChat) {
           emptyChat.remove();
@@ -1763,12 +2200,63 @@
 
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}`;
+        if (id) messageDiv.setAttribute('data-id', id);
+        
         messageDiv.innerHTML = `
-          <div>${text}</div>
+          <div style="position:relative; padding-right: 20px;">
+            ${text}
+            ${id ? `<span class="delete-msg" onclick="deleteMessage(${id}, this.parentElement.parentElement)" title="Sil" style="position:absolute; right: -5px; top: -5px; cursor:pointer; font-size: 12px; opacity: 0.6;">&times;</span>` : ''}
+          </div>
           <div class="message-time">${time}</div>
         `;
         messagesDiv.appendChild(messageDiv);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+
+      function deleteMessage(msgId, el) {
+        if (!confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
+        
+        const fd = new FormData();
+        fd.append('message_id', msgId);
+        
+        fetch('/api/psychologist/delete-message/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken },
+          body: fd
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            el.remove();
+            loadedMessageIds.delete(msgId);
+          }
+        });
+      }
+
+      function markCurrentChatRead() {
+        if (!currentUserId) return;
+        
+        const fd = new FormData();
+        fd.append('user_id', currentUserId);
+        
+        fetch('/api/psychologist/mark-read/', {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrfToken },
+          body: fd
+        })
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+             // Badge temizle
+             const badge = document.querySelector(`.sidebar-user-card[data-user-id="${currentUserId}"] .unread-badge`);
+             if (badge) {
+               badge.textContent = '';
+               badge.style.display = 'none';
+             }
+             // Global badge güncelle
+             startUnreadCountPolling();
+          }
+        });
       }
 
       function sendMessage() {
@@ -2017,7 +2505,7 @@
             if (badge) {
               badge.className = 'category-badge ' + category;
               const icons = { acil: 'warning', supheli: 'help', normal: 'check_circle' };
-              const labels = { acil: 'Acil', supheli: 'Şüpheli', normal: 'Normal' };
+              const labels = { acil: 'Acil', supheli: 'Takip', normal: 'Normal' };
               badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:.75rem;">${icons[category]}</span>${labels[category]}`;
             }
             // Dropdown'ı kapat
@@ -2140,20 +2628,32 @@
 
           barsEl.innerHTML = '';
           const maxVal = 1; // binary: logged_in veya değil
+          const lang = localStorage.getItem('selectedLanguage') || 'tr';
+          const dayMapEn = {'Pzt':'Mon', 'Sal':'Tue', 'Çar':'Wed', 'Per':'Thu', 'Cum':'Fri', 'Cmt':'Sat', 'Paz':'Sun'};
+
           data.chart_data.forEach(day => {
             const barHeight = day.logged_in ? 52 : 8;
             const wrap = document.createElement('div');
             wrap.className = 'usage-bar-wrap';
+            
+            const isAktif = day.logged_in;
+            const statusText = isAktif ? (lang==='en'?'Active':'Aktif') : (lang==='en'?'Inactive':'Pasif');
+            const dayName = lang==='en' ? (dayMapEn[day.day_name] || day.day_name) : day.day_name;
+            
             wrap.innerHTML = `
-              <div class="usage-tooltip">${day.label} — ${day.logged_in ? 'Aktif' : 'Pasif'}</div>
-              <div class="usage-bar ${day.logged_in ? 'active-day' : 'inactive-day'}" style="height:${barHeight}px;"></div>
-              <div class="usage-bar-label">${day.day_name}</div>
+              <div class="usage-tooltip">${day.label} — ${statusText}</div>
+              <div class="usage-bar ${isAktif ? 'active-day' : 'inactive-day'}" style="height:${barHeight}px;"></div>
+              <div class="usage-bar-label">${dayName}</div>
             `;
             barsEl.appendChild(wrap);
           });
 
           if (summaryEl) {
-            summaryEl.textContent = `Son 7 günde ${data.total_active_days} gün aktif`;
+            if (lang === 'en') {
+                summaryEl.textContent = `${data.total_active_days} active days in the last 7 days`;
+            } else {
+                summaryEl.textContent = `Son 7 günde ${data.total_active_days} gün aktif`;
+            }
           }
         })
         .catch(() => { if (barsEl) barsEl.innerHTML = ''; });

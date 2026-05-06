@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .ai_wrapper import LLMClient 
 # YENİ: Gelişmiş AI servislerimizi ve yeni modellerimizi import ediyoruz
 from .ai_services import call_ai_model, get_updated_memory_json
-from .models import Article, Profile, DailyMood, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity, PsychologistUserRelation
+from .models import Article, Profile, DailyMood, ChatHistory, ChatHistoryContent, Like, EmergencyContact, UserAIAssistantProfile, Task, Notification, PsychologistMessage, LoginActivity, PsychologistUserRelation, SessionRating, ForumPost, ForumComment, ForumLike
 from django.http import JsonResponse
 from django.utils import translation, timezone
 from django.conf import settings
@@ -546,32 +546,26 @@ def gunluk_kartlar(request):
 
 @login_required(login_url="my-login")
 def destek_duvari(request):
-    if request.method == "POST":
-        content = request.POST.get("storyText")
-        if content and len(content.strip()) > 0:
-            ChatHistoryContent.objects.create(
-                role="user",
-                content=content.strip(),
-                chat_history=ChatHistory.objects.get_or_create(user=request.user)[0]
-            )
-            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                return JsonResponse({"success": True, "message": _("Mesaj eklendi.")})
-            return redirect("destek-duvari")
-
-    user_chat_history = ChatHistory.objects.get_or_create(user=request.user)[0]
-    all_messages = ChatHistoryContent.objects.filter(chat_history=user_chat_history, role='user').order_by('-created_at')
-    paginator = Paginator(all_messages, 3)
-    page = int(request.GET.get('page', 1))
-    messages = paginator.get_page(page)
-    liked_messages = set(Like.objects.filter(user=request.user, story__in=messages.object_list).values_list('story_id', flat=True))
+    """Forum / Destek Duvari - ForumPost modeli kullanir."""
     profile_pic = Profile.objects.filter(user=request.user).first()
     if not profile_pic:
         profile_pic = Profile.objects.create(user=request.user)
+
+    page = int(request.GET.get('page', 1))
+    all_posts = ForumPost.objects.all().order_by('-created_at')
+    paginator = Paginator(all_posts, 5)
+    posts_page = paginator.get_page(page)
+
+    liked_post_ids = set(
+        ForumLike.objects.filter(user=request.user, post__in=posts_page.object_list).values_list('post_id', flat=True)
+    )
+
     return render(request, "articles/destek-duvari.html", {
-        "messages": messages,
-        "liked_messages": liked_messages,
+        "posts": posts_page,
+        "liked_post_ids": liked_post_ids,
         "page": page,
-        "total_pages": paginator.num_pages
+        "total_pages": paginator.num_pages,
+        "profile_pic": profile_pic,
     })
 
 @login_required(login_url="my-login")
@@ -836,15 +830,29 @@ def get_user_insights(request):
     from datetime import date, timedelta
     today = date.today()
     today_mood = DailyMood.objects.filter(user=target_user, date=today).first()
-    recent_qs = DailyMood.objects.filter(
-        user=target_user,
-        date__gte=today - timedelta(days=7)
-    ).order_by('-date')[:7]
+    recent_moods_data = []
+    for i in range(3):
+        d = today - timedelta(days=i)
+        mood_obj = DailyMood.objects.filter(user=target_user, date=d).first()
+        if mood_obj:
+            recent_moods_data.append({
+                "date": d.isoformat(),
+                "mood": mood_obj.mood,
+                "mood_label": mood_obj.get_mood_display(),
+                "note": mood_obj.note or "",
+            })
+        else:
+            recent_moods_data.append({
+                "date": d.isoformat(),
+                "mood": None,
+                "mood_label": _("Kayıt yok"),
+                "note": "",
+            })
 
     data = {
         "success": True,
         "today_mood": None,
-        "recent_moods": [],
+        "recent_moods": recent_moods_data,
         "life_story": (profile.life_story if profile else "") or "",
     }
 
@@ -855,14 +863,6 @@ def get_user_insights(request):
             "mood_label": today_mood.get_mood_display(),
             "note": today_mood.note or "",
         }
-
-    for m in recent_qs:
-        data["recent_moods"].append({
-            "date": m.date.isoformat(),
-            "mood": m.mood,
-            "mood_label": m.get_mood_display(),
-            "note": m.note or "",
-        })
 
     return JsonResponse(data, content_type='application/json')
 
@@ -895,7 +895,14 @@ def send_task(request):
         task = Task.objects.create(user=user, text=text)
         
         # Otomatik bildirim oluştur
-        notification_text = _('Psikolog tarafından "{}" görevi verilmiştir.').format(text)
+        task_names = {
+            'support_wall': _('Destek Duvarı'),
+            'daily_cards': _('Günlük Kartlar'),
+            'meditation': _('Meditasyon'),
+            'breathing_exercise': _('Nefes Egzersizi')
+        }
+        display_name = task_names.get(text, text)
+        notification_text = _('Sana yeni bir görev atandı: {}').format(display_name)
         Notification.objects.create(user=user, text=notification_text)
         
         return JsonResponse({"success": True, "task_id": task.id, "message": _("Görev başarıyla gönderildi.")}, content_type='application/json')
@@ -983,7 +990,7 @@ def send_psychologist_message(request):
         return JsonResponse({
             "success": True,
             "message_id": message.id,
-            "created_at": message.created_at.strftime("%d.%m.%Y %H:%M"),
+            "created_at": timezone.localtime(message.created_at).strftime("%d.%m.%Y %H:%M"),
             "message": _("Mesaj başarıyla gönderildi.")
         }, content_type='application/json')
     except User.DoesNotExist:
@@ -1016,7 +1023,7 @@ def send_user_message(request):
     return JsonResponse({
         "success": True,
         "message_id": message.id,
-        "created_at": message.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        "created_at": timezone.localtime(message.created_at).strftime("%Y-%m-%d %H:%M:%S"),
         "message": _("Mesaj başarıyla gönderildi.")
     })
 
@@ -1041,7 +1048,7 @@ def get_psychologist_messages(request):
             'id': msg.id,
             'sender': msg.sender,
             'text': msg.text,
-            'created_at': msg.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+            'created_at': timezone.localtime(msg.created_at).strftime("%Y-%m-%d %H:%M:%S"),
             'is_read': msg.is_read
         } for msg in messages]
         return JsonResponse({"success": True, "messages": messages_data}, content_type='application/json')
@@ -1100,7 +1107,7 @@ def get_user_messages(request):
             'id': msg.id,
             'sender': msg.sender,
             'text': msg.text,
-            'created_at': msg.created_at.strftime("%d.%m.%Y %H:%M"),
+            'created_at': timezone.localtime(msg.created_at).strftime("%d.%m.%Y %H:%M"),
             'is_read': msg.is_read
         } for msg in messages]
         return JsonResponse({
@@ -1126,7 +1133,7 @@ def get_user_tasks(request):
     tasks_data = [{
         'id': task.id,
         'text': task.text,
-        'created_at': task.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        'created_at': timezone.localtime(task.created_at).strftime("%Y-%m-%d %H:%M:%S"),
         'is_completed': task.is_completed
     } for task in tasks]
     return JsonResponse({"success": True, "tasks": tasks_data})
@@ -1139,7 +1146,7 @@ def get_user_notifications(request):
     notifications_data = [{
         'id': notif.id,
         'text': notif.text,
-        'created_at': notif.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        'created_at': timezone.localtime(notif.created_at).strftime("%Y-%m-%d %H:%M:%S"),
         'is_read': notif.is_read
     } for notif in notifications]
     return JsonResponse({"success": True, "notifications": notifications_data}, content_type='application/json')
@@ -1205,8 +1212,8 @@ def get_member_badges(request):
             is_completed=False
         ).count()
         
-        # Toplam badge sayısı
-        total_badge = unread_notifications + unread_messages + unread_tasks
+        # Toplam badge sayısı (Bildirimler + Mesajlar)
+        total_badge = unread_notifications + unread_messages
         
         return JsonResponse({
             "success": True,
@@ -1238,6 +1245,23 @@ def mark_notifications_read(request):
             "success": False,
             "error": str(e)
         }, status=500, content_type='application/json')
+
+
+@require_POST
+@login_required(login_url="my-login")
+def delete_notification(request):
+    """Üye için belirli bir bildirimi sil"""
+    try:
+        import json
+        data = json.loads(request.body)
+        notif_id = data.get("notification_id")
+        if not notif_id:
+            return JsonResponse({"success": False, "error": _("Bildirim ID gerekli.")}, status=400)
+            
+        Notification.objects.filter(id=notif_id, user=request.user).delete()
+        return JsonResponse({"success": True, "message": _("Bildirim başarıyla silindi.")})
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 
 @require_POST
@@ -1537,4 +1561,246 @@ def bulk_notify(request):
         }, content_type='application/json')
 
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+# ==========================================================
+# === GOREV TAMAMLAMA (UYE) ===
+# ==========================================================
+
+@require_POST
+@login_required(login_url="my-login")
+def complete_task(request):
+    """Uye tarafindan gorev tamamlama"""
+    task_id = request.POST.get('task_id')
+    if not task_id:
+        return JsonResponse({'success': False, 'error': _('Gorev ID gerekli.')}, status=400, content_type='application/json')
+    try:
+        task = Task.objects.get(id=task_id, user=request.user)
+        if not task.is_completed:
+            task.is_completed = True
+            task.completed_at = timezone.now()
+            task.save(update_fields=['is_completed', 'completed_at'])
+        return JsonResponse({'success': True, 'task_id': task.id, 'is_completed': True}, content_type='application/json')
+    except Task.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Gorev bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+# ==========================================================
+# === SEANS DEGERLENDIRME (PSIKOLOG) ===
+# ==========================================================
+
+@psychologist_required
+@require_POST
+def save_session_rating(request):
+    """Psikolog icin gunluk seans degerlendirmesi kaydet/guncelle"""
+    user_id = request.POST.get('user_id')
+    rating_val = request.POST.get('rating')
+    note_val = (request.POST.get('note') or '').strip()
+    from datetime import date
+    session_date_str = request.POST.get('session_date') or date.today().isoformat()
+
+    if not user_id or not rating_val:
+        return JsonResponse({'success': False, 'error': _('user_id ve rating gerekli.')}, status=400, content_type='application/json')
+    try:
+        rating_int = int(rating_val)
+        if not (1 <= rating_int <= 10):
+            return JsonResponse({'success': False, 'error': _('Rating 1-10 arasinda olmali.')}, status=400, content_type='application/json')
+    except ValueError:
+        return JsonResponse({'success': False, 'error': _('Gecersiz rating degeri.')}, status=400, content_type='application/json')
+
+    try:
+        from datetime import date as date_cls
+        session_date = date_cls.fromisoformat(session_date_str)
+    except ValueError:
+        from datetime import date as date_cls
+        session_date = date_cls.today()
+
+    try:
+        target_user = User.objects.get(id=user_id)
+        rating_obj, created = SessionRating.objects.update_or_create(
+            psychologist=request.user,
+            user=target_user,
+            session_date=session_date,
+            defaults={'rating': rating_int, 'note': note_val or None}
+        )
+        return JsonResponse({
+            'success': True,
+            'created': created,
+            'rating': rating_obj.rating,
+            'session_date': rating_obj.session_date.isoformat(),
+        }, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanici bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@psychologist_required
+@require_GET
+def get_session_ratings(request):
+    """Psikolog icin belirli bir kullanicinin seans derecelendirme gecmisini getir (son 30 gun)"""
+    user_id = request.GET.get('user_id')
+    if not user_id:
+        return JsonResponse({'success': False, 'error': _('user_id gerekli.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        from datetime import date, timedelta
+        since = date.today() - timedelta(days=30)
+        ratings = SessionRating.objects.filter(
+            psychologist=request.user,
+            user=target_user,
+            session_date__gte=since
+        ).order_by('session_date')
+        data = [{
+            'date': r.session_date.isoformat(),
+            'label': r.session_date.strftime('%d/%m'),
+            'rating': r.rating,
+            'note': r.note or ''
+        } for r in ratings]
+        return JsonResponse({'success': True, 'ratings': data}, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanici bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@psychologist_required
+@require_GET
+def get_user_assigned_tasks(request):
+    """Psikolog icin belirli bir kullanicinin gorevlerini (tamamlanmis/bekleyen) getir"""
+    user_id = request.GET.get('user_id')
+    if not user_id:
+        return JsonResponse({'success': False, 'error': _('user_id gerekli.')}, status=400, content_type='application/json')
+    try:
+        target_user = User.objects.get(id=user_id)
+        tasks = Task.objects.filter(user=target_user).order_by('-created_at')
+        TASK_DISPLAY = {
+            'breathing_exercise': 'Nefes Egzersizi',
+            'meditation': 'Meditasyon',
+            'daily_cards': 'Gunluk Kartlar',
+            'support_wall': 'Destek Duvari',
+        }
+        data = [{
+            'id': t.id,
+            'text': t.text,
+            'display_name': TASK_DISPLAY.get(t.text, t.text),
+            'is_completed': t.is_completed,
+            'created_at': timezone.localtime(t.created_at).strftime('%d.%m.%Y'),
+            'completed_at': timezone.localtime(t.completed_at).strftime('%d.%m.%Y %H:%M') if t.completed_at else None,
+        } for t in tasks]
+        return JsonResponse({'success': True, 'tasks': data}, content_type='application/json')
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanici bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+# ==========================================================
+# === FORUM (DESTEK DUVARI) API'LERI ===
+# ==========================================================
+
+@require_POST
+@login_required(login_url="my-login")
+def create_forum_post(request):
+    """Yeni forum gonderisi olustur"""
+    content = (request.POST.get('content') or '').strip()
+    if not content:
+        return JsonResponse({'success': False, 'error': _('Icerik bos olamaz.')}, status=400, content_type='application/json')
+    post = ForumPost.objects.create(user=request.user, content=content)
+    return JsonResponse({
+        'success': True,
+        'post': {
+            'id': post.id,
+            'content': post.content,
+            'created_at': timezone.localtime(post.created_at).strftime('%d.%m.%Y %H:%M'),
+            'likes_count': 0,
+            'comment_count': 0,
+        }
+    }, content_type='application/json')
+
+
+@require_POST
+@login_required(login_url="my-login")
+def like_forum_post(request):
+    """Forum gonderi begen/begen-kaldir toggle"""
+    post_id = request.POST.get('post_id')
+    if not post_id:
+        return JsonResponse({'success': False, 'error': _('post_id gerekli.')}, status=400, content_type='application/json')
+    try:
+        post = ForumPost.objects.get(id=post_id)
+        like, created = ForumLike.objects.get_or_create(user=request.user, post=post)
+        if not created:
+            like.delete()
+            liked = False
+        else:
+            liked = True
+        post.likes_count = ForumLike.objects.filter(post=post).count()
+        post.save(update_fields=['likes_count'])
+        return JsonResponse({'success': True, 'liked': liked, 'likes_count': post.likes_count}, content_type='application/json')
+    except ForumPost.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Gonderi bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@require_POST
+@login_required(login_url="my-login")
+def add_forum_comment(request):
+    """Forum gonderisine anonim yorum ekle"""
+    post_id = request.POST.get('post_id')
+    content = (request.POST.get('content') or '').strip()
+    if not post_id or not content:
+        return JsonResponse({'success': False, 'error': _('post_id ve icerik gerekli.')}, status=400, content_type='application/json')
+    try:
+        post = ForumPost.objects.get(id=post_id)
+        comment = ForumComment.objects.create(post=post, user=request.user, content=content)
+        return JsonResponse({
+            'success': True,
+            'comment': {
+                'id': comment.id,
+                'content': comment.content,
+                'created_at': timezone.localtime(comment.created_at).strftime('%d.%m.%Y %H:%M'),
+            }
+        }, content_type='application/json')
+    except ForumPost.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Gonderi bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+
+@require_GET
+@login_required(login_url="my-login")
+def get_forum_comments(request):
+    """Belirli bir forum gonderisinin yorumlarini getir"""
+    post_id = request.GET.get('post_id')
+    if not post_id:
+        return JsonResponse({'success': False, 'error': _('post_id gerekli.')}, status=400, content_type='application/json')
+    try:
+        post = ForumPost.objects.get(id=post_id)
+        comments = post.comments.order_by('created_at')
+        data = [{
+            'id': c.id,
+            'content': c.content,
+            'created_at': timezone.localtime(c.created_at).strftime('%d.%m.%Y %H:%M'),
+        } for c in comments]
+        return JsonResponse({'success': True, 'comments': data}, content_type='application/json')
+    except ForumPost.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Gonderi bulunamadi.')}, status=404, content_type='application/json')
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500, content_type='application/json')
+
+@login_required
+@require_POST
+def delete_psychologist_message(request):
+    """Belirli bir mesajı siler"""
+    message_id = request.POST.get('message_id')
+    try:
+        from .models import PsychologistMessage
+        msg = PsychologistMessage.objects.get(id=message_id)
+        msg.delete()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
