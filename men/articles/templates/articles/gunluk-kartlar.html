@@ -21,6 +21,9 @@
     />
     <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
     <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <script>window.language_code = "{{ LANGUAGE_CODE }}";</script>
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
     <style>
       :root {
         --primary-color: #6c3eb4;
@@ -776,22 +779,7 @@
   
       // Bildirim popup davranışı ortak include içinde
   
-      // Card fade-in animation
-      const cardObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.style.opacity = "1";
-              entry.target.style.transform = "translateY(0)";
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
-      );
-      document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".daily-card").forEach(card => cardObserver.observe(card));
-      });
-  
+
       // Tema kontrolü
       function applyThemeFromStorage() {
         const theme = localStorage.getItem("themeMode") || "light";
@@ -809,6 +797,21 @@
           } catch (e) {}
         }
       }
+
+      // Card fade-in animation observer — declared at script scope so renderDailyCards can use it
+      const cardObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+
+      // Günlük Kartları Oluşturma ve Random Seçme Logic
       document.addEventListener("DOMContentLoaded", function () {
         applyThemeFromStorage();
         const lightBtn = document.getElementById("lightModeBtn");
@@ -883,6 +886,12 @@
 
         // Animation observer re-attach
         document.querySelectorAll(".daily-card").forEach(card => cardObserver.observe(card));
+      }
+
+      // Card click handler
+      function selectCard(el) {
+        document.querySelectorAll('.daily-card').forEach(c => c.classList.remove('active'));
+        if (el) el.classList.add('active');
       }
 
       // Dil fonksiyonları başlat

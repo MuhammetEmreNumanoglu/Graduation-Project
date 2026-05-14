@@ -542,7 +542,18 @@ def acil_destek(request):
 
 @login_required(login_url="my-login")
 def gunluk_kartlar(request):
-    return render(request, "articles/gunluk-kartlar.html")
+    """Günlük motivasyon kartları sayfası."""
+    profile_pic = Profile.objects.filter(user=request.user).first()
+    if not profile_pic:
+        profile_pic = Profile.objects.create(user=request.user)
+
+    from .models import Task
+    tasks = Task.objects.filter(user=request.user).order_by('-created_at')[:10]
+
+    return render(request, "articles/gunluk-kartlar.html", {
+        "profilePic": profile_pic,
+        "tasks": tasks,
+    })
 
 @login_required(login_url="my-login")
 def destek_duvari(request):
@@ -830,10 +841,20 @@ def get_user_insights(request):
     from datetime import date, timedelta
     today = date.today()
     today_mood = DailyMood.objects.filter(user=target_user, date=today).first()
+
+    # Single query for last 3 days — avoids 3 separate DB hits
+    three_days_ago = today - timedelta(days=2)
+    recent_qs = DailyMood.objects.filter(
+        user=target_user,
+        date__gte=three_days_ago,
+        date__lte=today
+    ).order_by('-date')
+    mood_by_date = {m.date: m for m in recent_qs}
+
     recent_moods_data = []
     for i in range(3):
         d = today - timedelta(days=i)
-        mood_obj = DailyMood.objects.filter(user=target_user, date=d).first()
+        mood_obj = mood_by_date.get(d)
         if mood_obj:
             recent_moods_data.append({
                 "date": d.isoformat(),

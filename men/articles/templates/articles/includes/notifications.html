@@ -150,14 +150,19 @@
     min-height: var(--notification-item-size);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* İkonu sağa yaslamak için */
+    justify-content: space-between;
     gap: 12px;
     position: relative;
-    transition: background 0.2s;
+    transition: border-left-color 0.2s;
+    border-left: 3px solid transparent;
   }
   
+  /* Only a subtle left accent on hover — no background change */
   .notification-item:hover {
-    background: #fbf9ff;
+    border-left-color: rgba(139, 92, 246, 0.35);
+  }
+  body.dark-mode .notification-item:hover {
+    border-left-color: rgba(167, 139, 250, 0.45);
   }
   
   .notification-text {
