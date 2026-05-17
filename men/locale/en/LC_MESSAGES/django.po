@@ -950,3 +950,9 @@ msgstr "DELETE MY ACCOUNT"
 
 msgid "Hesabımı Kalıcı Olarak Sil"
 msgstr "Permanently Delete My Account"
+
+msgid "Henüz mesaj yok. İlk mesajı siz gönderin!"
+msgstr "No messages yet. Be the first to send one!"
+
+msgid "Bu kullanıcıya özel notunuzu buraya yazın..."
+msgstr "Write your private note for this user here..."

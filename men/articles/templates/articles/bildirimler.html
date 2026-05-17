@@ -6,7 +6,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% trans "Bildirimler" %}</title>
+    <title><span data-translate="{% trans "Bildirimler" %}">Bildirimler</span></title>
     <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -449,9 +449,9 @@
           class="sidebar-logo"
         />
         <div class="sidebar-nav">
-          <a href="{% url 'anasayfa' %}" data-translate="Home">{% trans "Ana Sayfa" %}</a>
-          <a href="{% url 'dashboard' %}" data-translate="Feel Good">{% trans "İyi Hisset" %}</a>
-          <a href="{% url 'profile-management' %}" data-translate="Profile Management">{% trans "Profil Yönetimi" %}</a>
+          <a href="{% url 'anasayfa' %}" data-translate="Home"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
+          <a href="{% url 'dashboard' %}" data-translate="Feel Good"><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a>
+          <a href="{% url 'profile-management' %}" data-translate="Profile Management"><span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span></a>
         </div>
       </div>
 
@@ -470,43 +470,43 @@
       <div class="sidebar-menu">
         <a href="{% url 'anasayfa' %}" class="menu-item" data-translate="Home">
           <span class="material-symbols-outlined">home</span>
-          <span>{% trans "Ana Sayfa" %}</span>
+          <span><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></span>
         </a>
         <a href="{% url 'dashboard' %}" class="menu-item" data-translate="Feel Good">
           <span class="material-symbols-outlined">psychology</span>
-          <span>{% trans "İyi Hisset" %}</span>
+          <span><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></span>
         </a>
         <a href="{% url 'gunluk-kartlar' %}" class="menu-item" data-translate="Daily Cards">
           <span class="material-symbols-outlined">calendar_today</span>
-          <span>{% trans "Günlük Kartlar" %}</span>
+          <span><span data-translate="{% trans "Günlük Kartlar" %}">Günlük Kartlar</span></span>
         </a>
         <a href="{% url 'destek-duvari' %}" class="menu-item" data-translate="Support Wall">
           <span class="material-symbols-outlined">forum</span>
-          <span>{% trans "Destek Duvarı" %}</span>
+          <span><span data-translate="{% trans "Destek Duvarı" %}">Destek Duvarı</span></span>
         </a>
         <a href="{% url 'nefes-egzersizi' %}" class="menu-item" data-translate="Breathing Exercise">
           <span class="material-symbols-outlined">air</span>
-          <span>{% trans "Nefes Egzersizi" %}</span>
+          <span><span data-translate="{% trans "Nefes Egzersizi" %}">Nefes Egzersizi</span></span>
         </a>
         <a href="{% url 'meditasyon' %}" class="menu-item" data-translate="Meditation">
           <span class="material-symbols-outlined">self_improvement</span>
-          <span>{% trans "Meditasyon" %}</span>
+          <span><span data-translate="{% trans "Meditasyon" %}">Meditasyon</span></span>
         </a>
         <a href="{% url 'acil-destek' %}" class="menu-item" data-translate="Emergency Support">
           <span class="material-symbols-outlined">emergency</span>
-          <span>{% trans "Acil Destek" %}</span>
+          <span><span data-translate="{% trans "Acil Destek" %}">Acil Destek</span></span>
         </a>
         <a href="{% url 'haftalik-raporlar' %}" class="menu-item" data-translate="Weekly Reports">
           <span class="material-symbols-outlined">bar_chart</span>
-          <span>{% trans "Haftalık Raporlar" %}</span>
+          <span><span data-translate="{% trans "Haftalık Raporlar" %}">Haftalık Raporlar</span></span>
         </a>
         <a href="{% url 'bildirimler' %}" class="menu-item active" data-translate="Notifications">
           <span class="material-symbols-outlined">notifications</span>
-          <span>{% trans "Bildirimler" %}</span>
+          <span><span data-translate="{% trans "Bildirimler" %}">Bildirimler</span></span>
         </a>
         <a href="{% url 'my-login' %}" class="menu-item">
           <span class="material-symbols-outlined">logout</span>
-          <span data-translate="Log Out">{% trans "Çıkış Yap" %}</span>
+          <span data-translate="Log Out"><span data-translate="{% trans "Çıkış Yap" %}">Çıkış Yap</span></span>
         </a>
       </div>
     </div>
@@ -514,9 +514,9 @@
     <!-- Main Content -->
     <main class="main-content">
       <div class="content-section">
-        <h2 data-translate="Notifications">{% trans "Bildirimler" %}</h2>
+        <h2 data-translate="Notifications"><span data-translate="{% trans "Bildirimler" %}">Bildirimler</span></h2>
         <p data-translate="Stay updated with your latest activities and important information.">
-          {% trans "En son aktiviteleriniz ve önemli bilgilerle güncel kalın." %}
+          <span data-translate="{% trans "En son aktiviteleriniz ve önemli bilgilerle güncel kalın." %}">En son aktiviteleriniz ve önemli bilgilerle güncel kalın.</span>
         </p>
         
         <div class="notifications-list">
@@ -526,9 +526,9 @@
               <i class="material-symbols-outlined">task_alt</i>
             </div>
             <div class="notification-content">
-              <h5>{% trans "Günlük Görevleriniz Hazır!" %}</h5>
-              <p>{% trans "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!" %}</p>
-              <small class="text-muted">{% trans "5 dakika önce" %}</small>
+              <h5><span data-translate="{% trans "Günlük Görevleriniz Hazır!" %}">Günlük Görevleriniz Hazır!</span></h5>
+              <p><span data-translate="{% trans "Bugün için 3 yeni görev eklendi. Hemen kontrol edin!" %}">Bugün için 3 yeni görev eklendi. Hemen kontrol edin!</span></p>
+              <small class="text-muted"><span data-translate="{% trans "5 dakika önce" %}">5 dakika önce</span></small>
             </div>
           </div>
 
@@ -538,9 +538,9 @@
               <i class="material-symbols-outlined">mood</i>
             </div>
             <div class="notification-content">
-              <h5>{% trans "Tebrikler!" %}</h5>
-              <p>{% trans "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız." %}</p>
-              <small class="text-muted">{% trans "2 saat önce" %}</small>
+              <h5><span data-translate="{% trans "Tebrikler!" %}">Tebrikler!</span></h5>
+              <p><span data-translate="{% trans "Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız." %}">Bu hafta 5 gün üst üste günlük görevlerinizi tamamladınız.</span></p>
+              <small class="text-muted"><span data-translate="{% trans "2 saat önce" %}">2 saat önce</span></small>
             </div>
           </div>
 
@@ -550,9 +550,9 @@
               <i class="material-symbols-outlined">psychology</i>
             </div>
             <div class="notification-content">
-              <h5>{% trans "Yeni İçerik" %}</h5>
-              <p>{% trans "Stres yönetimi için yeni bir nefes egzersizi eklendi." %}</p>
-              <small class="text-muted">{% trans "Dün" %}</small>
+              <h5><span data-translate="{% trans "Yeni İçerik" %}">Yeni İçerik</span></h5>
+              <p><span data-translate="{% trans "Stres yönetimi için yeni bir nefes egzersizi eklendi." %}">Stres yönetimi için yeni bir nefes egzersizi eklendi.</span></p>
+              <small class="text-muted"><span data-translate="{% trans "Dün" %}">Dün</span></small>
             </div>
           </div>
 
@@ -562,9 +562,9 @@
               <i class="material-symbols-outlined">forum</i>
             </div>
             <div class="notification-content">
-              <h5>{% trans "Destek Mesajınız" %}</h5>
-              <p>{% trans "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi." %}</p>
-              <small class="text-muted">{% trans "2 gün önce" %}</small>
+              <h5><span data-translate="{% trans "Destek Mesajınız" %}">Destek Mesajınız</span></h5>
+              <p><span data-translate="{% trans "Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi." %}">Destek duvarında paylaştığınız mesaja 3 yeni yorum geldi.</span></p>
+              <small class="text-muted"><span data-translate="{% trans "2 gün önce" %}">2 gün önce</span></small>
             </div>
           </div>
         </div>

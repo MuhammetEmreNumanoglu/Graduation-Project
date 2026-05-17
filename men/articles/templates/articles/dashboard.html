@@ -8,7 +8,7 @@
     <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-translate="Dashboard - İyi Hisset">
-      {% trans "Dashboard - İyi Hisset" %}
+      <span data-translate="{% trans "Dashboard - İyi Hisset" %}">Dashboard - İyi Hisset</span>
     </title>
     <script>
       window.language_code = "{{ LANGUAGE_CODE }}";
@@ -1245,137 +1245,7 @@
         color: #e0e0e0 !important;
       }
 
-      .notification-bell {
-        position: fixed;
-        top: 32px;
-        right: 48px;
-        z-index: 1200;
-        background: linear-gradient(135deg, #a084e8 0%, #6c3eb4 100%);
-        border-radius: 50%;
-        padding: 12px;
-        border: none;
-        cursor: pointer;
-        font-size: 2.2rem;
-        color: #fff;
-        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.13);
-        transition: color 0.2s, background 0.2s, box-shadow 0.2s,
-          transform 0.18s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      /* Notification bell badge */
-      .notification-bell #unreadMessageBadge {
-        position: absolute;
-        top: -4px;
-        right: -4px;
-        background: #dc3545;
-        color: white;
-        border-radius: 12px;
-        min-width: 20px;
-        height: 20px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0 6px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .notification-bell:hover {
-        transform: scale(1.08);
-      }
-      .notification-popup {
-        display: block;
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        position: fixed;
-        top: 72px;
-        right: 48px;
-        width: 340px;
-        max-height: 270px;
-        background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
-        border: 1.5px solid #ece6fa;
-        z-index: 1300;
-        overflow-y: auto;
-        padding: 0;
-        transform: translateY(-20px);
-        transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-          transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
-      }
-      .notification-popup.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateY(0);
-      }
-      .notification-popup .popup-title {
-        font-weight: 700;
-        font-size: 1.2rem;
-        padding: 18px 24px 8px 24px;
-        color: #8b5cf6;
-        border-bottom: 1px solid #ece6fa;
-      }
-      .notification-list {
-        list-style: none;
-        margin: 0;
-        padding: 0 0 8px 0;
-        max-height: 340px;
-        overflow-y: auto;
-      }
-      .notification-item {
-        padding: 12px 18px;
-        border-bottom: 1px solid #f3eaff;
-        font-size: 0.88rem;
-        color: #3b3052;
-        background: none;
-        cursor: pointer;
-        transition: background 0.15s, color 0.15s;
-      }
-      .notification-item:hover {
-        background: rgba(139,92,246,0.08);
-        color: #6d28d9;
-      }
-      .notification-item:last-child {
-        border-bottom: none;
-      }
-      body.dark-mode .notification-popup {
-        background: #1e1b2e !important;
-        border-color: #3d2f6b !important;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.45) !important;
-      }
-      body.dark-mode .notification-popup .popup-title {
-        color: #a78bfa !important;
-        border-bottom-color: #3d2f6b !important;
-      }
-      body.dark-mode .notification-item {
-        color: #e2e8f0 !important;
-        border-bottom-color: #2d2444 !important;
-      }
-      body.dark-mode .notification-item:hover {
-        background: rgba(139,92,246,0.18) !important;
-        color: #c4b5fd !important;
-      }
-      @media (max-width: 600px) {
-        .notification-bell {
-          top: 16px;
-          right: 12px;
-          padding: 8px;
-          font-size: 1.5rem;
-        }
-        .notification-popup {
-          top: 48px;
-          right: 8px;
-          width: 95vw;
-          min-width: 0;
-          max-width: 98vw;
-        }
-      }
+      /* Bildirim stilleri artık includes/notifications.html içindedir. */
 
       /* === SIDEBAR MOOD CARD === */
       .sb-mood-card {
@@ -1479,7 +1349,7 @@
       <link rel="stylesheet" href="{% static 'css/global-responsive.css' %}" />
   </head>
   <body>
-    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" style="display: none;">
+    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" data-translate="Menüyü Aç/Kapat" data-translate="Menüyü Aç/Kapat" data-translate="Menüyü Aç/Kapat" style="display: none;">
       <span></span>
       <span></span>
       <span></span>
@@ -1492,11 +1362,11 @@
           class="sidebar-logo"
         />
         <div class="sidebar-nav">
-          <a href="{% url 'anasayfa' %}">{% trans "Ana Sayfa" %}</a>
-          <a href="{% url 'dashboard' %}" class="active"
-            >{% trans "İyi Hisset" %}</a
+          <a href="{% url 'anasayfa' %}" data-translate="Home"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
+          <a href="{% url 'dashboard' %}" class="active" data-translate="Feel Good"
+            ><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a
           >
-                          <a href="{% url 'profile-management' %}" id="profileManagementLink">Profil Yönetimi</a>
+                          <a href="{% url 'profile-management' %}" id="profileManagementLink" data-translate="Profile Management"><span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span></a>
         </div>
       </div>
       <div class="dashboard-sidebar-user">
@@ -1523,14 +1393,14 @@
       <!-- SIDEBAR İÇERİĞİ -->
 
       <!-- Ruh Hali Özet Kartı -->
-      <div class="sb-mood-card" id="sbMoodCard">
+      <div class="sb-mood-card" id="sbMoodCard" style="display:none;">
         <div class="sb-mood-header">
           <span class="material-symbols-outlined" style="font-size:1rem;">favorite</span>
-          <span>{% trans "Bugünkü Ruh Halin" %}</span>
+          <span><span data-translate="{% trans "Bugünkü Ruh Halin" %}">Bugünkü Ruh Halin</span></span>
         </div>
         <div class="sb-mood-display" id="sbMoodDisplay">
           <span class="sb-mood-emoji" id="sbMoodEmoji">&#x1F610;</span>
-          <span class="sb-mood-label" id="sbMoodLabel">{% trans "Yükleniyor..." %}</span>
+          <span class="sb-mood-label" id="sbMoodLabel"><span data-translate="{% trans "Yükleniyor..." %}">Yükleniyor...</span></span>
         </div>
         <div class="sb-mood-bar-wrap">
           <div class="sb-mood-bar" id="sbMoodBar" style="width:50%;"></div>
@@ -1541,23 +1411,23 @@
       <div class="sb-quick-grid">
         <a href="{% url 'nefes-egzersizi' %}" class="sb-grid-btn" id="qa-nefes">
           <span class="material-symbols-outlined">air</span>
-          <span>{% trans "Nefes" %}</span>
+          <span><span data-translate="{% trans "Nefes" %}">Nefes</span></span>
         </a>
         <a href="{% url 'meditasyon' %}" class="sb-grid-btn" id="qa-meditasyon">
           <span class="material-symbols-outlined">self_improvement</span>
-          <span>{% trans "Meditasyon" %}</span>
+          <span><span data-translate="{% trans "Meditasyon" %}">Meditasyon</span></span>
         </a>
         <a href="{% url 'gunluk-kartlar' %}" class="sb-grid-btn" id="qa-kartlar">
           <span class="material-symbols-outlined">style</span>
-          <span>{% trans "Kartlar" %}</span>
+          <span><span data-translate="{% trans "Kartlar" %}">Kartlar</span></span>
         </a>
         <a href="{% url 'acil-destek' %}" class="sb-grid-btn sb-grid-btn--danger" id="qa-acil">
           <span class="material-symbols-outlined">emergency</span>
-          <span>{% trans "Acil" %}</span>
+          <span><span data-translate="{% trans "Acil" %}">Acil</span></span>
         </a>
         <a href="{% url 'destek-duvari' %}" class="sb-grid-btn" id="qa-destek">
           <span class="material-symbols-outlined">favorite_border</span>
-          <span>{% trans "Destek" %}</span>
+          <span><span data-translate="{% trans "Destek" %}">Destek</span></span>
         </a>
 
       </div>
@@ -1565,7 +1435,7 @@
       <!-- Motivasyon Kartı -->
       <div class="sb-motivation" id="sbMotivation">
         <div class="sb-motivation-icon" id="sbMotIcon">&#x2728;</div>
-        <div class="sb-motivation-text" id="sbMotText">{% trans "Bugün harika bir gün olacak!" %}</div>
+        <div class="sb-motivation-text" id="sbMotText"><span data-translate="{% trans "Bugün harika bir gün olacak!" %}">Bugün harika bir gün olacak!</span></div>
       </div>
 
       <!-- Gizli: chatList JS için gerekli -->
@@ -1579,7 +1449,7 @@
         <div class="chat-interface">
           <div class="chat-header">
             <span class="material-symbols-outlined">chat</span>
-            <h2 class="chat-header-title">{% trans "Psikolog ile Sohbet" %}</h2>
+            <h2 class="chat-header-title"><span data-translate="{% trans "Psikolog ile Sohbet" %}">Psikolog ile Sohbet</span></h2>
           </div>
           <div class="chat-messages" id="chatMessages">
             <!-- Mesajlar buraya yüklenecek -->
@@ -1591,7 +1461,6 @@
                   id="messageInput"
                   class="form-control"
                   placeholder="{% trans 'Mesajınızı yazın...' %}"
-                  autocomplete="off"
                   rows="1"
                 ></textarea>
                 <button type="submit" class="btn">
@@ -1604,6 +1473,8 @@
       </div>
     </main>
 
+    {% include 'articles/includes/notifications.html' %}
+
     <!-- Günlük Ruh Hali Modal -->
     <style>
       #moodModal { transition: background 0.3s, border-color 0.3s; }
@@ -1615,31 +1486,40 @@
       body.dark-mode #moodModal label { color: #e2e8f0 !important; }
       body.dark-mode #moodModal input { background: #2d2d3a !important; border-color: #444 !important; color: #fff !important; }
       body.dark-mode #moodModal #moodSkip { background: #2d2d3a !important; border-color: #444 !important; color: #94a3b8 !important; }
+      #moodModal .mood-choice { transition: all 0.2s; }
+      #moodModal .mood-choice.selected {
+        border-color: #8b5cf6 !important;
+        background: rgba(139,92,246,.10) !important;
+        box-shadow: 0 8px 24px rgba(139,92,246,.12) !important;
+      }
+      body.dark-mode #moodModal .mood-choice.selected {
+        background: rgba(139,92,246,.25) !important;
+      }
     </style>
     <div id="moodModalOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:3000;">
       <div id="moodModal" style="background:#fff;border-radius:18px;max-width:520px;width:92%;padding:22px 20px;box-shadow:0 18px 60px rgba(0,0,0,.18);border:1px solid rgba(139,92,246,.18);">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;">
-          <div class="mood-title" style="font-weight:800;color:#8b5cf6;font-size:1.25rem;" data-translate="Bugün nasıl hissediyorsun?">{% trans "Bugün nasıl hissediyorsun?" %}</div>
-          <button type="button" id="moodModalClose" aria-label="{% trans 'Kapat' %}" style="border:none;background:transparent;cursor:pointer;color:#94a3b8;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.18s,color 0.18s;font-size:1.1rem;flex-shrink:0;" onmouseover="this.style.background='#f1f5f9';this.style.color='#64748b';" onmouseout="this.style.background='transparent';this.style.color='#94a3b8';"><span class="material-symbols-outlined" style="font-size:1.2rem;line-height:1;">close</span></button>
+          <div class="mood-title" style="font-weight:800;color:#8b5cf6;font-size:1.25rem;" data-translate="Bugün nasıl hissediyorsun?"><span data-translate="{% trans "Bugün nasıl hissediyorsun?" %}">Bugün nasıl hissediyorsun?</span></div>
+          <button type="button" id="moodModalClose" aria-label="{% trans 'Kapat' %}" data-translate="Kapat" data-translate="Kapat" data-translate="Kapat" style="border:none;background:transparent;cursor:pointer;color:#94a3b8;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.18s,color 0.18s;font-size:1.1rem;flex-shrink:0;" onmouseover="this.style.background='#f1f5f9';this.style.color='#64748b';" onmouseout="this.style.background='transparent';this.style.color='#94a3b8';"><span class="material-symbols-outlined" style="font-size:1.2rem;line-height:1;">close</span></button>
         </div>
-        <div class="mood-desc" style="color:#64748b;line-height:1.5;margin-bottom:14px;" data-translate="Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin.">{% trans "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin." %}</div>
+        <div class="mood-desc" style="color:#64748b;line-height:1.5;margin-bottom:14px;" data-translate="Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin."><span data-translate="{% trans "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin." %}">Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin.</span></div>
 
         <div id="moodChoices" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px;">
-          <button type="button" class="mood-choice" data-mood="very_good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Very good">{% trans "Çok iyi" %}</button>
-          <button type="button" class="mood-choice" data-mood="good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Good">{% trans "İyi" %}</button>
-          <button type="button" class="mood-choice" data-mood="neutral" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Nötr">{% trans "Nötr" %}</button>
-          <button type="button" class="mood-choice" data-mood="bad" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Bad">{% trans "Kötü" %}</button>
-          <button type="button" class="mood-choice" data-mood="very_bad" style="grid-column:1/-1;padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Very bad">{% trans "Çok kötü" %}</button>
+          <button type="button" class="mood-choice" data-mood="very_good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Very good"><span data-translate="{% trans "Çok iyi" %}">Çok iyi</span></button>
+          <button type="button" class="mood-choice" data-mood="good" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Good"><span data-translate="{% trans "İyi" %}">İyi</span></button>
+          <button type="button" class="mood-choice" data-mood="neutral" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Nötr"><span data-translate="{% trans "Nötr" %}">Nötr</span></button>
+          <button type="button" class="mood-choice" data-mood="bad" style="padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Bad"><span data-translate="{% trans "Kötü" %}">Kötü</span></button>
+          <button type="button" class="mood-choice" data-mood="very_bad" style="grid-column:1/-1;padding:12px 12px;border-radius:14px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;cursor:pointer;" data-translate="Very bad"><span data-translate="{% trans "Çok kötü" %}">Çok kötü</span></button>
         </div>
 
         <div style="margin-bottom:12px;">
-          <label for="moodNote" style="display:block;font-weight:700;margin-bottom:6px;color:#1e293b;" data-translate="Kısa not (opsiyonel)">{% trans "Kısa not (opsiyonel)" %}</label>
-          <input id="moodNote" type="text" maxlength="280" placeholder="{% trans 'Örn: Bugün biraz gergindim…' %}" data-translate="Örn: Bugün biraz gergindim…" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;outline:none;" />
+          <label for="moodNote" style="display:block;font-weight:700;margin-bottom:6px;color:#1e293b;" data-translate="Kısa not (opsiyonel)"><span data-translate="{% trans "Kısa not (opsiyonel)" %}">Kısa not (opsiyonel)</span></label>
+          <input id="moodNote" type="text" maxlength="280" placeholder="{% trans 'Örn: Bugün biraz gergindim…' %}" data-translate="Örn: Bugün biraz gergindim…" data-translate="Örn: Bugün biraz gergindim…" data-translate="Örn: Bugün biraz gergindim…" data-translate="Örn: Bugün biraz gergindim…" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e2e8f0;outline:none;" />
         </div>
 
         <div style="display:flex;gap:10px;justify-content:flex-end;">
-          <button type="button" id="moodSkip" style="padding:10px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-weight:700;color:#64748b;" data-translate="Şimdi değil">{% trans "Şimdi değil" %}</button>
-          <button type="button" id="moodSubmit" style="padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#8b5cf6,#a855f7);cursor:pointer;font-weight:800;color:#fff;" disabled data-translate="Kaydet">{% trans "Kaydet" %}</button>
+          <button type="button" id="moodSkip" style="padding:10px 14px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-weight:700;color:#64748b;" data-translate="Şimdi değil"><span data-translate="{% trans "Şimdi değil" %}">Şimdi değil</span></button>
+          <button type="button" id="moodSubmit" style="padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#8b5cf6,#a855f7);cursor:pointer;font-weight:800;color:#fff;" disabled data-translate="Kaydet"><span data-translate="{% trans "Kaydet" %}">Kaydet</span></button>
         </div>
         <div id="moodError" style="display:none;margin-top:10px;color:#dc3545;font-weight:700;"></div>
       </div>
@@ -1653,10 +1533,10 @@
         </p>
         <div class="modal-buttons">
           <button class="modal-btn cancel" id="modalCancel">
-            {% trans "Hayır" %}
+            <span data-translate="{% trans "Hayır" %}">Hayır</span>
           </button>
           <button class="modal-btn confirm" id="modalConfirm">
-            {% trans "Evet" %}
+            <span data-translate="{% trans "Evet" %}">Evet</span>
           </button>
         </div>
       </div>
@@ -1729,8 +1609,8 @@
                     <span class="chat-title" data-chat-id="${chat.id}">${chat.title}</span>
                     <button class="chat-menu-btn" data-chat-id="${chat.id}" data-menu-index="${idx}">⋮</button>
                     <div class="chat-menu" id="chatMenu-${idx}">
-                        <div class="chat-menu-item" onclick="editChat(${chat.id})"><span class="material-symbols-outlined">edit</span> {% trans "Düzenle" %}</div>
-                        <div class="chat-menu-item delete" onclick="deleteChat(${chat.id})"><span class="material-symbols-outlined">delete</span> {% trans "Sil" %}</div>
+                        <div class="chat-menu-item" onclick="editChat(${chat.id})"><span class="material-symbols-outlined">edit</span> <span data-translate="{% trans "Düzenle" %}">Düzenle</span></div>
+                        <div class="chat-menu-item delete" onclick="deleteChat(${chat.id})"><span class="material-symbols-outlined">delete</span> <span data-translate="{% trans "Sil" %}">Sil</span></div>
                     </div>
                 `;
                 chatList.appendChild(chatItem);
@@ -1925,7 +1805,7 @@
                 notificationBell = document.createElement('button');
                 notificationBell.id = 'notificationBell';
                 notificationBell.className = 'notification-bell';
-                notificationBell.setAttribute('aria-label', '{% trans "Bildirimler" %}');
+                notificationBell.setAttribute('aria-label', getTranslation('Bildirimler'));
                 notificationBell.innerHTML = '<span class="material-symbols-outlined">notifications</span>';
                 document.body.appendChild(notificationBell);
             }
@@ -2001,11 +1881,11 @@
             // --- Mood label helper (lang-aware at call time) ---
             function getMoodLabel(moodKey) {
                 const labels = {
-                    very_good: t('\u00c7ok \u0130yi', '{% trans "\u00c7ok \u0130yi" %}'),
-                    good:      t('\u0130yi',        '{% trans "\u0130yi" %}'),
-                    neutral:   t('N\u00f6tr',       '{% trans "N\u00f6tr" %}'),
-                    bad:       t('K\u00f6t\u00fc',  '{% trans "K\u00f6t\u00fc" %}'),
-                    very_bad:  t('\u00c7ok K\u00f6t\u00fc','{% trans "\u00c7ok K\u00f6t\u00fc" %}')
+                    very_good: t('\u00c7ok \u0130yi', getTranslation('\u00c7ok \u0130yi')),
+                    good:      t('\u0130yi',        getTranslation('\u0130yi')),
+                    neutral:   t('N\u00f6tr',       getTranslation('N\u00f6tr')),
+                    bad:       t('K\u00f6t\u00fc',  getTranslation('K\u00f6t\u00fc')),
+                    very_bad:  t('\u00c7ok K\u00f6t\u00fc',getTranslation('\u00c7ok K\u00f6t\u00fc'))
                 };
                 return labels[moodKey] || labels['neutral'];
             }
@@ -2033,12 +1913,12 @@
 
             // --- Motivations (Material Symbol icons, no decorative emojis) ---
             const MOT_KEYS = [
-                { icon: 'wb_sunny',       key: 'Her g\u00fcn yeni bir ba\u015flang\u0131\u00e7t\u0131r.',         fallback: '{% trans "Her g\u00fcn yeni bir ba\u015flang\u0131\u00e7t\u0131r." %}' },
-                { icon: 'directions_walk',key: 'K\u00fc\u00e7\u00fck ad\u0131mlar b\u00fcy\u00fck de\u011fi\u015fimlere yol a\u00e7ar.', fallback: '{% trans "K\u00fc\u00e7\u00fck ad\u0131mlar b\u00fcy\u00fck de\u011fi\u015fimlere yol a\u00e7ar." %}' },
-                { icon: 'auto_awesome',   key: 'Bug\u00fcn harika bir g\u00fcn olacak!',              fallback: '{% trans "Bug\u00fcn harika bir g\u00fcn olacak!" %}' },
-                { icon: 'favorite',       key: 'Kendinle nazik ol, geli\u015fiyorsun.',              fallback: '{% trans "Kendinle nazik ol, geli\u015fiyorsun." %}' },
-                { icon: 'trending_up',    key: 'Potansiyelinin s\u0131n\u0131r\u0131 yok.',           fallback: '{% trans "Potansiyelinin s\u0131n\u0131r\u0131 yok." %}' },
-                { icon: 'self_improvement',key: 'G\u00fcne\u015f her zaman bulutlar\u0131n arkas\u0131nda do\u011fuyor.', fallback: '{% trans "G\u00fcne\u015f her zaman bulutlar\u0131n arkas\u0131nda do\u011fuyor." %}' },
+                { icon: 'wb_sunny',       key: 'Her g\u00fcn yeni bir ba\u015flang\u0131\u00e7t\u0131r.',         fallback: getTranslation('Her g\u00fcn yeni bir ba\u015flang\u0131\u00e7t\u0131r.') },
+                { icon: 'directions_walk',key: 'K\u00fc\u00e7\u00fck ad\u0131mlar b\u00fcy\u00fck de\u011fi\u015fimlere yol a\u00e7ar.', fallback: getTranslation('K\u00fc\u00e7\u00fck ad\u0131mlar b\u00fcy\u00fck de\u011fi\u015fimlere yol a\u00e7ar.') },
+                { icon: 'auto_awesome',   key: 'Bug\u00fcn harika bir g\u00fcn olacak!',              fallback: getTranslation('Bug\u00fcn harika bir g\u00fcn olacak!') },
+                { icon: 'favorite',       key: 'Kendinle nazik ol, geli\u015fiyorsun.',              fallback: getTranslation('Kendinle nazik ol, geli\u015fiyorsun.') },
+                { icon: 'trending_up',    key: 'Potansiyelinin s\u0131n\u0131r\u0131 yok.',           fallback: getTranslation('Potansiyelinin s\u0131n\u0131r\u0131 yok.') },
+                { icon: 'self_improvement',key: 'G\u00fcne\u015f her zaman bulutlar\u0131n arkas\u0131nda do\u011fuyor.', fallback: getTranslation('G\u00fcne\u015f her zaman bulutlar\u0131n arkas\u0131nda do\u011fuyor.') },
             ];
 
             // Daily-seeded selection (same motivation all day, not random per reload)
@@ -2080,6 +1960,7 @@
                     return;
                 }
                 const mood = data.mood;
+                window.currentMood = mood;
                 const emojiEl = document.getElementById('sbMoodEmoji');
                 const labelEl = document.getElementById('sbMoodLabel');
                 const barEl   = document.getElementById('sbMoodBar');
@@ -2218,7 +2099,16 @@
 
     if (!overlay) return;
 
-    function showModal() { overlay.style.display = 'flex'; }
+    function showModal() { 
+      overlay.style.display = 'flex'; 
+      if (!selectedMood && window.currentMood) selectedMood = window.currentMood;
+      if (selectedMood) {
+        document.querySelectorAll('.mood-choice').forEach(b => {
+          b.classList.toggle('selected', b.getAttribute('data-mood') === selectedMood);
+        });
+        updateSubmitState();
+      }
+    }
     function hideModal() { overlay.style.display = 'none'; }
     function setError(message){
       if (!message) { err.style.display = 'none'; err.textContent = ''; return; }
@@ -2234,14 +2124,8 @@
     document.querySelectorAll('.mood-choice').forEach(btn => {
       btn.addEventListener('click', function(){
         selectedMood = this.getAttribute('data-mood');
-        document.querySelectorAll('.mood-choice').forEach(b => {
-          b.style.borderColor = '#e2e8f0';
-          b.style.background = '#f8fafc';
-          b.style.boxShadow = 'none';
-        });
-        this.style.borderColor = '#8b5cf6';
-        this.style.background = 'rgba(139,92,246,.10)';
-        this.style.boxShadow = '0 8px 24px rgba(139,92,246,.12)';
+        document.querySelectorAll('.mood-choice').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
         setError('');
         updateSubmitState();
       });
@@ -2291,13 +2175,13 @@
         }
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
-        const msg = (data && data.error) ? data.error : '{% trans "Kaydedilemedi. Lütfen tekrar deneyin." %}';
+        const msg = (data && data.error) ? data.error : getTranslation('Kaydedilemedi. Lütfen tekrar deneyin.');
         setError(msg);
       })
       .catch(() => {
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
-        setError('{% trans "Kaydedilemedi. Lütfen tekrar deneyin." %}');
+        setError(getTranslation('Kaydedilemedi. Lütfen tekrar deneyin.'));
       });
     });
 
@@ -2316,11 +2200,11 @@
         return fallback || trKey;
       }
       const labels = {
-        very_good: t('\u00c7ok \u0130yi', '{% trans "\u00c7ok \u0130yi" %}'),
-        good:      t('\u0130yi',        '{% trans "\u0130yi" %}'),
-        neutral:   t('N\u00f6tr',       '{% trans "N\u00f6tr" %}'),
-        bad:       t('K\u00f6t\u00fc',  '{% trans "K\u00f6t\u00fc" %}'),
-        very_bad:  t('\u00c7ok K\u00f6t\u00fc','{% trans "\u00c7ok K\u00f6t\u00fc" %}')
+        very_good: t('\u00c7ok \u0130yi', getTranslation('\u00c7ok \u0130yi')),
+        good:      t('\u0130yi',        getTranslation('\u0130yi')),
+        neutral:   t('N\u00f6tr',       getTranslation('N\u00f6tr')),
+        bad:       t('K\u00f6t\u00fc',  getTranslation('K\u00f6t\u00fc')),
+        very_bad:  t('\u00c7ok K\u00f6t\u00fc',getTranslation('\u00c7ok K\u00f6t\u00fc'))
       };
       const emojiEl = document.getElementById('sbMoodEmoji');
       const labelEl = document.getElementById('sbMoodLabel');

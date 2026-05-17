@@ -989,9 +989,9 @@
         <div class="sidebar-header">
             <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo">
             <div class="sidebar-nav">
-                <a href="{% url 'anasayfa' %}" data-translate="Home">{% trans "Ana Sayfa" %}</a>
-                <a href="{% url 'dashboard' %}" data-translate="Feel Good">{% trans "İyi Hisset" %}</a>
-                <a href="{% url 'profile-management' %}" data-translate="Profile Management">{% trans "Profile Management" %}</a>
+                <a href="{% url 'anasayfa' %}" data-translate="Home"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
+                <a href="{% url 'dashboard' %}" data-translate="Feel Good"><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a>
+                <a href="{% url 'profile-management' %}" data-translate="Profile Management"><span data-translate="{% trans "Profile Management" %}">Profile Management</span></a>
             </div>
         </div>
 
@@ -1008,47 +1008,47 @@
         <div class="sidebar-menu">
             <a href="#" class="menu-item" data-translate="Project Overview" data-target="project-overview">
                 <span class="material-symbols-outlined">psychology</span>
-                {% trans "Projeye Genel Bakış" %}
+                <span data-translate="{% trans "Projeye Genel Bakış" %}">Projeye Genel Bakış</span>
             </a>
             <a href="#" class="menu-item" data-translate="Main Features" data-target="main-features">
                 <span class="material-symbols-outlined">star</span>
-                {% trans "Ana Özellikler" %}
+                <span data-translate="{% trans "Ana Özellikler" %}">Ana Özellikler</span>
             </a>
             <a href="#" class="menu-item" data-translate="Emergency Support System" data-target="emergency-support">
                 <span class="material-symbols-outlined">emergency</span>
-                {% trans "Acil Destek Sistemi" %}
+                <span data-translate="{% trans "Acil Destek Sistemi" %}">Acil Destek Sistemi</span>
             </a>
             <a href="#" class="menu-item" data-translate="Daily Motivation Cards" data-target="daily-cards">
                 <span class="material-symbols-outlined">event_note</span>
-                {% trans "Günlük Motivasyon Kartları" %}
+                <span data-translate="{% trans "Günlük Motivasyon Kartları" %}">Günlük Motivasyon Kartları</span>
             </a>
             <a href="#" class="menu-item" data-translate="Support Wall" data-target="help-center">
                 <span class="material-symbols-outlined">forum</span>
-                {% trans "Destek Duvarı" %}
+                <span data-translate="{% trans "Destek Duvarı" %}">Destek Duvarı</span>
             </a>
             <a href="#" class="menu-item" data-translate="Weekly Reports" data-target="weekly-reports">
                 <span class="material-symbols-outlined">bar_chart</span>
-                {% trans "Haftalık Raporlar" %}
+                <span data-translate="{% trans "Haftalık Raporlar" %}">Haftalık Raporlar</span>
             </a>
             <a href="#" class="menu-item" data-translate="Notification System" data-target="notification-system">
                 <span class="material-symbols-outlined">notifications</span>
-                {% trans "Bildirim Sistemi" %}
+                <span data-translate="{% trans "Bildirim Sistemi" %}">Bildirim Sistemi</span>
             </a>
             <a href="#" class="menu-item" data-translate="Account Management" data-target="account-management">
                 <span class="material-symbols-outlined">account_circle</span>
-                {% trans "Hesap Yönetimi" %}
+                <span data-translate="{% trans "Hesap Yönetimi" %}">Hesap Yönetimi</span>
             </a>
             <a href="#" class="menu-item" data-translate="Frequently Asked Questions" data-target="faq">
                 <span class="material-symbols-outlined">help</span>
-                {% trans "Sıkça Sorulan Sorular" %}
+                <span data-translate="{% trans "Sıkça Sorulan Sorular" %}">Sıkça Sorulan Sorular</span>
             </a>
             <a href="#" class="menu-item" data-translate="Help Center">
                 <span class="material-symbols-outlined">help</span>
-                {% trans "Yardım Merkezi" %}
+                <span data-translate="{% trans "Yardım Merkezi" %}">Yardım Merkezi</span>
             </a>
             <a href="{% url 'my-login' %}" class="menu-item" data-translate="Log Out">
                 <span class="material-symbols-outlined">logout</span>
-                {% trans "Çıkış Yap" %}
+                <span data-translate="{% trans "Çıkış Yap" %}">Çıkış Yap</span>
             </a>
         </div>
     </div>
@@ -1056,125 +1056,125 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="help-content">
-            <h1 class="page-title" data-translate="Feel Good - Help Center">{% trans "İyi Hisset - Yardım Merkezi" %}</h1>
+            <h1 class="page-title" data-translate="Feel Good - Help Center"><span data-translate="{% trans "İyi Hisset - Yardım Merkezi" %}">İyi Hisset - Yardım Merkezi</span></h1>
             
             <section id="project-overview" class="help-section">
-                <h2 data-translate="Project Overview"><i class="material-symbols-outlined">psychology</i> {% trans "Projeye Genel Bakış" %}</h2>
-                <p data-translate="Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.">{% trans "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır." %}</p>
+                <h2 data-translate="Project Overview"><i class="material-symbols-outlined">psychology</i> <span data-translate="{% trans "Projeye Genel Bakış" %}">Projeye Genel Bakış</span></h2>
+                <p data-translate="Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives."><span data-translate="{% trans "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır." %}">İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır.</span></p>
             </section>
 
             <section id="main-features" class="help-section">
-                <h2 data-translate="Main Features"><i class="material-symbols-outlined">star</i> {% trans "Ana Özellikler" %}</h2>
+                <h2 data-translate="Main Features"><i class="material-symbols-outlined">star</i> <span data-translate="{% trans "Ana Özellikler" %}">Ana Özellikler</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Get instant help with the AI-powered chatbot available 24/7.">{% trans "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın." %}</li>
-                    <li data-translate="Improve yourself with personalized daily tasks and activities.">{% trans "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin." %}</li>
-                    <li data-translate="Track your mood and progress, and get detailed reports.">{% trans "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın." %}</li>
+                    <li data-translate="Get instant help with the AI-powered chatbot available 24/7."><span data-translate="{% trans "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın." %}">7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın.</span></li>
+                    <li data-translate="Improve yourself with personalized daily tasks and activities."><span data-translate="{% trans "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin." %}">Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin.</span></li>
+                    <li data-translate="Track your mood and progress, and get detailed reports."><span data-translate="{% trans "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın." %}">Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın.</span></li>
                 </ul>
             </section>
 
             <section id="emergency-support" class="help-section">
-                <h2 data-translate="Emergency Support System"><i class="material-symbols-outlined">emergency</i> {% trans "Acil Destek Sistemi" %}</h2>
+                <h2 data-translate="Emergency Support System"><i class="material-symbols-outlined">emergency</i> <span data-translate="{% trans "Acil Destek Sistemi" %}">Acil Destek Sistemi</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Instant help call with emergency button">{% trans "Acil durum butonu ile anında yardım çağırma" %}</li>
-                    <li data-translate="Automatic notification to pre-defined emergency contacts">{% trans "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim" %}</li>
-                    <li data-translate="Location sharing and quick response">{% trans "Konum paylaşımı ve hızlı müdahale" %}</li>
+                    <li data-translate="Instant help call with emergency button"><span data-translate="{% trans "Acil durum butonu ile anında yardım çağırma" %}">Acil durum butonu ile anında yardım çağırma</span></li>
+                    <li data-translate="Automatic notification to pre-defined emergency contacts"><span data-translate="{% trans "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim" %}">Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim</span></li>
+                    <li data-translate="Location sharing and quick response"><span data-translate="{% trans "Konum paylaşımı ve hızlı müdahale" %}">Konum paylaşımı ve hızlı müdahale</span></li>
                 </ul>
             </section>
 
             <section id="daily-cards" class="help-section">
-                <h2 data-translate="Daily Motivation Cards"><i class="material-symbols-outlined">event_note</i> {% trans "Günlük Motivasyon Kartları" %}</h2>
+                <h2 data-translate="Daily Motivation Cards"><i class="material-symbols-outlined">event_note</i> <span data-translate="{% trans "Günlük Motivasyon Kartları" %}">Günlük Motivasyon Kartları</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Daily motivational quotes">{% trans "Günlük motive edici sözler" %}</li>
-                    <li data-translate="Interactive card design">{% trans "Etkileşimli kart tasarımı" %}</li>
-                    <li data-translate="Personalized content">{% trans "Kişiselleştirilmiş içerik" %}</li>
+                    <li data-translate="Daily motivational quotes"><span data-translate="{% trans "Günlük motive edici sözler" %}">Günlük motive edici sözler</span></li>
+                    <li data-translate="Interactive card design"><span data-translate="{% trans "Etkileşimli kart tasarımı" %}">Etkileşimli kart tasarımı</span></li>
+                    <li data-translate="Personalized content"><span data-translate="{% trans "Kişiselleştirilmiş içerik" %}">Kişiselleştirilmiş içerik</span></li>
                 </ul>
             </section>
 
             <section id="help-center" class="help-section">
-                <h2 data-translate="Support Wall"><i class="material-symbols-outlined">forum</i> {% trans "Destek Duvarı" %}</h2>
+                <h2 data-translate="Support Wall"><i class="material-symbols-outlined">forum</i> <span data-translate="{% trans "Destek Duvarı" %}">Destek Duvarı</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Anonymous sharing option">{% trans "Anonim paylaşım seçeneği" %}</li>
-                    <li data-translate="Like and support system">{% trans "Beğeni ve destek sistemi" %}</li>
-                    <li data-translate="Community support">{% trans "Topluluk desteği" %}</li>
+                    <li data-translate="Anonymous sharing option"><span data-translate="{% trans "Anonim paylaşım seçeneği" %}">Anonim paylaşım seçeneği</span></li>
+                    <li data-translate="Like and support system"><span data-translate="{% trans "Beğeni ve destek sistemi" %}">Beğeni ve destek sistemi</span></li>
+                    <li data-translate="Community support"><span data-translate="{% trans "Topluluk desteği" %}">Topluluk desteği</span></li>
                 </ul>
             </section>
 
             <section id="weekly-reports" class="help-section">
-                <h2 data-translate="Weekly Reports"><i class="material-symbols-outlined">bar_chart</i> {% trans "Haftalık Raporlar" %}</h2>
+                <h2 data-translate="Weekly Reports"><i class="material-symbols-outlined">bar_chart</i> <span data-translate="{% trans "Haftalık Raporlar" %}">Haftalık Raporlar</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Achievement statistics">{% trans "Başarı istatistikleri" %}</li>
-                    <li data-translate="Personal development analysis">{% trans "Kişisel gelişim analizi" %}</li>
+                    <li data-translate="Achievement statistics"><span data-translate="{% trans "Başarı istatistikleri" %}">Başarı istatistikleri</span></li>
+                    <li data-translate="Personal development analysis"><span data-translate="{% trans "Kişisel gelişim analizi" %}">Kişisel gelişim analizi</span></li>
                 </ul>
             </section>
 
             <section id="notification-system" class="help-section">
-                <h2 data-translate="Notification System"><i class="material-symbols-outlined">notifications</i> {% trans "Bildirim Sistemi" %}</h2>
+                <h2 data-translate="Notification System"><i class="material-symbols-outlined">notifications</i> <span data-translate="{% trans "Bildirim Sistemi" %}">Bildirim Sistemi</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Task reminders">{% trans "Görev hatırlatıcıları" %}</li>
-                    <li data-translate="Achievement notifications">{% trans "Başarı bildirimleri" %}</li>
-                    <li data-translate="Community interactions">{% trans "Topluluk etkileşimleri" %}</li>
+                    <li data-translate="Task reminders"><span data-translate="{% trans "Görev hatırlatıcıları" %}">Görev hatırlatıcıları</span></li>
+                    <li data-translate="Achievement notifications"><span data-translate="{% trans "Başarı bildirimleri" %}">Başarı bildirimleri</span></li>
+                    <li data-translate="Community interactions"><span data-translate="{% trans "Topluluk etkileşimleri" %}">Topluluk etkileşimleri</span></li>
                 </ul>
             </section>
 
             <section id="account-management" class="help-section">
-                <h2 data-translate="Account Management"><i class="material-symbols-outlined">account_circle</i> {% trans "Hesap Yönetimi" %}</h2>
+                <h2 data-translate="Account Management"><i class="material-symbols-outlined">account_circle</i> <span data-translate="{% trans "Hesap Yönetimi" %}">Hesap Yönetimi</span></h2>
                 <ul class="feature-list">
-                    <li data-translate="Change profile photo">{% trans "Profil fotoğrafı değiştirme" %}</li>
-                    <li data-translate="Update password">{% trans "Şifre güncelleme" %}</li>
-                    <li data-translate="Language and appearance settings">{% trans "Dil ve görünüm ayarları" %}</li>
+                    <li data-translate="Change profile photo"><span data-translate="{% trans "Profil fotoğrafı değiştirme" %}">Profil fotoğrafı değiştirme</span></li>
+                    <li data-translate="Update password"><span data-translate="{% trans "Şifre güncelleme" %}">Şifre güncelleme</span></li>
+                    <li data-translate="Language and appearance settings"><span data-translate="{% trans "Dil ve görünüm ayarları" %}">Dil ve görünüm ayarları</span></li>
                 </ul>
             </section>
 
             <section id="faq" class="help-section" style="margin-bottom: 250px;">
-                <h2 data-translate="Frequently Asked Questions"><i class="material-symbols-outlined">help</i> {% trans "Sıkça Sorulan Sorular" %}</h2>
+                <h2 data-translate="Frequently Asked Questions"><i class="material-symbols-outlined">help</i> <span data-translate="{% trans "Sıkça Sorulan Sorular" %}">Sıkça Sorulan Sorular</span></h2>
                 <div class="faq-container">
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h4 data-translate="How can I start using the app?">{% trans "Uygulamayı nasıl kullanmaya başlayabilirim?" %}</h4>
+                            <h4 data-translate="How can I start using the app?"><span data-translate="{% trans "Uygulamayı nasıl kullanmaya başlayabilirim?" %}">Uygulamayı nasıl kullanmaya başlayabilirim?</span></h4>
                             <span class="material-symbols-outlined">expand_more</span>
                         </div>
                         <div class="faq-answer">
-                            <p data-translate="To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot.">{% trans "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz." %}</p>
+                            <p data-translate="To start using the app, you first need to create an account. Then, you can track your daily tasks and interact with the chatbot."><span data-translate="{% trans "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz." %}">Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz.</span></p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h4 data-translate="How can I get help in an emergency?">{% trans "Acil durumda nasıl yardım alabilirim?" %}</h4>
+                            <h4 data-translate="How can I get help in an emergency?"><span data-translate="{% trans "Acil durumda nasıl yardım alabilirim?" %}">Acil durumda nasıl yardım alabilirim?</span></h4>
                             <span class="material-symbols-outlined">expand_more</span>
                         </div>
                         <div class="faq-answer">
-                            <p data-translate="You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature.">{% trans "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın." %}</p>
+                            <p data-translate="You can instantly send a message to your pre-defined emergency contact using the emergency button. Don't forget to save your emergency contact information on the settings page before using this feature."><span data-translate="{% trans "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın." %}">Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın.</span></p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h4 data-translate="How do daily cards work?">{% trans "Günlük kartlar nasıl çalışır?" %}</h4>
+                            <h4 data-translate="How do daily cards work?"><span data-translate="{% trans "Günlük kartlar nasıl çalışır?" %}">Günlük kartlar nasıl çalışır?</span></h4>
                             <span class="material-symbols-outlined">expand_more</span>
                         </div>
                         <div class="faq-answer">
-                            <p data-translate="Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively.">{% trans "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur." %}</p>
+                            <p data-translate="Daily cards contain motivational quotes and thoughts prepared especially for you every day. These cards help you start your day positively."><span data-translate="{% trans "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur." %}">Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur.</span></p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h4 data-translate="Can I share on the support wall?">{% trans "Destek duvarında paylaşım yapabilir miyim?" %}</h4>
+                            <h4 data-translate="Can I share on the support wall?"><span data-translate="{% trans "Destek duvarında paylaşım yapabilir miyim?" %}">Destek duvarında paylaşım yapabilir miyim?</span></h4>
                             <span class="material-symbols-outlined">expand_more</span>
                         </div>
                         <div class="faq-answer">
-                            <p data-translate="Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts.">{% trans "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir." %}</p>
+                            <p data-translate="Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts."><span data-translate="{% trans "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir." %}">Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir.</span></p>
                         </div>
                     </div>
                     
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h4 data-translate="How can I change my account settings?">{% trans "Hesap ayarlarımı nasıl değiştirebilirim?" %}</h4>
+                            <h4 data-translate="How can I change my account settings?"><span data-translate="{% trans "Hesap ayarlarımı nasıl değiştirebilirim?" %}">Hesap ayarlarımı nasıl değiştirebilirim?</span></h4>
                             <span class="material-symbols-outlined">expand_more</span>
                         </div>
                         <div class="faq-answer">
-                            <p data-translate="You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here.">{% trans "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz." %}</p>
+                            <p data-translate="You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here."><span data-translate="{% trans "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz." %}">Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz.</span></p>
                         </div>
                     </div>
                 </div>

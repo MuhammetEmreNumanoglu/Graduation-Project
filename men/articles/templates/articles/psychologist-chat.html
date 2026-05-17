@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% trans "Psikolog Sohbet" %} - {{ target_user.username }}</title>
+    <title data-translate="Psikolog Sohbet">{% trans "Psikolog Sohbet" %} - {{ target_user.username }}</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <meta name="csrf-token" content="{{ csrf_token }}">
     <style>
@@ -243,7 +243,7 @@
       <div>
         <a href="{% url 'psychologist-dashboard' %}" class="back-btn">
           <span class="material-symbols-outlined">arrow_back</span>
-          {% trans "Geri" %}
+          <span data-translate="{% trans "Geri" %}">Geri</span>
         </a>
         <h2 style="margin-left: 1rem; display: inline;">{{ target_user.username }}</h2>
       </div>
@@ -272,23 +272,23 @@
         </div>
       </div>
 
-      <aside class="info-panel" aria-label="{% trans 'Kullanıcı Bilgileri' %}">
-        <div class="info-panel-header">{% trans "Kullanıcı Bilgileri" %}</div>
+      <aside class="info-panel" aria-label="{% trans 'Kullanıcı Bilgileri' %}" data-translate="Kullanıcı Bilgileri" data-translate="Kullanıcı Bilgileri" data-translate="Kullanıcı Bilgileri">
+        <div class="info-panel-header"><span data-translate="{% trans "Kullanıcı Bilgileri" %}">Kullanıcı Bilgileri</span></div>
         <div class="info-panel-body">
           <div class="info-card">
-            <h3><span class="material-symbols-outlined">mood</span> {% trans "Bugünkü ruh hali" %}</h3>
+            <h3><span class="material-symbols-outlined">mood</span> <span data-translate="{% trans "Bugünkü ruh hali" %}">Bugünkü ruh hali</span></h3>
             {% if today_mood %}
               <div class="mood-pill">{{ today_mood.get_mood_display }}</div>
               {% if today_mood.note %}
                 <div class="small-muted" style="margin-top:10px;">{{ today_mood.note }}</div>
               {% endif %}
             {% else %}
-              <div class="small-muted">{% trans "Bugün için henüz ruh hali kaydı yok." %}</div>
+              <div class="small-muted"><span data-translate="{% trans "Bugün için henüz ruh hali kaydı yok." %}">Bugün için henüz ruh hali kaydı yok.</span></div>
             {% endif %}
           </div>
 
           <div class="info-card">
-            <h3><span class="material-symbols-outlined">history</span> {% trans "Son günler" %}</h3>
+            <h3><span class="material-symbols-outlined">history</span> <span data-translate="{% trans "Son günler" %}">Son günler</span></h3>
             {% if recent_moods %}
               <ul class="mood-list">
                 {% for m in recent_moods %}
@@ -304,16 +304,16 @@
                 {% endfor %}
               </ul>
             {% else %}
-              <div class="small-muted">{% trans "Henüz ruh hali geçmişi yok." %}</div>
+              <div class="small-muted"><span data-translate="{% trans "Henüz ruh hali geçmişi yok." %}">Henüz ruh hali geçmişi yok.</span></div>
             {% endif %}
           </div>
 
           <div class="info-card">
-            <h3><span class="material-symbols-outlined">description</span> {% trans "Hayat Hikayem" %}</h3>
+            <h3><span class="material-symbols-outlined">description</span> <span data-translate="{% trans "Hayat Hikayem" %}">Hayat Hikayem</span></h3>
             {% if life_story %}
               <div class="life-story-box">{{ life_story }}</div>
             {% else %}
-              <div class="small-muted">{% trans "Kullanıcı henüz hayat hikayesini paylaşmadı." %}</div>
+              <div class="small-muted"><span data-translate="{% trans "Kullanıcı henüz hayat hikayesini paylaşmadı." %}">Kullanıcı henüz hayat hikayesini paylaşmadı.</span></div>
             {% endif %}
           </div>
         </div>
@@ -351,7 +351,7 @@
           }
         })
         .catch(error => {
-          alert('{% trans "Bir hata oluştu!" %}');
+          alert(getTranslation('Bir hata oluştu!'));
         });
       }
       

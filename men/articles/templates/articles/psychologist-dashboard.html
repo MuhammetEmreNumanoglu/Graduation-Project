@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% trans "Psikolog Dashboard" %}</title>
+    <title data-translate="Psikolog Dashboard"><span data-translate="{% trans "Psikolog Dashboard" %}">Psikolog Dashboard</span></title>
     <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -232,7 +232,7 @@
         color: #7c3aed;
       }
       .stat-pill.acil-stat .stat-num  { color: #dc2626; }
-      .stat-pill.takip-stat .stat-num { color: #d97706; }
+      .stat-pill.takip-stat .stat-num { color: #dbeafe }
       .stat-pill .stat-lbl {
         font-size: 0.62rem;
         font-weight: 600;
@@ -321,7 +321,7 @@
       }
       .filter-tab.active .dot { background: rgba(255,255,255,0.7); }
       .filter-tab-acil  .dot { background: #dc2626; }
-      .filter-tab-takip .dot { background: #d97706; }
+      .filter-tab-takip .dot { background: #dbeafe }
       .filter-tab-normal .dot { background: #16a34a; }
       .filter-tab-acil.active  .dot { background: rgba(255,255,255,0.7); }
       .filter-tab-takip.active .dot { background: rgba(255,255,255,0.7); }
@@ -372,9 +372,11 @@
         border: 1px solid rgba(139, 92, 246, 0.2);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         position: relative; /* Badge için */
+        z-index: 2;
       }
 
-      .sidebar-user-card:hover {
+      .sidebar-user-card:hover, .sidebar-user-card:focus-within {
+        z-index: 100;
         background: rgba(139, 92, 246, 0.15);
         border-color: rgba(139, 92, 246, 0.2);
         transform: translateX(4px);
@@ -456,6 +458,10 @@
         transition: var(--transition-smooth);
         border: none;
         color: var(--primary-color);
+      }
+
+      .action-icon .material-symbols-outlined {
+        font-size: 1.2rem;
       }
 
       .action-icon:hover {
@@ -928,8 +934,8 @@
         border-radius: 10px;
         box-shadow: 0 8px 24px rgba(0,0,0,.14);
         /* Z-index layering system:
-           base content = 1, cards = 2, dropdowns = 50, modals = 100, toasts = 200 */
-        z-index: 50;
+           base content = 1, cards = 2, dropdowns = 200, modals = 1000, toasts = 2000 */
+        z-index: 200;
         min-width: 130px;
         display: none;
         /* Animate open */
@@ -1211,7 +1217,7 @@
       }
       .bulk-cat-option:hover { border-color: #8b5cf6; background: #f3eaff; }
       .bulk-cat-option.selected-acil   { border-color: #dc2626; background: #fee2e2; }
-      .bulk-cat-option.selected-supheli { border-color: #d97706; background: #fef9c3; }
+      .bulk-cat-option.selected-supheli { border-color: #dbeafe background: #fef9c3; }
       .bulk-cat-option.selected-normal  { border-color: #16a34a; background: #dcfce7; }
       .bulk-cat-option input[type=checkbox] { accent-color: #8b5cf6; width: 16px; height: 16px; }
       .bulk-cat-label { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 7px; }
@@ -1528,7 +1534,7 @@
       <link rel="stylesheet" href="{% static 'css/global-responsive.css' %}" />
   </head>
   <body>
-    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" style="display: none;">
+    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" data-translate="Menüyü Aç/Kapat" data-translate="Menüyü Aç/Kapat" data-translate="Menüyü Aç/Kapat" data-translate="Menüyü Aç/Kapat" style="display: none;">
       <span></span>
       <span></span>
       <span></span>
@@ -1542,8 +1548,8 @@
           class="sidebar-logo"
         />
         <div class="sidebar-nav">
-          <a href="{% url 'psychologist-dashboard' %}" class="active">{% trans "Ana Sayfa" %}</a>
-          <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+          <a href="{% url 'psychologist-dashboard' %}" class="active" data-translate="Ana Sayfa"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
+          <a href="{% url 'profile-management' %}" data-translate="Profil Yönetimi"><span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span></a>
         </div>
       </div>
       <div class="sidebar-user">
@@ -1624,9 +1630,9 @@
               </div>
               <div class="last-message-time">
                 {% if user_data.last_message_time %}
-                  {% trans "Son mesaj:" %} {{ user_data.last_message_time|date:"d.m.Y H:i" }}
+                  <span data-translate="Son mesaj:"><span data-translate="{% trans "Son mesaj:" %}">Son mesaj:</span></span> {{ user_data.last_message_time|date:"d.m.Y H:i" }}
                 {% else %}
-                  {% trans "Henüz mesaj yok" %}
+                  <span data-translate="Henüz mesaj yok"><span data-translate="{% trans "Henüz mesaj yok" %}">Henüz mesaj yok</span></span>
                 {% endif %}
               </div>
               <!-- Kategori badge + dropdown -->
@@ -1656,28 +1662,30 @@
                 </div>
             </div>
             <div class="user-card-actions">
-              <button
-                class="action-icon"
-                onclick="event.stopPropagation(); openTaskModal({{ user_data.user.id }}, '{{ user_data.user.username }}')"
-                title="{% trans 'Görev Gönder' %}"
-              >
-                <span class="material-symbols-outlined">task</span>
-              </button>
-              <button
-                class="action-icon"
-                onclick="event.stopPropagation(); openNotificationModal({{ user_data.user.id }}, '{{ user_data.user.username }}')"
-                title="{% trans 'Bildirim Gönder' %}"
-              >
-                <span class="material-symbols-outlined">notifications</span>
-              </button>
-              <button
-                class="action-icon"
-                onclick="event.stopPropagation(); openChat({{ user_data.user.id }}, '{{ user_data.user.username }}')"
-                title="{% trans 'Mesajlaş' %}"
-              >
-                <span class="material-symbols-outlined">chat</span>
-              </button>
-            </div>
+  <button
+    class="action-icon"
+    onclick="event.stopPropagation(); openTaskModal({{ user_data.user.id }}, '{{ user_data.user.username }}')"
+    aria-label="{% trans 'Görev Gönder' %}"
+  >
+    <span class="material-symbols-outlined">assignment</span>
+  </button>
+
+  <button
+    class="action-icon"
+    onclick="event.stopPropagation(); openNotificationModal({{ user_data.user.id }}, '{{ user_data.user.username }}')"
+    aria-label="{% trans 'Bildirim Gönder' %}"
+  >
+    <span class="material-symbols-outlined">notifications</span>
+  </button>
+
+  <button
+    class="action-icon"
+    onclick="event.stopPropagation(); openChat({{ user_data.user.id }}, '{{ user_data.user.username }}')"
+    aria-label="{% trans 'Mesajlaş' %}"
+  >
+    <span class="material-symbols-outlined">chat</span>
+  </button>
+</div>
             <span class="unread-badge" id="badge-{{ user_data.user.id }}">0</span>
           </div>
           {% endfor %}
@@ -1696,14 +1704,14 @@
             <span>Kişiye Özel Notlar</span>
           </div>
           <div class="notes-panel-body">
-            <div class="notes-empty-hint" id="notesEmptyHint" data-translate="Bir kullanıcı seçince notlar yüklenir.">{% trans "Bir kullanıcı seçince notlar yüklenir." %}</div>
+            <div class="notes-empty-hint" id="notesEmptyHint" data-translate="Bir kullanıcı seçince notlar yüklenir."><span data-translate="{% trans "Bir kullanıcı seçince notlar yüklenir." %}">Bir kullanıcı seçince notlar yüklenir.</span></div>
             <textarea
               id="privateNoteTextarea"
-              placeholder="{% trans 'Bu kullanıcıya özel notunuzu buraya yazın...' %}"
+              placeholder="{% trans 'Bu kullanıcıya özel notunuzu buraya yazın...' %}" data-translate="Bu kullanıcıya özel notunuzu buraya yazın..."
               style="display:none;"
             ></textarea>
             <div class="notes-panel-actions" id="notesActions" style="display:none;">
-              <button class="notes-save-btn" onclick="savePrivateNote()" data-translate="Kaydet">{% trans "Kaydet" %}</button>
+              <button class="notes-save-btn" onclick="savePrivateNote()" data-translate="Kaydet"><span data-translate="{% trans "Kaydet" %}">Kaydet</span></button>
               <button class="notes-clear-btn" onclick="clearPrivateNote()" title="Notu temizle">
                 <span class="material-symbols-outlined" style="font-size:1rem;">delete</span>
               </button>
@@ -1716,25 +1724,23 @@
         <div class="chat-interface" id="chatInterface" style="flex:1 1 auto;min-width:0;">
           <div class="chat-header">
             <span class="material-symbols-outlined">chat</span>
-            <h2 class="chat-header-title" id="chatHeaderTitle">
-              {% trans "Bir kullanıcı seçin" %}
+            <h2 class="chat-header-title" id="chatHeaderTitle" data-translate="Bir kullanıcı seçin"><span data-translate="{% trans "Bir kullanıcı seçin" %}">Bir kullanıcı seçin</span>
             </h2>
           </div>
           <div class="chat-messages" id="chatMessages" style="flex: 1; overflow-y: auto;">
-            <div class="empty-chat">
-              {% trans "Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin" %}
+            <div class="empty-chat" data-translate="Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin">{% trans "Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin" %}
             </div>
           </div>
 
           <div class="chat-input-container" id="chatInputContainer" style="display: none;">
             <textarea
               id="messageInput"
-              placeholder="{% trans 'Mesajınızı yazın...' %}"
+              placeholder="{% trans 'Mesajınızı yazın...' %}" 
               rows="1"
             ></textarea>
             <button class="send-btn" onclick="sendMessage()">
               <span class="material-symbols-outlined">send</span>
-              {% trans "Gönder" %}
+              <span data-translate="Gönder"><span data-translate="{% trans "Gönder" %}">Gönder</span></span>
             </button>
           </div>
         </div>
@@ -1743,16 +1749,15 @@
         <aside id="userInsightsPanel" style="width:330px;min-width:330px;background:rgba(255,255,255,0.96);border-radius:18px;box-shadow:0 4px 18px rgba(15,23,42,.15);padding:14px 14px 18px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:80vh;">
           <div style="padding:10px 10px 6px 10px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:8px;flex-shrink:0;">
             <span class="material-symbols-outlined">info</span>
-            <span>{% trans "Kullanıcı Bilgileri" %}</span>
+            <span data-translate="Kullanıcı Bilgileri"><span data-translate="{% trans "Kullanıcı Bilgileri" %}">Kullanıcı Bilgileri</span></span>
           </div>
-          <div id="insightsEmpty" style="padding:10px 6px 4px 6px;font-size:0.9rem;color:#64748b;">
-            {% trans "Bir kullanıcı seçtiğinizde bugünkü ruh hali ve hayat hikayesi burada görünecek." %}
+          <div id="insightsEmpty" style="padding:10px 6px 4px 6px;font-size:0.9rem;color:#64748b;" data-translate="Bir kullanıcı seçtiğinizde bugünkü ruh hali ve hayat hikayesi burada görünecek."><span data-translate="{% trans "Bir kullanıcı seçtiğinizde bugünkü ruh hali ve hayat hikayesi burada görünecek." %}">Bir kullanıcı seçtiğinizde bugünkü ruh hali ve hayat hikayesi burada görünecek.</span>
           </div>
           <div id="insightsContent" style="display:none;flex-direction:column;gap:10px;">
             <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:10px 10px 12px 10px;">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:700;color:#8b5cf6;">
                 <span class="material-symbols-outlined" style="font-size:1.2rem;">mood</span>
-                <span>{% trans "Bugünkü ruh hali" %}</span>
+                <span data-translate="Bugünkü ruh hali"><span data-translate="{% trans "Bugünkü ruh hali" %}">Bugünkü ruh hali</span></span>
               </div>
               <div id="insightTodayMood" style="font-size:0.95rem;color:#0f172a;"></div>
               <div id="insightTodayNote" style="font-size:0.9rem;color:#64748b;margin-top:4px;"></div>
@@ -1760,14 +1765,14 @@
             <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:10px 10px 12px 10px;">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:700;color:#8b5cf6;">
                 <span class="material-symbols-outlined" style="font-size:1.2rem;">history</span>
-                <span>{% trans "Son günler" %}</span>
+                <span data-translate="Son günler"><span data-translate="{% trans "Son günler" %}">Son günler</span></span>
               </div>
               <ul id="insightRecentMoods" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:0.9rem;"></ul>
             </div>
             <div style="background:#fff;border-radius:14px;border:1px solid #e2e8f0;padding:10px 10px 12px 10px;">
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;font-weight:700;color:#8b5cf6;">
                 <span class="material-symbols-outlined" style="font-size:1.2rem;">description</span>
-                <span>{% trans "Hayat Hikayem" %}</span>
+                <span data-translate="Hayat Hikayem"><span data-translate="{% trans "Hayat Hikayem" %}">Hayat Hikayem</span></span>
               </div>
               <div id="insightLifeStory" style="white-space:pre-wrap;font-size:0.9rem;color:#0f172a;max-height:160px;overflow:auto;"></div>
             </div>
@@ -1775,7 +1780,7 @@
             <div class="usage-chart-section" id="usageChartSection">
               <div class="usage-chart-title">
                 <span class="material-symbols-outlined" style="font-size:1.1rem;">bar_chart</span>
-                <span data-translate="Son 7 Gün Kullanımı">{% trans "Son 7 Gün Kullanımı" %}</span>
+                <span data-translate="Son 7 Gün Kullanımı"><span data-translate="{% trans "Son 7 Gün Kullanımı" %}">Son 7 Gün Kullanımı</span></span>
               </div>
               <div class="usage-bars" id="usageBars">
                 <!-- JS tarafından doldurulacak -->
@@ -1787,17 +1792,17 @@
             <div class="rating-chart-section" id="ratingChartSection">
               <div class="rating-chart-title">
                 <span class="material-symbols-outlined" style="font-size:1.1rem;">star_rate</span>
-                <span data-translate="Seans Değerlendirmesi">{% trans "Seans Değerlendirmesi" %}</span>
+                <span data-translate="Seans Değerlendirmesi"><span data-translate="{% trans "Seans Değerlendirmesi" %}">Seans Değerlendirmesi</span></span>
               </div>
               <canvas id="ratingChart" height="120"></canvas>
               <div class="rating-inputs">
                 <div class="rating-slider-row">
-                  <label for="ratingSlider" data-translate="Puan:">{% trans "Puan:" %}</label>
+                  <label for="ratingSlider" data-translate="Puan:"><span data-translate="{% trans "Puan:" %}">Puan:</span></label>
                   <input type="range" id="ratingSlider" min="1" max="10" value="5" oninput="document.getElementById('ratingValueBadge').textContent=this.value">
                   <span class="rating-value-badge" id="ratingValueBadge">5</span>
                 </div>
-                <textarea class="rating-note-input" id="ratingNoteInput" rows="2" placeholder="{% trans 'Seans notu (isteğe bağlı)...' %}"></textarea>
-                <button class="rating-save-btn" onclick="saveSessionRating()" type="button" data-translate="Değerlendirmeyi Kaydet">{% trans "Değerlendirmeyi Kaydet" %}</button>
+                <textarea class="rating-note-input" id="ratingNoteInput" rows="2" placeholder="{% trans 'Seans notu (isteğe bağlı)...' %}" data-translate="Seans notu (isteğe bağlı)..."></textarea>
+                <button class="rating-save-btn" onclick="saveSessionRating()" type="button" data-translate="Değerlendirmeyi Kaydet"><span data-translate="{% trans "Değerlendirmeyi Kaydet" %}">Değerlendirmeyi Kaydet</span></button>
                 <div class="rating-status" id="ratingStatus"></div>
               </div>
             </div>
@@ -1806,9 +1811,9 @@
             <div class="assigned-tasks-section" id="assignedTasksSection">
               <div class="assigned-tasks-title">
                 <span class="material-symbols-outlined" style="font-size:1.1rem;">task_alt</span>
-                <span data-translate="Atanan Görevler">{% trans "Atanan Görevler" %}</span>
+                <span data-translate="Atanan Görevler"><span data-translate="{% trans "Atanan Görevler" %}">Atanan Görevler</span></span>
               </div>
-              <div id="assignedTasksList"><div style="font-size:0.8rem;color:#9ca3af;">{% trans "Yükleniyor..." %}</div></div>
+              <div id="assignedTasksList"><div style="font-size:0.8rem;color:#9ca3af;" data-translate="Yükleniyor..."><span data-translate="{% trans "Yükleniyor..." %}">Yükleniyor...</span></div></div>
             </div>
 
           </div>
@@ -1819,44 +1824,44 @@
     <!-- Task Modal - Action Cards -->
     <div id="taskModal" class="modal">
       <div class="modal-content">
-        <div class="modal-header" data-translate="Görev Gönder">{% trans "Görev Gönder" %}</div>
+        <div class="modal-header" data-translate="Görev Gönder"><span data-translate="{% trans "Görev Gönder" %}">Görev Gönder</span></div>
         <form class="modal-form" id="taskForm">
           <input type="hidden" id="taskUserId" name="user_id" />
           <input type="hidden" id="taskTypeInput" name="text" value="" />
           <div class="task-cards-grid">
             <div class="action-card" data-task="breathing_exercise" onclick="selectTaskCard(this)">
               <div class="action-card-icon">
-                <img src="{% static 'img/breathing.png' %}" alt="Nefes Egzersizi" onerror="this.innerHTML='🌬️'">
+                <img src="{% static 'img/breathing.png' %}" alt="Nefes Egzersizi" onerror="this.innerHTML=''">
               </div>
-              <div class="action-card-title" data-translate="Nefes Egzersizi">{% trans "Nefes Egzersizi" %}</div>
-              <div class="action-card-desc" data-translate="Nefes tekniklerini uygula">{% trans "Nefes tekniklerini uygula" %}</div>
+              <div class="action-card-title" data-translate="Nefes Egzersizi"><span data-translate="{% trans "Nefes Egzersizi" %}">Nefes Egzersizi</span></div>
+              <div class="action-card-desc" data-translate="Nefes tekniklerini uygula"><span data-translate="{% trans "Nefes tekniklerini uygula" %}">Nefes tekniklerini uygula</span></div>
             </div>
             <div class="action-card" data-task="meditation" onclick="selectTaskCard(this)">
               <div class="action-card-icon">
-                <img src="{% static 'img/calm.jpg' %}" alt="Meditasyon" onerror="this.innerHTML='🧘'">
+                <img src="{% static 'img/calm.jpg' %}" alt="Meditasyon" onerror="this.innerHTML=''">
               </div>
-              <div class="action-card-title" data-translate="Meditasyon">{% trans "Meditasyon" %}</div>
-              <div class="action-card-desc" data-translate="Günlük meditasyon yap">{% trans "Günlük meditasyon yap" %}</div>
+              <div class="action-card-title" data-translate="Meditasyon"><span data-translate="{% trans "Meditasyon" %}">Meditasyon</span></div>
+              <div class="action-card-desc" data-translate="Günlük meditasyon yap"><span data-translate="{% trans "Günlük meditasyon yap" %}">Günlük meditasyon yap</span></div>
             </div>
             <div class="action-card" data-task="daily_cards" onclick="selectTaskCard(this)">
               <div class="action-card-icon">
-                <img src="{% static 'img/morning.jpg' %}" alt="Günlük Kartlar" onerror="this.innerHTML='🃏'">
+                <img src="{% static 'img/morning.jpg' %}" alt="Günlük Kartlar" onerror="this.innerHTML=''">
               </div>
-              <div class="action-card-title" data-translate="Günlük Kartlar">{% trans "Günlük Kartlar" %}</div>
-              <div class="action-card-desc" data-translate="Motivasyon kartlarını gör">{% trans "Motivasyon kartlarını gör" %}</div>
+              <div class="action-card-title" data-translate="Günlük Kartlar"><span data-translate="{% trans "Günlük Kartlar" %}">Günlük Kartlar</span></div>
+              <div class="action-card-desc" data-translate="Motivasyon kartlarını gör"><span data-translate="{% trans "Motivasyon kartlarını gör" %}">Motivasyon kartlarını gör</span></div>
             </div>
             <div class="action-card" data-task="support_wall" onclick="selectTaskCard(this)">
               <div class="action-card-icon">
-                <img src="{% static 'img/forest.jpg' %}" alt="Destek Duvarı" onerror="this.innerHTML='🤝'">
+                <img src="{% static 'img/forest.jpg' %}" alt="Destek Duvarı" onerror="this.innerHTML=''">
               </div>
-              <div class="action-card-title" data-translate="Destek Duvarı">{% trans "Destek Duvarı" %}</div>
-              <div class="action-card-desc" data-translate="Forumda paylaşım yap">{% trans "Forumda paylaşım yap" %}</div>
+              <div class="action-card-title" data-translate="Destek Duvarı"><span data-translate="{% trans "Destek Duvarı" %}">Destek Duvarı</span></div>
+              <div class="action-card-desc" data-translate="Forumda paylaşım yap"><span data-translate="{% trans "Forumda paylaşım yap" %}">Forumda paylaşım yap</span></div>
             </div>
           </div>
           <div id="taskCardError" style="font-size:0.78rem;color:#dc2626;text-align:center;min-height:16px;margin-top:4px;"></div>
           <div class="modal-buttons" style="margin-top:8px;">
-            <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">{% trans "İptal" %}</button>
-            <button type="submit" class="btn btn-primary">{% trans "Gönder" %}</button>
+            <button type="button" class="btn btn-secondary" onclick="closeTaskModal()" data-translate="İptal"><span data-translate="{% trans "İptal" %}">İptal</span></button>
+            <button type="submit" class="btn btn-primary" data-translate="Gönder"><span data-translate="{% trans "Gönder" %}">Gönder</span></button>
           </div>
         </form>
       </div>
@@ -1865,13 +1870,13 @@
     <!-- Notification Modal -->
     <div id="notificationModal" class="modal">
       <div class="modal-content">
-        <div class="modal-header">{% trans "Bildirim Gönder" %}</div>
+        <div class="modal-header" data-translate="Bildirim Gönder"><span data-translate="{% trans "Bildirim Gönder" %}">Bildirim Gönder</span></div>
         <form class="modal-form" id="notificationForm">
           <input type="hidden" id="notificationUserId" name="user_id" />
           <textarea
             id="notificationText"
             name="text"
-            placeholder="{% trans 'Bildirim metnini yazın...' %}"
+            placeholder="{% trans 'Bildirim metnini yazın...' %}" 
             required
           ></textarea>
           <div class="modal-buttons">
@@ -1879,10 +1884,9 @@
               type="button"
               class="btn btn-secondary"
               onclick="closeNotificationModal()"
-            >
-              {% trans "İptal" %}
+             data-translate="İptal"><span data-translate="{% trans "İptal" %}">İptal</span>
             </button>
-            <button type="submit" class="btn btn-primary">{% trans "Gönder" %}</button>
+            <button type="submit" class="btn btn-primary" data-translate="Gönder"><span data-translate="{% trans "Gönder" %}">Gönder</span></button>
           </div>
         </form>
       </div>
@@ -1891,42 +1895,42 @@
     <!-- Toplu Bildirim Modalı -->
     <div id="bulkNotifyModal" class="modal">
       <div class="modal-content" style="max-width:480px;">
-        <div class="modal-header" data-translate="Kimlere bildirim göndermek istiyorsunuz?">{% trans "Kimlere bildirim göndermek istiyorsunuz?" %}</div>
+        <div class="modal-header" data-translate="Kimlere bildirim göndermek istiyorsunuz?"><span data-translate="{% trans "Kimlere bildirim göndermek istiyorsunuz?" %}">Kimlere bildirim göndermek istiyorsunuz?</span></div>
         <div class="modal-form">
           <div class="bulk-category-group">
             <label class="bulk-cat-option" id="bulkOptAcil" onclick="toggleBulkCat('acil', this)">
               <input type="checkbox" id="bulkChkAcil" value="acil">
               <span class="bulk-cat-label">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dc2626;"></span>
-                {% trans "Acil" %}
+                <span data-translate="Acil">{% trans "Acil" %}</span>
               </span>
             </label>
             <label class="bulk-cat-option" id="bulkOptSupheli" onclick="toggleBulkCat('supheli', this)">
               <input type="checkbox" id="bulkChkSupheli" value="supheli">
               <span class="bulk-cat-label">
-                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#d97706;"></span>
-                {% trans "Takip" %}
+                <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#dbeafe"></span>
+                <span data-translate="Takip">{% trans "Takip" %}</span>
               </span>
             </label>
             <label class="bulk-cat-option" id="bulkOptNormal" onclick="toggleBulkCat('normal', this)">
               <input type="checkbox" id="bulkChkNormal" value="normal">
               <span class="bulk-cat-label">
                 <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16a34a;"></span>
-                {% trans "Normal" %}
+                <span data-translate="Normal">{% trans "Normal" %}</span>
               </span>
             </label>
           </div>
           <textarea
             id="bulkNotifyText"
-            placeholder="{% trans 'Göndermek istediğiniz bildirimi yazın...' %}"
+            placeholder="{% trans 'Göndermek istediğiniz bildirimi yazın...' %}" data-translate="Göndermek istediğiniz bildirimi yazın..."
             rows="4"
             style="width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.9rem;resize:vertical;box-sizing:border-box;"
           ></textarea>
           <div class="bulk-result-msg" id="bulkResultMsg"></div>
           <div class="modal-buttons">
-            <button type="button" class="btn btn-secondary" onclick="closeBulkNotifyModal()" data-translate="İptal">{% trans "İptal" %}</button>
+            <button type="button" class="btn btn-secondary" onclick="closeBulkNotifyModal()" data-translate="İptal"><span data-translate="{% trans "İptal" %}">İptal</span></button>
             <button type="button" class="btn btn-primary" id="bulkSendBtn" onclick="sendBulkNotify()">
-              <span id="bulkSendLabel">Gönder</span>
+              <span id="bulkSendLabel" data-translate="Gönder"><span data-translate="{% trans "Gönder" %}">Gönder</span></span>
             </button>
           </div>
         </div>
@@ -2232,37 +2236,37 @@
 
       // ===== ATANAN GOREVLER (SAG PANEL) =====
       const TASK_ICONS = {
-        breathing_exercise: '🌬️',
-        meditation: '🧘',
-        daily_cards: '🃏',
-        support_wall: '🤝',
+        breathing_exercise: '',
+        meditation: '',
+        daily_cards: '',
+        support_wall: '',
       };
 
       function loadAssignedTasks(userId) {
         const listEl = document.getElementById('assignedTasksList');
         if (!listEl) return;
-        listEl.innerHTML = '<div style="font-size:0.8rem;color:#9ca3af;">Yükleniyor...</div>';
+        listEl.innerHTML = `<div style="font-size:0.8rem;color:#9ca3af;">${getTranslation("Yükleniyor...")}</div>`;
         fetch(`/api/psychologist/user-tasks/?user_id=${userId}`, {
           headers: { 'X-CSRFToken': csrfToken }
         })
         .then(r => r.json())
         .then(data => {
           if (!data.success || !data.tasks || !data.tasks.length) {
-            listEl.innerHTML = '<div style="font-size:0.8rem;color:#9ca3af;">Henüz görev atanmamış.</div>';
+            listEl.innerHTML = `<div style="font-size:0.8rem;color:#9ca3af;">${getTranslation("Henüz görev atanmamış.")}</div>`;
             return;
           }
-          listEl.innerHTML = data.tasks.map(t => `
-            <div class="assigned-task-item ${t.is_completed ? 'completed' : ''}">
-              <span class="assigned-task-icon">${TASK_ICONS[t.text] || '📝'}</span>
-              <span style="flex:1;">${t.display_name}</span>
-              <span class="assigned-task-badge ${t.is_completed ? 'badge-completed' : 'badge-pending'}">
-                ${t.is_completed ? 'Tamamlandı' : 'Bekliyor'}
+          listEl.innerHTML = data.tasks.map(taskObj => `
+            <div class="assigned-task-item ${taskObj.is_completed ? 'completed' : ''}">
+              <span class="assigned-task-icon">${TASK_ICONS[taskObj.text] || '📝'}</span>
+              <span style="flex:1;">${getTranslation(taskObj.display_name)}</span>
+              <span class="assigned-task-badge ${taskObj.is_completed ? 'badge-completed' : 'badge-pending'}">
+                ${getTranslation(taskObj.is_completed ? 'Tamamlandı' : 'Bekliyor')}
               </span>
             </div>
           `).join('');
         })
         .catch(() => {
-          if (listEl) listEl.innerHTML = '<div style="font-size:0.8rem;color:#dc2626;">Yüklenemedi</div>';
+          if (listEl) listEl.innerHTML = `<div style="font-size:0.8rem;color:#dc2626;">${getTranslation("Yüklenemedi")}</div>`;
         });
       }
 
@@ -2303,7 +2307,7 @@
             }
           } else {
             if (todayMoodEl) {
-              todayMoodEl.textContent = '{% trans "Bugün için ruh hali kaydı yok." %}';
+              todayMoodEl.textContent = getTranslation('Bugün için ruh hali kaydı yok.');
             }
             if (todayNoteEl) {
               todayNoteEl.style.display = 'none';
@@ -2331,7 +2335,7 @@
               });
             } else {
               const li = document.createElement('li');
-              li.textContent = '{% trans "Henüz ruh hali geçmişi yok." %}';
+              li.textContent = getTranslation('Henüz ruh hali geçmişi yok.');
               recentListEl.appendChild(li);
             }
           }
@@ -2342,7 +2346,7 @@
             if (txt.trim()) {
               lifeStoryEl.textContent = txt;
             } else {
-              lifeStoryEl.textContent = '{% trans "Kullanıcı henüz hayat hikayesini paylaşmadı." %}';
+              lifeStoryEl.textContent = getTranslation('Kullanıcı henüz hayat hikayesini paylaşmadı.');
             }
           }
         })
@@ -2426,7 +2430,7 @@
             } else if (isInitial) {
               // Sadece ilk yüklemede "henüz mesaj yok" göster
               messagesDiv.innerHTML =
-                '<div class="empty-chat">{% trans "Henüz mesaj yok. İlk mesajı siz gönderin!" %}</div>';
+                '<div class="empty-chat" data-translate="Henüz mesaj yok. İlk mesajı siz gönderin!"><span data-translate="{% trans "Henüz mesaj yok. İlk mesajı siz gönderin!" %}">Henüz mesaj yok. İlk mesajı siz gönderin!</span></div>';
             }
             
             if (isInitial) {
@@ -2438,7 +2442,7 @@
             const messagesDiv = document.getElementById('chatMessages');
             if (messagesDiv) {
               messagesDiv.innerHTML =
-                '<div class="empty-chat">{% trans "Mesajlar yüklenirken bir hata oluştu." %}</div>';
+                '<div class="empty-chat" data-translate="Mesajlar yüklenirken bir hata oluştu."><span data-translate="{% trans "Mesajlar yüklenirken bir hata oluştu." %}">Mesajlar yüklenirken bir hata oluştu.</span></div>';
             }
           });
       }
@@ -2459,7 +2463,7 @@
         messageDiv.innerHTML = `
           <div style="position:relative; padding-right: 20px;">
             ${text}
-            ${id ? `<span class="delete-msg" onclick="deleteMessage(${id}, this.parentElement.parentElement)" title="Sil" style="position:absolute; right: -5px; top: -5px; cursor:pointer; font-size: 12px; opacity: 0.6;">&times;</span>` : ''}
+            ${id && sender === 'psychologist' ? `<span class="delete-msg" onclick="deleteMessage(${id}, this.parentElement.parentElement)" title="Sil" style="position:absolute; right: -5px; top: -5px; cursor:pointer; font-size: 12px; opacity: 0.6;">&times;</span>` : ''}
           </div>
           <div class="message-time">${time}</div>
         `;
@@ -2567,7 +2571,7 @@
                 }
               }
             } else {
-              alert('{% trans "Hata:" %} ' + (data.error || '{% trans "Bilinmeyen hata" %}'));
+              alert('{% trans "Hata:" %} ' + (data.error || getTranslation('Bilinmeyen hata')));
             }
           })
           .catch((error) => {
@@ -2607,13 +2611,13 @@
 
             const data = await response.json();
             if (data.success) {
-              alert('{% trans "Görev başarıyla gönderildi!" %}');
+              alert(getTranslation('Görev başarıyla gönderildi!'));
               closeTaskModal();
             } else {
               alert('{% trans "Hata:" %} ' + data.error);
             }
           } catch (error) {
-            alert('{% trans "Bir hata oluştu!" %}');
+            alert(getTranslation('Bir hata oluştu!'));
           }
         });
 
@@ -2635,13 +2639,13 @@
 
             const data = await response.json();
             if (data.success) {
-              alert('{% trans "Bildirim başarıyla gönderildi!" %}');
+              alert(getTranslation('Bildirim başarıyla gönderildi!'));
               closeNotificationModal();
             } else {
               alert('{% trans "Hata:" %} ' + data.error);
             }
           } catch (error) {
-            alert('{% trans "Bir hata oluştu!" %}');
+            alert(getTranslation('Bir hata oluştu!'));
           }
         });
 

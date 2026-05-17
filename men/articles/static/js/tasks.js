@@ -48,10 +48,10 @@
 
     // Task type → Emoji icon
     const TASK_ICONS = {
-        breathing_exercise: '🌬️',
-        meditation: '🧘',
-        daily_cards: '🃏',
-        support_wall: '🤝',
+        breathing_exercise: '',
+        meditation: '',
+        daily_cards: '',
+        support_wall: '',
     };
 
     // Görevleri yükle
@@ -134,8 +134,12 @@
         const lang = localStorage.getItem('selectedLanguage') || 'tr';
 
         function t(key) {
-            if (window.translations && window.translations[lang] && window.translations[lang][key]) {
-                return window.translations[lang][key];
+            if (typeof getTranslation === 'function') {
+                return getTranslation(key);
+            }
+            // Fallback for direct translation access if getTranslation not available
+            if (typeof translations !== 'undefined' && translations[lang] && translations[lang][key]) {
+                return translations[lang][key];
             }
             return key;
         }

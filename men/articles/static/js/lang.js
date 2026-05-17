@@ -1,6 +1,173 @@
 // Dinamik dil değiştirme sistemi
 const translations = {
     tr: {
+        "Son mesaj:": "Son mesaj:",
+        "Meditasyon Seansı": "Meditasyon Seansı",
+        "Sohbet Seansları": "Sohbet Seansları",
+        "Diğer kullanıcılarla iletişime geçin ve destek alın.": "Diğer kullanıcılarla iletişime geçin ve destek alın.",
+        "Kaydet / Güncelle": "Kaydet / Güncelle",
+        "Uygulama görünümünü özelleştirin": "Uygulama görünümünü özelleştirin",
+        "Bekleyen Görevler": "Bekleyen Görevler",
+        "Başla": "Başla",
+        "Hesabı Sil": "Hesabı Sil",
+        "Sayfa": "Sayfa",
+        "Hemen yardım almak için tıklayın": "Hemen yardım almak için tıklayın",
+        "Dün, 20:15": "Dün, 20:15",
+        "Hata:": "Hata:",
+        "Sık Sorulan Sorular": "Sık Sorulan Sorular",
+        "Şifre güncelleme": "Şifre güncelleme",
+        "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur.": "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur.",
+        "ACİL DESTEK": "ACİL DESTEK",
+        "Ana Sayfa": "Ana Sayfa",
+        "En son aktiviteleriniz ve önemli bilgilerle güncel kalın.": "En son aktiviteleriniz ve önemli bilgilerle güncel kalın.",
+        "Ad Soyad": "Ad Soyad",
+        "Acil Durum Kişisi": "Acil Durum Kişisi",
+        "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın.": "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın.",
+        "Bu haftaki ilerlemenizi değerlendirin": "Bu haftaki ilerlemenizi değerlendirin",
+        "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin.": "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin.",
+        "Kullanıcı bilgilerinizi güncelleyin": "Kullanıcı bilgilerinizi güncelleyin",
+        "Hazır": "Hazır",
+        "Destek ile nasıl iletişime geçebilirim?": "Destek ile nasıl iletişime geçebilirim?",
+        "Görünüm": "Görünüm",
+        "Günlük motive edici sözler": "Günlük motive edici sözler",
+        "Profil fotoğrafı değiştirme": "Profil fotoğrafı değiştirme",
+        "Site genelinde tema seçin": "Site genelinde tema seçin",
+        "Tut": "Tut",
+        "Nefes egzersizleri yaparak solunum sisteminizi güçlendirin.": "Nefes egzersizleri yaparak solunum sisteminizi güçlendirin.",
+        "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim": "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim",
+        "Konum paylaşımı ve hızlı müdahale": "Konum paylaşımı ve hızlı müdahale",
+        "Haftalık Değerlendirme": "Haftalık Değerlendirme",
+        "Meditasyon yaparak stres seviyenizi azaltın.": "Meditasyon yaparak stres seviyenizi azaltın.",
+        "Etkileşimli kart tasarımı": "Etkileşimli kart tasarımı",
+        "Başarı bildirimleri": "Başarı bildirimleri",
+        "Site genelinde dil ayarlayın": "Site genelinde dil ayarlayın",
+        "Mevcut Şifre": "Mevcut Şifre",
+        "Psikolog Dashboard": "Psikolog Dashboard",
+        "Aktif Günler": "Aktif Günler",
+        "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak\n            silinecek.": "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak\n            silinecek.",
+        "Önceki": "Önceki",
+        "Günlük Düşünce Günlüğü": "Günlük Düşünce Günlüğü",
+        "5 dakikalık nefes egzersizi tamamlandı": "5 dakikalık nefes egzersizi tamamlandı",
+        "İyi Hisset sistemi ile sağlık ve mutlu olma yolunu bulun.": "İyi Hisset sistemi ile sağlık ve mutlu olma yolunu bulun.",
+        "Günlük meditasyon yap": "Günlük meditasyon yap",
+        "Uygulamayı nasıl kullanmaya başlayabilirim?": "Uygulamayı nasıl kullanmaya başlayabilirim?",
+        "Tamamla": "Tamamla",
+        "Yakınlık": "Yakınlık",
+        "Sil": "Sil",
+        "Meditasyon - İyi Hisset": "Meditasyon - İyi Hisset",
+        "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl\n          olduğunuzu görün.": "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl\n          olduğunuzu görün.",
+        "Büyük": "Büyük",
+        "Dil ve görünüm ayarları": "Dil ve görünüm ayarları",
+        "Telefon Numarası": "Telefon Numarası",
+        "Hayır": "Hayır",
+        "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz.": "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz.",
+        "HESABIMI SİL": "HESABIMI SİL",
+        "Son Tarih: Bugün": "Son Tarih: Bugün",
+        "Küçük": "Küçük",
+        "Hoşgeldin": "Hoşgeldin",
+        "Tamamlanan Görevler": "Tamamlanan Görevler",
+        "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin.": "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin.",
+        "Forumda paylaşım yap": "Forumda paylaşım yap",
+        "İlk paylaşan sen ol!": "İlk paylaşan sen ol!",
+        "Kişi Kaydetme": "Kişi Kaydetme",
+        "Yeni Şifre (Tekrar)": "Yeni Şifre (Tekrar)",
+        "How do I reset my password?": "How do I reset my password?",
+        "Profil fotoğrafımı nasıl güncelleyebilirim?": "Profil fotoğrafımı nasıl güncelleyebilirim?",
+        "Düzenle": "Düzenle",
+        "Şifre Değiştir": "Şifre Değiştir",
+        "Henüz gönderi yok.": "Henüz gönderi yok.",
+        "Sık sorulan soruların cevaplarını bulun ve ihtiyacınız\n          olduğunda destek alın.": "Sık sorulan soruların cevaplarını bulun ve ihtiyacınız\n          olduğunda destek alın.",
+        "Ateş Meditasyonu": "Ateş Meditasyonu",
+        "Yorum ekle...": "Yorum ekle...",
+        "görevi tamamlandı!": "görevi tamamlandı!",
+        "Hesap ayarlarımı nasıl değiştirebilirim?": "Hesap ayarlarımı nasıl değiştirebilirim?",
+        "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz.": "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz.",
+        "Tekrar": "Tekrar",
+        "Dil Seçimi": "Dil Seçimi",
+        "Topluluk desteği": "Topluluk desteği",
+        "Bütün bildirimleri okundu olarak işaretle": "Bütün bildirimleri okundu olarak işaretle",
+        "Ayarlarım": "Ayarlarım",
+        "Site genelinde yazı boyutunu ayarlayın": "Site genelinde yazı boyutunu ayarlayın",
+        "Kullanıcı Bilgileri": "Kullanıcı Bilgileri",
+        "05xx xxx xx xx": "05xx xxx xx xx",
+        "Kullanıcı başarıyla oluşturuldu!": "Kullanıcı başarıyla oluşturuldu!",
+        "Dashboard - İyi Hisset": "Dashboard - İyi Hisset",
+        "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir.": "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir.",
+        "Yorumlar": "Yorumlar",
+        "Acil durumda nasıl yardım alabilirim?": "Acil durumda nasıl yardım alabilirim?",
+        "Nefes Egzersizi": "Nefes Egzersizi",
+        "Günlük kartlar nasıl çalışır?": "Günlük kartlar nasıl çalışır?",
+        "Çıkış Yap": "Çıkış Yap",
+        "İstatistiklerim": "İstatistiklerim",
+        "Bilgileri Güncelle": "Bilgileri Güncelle",
+        "Sıkça Sorulan Sorular": "Sıkça Sorulan Sorular",
+        "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır.": "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır.",
+        "Anonim paylaşım seçeneği": "Anonim paylaşım seçeneği",
+        "Örn: Anne, Baba, Arkadaş": "Örn: Anne, Baba, Arkadaş",
+        "Yeni Şifre": "Yeni Şifre",
+        "Excellent! Your breath control is improving!": "Excellent! Your breath control is improving!",
+        "Bugün, 10:30": "Bugün, 10:30",
+        "Açık Mod": "Açık Mod",
+        "Nefes tekniklerini uygula": "Nefes tekniklerini uygula",
+        "Hesabımı Kalıcı Olarak Sil": "Hesabımı Kalıcı Olarak Sil",
+        "Görev hatırlatıcıları": "Görev hatırlatıcıları",
+        "Bugün için henüz ruh hali kaydı yok.": "Bugün için henüz ruh hali kaydı yok.",
+        "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar": "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar",
+        "Durdur": "Durdur",
+        "Başarı istatistikleri": "Başarı istatistikleri",
+        "Meditasyon": "Meditasyon",
+        "Nefes Al": "Nefes Al",
+        "10 dakikalık meditasyon seansı": "10 dakikalık meditasyon seansı",
+        "Psikolog Sohbet": "Psikolog Sohbet",
+        "Nefes Ver (sn)": "Nefes Ver (sn)",
+        "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin.": "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin.",
+        "Döngü:": "Döngü:",
+        "Mesajlaş": "Mesajlaş",
+        "Günlük aktivitelerinizi ve sağlık durumunuzu kaydedin.": "Günlük aktivitelerinizi ve sağlık durumunuzu kaydedin.",
+        "Nefes Ver": "Nefes Ver",
+        "Yardım Merkezi": "Yardım Merkezi",
+        "Şifreyi Değiştir": "Şifreyi Değiştir",
+        "Menüyü Aç/Kapat": "Menüyü Aç/Kapat",
+        "Görev Sayısı": "Görev Sayısı",
+        "Fotoğrafı Güncelle": "Fotoğrafı Güncelle",
+        "Kapat": "Kapat",
+        "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın.": "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın.",
+        "Well done! You made time for yourself today!": "Well done! You made time for yourself today!",
+        "Hesap Bilgileri": "Hesap Bilgileri",
+        "Acil durum butonu ile anında yardım çağırma": "Acil durum butonu ile anında yardım çağırma",
+        "Motivasyon kartlarını gör": "Motivasyon kartlarını gör",
+        "Perfect! You took good care of yourself!": "Perfect! You took good care of yourself!",
+        "Görev Gönder": "Görev Gönder",
+        "Tema": "Tema",
+        "Bir hata oluştu. Lütfen tekrar deneyin.": "Bir hata oluştu. Lütfen tekrar deneyin.",
+        "Gizlilik ayarları nelerdir?": "Gizlilik ayarları nelerdir?",
+        "Bugünkü düşüncelerinizi kaydettiniz": "Bugünkü düşüncelerinizi kaydettiniz",
+        "Sonraki": "Sonraki",
+        "Beğeni ve destek sistemi": "Beğeni ve destek sistemi",
+        "Kişiselleştirilmiş içerik": "Kişiselleştirilmiş içerik",
+        "Topluluk etkileşimleri": "Topluluk etkileşimleri",
+        "Yardım Merkezini Ziyaret Et": "Yardım Merkezini Ziyaret Et",
+        "Henüz görev yok": "Henüz görev yok",
+        "Şifremi nasıl değiştirebilirim?": "Şifremi nasıl değiştirebilirim?",
+        "Henüz yorum yok.": "Henüz yorum yok.",
+        "Ayarlar": "Ayarlar",
+        "Görevlerim": "Görevlerim",
+        "Nefes Al (sn)": "Nefes Al (sn)",
+        "Evet": "Evet",
+        "Türkçe": "Türkçe",
+        "Mesaj gönderilemedi: ": "Mesaj gönderilemedi: ",
+        "Kişisel gelişim analizi": "Kişisel gelişim analizi",
+        "Great! You completed the breathing exercise!": "Great! You completed the breathing exercise!",
+        "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın.": "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın.",
+        "Tut (sn)": "Tut (sn)",
+        "Destek duvarında paylaşım yapabilir miyim?": "Destek duvarında paylaşım yapabilir miyim?",
+        "Son Tarih: Yarın": "Son Tarih: Yarın",
+        "Koyu Mod": "Koyu Mod",
+        "Geri": "Geri",
+        "Super! You should feel relaxed!": "Super! You should feel relaxed!",
+        "Profil Fotoğrafı": "Profil Fotoğrafı",
+        "Günlük Nefes Egzersizi": "Günlük Nefes Egzersizi",
+
         // Profile Management sayfası çevirileri
         "My Statistics": "İstatistiklerim",
         "Track your progress and see how you're doing with your mental health journey.": "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl olduğunuzu görün.",
@@ -142,9 +309,13 @@ const translations = {
         "Tamamlanan Görev": "Tamamlanan Görev",
         "Nefes Egzersizi Seansı": "Nefes Egzersizi Seansı",
         "Görev Tamamlama": "Görev Tamamlama",
+        "Kaydedildi ✓": "Kaydedildi ✓",
+        "Kaydedildi": "Kaydedildi",
+        "Bütün bildirimleri sil": "Bütün bildirimleri sil",
+        "Delete All Notifications": "Bütün bildirimleri sil",
 
         // Help Center sayfası çevirileri
-        "İyi Hisset - Yardım Merkezi": "İyi Hisset - Yardım Merkezi",
+        "İyi Hisset - Help Center": "İyi Hisset - Yardım Merkezi",
         "Help Center - Feel Good": "Yardım Merkezi - İyi Hisset",
         "Help Center": "Yardım Merkezi",
         "Help": "Yardım",
@@ -187,6 +358,7 @@ const translations = {
         "Can I share on the support wall?": "Destek duvarında paylaşım yapabilir miyim?",
         "Yes, you can share your experiences anonymously on the support wall. Other users can also like and support your posts.": "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir.",
         "How can I change my account settings?": "Hesap ayarlarımı nasıl değiştirebilirim?",
+        "anonymous": "anonim",
         "You can update your profile photo, password, and other account settings from the settings page. You can also change appearance settings such as font size and theme here.": "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz.",
 
         // Psikolog paneli çevirileri
@@ -337,6 +509,173 @@ const translations = {
         "Kayıt yok": "Kayıt yok"
     },
     en: {
+        "Son mesaj:": "Latest message:",
+        "Meditasyon Seansı": "Meditation Session",
+        "Sohbet Seansları": "Chat Sessions",
+        "Diğer kullanıcılarla iletişime geçin ve destek alın.": "Connect with other users and get support.",
+        "Kaydet / Güncelle": "Save / Update",
+        "Uygulama görünümünü özelleştirin": "Customize app appearance",
+        "Bekleyen Görevler": "Pending Tasks",
+        "Başla": "start",
+        "Hesabı Sil": "Delete Account",
+        "Sayfa": "Page",
+        "Hemen yardım almak için tıklayın": "Click to get help now",
+        "Dün, 20:15": "Yesterday, 20:15",
+        "Hata:": "Mistake:",
+        "Sık Sorulan Sorular": "Frequently Asked Questions",
+        "Şifre güncelleme": "Password update",
+        "Günlük kartlar, her gün size özel olarak hazırlanan motivasyon sözleri ve düşünceler içerir. Bu kartlar, gününüze olumlu bir başlangıç yapmanıza yardımcı olur.": "Daily cards contain motivational words and thoughts specially prepared for you every day. These cards will help you start your day on a positive note.",
+        "ACİL DESTEK": "EMERGENCY SUPPORT",
+        "Ana Sayfa": "Home",
+        "En son aktiviteleriniz ve önemli bilgilerle güncel kalın.": "Stay up to date with your latest activities and important information.",
+        "Ad Soyad": "Name Surname",
+        "Acil Durum Kişisi": "Emergency Contact",
+        "Acil durum butonunu kullanarak önceden belirlediğiniz acil iletişim kişinize anında mesaj gönderebilirsiniz. Bu özelliği kullanmadan önce ayarlar sayfasından acil durum iletişim bilgilerinizi kaydetmeyi unutmayın.": "Using the emergency button, you can instantly send a message to your pre-determined emergency contact person. Don't forget to save your emergency contact information on the settings page before using this feature.",
+        "Bu haftaki ilerlemenizi değerlendirin": "Evaluate your progress this week",
+        "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin.": "Follow your rhythmic breathing to calm down and calm your mind.",
+        "Kullanıcı bilgilerinizi güncelleyin": "Update your user information",
+        "Hazır": "Ready",
+        "Destek ile nasıl iletişime geçebilirim?": "How can I contact support?",
+        "Görünüm": "Appearance",
+        "Günlük motive edici sözler": "Daily motivational quotes",
+        "Profil fotoğrafı değiştirme": "Change profile photo",
+        "Site genelinde tema seçin": "Choose a site-wide theme",
+        "Tut": "Tutu",
+        "Nefes egzersizleri yaparak solunum sisteminizi güçlendirin.": "Strengthen your respiratory system by doing breathing exercises.",
+        "Önceden belirlenmiş acil iletişim kişilerine otomatik bildirim": "Automatic notification to predetermined emergency contacts",
+        "Konum paylaşımı ve hızlı müdahale": "Location sharing and rapid response",
+        "Haftalık Değerlendirme": "Weekly Review",
+        "Meditasyon yaparak stres seviyenizi azaltın.": "Reduce your stress level by meditating.",
+        "Etkileşimli kart tasarımı": "Interactive card design",
+        "Başarı bildirimleri": "Success notifications",
+        "Site genelinde dil ayarlayın": "Set site-wide language",
+        "Mevcut Şifre": "Current Password",
+        "Psikolog Dashboard": "Psychologist Dashboard",
+        "Aktif Günler": "Active Days",
+        "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak\n            silinecek.": "This action cannot be undone. All your data permanently\n            will be deleted.",
+        "Önceki": "Former",
+        "Günlük Düşünce Günlüğü": "Daily Thought Journal",
+        "5 dakikalık nefes egzersizi tamamlandı": "5 minute breathing exercise completed",
+        "İyi Hisset sistemi ile sağlık ve mutlu olma yolunu bulun.": "Find your way to health and happiness with the Feel Good system.",
+        "Günlük meditasyon yap": "Meditate daily",
+        "Uygulamayı nasıl kullanmaya başlayabilirim?": "How can I start using the app?",
+        "Tamamla": "complete",
+        "Yakınlık": "Proximity",
+        "Sil": "Delete",
+        "Meditasyon - İyi Hisset": "Meditation - Feel Good",
+        "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl\n          olduğunuzu görün.": "Track your progress and how you're doing on your mental health journey.\n          See who you are.",
+        "Büyük": "Big",
+        "Dil ve görünüm ayarları": "Language and appearance settings",
+        "Telefon Numarası": "Phone Number",
+        "Hayır": "No",
+        "Uygulamayı kullanmaya başlamak için öncelikle hesabınızı oluşturmanız gerekiyor. Ardından, günlük görevlerinizi takip edebilir ve sohbet botu ile iletişime geçebilirsiniz.": "To start using the application, you first need to create your account. You can then keep track of your daily tasks and communicate with the chatbot.",
+        "HESABIMI SİL": "DELETE MY ACCOUNT",
+        "Son Tarih: Bugün": "Deadline: Today",
+        "Küçük": "Small",
+        "Hoşgeldin": "Welcome",
+        "Tamamlanan Görevler": "Completed Tasks",
+        "Kişiselleştirilmiş günlük görevler ve aktiviteler ile kendinizi geliştirin.": "Improve yourself with personalized daily tasks and activities.",
+        "Forumda paylaşım yap": "Share on the forum",
+        "İlk paylaşan sen ol!": "Be the first to share!",
+        "Kişi Kaydetme": "Registering a Contact",
+        "Yeni Şifre (Tekrar)": "New Password (Again)",
+        "How do I reset my password?": "How do I reset my password?",
+        "Profil fotoğrafımı nasıl güncelleyebilirim?": "How can I update my profile photo?",
+        "Düzenle": "Edit",
+        "Şifre Değiştir": "Change password",
+        "Henüz gönderi yok.": "No posts yet.",
+        "Sık sorulan soruların cevaplarını bulun ve ihtiyacınız\n          olduğunda destek alın.": "Find answers to frequently asked questions and find what you need\n          Get support when it happens.",
+        "Ateş Meditasyonu": "Fire Meditation",
+        "Yorum ekle...": "Add comment...",
+        "görevi tamamlandı!": "mission accomplished!",
+        "Hesap ayarlarımı nasıl değiştirebilirim?": "How can I change my account settings?",
+        "Ayarlar sayfasından profil fotoğrafınızı, şifrenizi ve diğer hesap ayarlarınızı güncelleyebilirsiniz. Ayrıca yazı tipi boyutu ve tema gibi görünüm ayarlarını da buradan değiştirebilirsiniz.": "You can update your profile photo, password and other account settings from the Settings page. You can also change appearance settings such as font size and theme from here.",
+        "Tekrar": "Again",
+        "Dil Seçimi": "Language Selection",
+        "Topluluk desteği": "community support",
+        "Bütün bildirimleri okundu olarak işaretle": "Mark all notifications as read",
+        "Ayarlarım": "My settings",
+        "Site genelinde yazı boyutunu ayarlayın": "Adjust font size sitewide",
+        "Kullanıcı Bilgileri": "User Information",
+        "05xx xxx xx xx": "05xx xxx xx xx",
+        "Kullanıcı başarıyla oluşturuldu!": "User created successfully!",
+        "Dashboard - İyi Hisset": "Dashboard - Feel Good",
+        "Evet, destek duvarında anonim olarak deneyimlerinizi paylaşabilirsiniz. Diğer kullanıcılar da sizin paylaşımlarınızı beğenebilir ve destek olabilir.": "Yes, you can share your experiences anonymously on the support wall. Other users may also like and support your posts.",
+        "Yorumlar": "Comments",
+        "Acil durumda nasıl yardım alabilirim?": "How can I get help in an emergency?",
+        "Nefes Egzersizi": "Breathing Exercise",
+        "Günlük kartlar nasıl çalışır?": "How do daily passes work?",
+        "Çıkış Yap": "Sign Out",
+        "İstatistiklerim": "My stats",
+        "Bilgileri Güncelle": "Update Information",
+        "Sıkça Sorulan Sorular": "Frequently Asked Questions",
+        "İyi Hisset, kullanıcıların ruh sağlığını desteklemek ve günlük yaşamlarını daha iyi yönetmelerine yardımcı olmak için tasarlanmış kapsamlı bir uygulamadır.": "Feel Good is a comprehensive application designed to support users' mental health and help them better manage their daily lives.",
+        "Anonim paylaşım seçeneği": "Anonymous sharing option",
+        "Örn: Anne, Baba, Arkadaş": "Ex: Mother, Father, Friend",
+        "Yeni Şifre": "New Password",
+        "Excellent! Your breath control is improving!": "Excellent! Your breath control is improving!",
+        "Bugün, 10:30": "Today, 10:30",
+        "Açık Mod": "Open Mode",
+        "Nefes tekniklerini uygula": "Practice breathing techniques",
+        "Hesabımı Kalıcı Olarak Sil": "Permanently Delete My Account",
+        "Görev hatırlatıcıları": "Task reminders",
+        "Bugün için henüz ruh hali kaydı yok.": "No mood recording yet for today.",
+        "Her gün yeni bir motivasyon ve ilham için özel olarak seçilmiş kartlar": "Specially selected cards for new motivation and inspiration every day",
+        "Durdur": "stop",
+        "Başarı istatistikleri": "Success statistics",
+        "Meditasyon": "Meditation",
+        "Nefes Al": "Breathe",
+        "10 dakikalık meditasyon seansı": "10 minute meditation session",
+        "Psikolog Sohbet": "Psychologist Chat",
+        "Nefes Ver (sn)": "Exhale (sec)",
+        "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin.": "Save and update the person you want to reach in case of emergency.",
+        "Döngü:": "Loop:",
+        "Mesajlaş": "Message",
+        "Günlük aktivitelerinizi ve sağlık durumunuzu kaydedin.": "Record your daily activities and health status.",
+        "Nefes Ver": "Exhale",
+        "Yardım Merkezi": "Help Center",
+        "Şifreyi Değiştir": "Change Password",
+        "Menüyü Aç/Kapat": "Open/Close Menu",
+        "Görev Sayısı": "Number of Tasks",
+        "Fotoğrafı Güncelle": "Update Photo",
+        "Kapat": "Close",
+        "Ruh halinizi ve ilerlemenizi takip edin, detaylı raporlar alın.": "Track your mood and progress, get detailed reports.",
+        "Well done! You made time for yourself today!": "Well done! You made time for yourself today!",
+        "Hesap Bilgileri": "Account Information",
+        "Acil durum butonu ile anında yardım çağırma": "Instantly call for help with the emergency button",
+        "Motivasyon kartlarını gör": "See motivation cards",
+        "Perfect! You took good care of yourself!": "Perfect! You took good care of yourself!",
+        "Görev Gönder": "Send Task",
+        "Tema": "Theme",
+        "Bir hata oluştu. Lütfen tekrar deneyin.": "An error has occurred. Please try again.",
+        "Gizlilik ayarları nelerdir?": "What are the privacy settings?",
+        "Bugünkü düşüncelerinizi kaydettiniz": "You recorded your thoughts today",
+        "Sonraki": "Next",
+        "Beğeni ve destek sistemi": "Likes and support system",
+        "Kişiselleştirilmiş içerik": "personalized content",
+        "Topluluk etkileşimleri": "community interactions",
+        "Yardım Merkezini Ziyaret Et": "Visit Help Center",
+        "Henüz görev yok": "No missions yet",
+        "Şifremi nasıl değiştirebilirim?": "How can I change my password?",
+        "Henüz yorum yok.": "No comments yet.",
+        "Ayarlar": "Settings",
+        "Görevlerim": "My tasks",
+        "Nefes Al (sn)": "Inhale (sec)",
+        "Evet": "Yes",
+        "Türkçe": "Turkish",
+        "Mesaj gönderilemedi: ": "Message could not be sent:",
+        "Kişisel gelişim analizi": "Personal development analysis",
+        "Great! You completed the breathing exercise!": "Great! You completed the breathing exercise!",
+        "7/24 destek sağlayan yapay zeka destekli sohbet botu ile anında yardım alın.": "Get instant help with the artificial intelligence-supported chat bot that provides 24/7 support.",
+        "Tut (sn)": "Hold (sec)",
+        "Destek duvarında paylaşım yapabilir miyim?": "Can I post on the support wall?",
+        "Son Tarih: Yarın": "Deadline: Tomorrow",
+        "Koyu Mod": "Dark Mode",
+        "Geri": "Back",
+        "Super! You should feel relaxed!": "Super! You should feel relaxed!",
+        "Profil Fotoğrafı": "Profile Photo",
+        "Günlük Nefes Egzersizi": "Daily Breathing Exercise",
+
         // Additional UI Element Translations
         "Beni Hatırla": "Remember Me",
         "Psikolog Girişi": "Psychologist Login",
@@ -577,6 +916,10 @@ const translations = {
         "Tamamlanan Görev": "Completed Task",
         "Nefes Egzersizi Seansı": "Breathing Exercise Session",
         "Görev Tamamlama": "Task Completion",
+        "Kaydedildi ✓": "Saved ✓",
+        "Kaydedildi": "Saved",
+        "Bütün bildirimleri sil": "Delete All Notifications",
+        "Delete All Notifications": "Delete All Notifications",
 
         // Help Center sayfası çevirileri
         "İyi Hisset - Yardım Merkezi": "Feel Good - Help Center",
@@ -719,6 +1062,9 @@ const translations = {
         "Notes load when a user is selected.": "Notes load when a user is selected.",
         "Save": "Save",
         "Session Rating History": "Session Rating History",
+        "Bugün için ruh hali kaydı yok.": "No mood record for today.",
+        "Bu kullanıcıya özel notunuzu buraya yazın...": "Write your special note to this user here...",
+
 
         // Forum translations
         "Share Your Story": "Share Your Story",
@@ -915,16 +1261,16 @@ const DAILY_CARDS_POOL = [
 function changeLanguage(lang) {
     // localStorage'a kaydet
     localStorage.setItem('selectedLanguage', lang);
-    
+
     // Butonların active durumunu güncelle
     updateLanguageButtons(lang);
-    
+
     // Sayfadaki tüm metinleri çevir
     translatePage(lang);
-    
+
     // Django'ya dil değişikliğini bildir (arka planda)
     notifyDjango(lang);
-    
+
     // Popup göster (eğer showToast fonksiyonu varsa)
     if (typeof showToast === 'function') {
         setTimeout(() => {
@@ -937,7 +1283,7 @@ function changeLanguage(lang) {
 function translatePage(lang) {
     const langTranslations = translations[lang];
     if (!langTranslations) return;
-    
+
     // data-translate attribute'u olan elementleri çevir
     const elementsWithTranslate = document.querySelectorAll('[data-translate]');
     elementsWithTranslate.forEach(element => {
@@ -946,7 +1292,7 @@ function translatePage(lang) {
             element.textContent = langTranslations[translationKey];
         }
     });
-    
+
     // Placeholder'ları çevir
     const inputs = document.querySelectorAll('input[placeholder]');
     inputs.forEach(input => {
@@ -955,22 +1301,25 @@ function translatePage(lang) {
             input.setAttribute('placeholder', langTranslations[placeholder]);
         }
     });
-    
+
     // Title'ı çevir
     const title = document.querySelector('title');
     if (title && langTranslations[title.textContent]) {
         title.textContent = langTranslations[title.textContent];
     }
-    
+
     // HTML lang attribute'unu güncelle
     document.documentElement.lang = lang;
-    
+
     // Tüm metin içeriklerini çevir
     translateTextContent(document.body, langTranslations);
 }
 
 // Tüm metin içeriklerini recursive olarak çevir
 function translateTextContent(element, translations) {
+    if (element.nodeType === Node.ELEMENT_NODE && ['TEXTAREA', 'SCRIPT', 'STYLE'].includes(element.tagName)) {
+        return;
+    }
     if (element.nodeType === Node.TEXT_NODE) {
         const text = element.textContent.trim();
         if (text && translations[text]) {
@@ -1000,11 +1349,11 @@ function updateLanguageButtons(selectedLang) {
 function notifyDjango(lang) {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
     if (!csrfToken) return;
-    
+
     const formData = new FormData();
     formData.append('language', lang);
     formData.append('next', window.location.pathname);
-    
+
     fetch('/i18n/setlang/', {
         method: 'POST',
         headers: {
@@ -1025,15 +1374,15 @@ function getTranslation(key) {
 // Dil sistemini başlat
 function initializeLanguage() {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'tr';
-    
+
     // Sayfa yüklendiğinde kaydedilmiş dili uygula
     translatePage(savedLanguage);
     updateLanguageButtons(savedLanguage);
-    
+
     // Dil değiştirme butonlarını dinle
     const langButtons = document.querySelectorAll('.lang-btn');
     langButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const lang = this.getAttribute('data-lang');
             changeLanguage(lang);
         });
@@ -1041,7 +1390,7 @@ function initializeLanguage() {
 }
 
 // Sayfa yüklendiğinde dil sistemini başlat
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeLanguage();
 });
 

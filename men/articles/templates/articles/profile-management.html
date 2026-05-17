@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-translate="Profile Management">
-      {% trans "Profil Yönetimi" %}
+      <span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span>
     </title>
     <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
     <link
@@ -1097,14 +1097,14 @@
         <div class="sidebar-nav">
           {% if is_psychologist %}
           <a href="{% url 'psychologist-dashboard' %}" data-translate="Home"
-            >{% trans "Ana Sayfa" %}</a
+            ><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a
           >
           {% else %}
           <a href="{% url 'anasayfa' %}" data-translate="Home"
-            >{% trans "Ana Sayfa" %}</a
+            ><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a
           >
           <a href="{% url 'dashboard' %}" data-translate="Feel Good"
-            >{% trans "İyi Hisset" %}</a
+            ><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a
           >
           {% endif %}
           <a
@@ -1151,7 +1151,7 @@
           data-translate="My Statistics"
         >
           <span class="material-symbols-outlined">bar_chart</span>
-          <span>{% trans "İstatistiklerim" %}</span>
+          <span><span data-translate="{% trans "İstatistiklerim" %}">İstatistiklerim</span></span>
         </a>
         {% endif %}
 
@@ -1162,7 +1162,7 @@
           data-translate="Settings"
         >
           <span class="material-symbols-outlined">settings</span>
-          <span>{% trans "Ayarlar" %}</span>
+          <span><span data-translate="{% trans "Ayarlar" %}">Ayarlar</span></span>
         </a>
         {% if not is_psychologist %}
         <a
@@ -1172,12 +1172,12 @@
           data-translate="Help Center"
         >
           <span class="material-symbols-outlined">help</span>
-          <span>{% trans "Yardım Merkezi" %}</span>
+          <span><span data-translate="{% trans "Yardım Merkezi" %}">Yardım Merkezi</span></span>
         </a>
         {% endif %}
         <a href="{% url 'my-login' %}" class="menu-item logout-item">
           <span class="material-symbols-outlined">logout</span>
-          <span data-translate="Log Out">{% trans "Çıkış Yap" %}</span>
+          <span data-translate="Log Out"><span data-translate="{% trans "Çıkış Yap" %}">Çıkış Yap</span></span>
         </a>
       </div>
     </div>
@@ -1208,31 +1208,32 @@
     <main class="main-content">
       {% if not is_psychologist %}
       <div id="my-statistics" class="content-section">
-        <h2 data-translate="My Statistics">{% trans "İstatistiklerim" %}</h2>
+        <h2 data-translate="My Statistics"><span data-translate="{% trans "İstatistiklerim" %}">İstatistiklerim</span></h2>
         <p
           data-translate="Track your progress and see how you're doing with your mental health journey."
         >
-          {% trans "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl
-          olduğunuzu görün." %}
+          <span data-translate="{% trans "İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl
+          olduğunuzu görün." %}">İlerlemenizi takip edin ve ruh sağlığı yolculuğunuzda nasıl
+          olduğunuzu görün.</span>
         </p>
 
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-number" id="statActiveDays">0</div>
             <div class="stat-label" data-translate="Days Active">
-              {% trans "Aktif Günler" %}
+              <span data-translate="{% trans "Aktif Günler" %}">Aktif Günler</span>
             </div>
           </div>
           <div class="stat-card">
             <div class="stat-number" id="statChatSessions">0</div>
             <div class="stat-label" data-translate="Chat Sessions">
-              {% trans "Sohbet Seansları" %}
+              <span data-translate="{% trans "Sohbet Seansları" %}">Sohbet Seansları</span>
             </div>
           </div>
           <div class="stat-card">
             <div class="stat-number" id="statTaskCount">0</div>
             <div class="stat-label" data-translate="Task Count">
-              {% trans "Görev Sayısı" %}
+              <span data-translate="{% trans "Görev Sayısı" %}">Görev Sayısı</span>
             </div>
           </div>
         </div>
@@ -1240,65 +1241,65 @@
       {% endif %}
 
       <div id="settings" class="content-section">
-        <h2 data-translate="Settings">{% trans "Ayarlarım" %}</h2>
+        <h2 data-translate="Settings"><span data-translate="{% trans "Ayarlarım" %}">Ayarlarım</span></h2>
 
         <!-- Dil Seçimi -->
         <div class="settings-group" id="language-group">
-          <h3 data-translate="Language Selection">{% trans "Dil Seçimi" %}</h3>
+          <h3 data-translate="Language Selection"><span data-translate="{% trans "Dil Seçimi" %}">Dil Seçimi</span></h3>
           <p data-translate="Set language across the site">
-            {% trans "Site genelinde dil ayarlayın" %}
+            <span data-translate="{% trans "Site genelinde dil ayarlayın" %}">Site genelinde dil ayarlayın</span>
           </p>
           <div class="language-selector">
             <button class="lang-btn" data-lang="tr" data-translate="Turkish">
-              {% trans "Türkçe" %}
+              <span data-translate="{% trans "Türkçe" %}">Türkçe</span>
             </button>
             <button class="lang-btn" data-lang="en" data-translate="English">
-              {% trans "English" %}
+              <span data-translate="{% trans "English" %}">English</span>
             </button>
           </div>
         </div>
         <!-- Tema Seçimi Card -->
         <div class="settings-group" id="theme-group">
-          <h3 data-translate="Theme Selection">{% trans "Tema" %}</h3>
+          <h3 data-translate="Theme Selection"><span data-translate="{% trans "Tema" %}">Tema</span></h3>
           <p data-translate="Set theme across the site">
-            {% trans "Site genelinde tema seçin" %}
+            <span data-translate="{% trans "Site genelinde tema seçin" %}">Site genelinde tema seçin</span>
           </p>
           <div
             class="theme-selector"
             style="display: flex; gap: 12px; margin-bottom: 16px"
           >
             <button class="theme-btn" id="lightModeBtn" data-theme="light">
-              {% trans "Açık Mod" %}
+              <span data-translate="{% trans "Açık Mod" %}">Açık Mod</span>
             </button>
             <button class="theme-btn" id="darkModeBtn" data-theme="dark">
-              {% trans "Koyu Mod" %}
+              <span data-translate="{% trans "Koyu Mod" %}">Koyu Mod</span>
             </button>
           </div>
         </div>
         <!-- Kişi Kaydetme (Ayarlar altı) - Sadece üye için -->
         {% if not is_psychologist %}
         <div class="settings-category" id="emergency-contact-settings">
-          <h3>{% trans "Kişi Kaydetme" %}</h3>
-          <p>{% trans "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin." %}</p>
+          <h3><span data-translate="{% trans "Kişi Kaydetme" %}">Kişi Kaydetme</span></h3>
+          <p><span data-translate="{% trans "Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin." %}">Acil durumda ulaşılmasını istediğiniz kişiyi kaydedin ve güncelleyin.</span></p>
           <div class="settings-cards">
             <div class="settings-card">
-              <h3>{% trans "Acil Durum Kişisi" %}</h3>
+              <h3><span data-translate="{% trans "Acil Durum Kişisi" %}">Acil Durum Kişisi</span></h3>
               <form method="POST" autocomplete="off" id="emergencyContactForm">
                 {% csrf_token %}
                 <div class="form-group">
-                  <label for="id_relation">{% trans "Yakınlık" %}</label>
-                  <input type="text" name="relation" id="id_relation" class="form-control" value="{{ contact.relation|default_if_none:'' }}" placeholder="{% trans 'Örn: Anne, Baba, Arkadaş' %}" required />
+                  <label for="id_relation"><span data-translate="{% trans "Yakınlık" %}">Yakınlık</span></label>
+                  <input type="text" name="relation" id="id_relation" class="form-control" value="{{ contact.relation|default_if_none:'' }}" placeholder="{% trans 'Örn: Anne, Baba, Arkadaş' %}" data-translate="Örn: Anne, Baba, Arkadaş" data-translate="Örn: Anne, Baba, Arkadaş" data-translate="Örn: Anne, Baba, Arkadaş" required />
                 </div>
                 <div class="form-group">
-                  <label for="id_full_name">{% trans "Ad Soyad" %}</label>
-                  <input type="text" name="full_name" id="id_full_name" class="form-control" value="{{ contact.full_name|default_if_none:'' }}" placeholder="{% trans 'Ad Soyad' %}" required />
+                  <label for="id_full_name"><span data-translate="{% trans "Ad Soyad" %}">Ad Soyad</span></label>
+                  <input type="text" name="full_name" id="id_full_name" class="form-control" value="{{ contact.full_name|default_if_none:'' }}" placeholder="{% trans 'Ad Soyad' %}" data-translate="Ad Soyad" data-translate="Ad Soyad" data-translate="Ad Soyad" required />
                 </div>
                 <div class="form-group">
-                  <label for="id_phone">{% trans "Telefon Numarası" %}</label>
-                  <input type="text" name="phone" id="id_phone" class="form-control" value="{{ contact.phone|default_if_none:'' }}" placeholder="{% trans '05xx xxx xx xx' %}" required />
+                  <label for="id_phone"><span data-translate="{% trans "Telefon Numarası" %}">Telefon Numarası</span></label>
+                  <input type="text" name="phone" id="id_phone" class="form-control" value="{{ contact.phone|default_if_none:'' }}" placeholder="{% trans '05xx xxx xx xx' %}" data-translate="05xx xxx xx xx" data-translate="05xx xxx xx xx" data-translate="05xx xxx xx xx" required />
                 </div>
                 <div style="text-align:center; margin-top: 8px;">
-                  <button class="btn" type="submit">{% trans "Kaydet / Güncelle" %}</button>
+                  <button class="btn" type="submit"><span data-translate="{% trans "Kaydet / Güncelle" %}">Kaydet / Güncelle</span></button>
                 </div>
               </form>
             </div>
@@ -1309,25 +1310,25 @@
         {% if not is_psychologist %}
         <!-- Hayat Hikayem -->
         <div class="settings-category" id="life-story-settings">
-          <h3>{% trans "Hayat Hikayem" %}</h3>
-          <p>{% trans "Psikoloğunuzun sizi daha iyi tanıması için isterseniz hayat hikayenizi paylaşabilirsiniz." %}</p>
+          <h3><span data-translate="{% trans "Hayat Hikayem" %}">Hayat Hikayem</span></h3>
+          <p><span data-translate="{% trans "Psikoloğunuzun sizi daha iyi tanıması için isterseniz hayat hikayenizi paylaşabilirsiniz." %}">Psikoloğunuzun sizi daha iyi tanıması için isterseniz hayat hikayenizi paylaşabilirsiniz.</span></p>
           <div class="settings-cards">
             <div class="settings-card">
-              <h3>{% trans "Hayat Hikayem" %}</h3>
+              <h3><span data-translate="{% trans "Hayat Hikayem" %}">Hayat Hikayem</span></h3>
               <form method="POST" autocomplete="off">
                 {% csrf_token %}
                 <div class="form-group">
-                  <label for="life_story">{% trans "Metin" %}</label>
+                  <label for="life_story"><span data-translate="{% trans "Metin" %}">Metin</span></label>
                   <textarea
                     id="life_story"
                     name="life_story"
                     class="form-control"
                     rows="8"
-                    placeholder="{% trans 'İsterseniz buraya uzun bir metin yazabilirsiniz...' %}"
+                    placeholder="{% trans 'İsterseniz buraya uzun bir metin yazabilirsiniz...' %}" data-translate="İsterseniz buraya uzun bir metin yazabilirsiniz..." data-translate="İsterseniz buraya uzun bir metin yazabilirsiniz..." data-translate="İsterseniz buraya uzun bir metin yazabilirsiniz..."
                   >{{ profilePic.life_story|default_if_none:'' }}</textarea>
                 </div>
                 <div style="text-align:center; margin-top: 8px;">
-                  <button class="btn" type="submit">{% trans "Kaydet / Güncelle" %}</button>
+                  <button class="btn" type="submit"><span data-translate="{% trans "Kaydet / Güncelle" %}">Kaydet / Güncelle</span></button>
                 </div>
               </form>
             </div>
@@ -1337,12 +1338,12 @@
 
         <!-- Hesap Bilgileri Kategorisi -->
         <div class="settings-category">
-          <h3>{% trans "Hesap Bilgileri" %}</h3>
-          <p>{% trans "Kullanıcı bilgilerinizi güncelleyin" %}</p>
+          <h3><span data-translate="{% trans "Hesap Bilgileri" %}">Hesap Bilgileri</span></h3>
+          <p><span data-translate="{% trans "Kullanıcı bilgilerinizi güncelleyin" %}">Kullanıcı bilgilerinizi güncelleyin</span></p>
           <div class="settings-cards">
             <div class="settings-card">
               <h3 data-translate="User Information">
-                {% trans "Kullanıcı Bilgileri" %}
+                <span data-translate="{% trans "Kullanıcı Bilgileri" %}">Kullanıcı Bilgileri</span>
               </h3>
               <form method="POST" autocomplete="off" id="userInfoForm">
                 {% csrf_token %} {{ UserUpdateForm|crispy }}
@@ -1352,7 +1353,7 @@
                     type="submit"
                     data-translate="Update Information"
                   >
-                    {% trans "Bilgileri Güncelle" %}
+                    <span data-translate="{% trans "Bilgileri Güncelle" %}">Bilgileri Güncelle</span>
                   </button>
                 </div>
               </form>
@@ -1360,7 +1361,7 @@
 
             <div class="settings-card">
               <h3 data-translate="Change Password">
-                {% trans "Şifre Değiştir" %}
+                <span data-translate="{% trans "Şifre Değiştir" %}">Şifre Değiştir</span>
               </h3>
               <form
                 method="POST"
@@ -1370,7 +1371,7 @@
                 {% csrf_token %}
                 <div class="form-group">
                   <label for="currentPassword" data-translate="Current Password"
-                    >{% trans "Mevcut Şifre" %}</label
+                    ><span data-translate="{% trans "Mevcut Şifre" %}">Mevcut Şifre</span></label
                   >
                   <input
                     type="password"
@@ -1382,7 +1383,7 @@
                 </div>
                 <div class="form-group">
                   <label for="newPassword" data-translate="New Password"
-                    >{% trans "Yeni Şifre" %}</label
+                    ><span data-translate="{% trans "Yeni Şifre" %}">Yeni Şifre</span></label
                   >
                   <input
                     type="password"
@@ -1396,7 +1397,7 @@
                   <label
                     for="confirmPassword"
                     data-translate="Confirm New Password"
-                    >{% trans "Yeni Şifre (Tekrar)" %}</label
+                    ><span data-translate="{% trans "Yeni Şifre (Tekrar)" %}">Yeni Şifre (Tekrar)</span></label
                   >
                   <input
                     type="password"
@@ -1411,7 +1412,7 @@
                   class="btn"
                   data-translate="Change Password"
                 >
-                  {% trans "Şifreyi Değiştir" %}
+                  <span data-translate="{% trans "Şifreyi Değiştir" %}">Şifreyi Değiştir</span>
                 </button>
               </form>
             </div>
@@ -1420,12 +1421,12 @@
 
         <!-- Görünüm Kategorisi -->
         <div class="settings-category">
-          <h3>{% trans "Görünüm" %}</h3>
-          <p>{% trans "Uygulama görünümünü özelleştirin" %}</p>
+          <h3><span data-translate="{% trans "Görünüm" %}">Görünüm</span></h3>
+          <p><span data-translate="{% trans "Uygulama görünümünü özelleştirin" %}">Uygulama görünümünü özelleştirin</span></p>
           <div class="settings-cards">
             <div class="settings-card">
               <h3 data-translate="Profile Photo">
-                {% trans "Profil Fotoğrafı" %}
+                <span data-translate="{% trans "Profil Fotoğrafı" %}">Profil Fotoğrafı</span>
               </h3>
               <form
                 method="POST"
@@ -1440,16 +1441,16 @@
                     type="submit"
                     data-translate="Update Photo"
                   >
-                    {% trans "Fotoğrafı Güncelle" %}
+                    <span data-translate="{% trans "Fotoğrafı Güncelle" %}">Fotoğrafı Güncelle</span>
                   </button>
                 </div>
               </form>
             </div>
 
             <div class="settings-card">
-              <h3 data-translate="Font Size">{% trans "Yazı Tipi Boyutu" %}</h3>
+              <h3 data-translate="Font Size"><span data-translate="{% trans "Yazı Tipi Boyutu" %}">Yazı Tipi Boyutu</span></h3>
               <p data-translate="Adjust font size across the site">
-                {% trans "Site genelinde yazı boyutunu ayarlayın" %}
+                <span data-translate="{% trans "Site genelinde yazı boyutunu ayarlayın" %}">Site genelinde yazı boyutunu ayarlayın</span>
               </p>
               <div class="font-size-selector">
                 <button
@@ -1457,21 +1458,21 @@
                   data-size="small"
                   data-translate="Small"
                 >
-                  {% trans "Küçük" %}
+                  <span data-translate="{% trans "Küçük" %}">Küçük</span>
                 </button>
                 <button
                   class="font-size-btn active"
                   data-size="normal"
                   data-translate="Normal"
                 >
-                  {% trans "Normal" %}
+                  <span data-translate="{% trans "Normal" %}">Normal</span>
                 </button>
                 <button
                   class="font-size-btn"
                   data-size="large"
                   data-translate="Large"
                 >
-                  {% trans "Büyük" %}
+                  <span data-translate="{% trans "Büyük" %}">Büyük</span>
                 </button>
               </div>
             </div>
@@ -1481,16 +1482,17 @@
 
       {% if not is_psychologist %}
       <div id="help-center" class="content-section">
-        <h2 data-translate="Help Center">{% trans "Yardım Merkezi" %}</h2>
+        <h2 data-translate="Help Center"><span data-translate="{% trans "Yardım Merkezi" %}">Yardım Merkezi</span></h2>
         <p
           data-translate="Find answers to common questions and get support when you need it."
         >
-          {% trans "Sık sorulan soruların cevaplarını bulun ve ihtiyacınız
-          olduğunda destek alın." %}
+          <span data-translate="{% trans "Sık sorulan soruların cevaplarını bulun ve ihtiyacınız
+          olduğunda destek alın." %}">Sık sorulan soruların cevaplarını bulun ve ihtiyacınız
+          olduğunda destek alın.</span>
         </p>
 
         <div class="faq-question">
-          <h4>{% trans "How do I reset my password?" %}</h4>
+          <h4><span data-translate="{% trans "How do I reset my password?" %}">How do I reset my password?</span></h4>
         </div>
         <div class="faq-answer">
           <p>{% trans "To reset your password, go to the profile page and click 'Change Password'." %}</p>
@@ -1498,19 +1500,19 @@
 
         <div class="form-group">
           <h3 data-translate="Frequently Asked Questions">
-            {% trans "Sık Sorulan Sorular" %}
+            <span data-translate="{% trans "Sık Sorulan Sorular" %}">Sık Sorulan Sorular</span>
           </h3>
           <p data-translate="How can I change my password?">
-            {% trans "Şifremi nasıl değiştirebilirim?" %}
+            <span data-translate="{% trans "Şifremi nasıl değiştirebilirim?" %}">Şifremi nasıl değiştirebilirim?</span>
           </p>
           <p data-translate="How do I update my profile picture?">
-            {% trans "Profil fotoğrafımı nasıl güncelleyebilirim?" %}
+            <span data-translate="{% trans "Profil fotoğrafımı nasıl güncelleyebilirim?" %}">Profil fotoğrafımı nasıl güncelleyebilirim?</span>
           </p>
           <p data-translate="What are the privacy settings?">
-            {% trans "Gizlilik ayarları nelerdir?" %}
+            <span data-translate="{% trans "Gizlilik ayarları nelerdir?" %}">Gizlilik ayarları nelerdir?</span>
           </p>
           <p data-translate="How can I contact support?">
-            {% trans "Destek ile nasıl iletişime geçebilirim?" %}
+            <span data-translate="{% trans "Destek ile nasıl iletişime geçebilirim?" %}">Destek ile nasıl iletişime geçebilirim?</span>
           </p>
         </div>
 
@@ -1518,18 +1520,19 @@
           href="{% url 'help-center' %}"
           class="btn"
           data-translate="Visit Help Center"
-          >{% trans "Yardım Merkezini Ziyaret Et" %}</a
+          ><span data-translate="{% trans "Yardım Merkezini Ziyaret Et" %}">Yardım Merkezini Ziyaret Et</span></a
         >
       </div>
 
       <div id="account-delete" class="content-section">
         <div class="danger-zone">
-          <h3 data-translate="Delete Account">{% trans "Hesabı Sil" %}</h3>
+          <h3 data-translate="Delete Account"><span data-translate="{% trans "Hesabı Sil" %}">Hesabı Sil</span></h3>
           <p
             data-translate="This action cannot be undone. All your data will be permanently deleted."
           >
-            {% trans "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak
-            silinecek." %}
+            <span data-translate="{% trans "Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak
+            silinecek." %}">Bu işlem geri alınamaz. Tüm verileriniz kalıcı olarak
+            silinecek.</span>
           </p>
           <form id="deleteAccountForm">
             {% csrf_token %}
@@ -1544,7 +1547,7 @@
                 class="form-control"
                 id="deleteConfirm"
                 name="delete_confirm"
-                placeholder="{% trans 'HESABIMI SİL' %}"
+                placeholder="{% trans 'HESABIMI SİL' %}" data-translate="HESABIMI SİL" data-translate="HESABIMI SİL" data-translate="HESABIMI SİL"
                 required
               />
             </div>
@@ -1553,7 +1556,7 @@
               class="btn btn-danger"
               data-translate="Permanently Delete My Account"
             >
-              {% trans "Hesabımı Kalıcı Olarak Sil" %}
+              <span data-translate="{% trans "Hesabımı Kalıcı Olarak Sil" %}">Hesabımı Kalıcı Olarak Sil</span>
             </button>
           </form>
         </div>
@@ -1688,17 +1691,17 @@
 
           if (!current || !next || !confirm) {
             e.preventDefault();
-            showClientToast(getTranslation('{% trans "Lütfen tüm alanları doldurunuz." %}'));
+            showClientToast(getTranslation(getTranslation('Lütfen tüm alanları doldurunuz.')));
             return;
           }
           if (next !== confirm) {
             e.preventDefault();
-            showClientToast(getTranslation('{% trans "Yeni şifreler eşleşmiyor." %}'));
+            showClientToast(getTranslation(getTranslation('Yeni şifreler eşleşmiyor.')));
             return;
           }
           if (current === next) {
             e.preventDefault();
-            showClientToast(getTranslation('{% trans "Yeni şifre mevcut şifre ile aynı olamaz." %}'));
+            showClientToast(getTranslation(getTranslation('Yeni şifre mevcut şifre ile aynı olamaz.')));
             return;
           }
           // valid ise default submit devam etsin
@@ -1744,22 +1747,22 @@
           }
           const title = document.createElement('h3');
           title.style.cssText = 'margin:0 0 8px 0;font-weight:800;color:#8b5cf6';
-          title.textContent = (typeof getTranslation === 'function') ? getTranslation('{% trans "Hesabı Sil" %}') : '{% trans "Hesabı Sil" %}';
+          title.textContent = (typeof getTranslation === 'function') ? getTranslation(getTranslation('Hesabı Sil')) : getTranslation('Hesabı Sil');
           const msg = document.createElement('p');
           msg.style.cssText = 'margin:0 0 16px 0;opacity:.9;line-height:1.5;';
           msg.textContent = (typeof getTranslation === 'function')
-            ? getTranslation('{% trans "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?" %}')
-            : '{% trans "Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?" %}';
+            ? getTranslation(getTranslation('Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?'))
+            : getTranslation('Bu işlem geri alınamaz. Hesabınızı silmek istediğinize emin misiniz?');
           const btnRow = document.createElement('div');
           btnRow.style.cssText = 'display:flex;gap:10px;justify-content:center;margin-top:6px;';
           const cancelBtn = document.createElement('button');
           cancelBtn.type = 'button';
           cancelBtn.style.cssText = 'padding:10px 16px;border-radius:10px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:600;cursor:pointer;';
-          cancelBtn.textContent = (typeof getTranslation === 'function') ? getTranslation('{% trans "Vazgeç" %}') : '{% trans "Vazgeç" %}';
+          cancelBtn.textContent = (typeof getTranslation === 'function') ? getTranslation(getTranslation('Vazgeç')) : getTranslation('Vazgeç');
           const confirmBtn = document.createElement('button');
           confirmBtn.type = 'button';
           confirmBtn.style.cssText = 'padding:10px 16px;border-radius:10px;border:none;background:linear-gradient(135deg,#dc3545,#c82333);color:#fff;font-weight:700;cursor:pointer;';
-          confirmBtn.textContent = (typeof getTranslation === 'function') ? getTranslation('{% trans "Hesabı Sil" %}') : '{% trans "Hesabı Sil" %}';
+          confirmBtn.textContent = (typeof getTranslation === 'function') ? getTranslation(getTranslation('Hesabı Sil')) : getTranslation('Hesabı Sil');
           btnRow.appendChild(cancelBtn);
           btnRow.appendChild(confirmBtn);
           modal.appendChild(title);
@@ -1885,6 +1888,17 @@
           initializeLanguage();
         }
         
+        function updateLangButtons(lang) {
+          const btns = document.querySelectorAll('.lang-btn');
+          btns.forEach(b => {
+            if (b.getAttribute('data-lang') === lang) b.classList.add('active');
+            else b.classList.remove('active');
+          });
+        }
+        
+        // Aktif butonları işaretle
+        updateLangButtons(savedLang);
+        
         const langButtons = document.querySelectorAll(".lang-btn");
         langButtons.forEach((btn) => {
           btn.addEventListener("click", function () {
@@ -1893,24 +1907,35 @@
             localStorage.setItem(langKey, lang);
             localStorage.setItem('selectedLanguage', lang);
             
-            if (typeof window.changeLanguage === "function") {
-              window.changeLanguage(lang);
-              // Popup artık changeLanguage fonksiyonu içinde gösteriliyor
-              
-              // Dil değişikliği sonrası sayfa içeriğini anlık güncelle
-              updatePageContent(lang);
-              // Manuel refresh etkisini taklit eden sert yenileme (cache-busting)
-              setTimeout(function(){
-                var url = window.location.href.split('#')[0];
-                // Var olan lang_force parametresini temizle
-                url = url.replace(/([?&])lang_force=[^&]*(&|$)/, function(match, p1, p2){ return p2 ? p1 : ''; });
-                var sep = url.indexOf('?') === -1 ? '?' : '&';
-                url = url + sep + 'lang_force=' + Date.now();
-                window.location.replace(url);
-              }, 50);
+            // CSRF token'ı al
+            const csrfTokenMatch = document.cookie.match(/csrftoken=([^;]+)/);
+            const csrfToken = csrfTokenMatch ? csrfTokenMatch[1] : '';
+
+            // Sunucuya dili bildir ve işlem bittikten sonra sayfayı yenile
+            if (csrfToken) {
+                fetch('/i18n/setlang/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: `language=${lang}`
+                }).finally(() => {
+                    if (typeof window.changeLanguage === "function") {
+                      window.changeLanguage(lang);
+                    }
+                    var url = window.location.href.split('#')[0];
+                    url = url.replace(/([?&])lang_force=[^&]*(&|$)/, function(match, p1, p2){ return p2 ? p1 : ''; });
+                    var sep = url.indexOf('?') === -1 ? '?' : '&';
+                    url = url + sep + 'lang_force=' + Date.now();
+                    window.location.replace(url);
+                });
             } else {
-              // Fallback: Direkt popup göster
-              showToast('language', lang);
+                // CSRF yoksa da fallback olarak değiştir
+                if (typeof window.changeLanguage === "function") {
+                  window.changeLanguage(lang);
+                }
+                setTimeout(() => window.location.reload(), 300);
             }
           });
         });
@@ -2209,9 +2234,9 @@
               const ok = await checkAvailability('username', usernameInput.value.trim());
               setFieldState(usernameInput, ok);
               if (!ok) {
-                showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}');
+                showErrorToast(getTranslation('Bu kullanıcı adı veya e-posta zaten alınmış'));
               } else {
-                showSuccessToast('{% trans "Bu kullanıcı adı/e-posta kullanılabilir" %}');
+                showSuccessToast(getTranslation('Bu kullanıcı adı/e-posta kullanılabilir'));
               }
             }, 400);
           });
@@ -2223,9 +2248,9 @@
               const ok = await checkAvailability('email', emailInput.value.trim());
               setFieldState(emailInput, ok);
               if (!ok) {
-                showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}');
+                showErrorToast(getTranslation('Bu kullanıcı adı veya e-posta zaten alınmış'));
               } else {
-                showSuccessToast('{% trans "Bu kullanıcı adı/e-posta kullanılabilir" %}');
+                showSuccessToast(getTranslation('Bu kullanıcı adı/e-posta kullanılabilir'));
               }
             }, 400);
           });
@@ -2243,10 +2268,10 @@
             if (emailInput) checks.push(checkAvailability('email', emailInput.value.trim()));
             const results = await Promise.all(checks);
             let valid = true;
-            if (usernameInput && results[0] === false) { setFieldState(usernameInput, false); showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}'); valid = false; }
+            if (usernameInput && results[0] === false) { setFieldState(usernameInput, false); showErrorToast(getTranslation('Bu kullanıcı adı veya e-posta zaten alınmış')); valid = false; }
             if (emailInput) {
               const idx = usernameInput ? 1 : 0;
-              if (results[idx] === false) { setFieldState(emailInput, false); showErrorToast('{% trans "Bu kullanıcı adı veya e-posta zaten alınmış" %}'); valid = false; }
+              if (results[idx] === false) { setFieldState(emailInput, false); showErrorToast(getTranslation('Bu kullanıcı adı veya e-posta zaten alınmış')); valid = false; }
             }
             if (!valid) { return; }
 
@@ -2259,26 +2284,26 @@
                 credentials: 'same-origin'
               });
               if (!res.ok) {
-                showErrorToast('{% trans "Bir hata oluştu. Lütfen tekrar deneyiniz." %}');
+                showErrorToast(getTranslation('Bir hata oluştu. Lütfen tekrar deneyiniz.'));
                 return;
               }
               const usernameChanged = usernameInput ? (usernameInput.value||'').trim() !== initialUsername : false;
               const emailChanged = emailInput ? (emailInput.value||'').trim() !== initialEmail : false;
               const messages = [];
               if (!usernameChanged && !emailChanged) {
-                messages.push({ type: 'info', text: '{% trans "Hiçbir değişiklik yapılamadı." %}' });
+                messages.push({ type: 'info', text: getTranslation('Hiçbir değişiklik yapılamadı.') });
               } else if (usernameChanged && !emailChanged) {
-                messages.push({ type: 'success', text: '{% trans "Kullanıcı adı başarıyla güncellenmiştir." %}' });
+                messages.push({ type: 'success', text: getTranslation('Kullanıcı adı başarıyla güncellenmiştir.') });
               } else if (!usernameChanged && emailChanged) {
-                messages.push({ type: 'success', text: '{% trans "E-posta başarıyla güncellenmiştir." %}' });
+                messages.push({ type: 'success', text: getTranslation('E-posta başarıyla güncellenmiştir.') });
               } else {
-                messages.push({ type: 'success', text: '{% trans "Kullanıcı adı başarıyla güncellenmiştir." %}' });
-                messages.push({ type: 'success', text: '{% trans "E-posta başarıyla güncellenmiştir." %}' });
+                messages.push({ type: 'success', text: getTranslation('Kullanıcı adı başarıyla güncellenmiştir.') });
+                messages.push({ type: 'success', text: getTranslation('E-posta başarıyla güncellenmiştir.') });
               }
               localStorage.setItem('profileUpdateToasts', JSON.stringify(messages));
               window.location.href = "{% url 'dashboard' %}";
             } catch (err) {
-              showErrorToast('{% trans "Bir hata oluştu. Lütfen tekrar deneyiniz." %}');
+              showErrorToast(getTranslation('Bir hata oluştu. Lütfen tekrar deneyiniz.'));
             }
           });
         }
@@ -2389,12 +2414,12 @@
             var digits = (phone.value||'').replace(/\D+/g,'');
             if (digits.length < 11) {
               e.preventDefault();
-              showECToast('error', '{% trans "Eksik girdiniz. Telefon numarası 11 haneli olmalı." %}');
+              showECToast('error', getTranslation('Eksik girdiniz. Telefon numarası 11 haneli olmalı.'));
               return;
             }
             if (digits.length > 11) {
               e.preventDefault();
-              showECToast('error', '{% trans "Fazla numara girdiniz. Telefon numarası 11 haneli olmalı." %}');
+              showECToast('error', getTranslation('Fazla numara girdiniz. Telefon numarası 11 haneli olmalı.'));
               return;
             }
             // replace value with digits to keep consistent
@@ -2445,7 +2470,7 @@
           // Dosya seçimi kontrolü
           if (!fileInput.files || fileInput.files.length === 0) {
             // Dosya seçilmemiş - Hata mesajı göster (sayfa yenilenmeden)
-            showToast('error', '{% trans "Lütfen dosya seçiniz." %}');
+            showToast('error', getTranslation('Lütfen dosya seçiniz.'));
             return;
           }
           
@@ -2461,7 +2486,7 @@
               // Başarılı - Dashboard'a yönlendir ve başarı mesajı göster
               const successMessage = {
                     type: 'success',
-                    text: '{% trans "Profil fotoğrafınız başarıyla değiştirilmiştir." %}'
+                    text: getTranslation('Profil fotoğrafınız başarıyla değiştirilmiştir.')
                   };
               localStorage.setItem('profileUpdateToasts', JSON.stringify([successMessage]));
               window.location.href = "{% url 'dashboard' %}";
@@ -2469,7 +2494,7 @@
               // Hata durumu
               const errorMessage = {
                     type: 'error',
-                    text: '{% trans "Profil fotoğrafınız güncellenemedi." %}'
+                    text: getTranslation('Profil fotoğrafınız güncellenemedi.')
                   };
               localStorage.setItem('profileUpdateToasts', JSON.stringify([errorMessage]));
               window.location.href = "{% url 'dashboard' %}";
@@ -2478,7 +2503,7 @@
             // Network hatası
             const errorMessage = {
                   type: 'error',
-                  text: '{% trans "Profil fotoğrafınız güncellenemedi." %}'
+                  text: getTranslation('Profil fotoğrafınız güncellenemedi.')
                 };
             localStorage.setItem('profileUpdateToasts', JSON.stringify([errorMessage]));
             window.location.href = "{% url 'dashboard' %}";

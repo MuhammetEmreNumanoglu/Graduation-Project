@@ -895,9 +895,9 @@
       <div class="sidebar-header">
         <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo"/>
         <div class="sidebar-nav">
-          <a href="{% url 'anasayfa' %}">{% trans "Ana Sayfa" %}</a>
-          <a href="{% url 'dashboard' %}">{% trans "İyi Hisset" %}</a>
-          <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+          <a href="{% url 'anasayfa' %}"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
+          <a href="{% url 'dashboard' %}"><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a>
+          <a href="{% url 'profile-management' %}"><span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span></a>
         </div>
       </div>
       <div class="sidebar-user">
@@ -918,7 +918,7 @@
       <div class="breathing-container">
         <div class="breathing-settings">
           <div class="setting-group">
-            <label for="inhaleDuration">{% trans "Nefes Al (sn)" %}</label>
+            <label for="inhaleDuration"><span data-translate="{% trans "Nefes Al (sn)" %}">Nefes Al (sn)</span></label>
             <div class="number-input-wrapper">
               <button class="number-btn minus" data-target="inhaleDuration">-</button>
               <input type="number" id="inhaleDuration" min="1" max="30" value="4" class="number-input" />
@@ -926,7 +926,7 @@
             </div>
           </div>
           <div class="setting-group">
-            <label for="holdDuration">{% trans "Tut (sn)" %}</label>
+            <label for="holdDuration"><span data-translate="{% trans "Tut (sn)" %}">Tut (sn)</span></label>
             <div class="number-input-wrapper">
               <button class="number-btn minus" data-target="holdDuration">-</button>
               <input type="number" id="holdDuration" min="0" max="30" value="7" class="number-input" />
@@ -934,7 +934,7 @@
             </div>
           </div>
           <div class="setting-group">
-            <label for="exhaleDuration">{% trans "Nefes Ver (sn)" %}</label>
+            <label for="exhaleDuration"><span data-translate="{% trans "Nefes Ver (sn)" %}">Nefes Ver (sn)</span></label>
             <div class="number-input-wrapper">
               <button class="number-btn minus" data-target="exhaleDuration">-</button>
               <input type="number" id="exhaleDuration" min="1" max="30" value="8" class="number-input" />
@@ -942,7 +942,7 @@
             </div>
           </div>
           <div class="setting-group">
-            <label for="cycleCount">{% trans "Tekrar" %}</label>
+            <label for="cycleCount"><span data-translate="{% trans "Tekrar" %}">Tekrar</span></label>
             <div class="number-input-wrapper">
               <button class="number-btn minus" data-target="cycleCount">-</button>
               <input type="number" id="cycleCount" min="1" max="99" value="5" class="number-input" />
@@ -950,8 +950,8 @@
             </div>
           </div>
         </div>
-        <h1 class="breathing-title">{% trans "Nefes Egzersizi" %}</h1>
-        <p class="breathing-subtitle">{% trans "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin." %}</p>
+        <h1 class="breathing-title"><span data-translate="{% trans "Nefes Egzersizi" %}">Nefes Egzersizi</span></h1>
+        <p class="breathing-subtitle"><span data-translate="{% trans "Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin." %}">Sakinleşmek ve zihninizi dinginleştirmek için ritmik nefes alışverişinizi takip edin.</span></p>
 
         <div class="breathing-visualizer-wrapper">
           <svg width="550" height="200" viewBox="0 0 550 200" preserveAspectRatio="xMidYMid meet">
@@ -963,16 +963,16 @@
           <div class="breathing-ball" id="breathingBall"></div>
         </div>
 
-        <div class="breathing-text-display" id="breathingText">{% trans "Hazır" %}</div>
+        <div class="breathing-text-display" id="breathingText"><span data-translate="{% trans "Hazır" %}">Hazır</span></div>
         
         <div class="motivational-message" id="motivationalMessage"></div>
 
         <div class="breathing-controls">
-          <button class="breathing-btn" id="startBtn">{% trans "Başla" %}</button>
-          <button class="breathing-btn secondary" id="stopBtn" style="display: none">{% trans "Durdur" %}</button>
+          <button class="breathing-btn" id="startBtn"><span data-translate="{% trans "Başla" %}">Başla</span></button>
+          <button class="breathing-btn secondary" id="stopBtn" style="display: none"><span data-translate="{% trans "Durdur" %}">Durdur</span></button>
         </div>
         <div id="cycleCounter" style="position: absolute; right: 24px; bottom: 24px; z-index: 10; display: none;">
-          {% trans "Döngü:" %} <span id="cycleCurrent">0</span>/<span id="cycleTotal">5</span>
+          <span data-translate="{% trans "Döngü:" %}">Döngü:</span> <span id="cycleCurrent">0</span>/<span id="cycleTotal">5</span>
         </div>
       </div>
     </main>

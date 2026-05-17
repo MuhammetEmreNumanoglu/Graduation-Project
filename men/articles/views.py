@@ -88,7 +88,7 @@ def my_login(request):
                 remember_me = form.cleaned_data.get('remember_me', False)
                 
                 if remember_me:
-                    request.session.set_expiry(30 * 24 * 60 * 60)  # 30 gün
+                    request.session.set_expiry(7 * 24 * 60 * 60)  # 7 gün
                 else:
                     request.session.set_expiry(settings.SESSION_COOKIE_AGE)
                 
@@ -149,7 +149,7 @@ def psychologist_login(request):
                     remember_me = request.POST.get('remember_me', False)
                     
                     if remember_me:
-                        request.session.set_expiry(30 * 24 * 60 * 60)  # 30 gün
+                        request.session.set_expiry(7 * 24 * 60 * 60)  # 7 gün
                     else:
                         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
                     
@@ -179,7 +179,7 @@ def psychologist_login(request):
                     remember_me = request.POST.get('remember_me', False)
                     
                     if remember_me:
-                        request.session.set_expiry(30 * 24 * 60 * 60)  # 30 gün
+                        request.session.set_expiry(7 * 24 * 60 * 60)  # 7 gün
                     else:
                         request.session.set_expiry(settings.SESSION_COOKIE_AGE)
                     
@@ -842,33 +842,21 @@ def get_user_insights(request):
     today = date.today()
     today_mood = DailyMood.objects.filter(user=target_user, date=today).first()
 
-    # Single query for last 3 days — avoids 3 separate DB hits
-    three_days_ago = today - timedelta(days=2)
+    # Fetch only days that actually have mood entries — skip empty days
+    # Look back up to 30 days to find 3 entries with data
     recent_qs = DailyMood.objects.filter(
         user=target_user,
-        date__gte=three_days_ago,
-        date__lte=today
-    ).order_by('-date')
-    mood_by_date = {m.date: m for m in recent_qs}
+        date__lt=today  # Exclude today (shown separately as today_mood)
+    ).order_by('-date')[:3]
 
     recent_moods_data = []
-    for i in range(3):
-        d = today - timedelta(days=i)
-        mood_obj = mood_by_date.get(d)
-        if mood_obj:
-            recent_moods_data.append({
-                "date": d.isoformat(),
-                "mood": mood_obj.mood,
-                "mood_label": mood_obj.get_mood_display(),
-                "note": mood_obj.note or "",
-            })
-        else:
-            recent_moods_data.append({
-                "date": d.isoformat(),
-                "mood": None,
-                "mood_label": _("Kayıt yok"),
-                "note": "",
-            })
+    for mood_obj in recent_qs:
+        recent_moods_data.append({
+            "date": mood_obj.date.isoformat(),
+            "mood": mood_obj.mood,
+            "mood_label": mood_obj.get_mood_display(),
+            "note": mood_obj.note or "",
+        })
 
     data = {
         "success": True,
@@ -1281,6 +1269,17 @@ def delete_notification(request):
             
         Notification.objects.filter(id=notif_id, user=request.user).delete()
         return JsonResponse({"success": True, "message": _("Bildirim başarıyla silindi.")})
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
+
+
+@require_POST
+@login_required(login_url="my-login")
+def delete_all_notifications(request):
+    """Üye için tüm bildirimleri sil"""
+    try:
+        Notification.objects.filter(user=request.user).delete()
+        return JsonResponse({"success": True, "message": _("Tüm bildirimler başarıyla silindi.")})
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
@@ -1701,8 +1700,8 @@ def get_user_assigned_tasks(request):
         TASK_DISPLAY = {
             'breathing_exercise': 'Nefes Egzersizi',
             'meditation': 'Meditasyon',
-            'daily_cards': 'Gunluk Kartlar',
-            'support_wall': 'Destek Duvari',
+            'daily_cards': 'Günlük Kartlar',
+            'support_wall': 'Destek Duvarı',
         }
         data = [{
             'id': t.id,
@@ -1819,9 +1818,19 @@ def delete_psychologist_message(request):
     """Belirli bir mesajı siler"""
     message_id = request.POST.get('message_id')
     try:
-        from .models import PsychologistMessage
+        from .models import PsychologistMessage, Profile
         msg = PsychologistMessage.objects.get(id=message_id)
+        profile = Profile.objects.filter(user=request.user).first()
+        is_psychologist = profile and profile.role == 'psychologist'
+
+        if is_psychologist:
+            if msg.sender != 'psychologist':
+                return JsonResponse({'success': False, 'error': _('Sadece kendi gönderdiğiniz mesajları silebilirsiniz.')}, status=403)
+        else:
+            if msg.user != request.user:
+                return JsonResponse({'success': False, 'error': _('Bu mesajı silme yetkiniz yok.')}, status=403)
+
         msg.delete()
         return JsonResponse({'success': True})
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)})
+        return JsonResponse({'success': False, 'error': str(e)})

@@ -995,9 +995,9 @@
   <div class="sidebar-header">
     <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo" />
     <div class="sidebar-nav">
-      <a href="{% url 'anasayfa' %}">{% trans "Ana Sayfa" %}</a>
-      <a href="{% url 'dashboard' %}">{% trans "İyi Hisset" %}</a>
-      <a href="{% url 'profile-management' %}">{% trans "Profil Yönetimi" %}</a>
+      <a href="{% url 'anasayfa' %}"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
+      <a href="{% url 'dashboard' %}"><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a>
+      <a href="{% url 'profile-management' %}"><span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span></a>
     </div>
   </div>
   <div class="sidebar-user">
@@ -1042,30 +1042,7 @@
   }
   .forum-like-btn.liked { background:#ffe6ea; border-color:#e74c3c; color:#e74c3c; }
   .forum-like-btn:hover { transform:translateY(-1px); box-shadow:0 2px 8px rgba(108,62,180,0.12); }
-  .forum-comment-toggle {
-    background:none; border:none; color:#8b5cf6; font-size:0.85rem; font-weight:600;
-    cursor:pointer; padding:5px 10px; border-radius:8px; transition:background 0.2s;
-  }
-  .forum-comment-toggle:hover { background:#f3eaff; }
-  .forum-comments-section { margin-top:1rem; border-top:1px solid #f0eaff; padding-top:0.8rem; display:none; }
-  .forum-comments-section.open { display:block; }
-  .forum-comment-item {
-    background:#f9f7ff; border-radius:10px; padding:8px 12px;
-    margin-bottom:6px; font-size:0.87rem; color:#374151;
-  }
-  .forum-comment-date { font-size:0.74rem; color:#9ca3af; margin-top:2px; }
-  .forum-comment-form { display:flex; gap:8px; margin-top:8px; }
-  .forum-comment-input {
-    flex:1; padding:8px 12px; border:1.5px solid #e2e8f0; border-radius:10px;
-    font-family:inherit; font-size:0.87rem; background:#fff;
-  }
-  .forum-comment-input:focus { outline:none; border-color:#8b5cf6; }
-  .forum-comment-send {
-    background:linear-gradient(135deg,#8b5cf6,#6c3eb4); color:#fff;
-    border:none; border-radius:10px; padding:8px 16px; font-weight:600;
-    font-size:0.85rem; cursor:pointer; transition:opacity 0.2s;
-  }
-  .forum-comment-send:hover { opacity:0.85; }
+
   .no-posts-msg { text-align:center; padding:48px 0; color:#9ca3af; font-size:1.05rem; }
   /* Dark mode */
   body.dark-mode .forum-post-card { background:#2c2c2c; border-color:#444; color:#e0e0e0; }
@@ -1073,24 +1050,22 @@
   body.dark-mode .forum-anon-badge { background:#3a2d5a; color:#c084fc; }
   body.dark-mode .forum-like-btn { background:#2a2040; border-color:#3a2a5d; color:#c084fc; }
   body.dark-mode .forum-like-btn.liked { background:#3d1f2a; border-color:#e74c3c; color:#ff6b81; }
-  body.dark-mode .forum-comment-item { background:#353545; color:#d1d5db; }
-  body.dark-mode .forum-comment-input { background:#353545; color:#e0e0e0; border-color:#555; }
-  body.dark-mode .forum-comments-section { border-top-color:#444; }
+
 </style>
 
 <main class="main-content">
   <div class="support-wall-container">
-    <h1 class="page-title" data-translate="Destek Duvarı">{% trans "Destek Duvarı" %}</h1>
+    <h1 class="page-title" data-translate="Destek Duvarı"><span data-translate="{% trans "Destek Duvarı" %}">Destek Duvarı</span></h1>
 
     <!-- Post form -->
     <div class="story-form-card">
-      <h2 class="form-title" data-translate="Hikayeni Paylaş">{% trans "Hikayeni Paylaş" %}</h2>
+      <h2 class="form-title" data-translate="Hikayeni Paylaş"><span data-translate="{% trans "Hikayeni Paylaş" %}">Hikayeni Paylaş</span></h2>
       <form id="forumPostForm">
         {% csrf_token %}
         <textarea class="story-textarea" id="forumPostContent"
-          placeholder="{% trans 'Hikayeni buraya yazabilirsin...' %}" minlength="4" required></textarea>
+          placeholder="{% trans 'Hikayeni buraya yazabilirsin...' %}" data-translate="Hikayeni buraya yazabilirsin..." data-translate="Hikayeni buraya yazabilirsin..." data-translate="Hikayeni buraya yazabilirsin..." minlength="4" required></textarea>
         <div id="forumPostError" style="color:#dc2626;font-size:0.82rem;min-height:14px;margin:4px 0;"></div>
-        <button type="submit" class="share-button mt-3" data-translate="Paylaş">{% trans "Paylaş" %}</button>
+        <button type="submit" class="share-button mt-3" data-translate="Paylaş"><span data-translate="{% trans "Paylaş" %}">Paylaş</span></button>
       </form>
     </div>
 
@@ -1109,34 +1084,13 @@
             <span>{% if post.id in liked_post_ids %}❤️{% else %}🤍{% endif %}</span>
             <span class="like-count" id="like-count-{{ post.id }}">{{ post.likes_count }}</span>
           </button>
-          <button class="forum-comment-toggle" onclick="toggleComments({{ post.id }})">
-            💬 <span id="comment-count-{{ post.id }}">{{ post.comments.count }}</span> {% trans "Yorumlar" %}
-          </button>
-        </div>
-        <!-- Comments section -->
-        <div class="forum-comments-section" id="comments-{{ post.id }}">
-          <div class="forum-comments-list" id="comments-list-{{ post.id }}">
-            {% for c in post.comments.all %}
-            <div class="forum-comment-item">
-              <div>{{ c.content }}</div>
-              <div class="forum-comment-date">{% trans "Anonim" %} · {{ c.created_at|date:'d.m.Y H:i' }}</div>
-            </div>
-            {% empty %}
-            <div style="font-size:0.82rem;color:#9ca3af;padding:4px 0;">{% trans "Henüz yorum yok." %}</div>
-            {% endfor %}
-          </div>
-          <form class="forum-comment-form" onsubmit="submitComment(event, {{ post.id }})">
-            <input type="text" class="forum-comment-input" id="comment-input-{{ post.id }}"
-              placeholder="{% trans 'Yorum ekle...' %}" required />
-            <button type="submit" class="forum-comment-send">{% trans "Gönder" %}</button>
-          </form>
-        </div>
+
       </div>
       {% empty %}
       <div class="no-posts-msg">
         <div style="font-size:2.5rem;margin-bottom:12px;">🕊️</div>
-        <div data-translate="Henüz gönderi yok.">{% trans "Henüz gönderi yok." %}</div>
-        <div style="font-size:0.9rem;margin-top:6px;" data-translate="İlk paylaşan sen ol!">{% trans "İlk paylaşan sen ol!" %}</div>
+        <div data-translate="Henüz gönderi yok."><span data-translate="{% trans "Henüz gönderi yok." %}">Henüz gönderi yok.</span></div>
+        <div style="font-size:0.9rem;margin-top:6px;" data-translate="İlk paylaşan sen ol!"><span data-translate="{% trans "İlk paylaşan sen ol!" %}">İlk paylaşan sen ol!</span></div>
       </div>
       {% endfor %}
     </div>
@@ -1147,9 +1101,9 @@
       {% if posts.has_previous %}
         <a href="?page={{ posts.previous_page_number }}" class="pagination-button">« {% trans "Önceki" %}</a>
       {% endif %}
-      <span class="page-info">{% trans "Sayfa" %} <span class="current-page">{{ posts.number }}</span> / {{ posts.paginator.num_pages }}</span>
+      <span class="page-info"><span data-translate="{% trans "Sayfa" %}">Sayfa</span> <span class="current-page">{{ posts.number }}</span> / {{ posts.paginator.num_pages }}</span>
       {% if posts.has_next %}
-        <a href="?page={{ posts.next_page_number }}" class="pagination-button">{% trans "Sonraki" %} »</a>
+        <a href="?page={{ posts.next_page_number }}" class="pagination-button" data-translate="Sonraki">{% trans "Sonraki" %} »</a>
       {% endif %}
     </div>
     {% endif %}
@@ -1195,37 +1149,7 @@
     });
   }
 
-  // Toggle comments panel
-  function toggleComments(postId) {
-    const section = document.getElementById('comments-'+postId);
-    if(!section) return;
-    section.classList.toggle('open');
-  }
 
-  // Submit comment
-  function submitComment(e, postId) {
-    e.preventDefault();
-    const inp = document.getElementById('comment-input-'+postId);
-    const content = inp ? inp.value.trim() : '';
-    if(!content) return;
-    const fd = new FormData();
-    fd.append('post_id', postId); fd.append('content', content);
-    fetch('/api/forum/comment/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
-    .then(r=>r.json()).then(data=>{
-      if(!data.success) return;
-      const listEl = document.getElementById('comments-list-'+postId);
-      if(listEl) {
-        const div = document.createElement('div');
-        div.className = 'forum-comment-item';
-        div.innerHTML = `<div>${data.comment.content}</div><div class="forum-comment-date">Anonim · ${data.comment.created_at}</div>`;
-        listEl.appendChild(div);
-      }
-      if(inp) inp.value = '';
-      // Update count
-      const countEl = document.getElementById('comment-count-'+postId);
-      if(countEl) countEl.textContent = parseInt(countEl.textContent||0) + 1;
-    });
-  }
 </script>
 <!-- Tema -->
 <script>

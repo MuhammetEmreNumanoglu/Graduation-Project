@@ -1,6 +1,6 @@
 {% extends 'articles/navbar.html' %} {% load static %} {% load i18n %} {% block content %}
 <div class="container mt-4">
-    <h1>{% trans "Görevlerim" %}</h1>
+    <h1><span data-translate="{% trans "Görevlerim" %}">Görevlerim</span></h1>
     
     <!-- Görevler Listesi -->
     <div class="tasks-container">
@@ -8,14 +8,14 @@
         <div class="completed-tasks">
             <h3 class="section-title">
                 <i class="material-symbols-outlined">check_circle</i>
-                {% trans "Tamamlanan Görevler" %}
+                <span data-translate="{% trans "Tamamlanan Görevler" %}">Tamamlanan Görevler</span>
             </h3>
             <div class="task-list">
                 <div class="task-item completed">
                     <div class="task-content">
-                        <h4>{% trans "Günlük Nefes Egzersizi" %}</h4>
-                        <p>{% trans "5 dakikalık nefes egzersizi tamamlandı" %}</p>
-                        <span class="completion-date">{% trans "Bugün, 10:30" %}</span>
+                        <h4><span data-translate="{% trans "Günlük Nefes Egzersizi" %}">Günlük Nefes Egzersizi</span></h4>
+                        <p><span data-translate="{% trans "5 dakikalık nefes egzersizi tamamlandı" %}">5 dakikalık nefes egzersizi tamamlandı</span></p>
+                        <span class="completion-date"><span data-translate="{% trans "Bugün, 10:30" %}">Bugün, 10:30</span></span>
                     </div>
                     <div class="task-status">
                         <i class="material-symbols-outlined">check_circle</i>
@@ -24,9 +24,9 @@
 
                 <div class="task-item completed">
                     <div class="task-content">
-                        <h4>{% trans "Günlük Düşünce Günlüğü" %}</h4>
-                        <p>{% trans "Bugünkü düşüncelerinizi kaydettiniz" %}</p>
-                        <span class="completion-date">{% trans "Dün, 20:15" %}</span>
+                        <h4><span data-translate="{% trans "Günlük Düşünce Günlüğü" %}">Günlük Düşünce Günlüğü</span></h4>
+                        <p><span data-translate="{% trans "Bugünkü düşüncelerinizi kaydettiniz" %}">Bugünkü düşüncelerinizi kaydettiniz</span></p>
+                        <span class="completion-date"><span data-translate="{% trans "Dün, 20:15" %}">Dün, 20:15</span></span>
                     </div>
                     <div class="task-status">
                         <i class="material-symbols-outlined">check_circle</i>
@@ -39,33 +39,33 @@
         <div class="pending-tasks">
             <h3 class="section-title">
                 <i class="material-symbols-outlined">pending</i>
-                {% trans "Bekleyen Görevler" %}
+                <span data-translate="{% trans "Bekleyen Görevler" %}">Bekleyen Görevler</span>
             </h3>
             <div class="task-list">
                 <div class="task-item">
                     <div class="task-content">
-                        <h4>{% trans "Haftalık Değerlendirme" %}</h4>
-                        <p>{% trans "Bu haftaki ilerlemenizi değerlendirin" %}</p>
-                        <span class="due-date">{% trans "Son Tarih: Yarın" %}</span>
+                        <h4><span data-translate="{% trans "Haftalık Değerlendirme" %}">Haftalık Değerlendirme</span></h4>
+                        <p><span data-translate="{% trans "Bu haftaki ilerlemenizi değerlendirin" %}">Bu haftaki ilerlemenizi değerlendirin</span></p>
+                        <span class="due-date"><span data-translate="{% trans "Son Tarih: Yarın" %}">Son Tarih: Yarın</span></span>
                     </div>
                     <div class="task-status">
                         <button class="btn btn-outline-primary btn-sm complete-task">
                             <i class="material-symbols-outlined">check</i>
-                            {% trans "Tamamla" %}
+                            <span data-translate="{% trans "Tamamla" %}">Tamamla</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="task-item">
                     <div class="task-content">
-                        <h4>{% trans "Meditasyon Seansı" %}</h4>
-                        <p>{% trans "10 dakikalık meditasyon seansı" %}</p>
-                        <span class="due-date">{% trans "Son Tarih: Bugün" %}</span>
+                        <h4><span data-translate="{% trans "Meditasyon Seansı" %}">Meditasyon Seansı</span></h4>
+                        <p><span data-translate="{% trans "10 dakikalık meditasyon seansı" %}">10 dakikalık meditasyon seansı</span></p>
+                        <span class="due-date"><span data-translate="{% trans "Son Tarih: Bugün" %}">Son Tarih: Bugün</span></span>
                     </div>
                     <div class="task-status">
                         <button class="btn btn-outline-primary btn-sm complete-task">
                             <i class="material-symbols-outlined">check</i>
-                            {% trans "Tamamla" %}
+                            <span data-translate="{% trans "Tamamla" %}">Tamamla</span>
                         </button>
                     </div>
                 </div>
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Tamamlanma tarihini ekle
             const completionDate = document.createElement('span');
             completionDate.className = 'completion-date';
-            completionDate.textContent = '{% trans "Şimdi" %}';
+            completionDate.textContent = getTranslation('Şimdi');
             
             // Due date'i kaldır
             const dueDate = taskContent.querySelector('.due-date');

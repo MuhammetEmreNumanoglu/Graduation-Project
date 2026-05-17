@@ -56,8 +56,10 @@
             notificationBell.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const currentPopup = document.getElementById('notificationPopup');
+                const overlay = document.getElementById('notificationOverlay');
                 if (currentPopup) {
                     currentPopup.classList.toggle('active');
+                    if (overlay) overlay.classList.toggle('active', currentPopup.classList.contains('active'));
                     if (currentPopup.classList.contains('active')) {
                         // Popup açıldığında bildirimleri yükle ve hepsini okundu işaretle
                         loadNotifications();
@@ -70,9 +72,11 @@
             document.addEventListener('click', function(e) {
                 const currentPopup = document.getElementById('notificationPopup');
                 const currentBell = document.getElementById('notificationBell');
+                const overlay = document.getElementById('notificationOverlay');
                 if (currentPopup && currentPopup.classList.contains('active') && 
                     !currentPopup.contains(e.target) && e.target !== currentBell) {
                     currentPopup.classList.remove('active');
+                    if (overlay) overlay.classList.remove('active');
                 }
             });
             
@@ -168,19 +172,30 @@
         });
     }
 
-    // Tümünü okundu işaretle (Bildirimler + Mesajlar)
-    function markAllAsRead() {
-        const p1 = markNotificationsRead();
-        const p2 = fetch("/api/member/mark-psychologist-messages-read/", {
+    // Tüm bildirimleri sil ve mesajları okundu işaretle
+    function deleteAllNotifications() {
+        const p1 = fetch("/api/member/delete-all-notifications/", {
             method: "POST",
             headers: { "X-CSRFToken": csrfToken }
-        }).then(res => res.json());
+        }).then(res => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.json();
+        });
+
+        const p2 = fetch("/api/mark-psychologist-messages-read/", {
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken }
+        }).then(res => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.json();
+        });
 
         Promise.all([p1, p2])
             .then(() => {
+                loadNotifications();
                 updateBadges();
             })
-            .catch(err => console.error("Hepsi okundu işaretlenirken hata:", err));
+            .catch(err => console.error("Tüm bildirimler silinirken hata:", err));
     }
 
     // Bildirim sil
@@ -222,7 +237,7 @@
         updateBadges: updateBadges,
         loadNotifications: loadNotifications,
         markNotificationsRead: markNotificationsRead,
-        markAllAsRead: markAllAsRead,
+        deleteAllNotifications: deleteAllNotifications,
         deleteNotification: deleteNotification
     };
     

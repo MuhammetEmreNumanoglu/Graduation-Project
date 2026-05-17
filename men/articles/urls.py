@@ -55,6 +55,7 @@ urlpatterns = [
     path('api/member/badges/', views.get_member_badges, name='get-member-badges'),
     path('api/member/mark-notifications-read/', views.mark_notifications_read, name='mark-notifications-read'),
     path('api/member/delete-notification/', views.delete_notification, name='delete-notification'),
+    path('api/member/delete-all-notifications/', views.delete_all_notifications, name='delete-all-notifications'),
     path('api/member/stats/', views.get_member_stats, name='get-member-stats'),
 
     # Psikolog - kullanici icgoruleri
