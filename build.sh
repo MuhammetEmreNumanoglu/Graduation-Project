@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
+
+echo "Installing requirements..."
+pip install -r requirements.txt
+
+echo "Changing to Django application directory..."
+cd men
+
+echo "Collecting static files..."
+python manage.py collectstatic --no-input
+
+echo "Running database migrations..."
+python manage.py migrate
