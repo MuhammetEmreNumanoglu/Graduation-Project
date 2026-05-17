@@ -887,6 +887,15 @@
         color: #e0e0e0;
       }
 
+      .dashboard-layout-container {
+        display: flex;
+        gap: 14px;
+        align-items: stretch;
+        width: 100%;
+        max-width: 1420px;
+        margin: 0 auto;
+      }
+
       @media (max-width: 991px) {
         body {
           flex-direction: column;
@@ -900,6 +909,14 @@
         .main-content {
           margin-left: 0;
           padding: 24px 16px;
+        }
+        .dashboard-layout-container {
+          flex-direction: column;
+        }
+        .notes-panel, #userInsightsPanel {
+          width: 100% !important;
+          min-width: 0 !important;
+          max-width: 100% !important;
         }
       }
 
@@ -1695,7 +1712,7 @@
 
     <!-- Main Content: 3 sütunlu layout -->
     <main class="main-content">
-      <div style="display:flex;gap:14px;align-items:stretch;width:100%;max-width:1420px;margin:0 auto;">
+      <div class="dashboard-layout-container">
 
         <!-- SOL: Kişiye Özel Notlar Paneli -->
         <aside class="notes-panel" id="notesPanel" style="display:none;">
@@ -2463,7 +2480,7 @@
         messageDiv.innerHTML = `
           <div style="position:relative; padding-right: 20px;">
             ${text}
-            ${id && sender === 'psychologist' ? `<span class="delete-msg" onclick="deleteMessage(${id}, this.parentElement.parentElement)" title="Sil" style="position:absolute; right: -5px; top: -5px; cursor:pointer; font-size: 12px; opacity: 0.6;">&times;</span>` : ''}
+            ${id && sender === 'psychologist' ? `<span class="delete-msg" onclick="deleteMessage(${id}, this.parentElement.parentElement)" title="Sil" style="position:absolute; right: -5px; top: -5px; cursor:pointer; font-size: 0.75rem; opacity: 0.6;">&times;</span>` : ''}
           </div>
           <div class="message-time">${time}</div>
         `;

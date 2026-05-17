@@ -15,7 +15,7 @@
   --btn-radius: 24px;
   --input-radius: 18px;
   --navbar-radius: 32px;
-  --base-font-size: 17px;
+  --base-font-size: 1.0625rem;
   --header-font: 'Playfair Display', 'Lora', serif;
   --body-font: 'Inter', 'Poppins', 'Nunito', sans-serif;
   --chat-font: 'Nunito', 'Inter', sans-serif;
@@ -533,7 +533,7 @@ a:hover {
 
 .menu-toggle .material-symbols-outlined {
   color: white;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 /* Sidebar Styles */
@@ -1070,7 +1070,7 @@ a:hover {
   }
 
   .menu-toggle .material-symbols-outlined {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .sidebar {
@@ -1181,7 +1181,7 @@ label {
 
 
 .sidebar .material-symbols-outlined {
-  font-size: 24px !important; /* Sabit boyut */
+  font-size: 1.5rem !important; /* Sabit boyut */
   width: 24px;
   height: 24px;
   display: inline-flex;
@@ -1271,7 +1271,7 @@ label {
 
 /* Font Size Classes - Global */
 body.font-size-small {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 body.font-size-small h1 { font-size: 1.8rem; }
@@ -1289,7 +1289,7 @@ body.font-size-small .message-content { font-size: 0.9rem; }
 body.font-size-small .chat-form .form-control { font-size: 0.9rem; }
 
 body.font-size-medium {
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 body.font-size-medium h1 { font-size: 2rem; }
@@ -1307,7 +1307,7 @@ body.font-size-medium .message-content { font-size: 1rem; }
 body.font-size-medium .chat-form .form-control { font-size: 1rem; }
 
 body.font-size-large {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 body.font-size-large h1 { font-size: 2.2rem; }
@@ -1325,7 +1325,7 @@ body.font-size-large .message-content { font-size: 1.1rem; }
 body.font-size-large .chat-form .form-control { font-size: 1.1rem; }
 
 body.font-size-extra-large {
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 body.font-size-extra-large h1 { font-size: 2.5rem; }
@@ -1399,6 +1399,6 @@ body.font-size-extra-large .chat-form .form-control { font-size: 1.2rem; }
 .password-toggle-wrapper input { padding-right: 48px !important; width: 100%; }
 .password-toggle-btn { position: absolute; right: 12px; background: none; border: none; padding: 8px; cursor: pointer; color: var(--color-text-secondary); display: flex; align-items: center; justify-content: center; transition: color 0.2s, transform 0.2s; z-index: 5; user-select: none; }
 .password-toggle-btn:hover { color: var(--color-primary); transform: scale(1.1); }
-.password-toggle-btn .material-symbols-outlined { font-size: 20px; }
+.password-toggle-btn .material-symbols-outlined { font-size: 1.25rem; }
 body.dark-mode .password-toggle-btn { color: #b0b0b0; }
 body.dark-mode .password-toggle-btn:hover { color: var(--color-primary); }

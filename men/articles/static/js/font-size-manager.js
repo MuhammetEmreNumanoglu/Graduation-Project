@@ -2,10 +2,10 @@
 class FontSizeManager {
     constructor() {
         this.fontSizes = {
-            'small': 'font-small',
-            'normal': 'font-normal',
-            'large': 'font-large',
-            'very-large': 'font-very-large'
+            'small': '0.875',
+            'normal': '1',
+            'large': '1.125',
+            'very-large': '1.25'
         };
         
         this.init();
@@ -42,20 +42,10 @@ class FontSizeManager {
     }
     
     applyFontSize(size) {
-        // Remove all font size classes from html and body
-        const elements = [document.documentElement, document.body];
-        elements.forEach(element => {
-            Object.values(this.fontSizes).forEach(className => {
-                element.classList.remove(className);
-            });
-        });
-        
-        // Add the selected font size class
-        const className = this.fontSizes[size];
-        if (className) {
-            document.documentElement.classList.add(className);
-            document.body.classList.add(className);
-        }
+        // Set the global --font-scale variable
+        const scale = this.fontSizes[size] || '1';
+        document.documentElement.style.setProperty('--font-scale', scale);
+        document.documentElement.setAttribute('data-font-size', size);
     }
     
     updateActiveButton(clickedBtn) {

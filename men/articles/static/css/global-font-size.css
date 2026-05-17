@@ -1,85 +1,25 @@
 /* Global Font Size Management */
 :root {
-    /* Font size variables */
-    --font-size-small: 0.875rem;
-    --font-size-normal: 1rem;
-    --font-size-large: 1.125rem;
-    --font-size-very-large: 1.25rem;
-    
-    /* Default font size */
-    --current-font-size: var(--font-size-normal);
+    /* Base scaling factor */
+    --font-scale: 1;
 }
 
-/* Font size classes */
-.font-small {
-    --current-font-size: var(--font-size-small);
-}
-
-.font-normal {
-    --current-font-size: var(--font-size-normal);
-}
-
-.font-large {
-    --current-font-size: var(--font-size-large);
-}
-
-.font-very-large {
-    --current-font-size: var(--font-size-very-large);
-}
-
-/* Apply font size to all elements */
+/* Base font size scaled globally */
 html {
-    font-size: var(--current-font-size);
+    font-size: calc(16px * var(--font-scale));
 }
 
 body {
-    font-size: var(--current-font-size);
+    font-size: 1rem;
 }
 
-/* Specific element font size adjustments */
+/* Fallback for specific elements if needed */
 h1, h2, h3, h4, h5, h6 {
-    font-size: calc(var(--current-font-size) * 1.2);
+    font-size: 1.2rem;
 }
 
 p, span, div, a, button, input, textarea, label {
-    font-size: var(--current-font-size);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .font-small {
-        --current-font-size: 0.8rem;
-    }
-    
-    .font-normal {
-        --current-font-size: 0.9rem;
-    }
-    
-    .font-large {
-        --current-font-size: 1rem;
-    }
-    
-    .font-very-large {
-        --current-font-size: 1.1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .font-small {
-        --current-font-size: 0.75rem;
-    }
-    
-    .font-normal {
-        --current-font-size: 0.85rem;
-    }
-    
-    .font-large {
-        --current-font-size: 0.95rem;
-    }
-    
-    .font-very-large {
-        --current-font-size: 1rem;
-    }
+    /* Uses base rem */
 }
 
 .chat-menu {

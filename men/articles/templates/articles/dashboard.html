@@ -795,6 +795,14 @@
         font-weight: 400;
         /* Removed overflow:hidden — only chat-messages should scroll, not this container */
       }
+      
+      @media (max-width: 1199px) {
+        .main-content {
+          width: 100%;
+          max-width: 100vw;
+          padding: 80px 16px 16px 16px;
+        }
+      }
 
       .dashboard-container {
         max-width: 1600px;
