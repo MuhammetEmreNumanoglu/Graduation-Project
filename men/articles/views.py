@@ -90,7 +90,7 @@ def my_login(request):
                 if remember_me:
                     request.session.set_expiry(7 * 24 * 60 * 60)  # 7 gün
                 else:
-                    request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+                    request.session.set_expiry(0)  # Browser kapatıldığında silinsin
                 
                 return redirect("dashboard")
         else:
@@ -151,7 +151,7 @@ def psychologist_login(request):
                     if remember_me:
                         request.session.set_expiry(7 * 24 * 60 * 60)  # 7 gün
                     else:
-                        request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+                        request.session.set_expiry(0)  # Browser kapatıldığında silinsin
                     
                     return redirect("psychologist-dashboard")
             else:
@@ -557,14 +557,14 @@ def gunluk_kartlar(request):
 
 @login_required(login_url="my-login")
 def destek_duvari(request):
-    """Forum / Destek Duvari - ForumPost modeli kullanir."""
+    """Forum / Destek Duvari - ForumPost modeli kullanir. Her sayfada 4 gonderi, anonim."""
     profile_pic = Profile.objects.filter(user=request.user).first()
     if not profile_pic:
         profile_pic = Profile.objects.create(user=request.user)
 
     page = int(request.GET.get('page', 1))
     all_posts = ForumPost.objects.all().order_by('-created_at')
-    paginator = Paginator(all_posts, 5)
+    paginator = Paginator(all_posts, 4)  # Her sayfada 4 gonderi
     posts_page = paginator.get_page(page)
 
     liked_post_ids = set(
@@ -1745,21 +1745,25 @@ def create_forum_post(request):
 @require_POST
 @login_required(login_url="my-login")
 def like_forum_post(request):
-    """Forum gonderi begen/begen-kaldir toggle"""
+    """Forum gonderi begen - toggle (begen/kaldır)"""
     post_id = request.POST.get('post_id')
     if not post_id:
         return JsonResponse({'success': False, 'error': _('post_id gerekli.')}, status=400, content_type='application/json')
     try:
         post = ForumPost.objects.get(id=post_id)
-        like, created = ForumLike.objects.get_or_create(user=request.user, post=post)
-        if not created:
-            like.delete()
-            liked = False
+        like_qs = ForumLike.objects.filter(user=request.user, post=post)
+        if like_qs.exists():
+            # Zaten begenilmis — geri al
+            like_qs.delete()
+            post.likes_count = ForumLike.objects.filter(post=post).count()
+            post.save(update_fields=['likes_count'])
+            return JsonResponse({'success': True, 'liked': False, 'likes_count': post.likes_count}, content_type='application/json')
         else:
-            liked = True
-        post.likes_count = ForumLike.objects.filter(post=post).count()
-        post.save(update_fields=['likes_count'])
-        return JsonResponse({'success': True, 'liked': liked, 'likes_count': post.likes_count}, content_type='application/json')
+            # Yeni begen
+            ForumLike.objects.create(user=request.user, post=post)
+            post.likes_count = ForumLike.objects.filter(post=post).count()
+            post.save(update_fields=['likes_count'])
+            return JsonResponse({'success': True, 'liked': True, 'likes_count': post.likes_count}, content_type='application/json')
     except ForumPost.DoesNotExist:
         return JsonResponse({'success': False, 'error': _('Gonderi bulunamadi.')}, status=404, content_type='application/json')
     except Exception as e:

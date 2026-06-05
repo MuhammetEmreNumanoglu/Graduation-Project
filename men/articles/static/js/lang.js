@@ -290,11 +290,26 @@ const translations = {
 
         // Destek Duvarı sayfası çevirileri
         "Destek Duvarı": "Destek Duvarı",
+        "Support Wall — Feel Good": "Destek Duvarı — İyi Hisset",
+        "Share Your Story": "Hikayeni Paylaş",
         "Hikayeni Paylaş": "Hikayeni Paylaş",
         "Hikayeni buraya yazabilirsin...": "Hikayeni buraya yazabilirsin...",
+        "Bugün nasıl hissediyorsun? Düşüncelerini buraya yazabilirsin...": "Bugün nasıl hissediyorsun? Düşüncelerini buraya yazabilirsin...",
+        "How are you feeling today? You can write your thoughts here...": "Bugün nasıl hissediyorsun? Düşüncelerini buraya yazabilirsin...",
         "Paylaş": "Paylaş",
+        "Anonim Paylaş": "Anonim Paylaş",
+        "Share Anonymously": "Anonim Paylaş",
         "Anonim": "Anonim",
+        "Anonymous": "Anonim",
         "Beğen": "Beğen",
+        "Like": "Beğen",
+        "Gönderiler": "Gönderiler",
+        "Posts": "Gönderiler",
+        "Paylaşımın tamamen anonim olarak gönderilecek.": "Paylaşımın tamamen anonim olarak gönderilecek.",
+        "Your post will be shared completely anonymously.": "Paylaşımın tamamen anonim olarak gönderilecek.",
+        "Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.": "Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.",
+        "Share anonymously. No one knows who you are, everyone supports you.": "Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.",
+        "Please enter at least 4 characters.": "En az 4 karakter girmelisin.",
 
         // Günlük Kartlar sayfası çevirileri
         "Günlük Kartlar": "Günlük Kartlar",
@@ -406,6 +421,7 @@ const translations = {
         "Share Your Story": "Hikayeni Paylaş",
         "Write your story here...": "Hikayeni buraya yazabilirsin...",
         "Share": "Paylaş",
+        "Share Anonymously": "Anonim Paylaş",
         "Like": "Beğen",
         "Comments": "Yorumlar",
         "Add a comment...": "Yorum ekle...",
@@ -413,6 +429,12 @@ const translations = {
         "Anonymous": "Anonim",
         "Previous": "Önceki",
         "Next": "Sonraki",
+        "Posts": "Gönderiler",
+        "Gönderiler": "Gönderiler",
+        "Your post will be shared completely anonymously.": "Paylaşımın tamamen anonim olarak gönderilecek.",
+        "Share anonymously. No one knows who you are, everyone supports you.": "Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.",
+        "Please enter at least 4 characters.": "En az 4 karakter girmelisin.",
+        "Support Wall — Feel Good": "Destek Duvarı — İyi Hisset",
         "Bugün nasıl hissediyorsun?": "Bugün nasıl hissediyorsun?",
         "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin.": "Günde sadece 1 kez sorulur. İstersen kısa bir not ekleyebilirsin.",
         "Kısa Not (Opsiyonel)": "Kısa Not (Opsiyonel)",
@@ -757,6 +779,29 @@ const translations = {
         "Tamamlandı": "Completed",
         "Bekliyor": "Waiting",
         "Mesajlaşmaya başlamak için sidebar'dan bir kullanıcı seçin": "Select a user from the sidebar to start messaging.",
+
+        // Destek Duvarı — EN çevirileri
+        "Destek Duvarı": "Support Wall",
+        "Support Wall — Feel Good": "Support Wall — Feel Good",
+        "Hikayeni Paylaş": "Share Your Story",
+        "Anonim Paylaş": "Share Anonymously",
+        "Share Anonymously": "Share Anonymously",
+        "Gönderiler": "Posts",
+        "Posts": "Posts",
+        "Anonim": "Anonymous",
+        "Paylaşımın tamamen anonim olarak gönderilecek.": "Your post will be shared completely anonymously.",
+        "Your post will be shared completely anonymously.": "Your post will be shared completely anonymously.",
+        "Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.": "Share anonymously. No one knows who you are, everyone supports you.",
+        "Share anonymously. No one knows who you are, everyone supports you.": "Share anonymously. No one knows who you are, everyone supports you.",
+        "Bugün nasıl hissediyorsun? Düşüncelerini buraya yazabilirsin...": "How are you feeling today? You can write your thoughts here...",
+        "How are you feeling today? You can write your thoughts here...": "How are you feeling today? You can write your thoughts here...",
+        "Henüz gönderi yok.": "No posts yet.",
+        "No posts yet.": "No posts yet.",
+        "İlk paylaşan sen ol!": "Be the first to share!",
+        "Be the first to share!": "Be the first to share!",
+        "Önceki": "Previous",
+        "Sonraki": "Next",
+        "Please enter at least 4 characters.": "Please enter at least 4 characters.",
 
         // English translations (keep original English text)
         "My Statistics": "My Statistics",
@@ -1288,17 +1333,21 @@ function translatePage(lang) {
     const elementsWithTranslate = document.querySelectorAll('[data-translate]');
     elementsWithTranslate.forEach(element => {
         const translationKey = element.getAttribute('data-translate');
-        if (langTranslations[translationKey]) {
-            element.textContent = langTranslations[translationKey];
+        if (translationKey) {
+            element.textContent = langTranslations[translationKey] || translationKey;
         }
     });
 
     // Placeholder'ları çevir
-    const inputs = document.querySelectorAll('input[placeholder]');
-    inputs.forEach(input => {
-        const placeholder = input.getAttribute('placeholder');
-        if (placeholder && langTranslations[placeholder]) {
-            input.setAttribute('placeholder', langTranslations[placeholder]);
+    const placeholders = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+    placeholders.forEach(el => {
+        let orig = el.getAttribute('data-original-placeholder');
+        if (!orig) {
+            orig = el.getAttribute('placeholder');
+            el.setAttribute('data-original-placeholder', orig);
+        }
+        if (orig) {
+            el.setAttribute('placeholder', langTranslations[orig] || orig);
         }
     });
 

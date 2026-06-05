@@ -21,6 +21,7 @@
     />
     <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
     <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
     <meta name="csrf-token" content="{{ csrf_token }}">
     <script src="{% static 'js/lang.js' %}"></script>
     <style>
@@ -1663,17 +1664,19 @@
                     <span class="material-symbols-outlined" style="font-size:.75rem;">
                       {% if user_data.category == 'acil' %}warning{% elif user_data.category == 'supheli' %}help{% else %}check_circle{% endif %}
                     </span>
-                    {% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Takip{% else %}Normal{% endif %}
+                    <span data-translate="{% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Takip{% else %}Normal{% endif %}">
+                      {% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Takip{% else %}Normal{% endif %}
+                    </span>
                   </button>
                   <div class="category-dropdown" id="catdrop-{{ user_data.user.id }}">
                     <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'acil')">
-                      <span class="dot cat-dot-acil"></span> Acil
+                      <span class="dot cat-dot-acil"></span> <span data-translate="Acil">Acil</span>
                     </div>
                     <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'supheli')">
-                      <span class="dot cat-dot-supheli"></span> Takip
+                      <span class="dot cat-dot-supheli"></span> <span data-translate="Takip">Takip</span>
                     </div>
                     <div class="category-dropdown-item" onclick="event.stopPropagation(); setCategory({{ user_data.user.id }}, 'normal')">
-                      <span class="dot cat-dot-normal"></span> Normal
+                      <span class="dot cat-dot-normal"></span> <span data-translate="Normal">Normal</span>
                     </div>
                   </div>
                 </div>
@@ -1724,7 +1727,7 @@
             <div class="notes-empty-hint" id="notesEmptyHint" data-translate="Bir kullanıcı seçince notlar yüklenir."><span data-translate="{% trans "Bir kullanıcı seçince notlar yüklenir." %}">Bir kullanıcı seçince notlar yüklenir.</span></div>
             <textarea
               id="privateNoteTextarea"
-              placeholder="{% trans 'Bu kullanıcıya özel notunuzu buraya yazın...' %}" data-translate="Bu kullanıcıya özel notunuzu buraya yazın..."
+              placeholder="{% trans 'Bu kullanıcıya özel notunuzu buraya yazın...' %}"
               style="display:none;"
             ></textarea>
             <div class="notes-panel-actions" id="notesActions" style="display:none;">
@@ -1939,7 +1942,7 @@
           </div>
           <textarea
             id="bulkNotifyText"
-            placeholder="{% trans 'Göndermek istediğiniz bildirimi yazın...' %}" data-translate="Göndermek istediğiniz bildirimi yazın..."
+            placeholder="{% trans 'Göndermek istediğiniz bildirimi yazın...' %}"
             rows="4"
             style="width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.9rem;resize:vertical;box-sizing:border-box;"
           ></textarea>
@@ -2791,7 +2794,8 @@
               badge.className = 'category-badge ' + category;
               const icons = { acil: 'warning', supheli: 'help', normal: 'check_circle' };
               const labels = { acil: 'Acil', supheli: 'Takip', normal: 'Normal' };
-              badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:.75rem;">${icons[category]}</span>${labels[category]}`;
+              const translationVal = (typeof getTranslation === 'function') ? getTranslation(labels[category]) : labels[category];
+              badge.innerHTML = `<span class="material-symbols-outlined" style="font-size:.75rem;">${icons[category]}</span><span data-translate="${labels[category]}">${translationVal}</span>`;
             }
             // Dropdown'ı kapat
             const drop = document.getElementById('catdrop-' + userId);

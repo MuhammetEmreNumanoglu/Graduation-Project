@@ -308,6 +308,9 @@
         transition: var(--transition-smooth);
         border: 1.5px solid #e2e8f0;
         position: relative;
+        will-change: transform, box-shadow;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
       }
 
       .settings-card h3 {
@@ -320,7 +323,7 @@
       .settings-card:hover {
         box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
         border-color: var(--primary-color);
-        transform: translateY(-4px) scale(1.02);
+        transform: translateY(-4px);
       }
 
       .settings-card .btn {
@@ -1326,7 +1329,7 @@
                     name="life_story"
                     class="form-control"
                     rows="8"
-                    placeholder="{% trans 'İsterseniz buraya uzun bir metin yazabilirsiniz...' %}" data-translate="İsterseniz buraya uzun bir metin yazabilirsiniz..." data-translate="İsterseniz buraya uzun bir metin yazabilirsiniz..." data-translate="İsterseniz buraya uzun bir metin yazabilirsiniz..."
+                    placeholder=""
                   >{{ profilePic.life_story|default_if_none:'' }}</textarea>
                 </div>
                 <div style="text-align:center; margin-top: 8px;">
@@ -1437,6 +1440,10 @@
                 id="profilePhotoForm"
               >
                 {% csrf_token %} {{ ProfileUpdateForm|crispy }}
+                <!-- Photo preview (shown only when a file is selected) -->
+                <div id="photoPreviewWrap" style="display:none; text-align:center; margin: 12px 0;">
+                  <img id="photoPreviewImg" src="" alt="Önizleme" style="max-width:120px; max-height:120px; border-radius:50%; object-fit:cover; border:3px solid #b993d6; box-shadow:0 4px 16px rgba(108,62,180,0.15);" />
+                </div>
                 <div style="text-align: center; margin-top: 16px">
                   <button
                     class="btn"
@@ -2463,8 +2470,22 @@
         // Sayfa yüklendiğinde buton durumunu ayarla
         updateSubmitButtonState();
         
-        // Dosya seçimi değiştiğinde buton durumunu güncelle
-        fileInput.addEventListener('change', updateSubmitButtonState);
+        // Dosya seçimi değiştiğinde buton durumunu güncelle + önizleme
+        fileInput.addEventListener('change', function() {
+          updateSubmitButtonState();
+          const previewWrap = document.getElementById('photoPreviewWrap');
+          const previewImg = document.getElementById('photoPreviewImg');
+          if (fileInput.files && fileInput.files[0] && previewWrap && previewImg) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              previewImg.src = ev.target.result;
+              previewWrap.style.display = 'block';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+          } else if (previewWrap) {
+            previewWrap.style.display = 'none';
+          }
+        });
         
         profilePhotoForm.addEventListener('submit', async function(e) {
           e.preventDefault();

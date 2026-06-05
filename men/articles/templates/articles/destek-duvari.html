@@ -1,26 +1,22 @@
 {% load static %} {% load i18n %}
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Destek Duvarı</title>
+    <title data-translate="Support Wall — Feel Good"><span data-translate="{% trans 'Destek Duvarı' %}">Destek Duvarı</span></title>
+    <meta name="description" content="Anonim olarak duygularını paylaş, başkalarını destekle." />
     <link rel="icon" href="{% static 'iyihisset.png' %}" type="image/png" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/responsive-sidebar.css' %}" />
     <link rel="stylesheet" href="{% static 'css/global-font-size.css' %}" />
+    <script>window.language_code = "{{ LANGUAGE_CODE }}";</script>
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/responsive-sidebar.js' %}"></script>
+
     <style>
       :root {
         --primary-color: #6c3eb4;
@@ -34,7 +30,6 @@
         --border-radius: 20px;
         --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         --heart-color: #e74c3c;
-        --heart-color-light: #ff6b6b;
       }
 
       body {
@@ -54,8 +49,6 @@
         z-index: 2;
         background: #fff;
       }
-
-      
 
       .sidebar-logo {
         width: 48px;
@@ -84,9 +77,8 @@
       }
 
       .sidebar-nav a:hover {
-        color: var(--primary-color);
-        background: #b993d6;
         color: white;
+        background: #b993d6;
       }
 
       .sidebar-nav a.active {
@@ -108,11 +100,8 @@
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         display: flex;
         align-items: center;
         justify-content: center;
@@ -120,6 +109,12 @@
         font-weight: 600;
         font-size: 1.5rem;
         box-shadow: var(--shadow-soft);
+      }
+
+      .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .user-info h3 {
@@ -133,6 +128,10 @@
         font-size: 0.9rem;
         color: var(--text-secondary);
         margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
       }
 
       .sidebar-menu {
@@ -144,23 +143,9 @@
         min-height: 0;
       }
 
-      .sidebar-menu::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      .sidebar-menu::-webkit-scrollbar-track {
-        background: rgba(139, 92, 246, 0.05);
-        border-radius: 3px;
-      }
-
-      .sidebar-menu::-webkit-scrollbar-thumb {
-        background: rgba(139, 92, 246, 0.2);
-        border-radius: 3px;
-      }
-
-      .sidebar-menu::-webkit-scrollbar-thumb:hover {
-        background: rgba(139, 92, 246, 0.3);
-      }
+      .sidebar-menu::-webkit-scrollbar { width: 6px; }
+      .sidebar-menu::-webkit-scrollbar-track { background: rgba(139, 92, 246, 0.05); border-radius: 3px; }
+      .sidebar-menu::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.2); border-radius: 3px; }
 
       .menu-item {
         display: flex;
@@ -185,11 +170,7 @@
       }
 
       .menu-item.active {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
         box-shadow: var(--shadow-soft);
         border-color: transparent;
@@ -205,15 +186,6 @@
         flex-shrink: 0;
       }
 
-      .tasks-section {
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 16px;
-        border: 1px solid rgba(139, 92, 246, 0.1);
-      }
-
-      /* Meditasyon sayfası ile aynı sidebar-title görünümü */
       .sidebar-block.sidebar-title {
         display: flex;
         flex-direction: column;
@@ -222,45 +194,46 @@
         padding: 24px;
         margin-bottom: 0;
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
-        max-height: 100vh;
-        overflow-y: auto;
-        overflow-x: hidden;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
       }
+
       .sidebar-tasks {
         display: flex;
         flex-direction: column;
         gap: 12px;
         width: 100%;
+        flex: 1 1 auto;
         min-height: 0;
+        overflow-y: auto;
       }
 
-      .tasks-section h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+      .sidebar-title-text {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 18px;
+        width: 100%;
+        text-align: left;
+        position: relative;
       }
 
-      .tasks-section h3::before {
+      .sidebar-title-text::after {
         content: "";
-        width: 4px;
-        height: 20px;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         border-radius: 2px;
       }
 
-      .task-item {
+      .sidebar-task-item {
         background: rgba(139, 92, 246, 0.1);
         border-radius: 12px;
         padding: 16px;
-        margin-bottom: 12px;
         font-size: 1rem;
         color: var(--text-primary);
         font-weight: 500;
@@ -268,22 +241,20 @@
         border: 1px solid transparent;
         transition: var(--transition-smooth);
         cursor: pointer;
+        position: relative;
+        overflow: hidden;
       }
 
-      .task-item:hover {
+      .sidebar-task-item:hover {
         background: rgba(139, 92, 246, 0.15);
         box-shadow: 0 2px 8px rgba(140, 82, 255, 0.09);
         border-color: rgba(139, 92, 246, 0.2);
         transform: translateX(4px);
       }
 
-      .task-item:last-child {
-        margin-bottom: 0;
-      }
-
+      /* ========== MAIN CONTENT ========== */
       .main-content {
         flex: 1;
-        
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -291,7 +262,7 @@
         padding: 48px 24px 24px 24px;
         min-height: 100vh;
         overflow-y: auto;
-        justify-content: center;
+        justify-content: flex-start;
       }
 
       .support-wall-container {
@@ -305,16 +276,24 @@
         font-weight: 700;
         color: var(--primary-color);
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 0.5rem;
         text-shadow: 0 2px 4px rgba(108, 62, 180, 0.1);
       }
 
-      /* Story Form Card */
+      .page-subtitle {
+        font-size: 1rem;
+        color: var(--background-light);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 400;
+      }
+
+      /* ========== FORM CARD ========== */
       .story-form-card {
         background: var(--background-light);
         border-radius: var(--border-radius);
         padding: 2.5rem;
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         box-shadow: var(--shadow-soft);
         border: none;
         transition: var(--transition-smooth);
@@ -326,11 +305,22 @@
       }
 
       .form-title {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 600;
         color: var(--text-primary);
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem;
         text-align: center;
+      }
+
+      .anon-notice {
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--primary-color);
+        background: rgba(108, 62, 180, 0.06);
+        border-radius: 10px;
+        padding: 8px 14px;
+        margin-bottom: 1.2rem;
+        font-weight: 500;
       }
 
       .story-textarea {
@@ -345,6 +335,7 @@
         resize: vertical;
         transition: var(--transition-smooth);
         background: white;
+        color: var(--text-primary);
       }
 
       .story-textarea:focus {
@@ -353,22 +344,28 @@
         box-shadow: 0 0 0 3px rgba(185, 147, 214, 0.1);
       }
 
+      .story-textarea::placeholder { color: #9ca3af; }
+
+      .char-counter {
+        font-size: 0.76rem;
+        color: var(--text-secondary);
+        text-align: right;
+        margin-top: 5px;
+      }
+
       .share-button {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
         border: none;
         border-radius: 50px;
         padding: 12px 32px;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition-smooth);
         box-shadow: 0 4px 16px rgba(108, 62, 180, 0.2);
         width: 100%;
+        margin-top: 1rem;
       }
 
       .share-button:hover {
@@ -376,11 +373,40 @@
         box-shadow: 0 6px 20px rgba(108, 62, 180, 0.3);
       }
 
-      .share-button:active {
-        transform: translateY(0);
+      .share-button:active { transform: translateY(0); }
+      .share-button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+      .form-error {
+        color: #dc2626;
+        font-size: 0.82rem;
+        min-height: 16px;
+        margin: 4px 0;
       }
 
-      /* Story Cards */
+      /* ========== SECTION HEADER ========== */
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .section-label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--background-light);
+      }
+
+      .page-badge {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 50px;
+        padding: 3px 14px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      /* ========== POST CARDS ========== */
       .story-card {
         background: white;
         border-radius: var(--border-radius);
@@ -396,126 +422,108 @@
         transform: translateY(-2px);
       }
 
+      .story-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .anon-badge {
+        background: #f3eaff;
+        color: var(--primary-color);
+        border-radius: 20px;
+        padding: 3px 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .story-date {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
       .story-content {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         line-height: 1.7;
         color: var(--text-primary);
-        margin-bottom: 1.5rem;
-        word-wrap: break-word;
+        margin-bottom: 1.2rem;
+        word-break: break-word;
       }
 
       .story-footer {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         padding-top: 1rem;
         border-top: 1px solid #f1f3f4;
       }
 
-      .story-timestamp {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        font-weight: 500;
-      }
-
-      /* Enhanced Like Button */
-      .like-button-container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
+      /* ========== LIKE BUTTON ========== */
       .like-button {
         background: #fff;
         border: 1.5px solid #e2e2e2;
         border-radius: 50px;
         padding: 6px 18px;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: var(--transition-smooth);
         display: flex;
         align-items: center;
         gap: 6px;
-        color: #6c3eb4;
+        color: var(--primary-color);
       }
 
       .like-button .like-icon {
         color: #bbb;
         transition: color 0.2s;
-      }
-
-      .like-button.liked .like-icon {
-        color: #e74c3c !important;
+        font-size: 1.1rem;
       }
 
       .like-button.liked {
-        background: #ffe6ea !important;
-        border-color: #e74c3c !important;
-        color: #e74c3c !important;
+        background: #ffe6ea;
+        border-color: #e74c3c;
+        color: #e74c3c;
+        cursor: default;
       }
 
-      .like-icon {
-        font-size: 1.2rem;
-        transition: var(--transition-smooth);
+      .like-button.liked .like-icon {
+        color: #e74c3c;
       }
 
-      .like-button:hover .like-icon {
-        transform: scale(1.1);
+      .like-button:hover:not(.liked):not([disabled]) {
+        border-color: var(--accent-color);
+        transform: translateY(-1px);
       }
 
-      .likes-count {
+      .like-count {
         font-weight: 600;
-        min-width: 1.5rem;
+        min-width: 1.2rem;
         text-align: center;
+        font-variant-numeric: tabular-nums;
       }
 
-      /* Floating Hearts Animation */
-      .floating-hearts {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .floating-heart {
-        position: absolute;
-        color: var(--heart-color);
+      /* ========== EMPTY STATE ========== */
+      .no-posts-msg {
+        text-align: center;
+        padding: 56px 20px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-soft);
+        color: var(--text-secondary);
         font-size: 1rem;
-        animation: floatUp 1.2s ease-out forwards;
-        opacity: 0;
       }
 
-      @keyframes floatUp {
-        0% {
-          opacity: 0;
-          transform: translateY(0) scale(0.5);
-        }
-        20% {
-          opacity: 1;
-          transform: translateY(-10px) scale(1);
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(-60px) scale(0.8);
-        }
+      .no-posts-msg .no-posts-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 6px;
       }
 
-      @keyframes heartBeat {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.3);
-        }
-      }
-
-      /* Pagination */
+      /* ========== PAGINATION ========== */
       .pagination-container {
         display: flex;
         justify-content: center;
@@ -529,33 +537,23 @@
       }
 
       .pagination-button {
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         color: white;
         border: none;
         border-radius: 50px;
-        padding: 10px 20px;
-        font-size: 1rem;
+        padding: 10px 22px;
+        font-size: 0.95rem;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition-smooth);
         box-shadow: 0 4px 15px rgba(108, 62, 180, 0.2);
         text-decoration: none !important;
-        border-bottom: none !important;
       }
 
       .pagination-button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(108, 62, 180, 0.3);
-      }
-
-      .pagination-button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        transform: none;
+        color: white;
       }
 
       .page-info {
@@ -564,283 +562,12 @@
         font-weight: 500;
       }
 
-      .current-page {
+      .page-info .current-page {
         font-weight: 700;
         color: var(--primary-color);
       }
 
-      /* Responsive Design */
-      @media (max-width: 991px) {
-        body { flex-direction: column; }
-        .sidebar-container { width: 100vw; min-width: 0; max-width: 100vw; }
-        .main-content { margin-left: 0; padding: 24px 16px; }
-      }
-
-      @media (max-width: 600px) {
-        .page-title {
-          font-size: 2rem;
-        }
-
-        .story-form-card {
-          padding: 1.5rem;
-        }
-
-        .story-card {
-          padding: 1.5rem;
-        }
-
-        .story-footer {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 1rem;
-        }
-
-        .like-button {
-          align-self: flex-end;
-        }
-
-        .pagination-container {
-          flex-direction: column;
-          gap: 1rem;
-        }
-      }
-
-      .sidebar-title-text {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        margin-bottom: 18px;
-        width: 100%;
-        text-align: left;
-        position: relative;
-      }
-      .sidebar-title-text::after {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        left: 0;
-        width: 40px;
-        height: 3px;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
-        border-radius: 2px;
-      }
-      .sidebar-tasks {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        width: 100%;
-      }
-      .sidebar-task-item {
-        background: rgba(139, 92, 246, 0.1);
-        border-radius: 12px;
-        padding: 16px;
-        font-size: 1rem;
-        color: var(--text-primary);
-        font-weight: 500;
-        box-shadow: 0 1px 4px rgba(140, 82, 255, 0.04);
-        border: 1px solid transparent;
-        transition: var(--transition-smooth);
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-      }
-      .sidebar-task-item::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transition: left 0.5s;
-      }
-      .sidebar-task-item:hover {
-        background: rgba(139, 92, 246, 0.15);
-        box-shadow: 0 2px 8px rgba(140, 82, 255, 0.09);
-        border-color: rgba(139, 92, 246, 0.2);
-        transform: translateX(4px);
-      }
-      .sidebar-task-item:hover::before {
-        left: 100%;
-      }
-
-      /* Dark Mode Styles */
-      body.dark-mode {
-        background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
-        color: #f1f1f1 !important;
-      }
-
-      body.dark-mode .main-content {
-        background: #181820 !important;
-        color: #e0e0e0 !important;
-      }
-
-      body.dark-mode .page-title,
-      body.dark-mode .page-subtitle {
-        color: #e0e0e0 !important;
-      }
-
-      body.dark-mode .sidebar-container {
-        background: rgba(35, 35, 35, 0.95) !important;
-        color: #f1f1f1 !important;
-      }
-
-      
-
-      body.dark-mode .sidebar-nav a {
-        color: #b0b0b0 !important;
-        background: #333 !important;
-      }
-
-      body.dark-mode .sidebar-nav a:hover {
-        color: #f1f1f1 !important;
-        background: #555 !important;
-      }
-
-      body.dark-mode .sidebar-nav a.active {
-        color: #f1f1f1 !important;
-        background: #6a4c9c !important;
-      }
-
-      body.dark-mode .sidebar-user {
-        background: rgba(45, 45, 45, 0.8) !important;
-        border-bottom-color: #555 !important;
-      }
-
-      body.dark-mode .user-info h3 {
-        color: #f1f1f1 !important;
-      }
-
-              body.dark-mode .user-info p {
-          color: #b0b0b0 !important;
-          font-size: 0.9rem !important;
-          white-space: nowrap !important;
-          overflow: hidden !important;
-          text-overflow: ellipsis !important;
-          max-width: 200px !important;
-        }
-
-      body.dark-mode .sidebar-title-text {
-        color: #8c73b8 !important;
-      }
-      body.dark-mode .sidebar-block.sidebar-title {
-            background: #181818 !important;
-            color: #f8f8ff !important;
-            border-color: #29293a !important;
-        }
-        body.dark-mode .sidebar-block.sidebar-title * {
-            color: #f8f8ff !important;
-        }
-      body.dark-mode .sidebar-task-item {
-        background: rgba(139, 92, 246, 0.2) !important;
-        color: #f1f1f1 !important;
-        border-color: #555 !important;
-      }
-
-      body.dark-mode .sidebar-task-item:hover {
-        background: rgba(139, 92, 246, 0.3) !important;
-        border-color: #8c73b8 !important;
-      }
-
-      body.dark-mode .support-container {
-        background: rgba(45, 45, 45, 0.95) !important;
-        border-color: #555 !important;
-        color: #f1f1f1 !important;
-      }
-
-      body.dark-mode .support-card {
-        background: linear-gradient(160deg, rgba(45, 45, 45, 0.98) 0%, rgba(35, 35, 35, 0.92) 100%) !important;
-        border-color: #555 !important;
-        color: #f1f1f1 !important;
-      }
-
-      body.dark-mode .support-card:hover {
-        border-color: #6a4c9c !important;
-      }
-
-      body.dark-mode .support-title {
-        color: #f1f1f1 !important;
-      }
-
-      body.dark-mode .support-description {
-        color: #b0b0b0 !important;
-      }
-
-      body.dark-mode .support-category {
-        background: #333 !important;
-        color: #8c73b8 !important;
-      }
-
-
-      body.dark-mode input,
-      body.dark-mode textarea,
-      body.dark-mode select {
-        background: #333 !important;
-        color: #f1f1f1 !important;
-        border-color: #555 !important;
-      }
-
-      body.dark-mode .card,
-      body.dark-mode .box,
-      body.dark-mode .panel {
-        background: #2c2c2c !important;
-        color: #f1f1f1 !important;
-        border-color: #444 !important;
-      }
-
-      body.dark-mode a {
-        color: #8c73b8 !important;
-      }
-
-      body.dark-mode .btn {
-        background: #6a4c9c !important;
-        color: #f1f1f1 !important;
-      }
-
-      body.dark-mode .story-form-card {
-        background: #232323 !important;
-      }
-      body.dark-mode .pagination-container {
-        background:#232323 !important;
-      }
-      body.dark-mode .story-form-card,
-      body.dark-mode .story-form-card *,
-      body.dark-mode .pagination-container,
-      body.dark-mode .pagination-container * {
-        color: #f8f8ff !important;
-      }
-
-      body.dark-mode .story-card {
-        background: #2c2c2c !important;
-        color: #f8f8ff !important;
-      }
-      body.dark-mode .story-content,
-      body.dark-mode .story-footer,
-      body.dark-mode .like-button,
-      body.dark-mode .like-icon {
-        color: #f8f8ff !important;
-      }
-      body.dark-mode .like-button {
-        background: #2a2040 !important;
-        border-color: #3a2a5d !important;
-        color: #f8f8ff !important;
-      }
-      .like-button.liked .like-icon {
-        color: #ff6b81 !important;
-      }
-      .like-button.liked {
-        border-color: #ff6b81 !important;
-        color: #ff6b81 !important;
-      }
+      /* ========== NOTIFICATIONS ========== */
       .notification-bell {
         position: fixed;
         top: 32px;
@@ -854,14 +581,14 @@
         font-size: 2.2rem;
         color: #fff;
         box-shadow: 0 4px 16px rgba(139, 92, 246, 0.13);
-        transition: color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.18s;
+        transition: var(--transition-smooth);
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .notification-bell:hover {
-        transform: scale(1.08);
-      }
+
+      .notification-bell:hover { transform: scale(1.08); }
+
       .notification-popup {
         display: block;
         opacity: 0;
@@ -882,12 +609,14 @@
         transform: translateY(-20px);
         transition: opacity 0.35s cubic-bezier(.4,0,.2,1), transform 0.35s cubic-bezier(.4,0,.2,1), visibility 0.35s;
       }
+
       .notification-popup.active {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
         transform: translateY(0);
       }
+
       .notification-popup .popup-title {
         font-weight: 700;
         font-size: 1.2rem;
@@ -895,13 +624,9 @@
         color: #8b5cf6;
         border-bottom: 1px solid #ece6fa;
       }
-      .notification-list {
-        list-style: none;
-        margin: 0;
-        padding: 0 0 8px 0;
-        max-height: 340px;
-        overflow-y: auto;
-      }
+
+      .notification-list { list-style: none; margin: 0; padding: 0 0 8px 0; max-height: 340px; overflow-y: auto; }
+
       .notification-item {
         padding: 16px 24px;
         border-bottom: 1px solid #f3eaff;
@@ -909,283 +634,314 @@
         color: #232526;
         background: none;
       }
-      .notification-item:last-child {
-        border-bottom: none;
+
+      .notification-item:last-child { border-bottom: none; }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 991px) {
+        body { flex-direction: column; }
+        .sidebar-container { width: 100vw; min-width: 0; max-width: 100vw; }
+        .main-content { margin-left: 0; padding: 24px 16px; }
       }
+
       @media (max-width: 600px) {
-        .notification-bell {
-          top: 16px;
-          right: 12px;
-          padding: 8px;
-          font-size: 1.5rem;
-        }
-        .notification-popup {
-          top: 48px;
-          right: 8px;
-          width: 95vw;
-          min-width: 0;
-          max-width: 98vw;
-        }
+        .page-title { font-size: 2rem; }
+        .story-form-card, .story-card { padding: 1.5rem; }
+        .story-footer { flex-direction: column; align-items: flex-end; }
+        .pagination-container { flex-direction: column; gap: 0.8rem; }
+        .notification-bell { top: 16px; right: 12px; padding: 8px; font-size: 1.5rem; }
+        .notification-popup { top: 48px; right: 8px; width: 95vw; min-width: 0; }
       }
-      /* Dark mode için */
-      body.dark-mode .notification-bell {
-        background: linear-gradient(135deg, #6c3eb4 0%, #3a2a5d 100%) !important;
-        color: #fff !important;
-        box-shadow: 0 8px 32px rgba(80, 60, 120, 0.32);
-      }
-      body.dark-mode .notification-bell:hover {
-        background: linear-gradient(135deg, #6c3eb4 0%, #3a2a5d 100%) !important;
-        color: #fff !important;
-        box-shadow: 0 8px 32px rgba(80, 60, 120, 0.32);
-      }
-      body.dark-mode .notification-popup {
-        background: #232323 !important;
-        color: #e0e0e0 !important;
-        border-color: #333 !important;
-      }
-      body.dark-mode .notification-popup .popup-title {
-        color: #c084fc !important;
-        border-bottom: 1px solid #333 !important;
-      }
-      body.dark-mode .notification-item {
-        color: #e0e0e0 !important;
-        border-bottom: 1px solid #333 !important;
-      }
-    /* Dark Mode — meditasyon ile aynı */
-    body.dark-mode { background: #181818 !important; color: #e0e0e0 !important; }
-    body.dark-mode .main-content { background: #232323 !important; color: #e0e0e0 !important; }
-    body.dark-mode .page-title, body.dark-mode .page-subtitle { color: #e0e0e0 !important; }
-    body.dark-mode .sidebar-container { background: #1a1a1a !important; border-color: #333 !important; }
-    
-    body.dark-mode .sidebar-nav a { background: #333 !important; color: #e0e0e0 !important; }
-    body.dark-mode .sidebar-nav a:hover { background: #4a4a4a !important; color: #fff !important; }
-    body.dark-mode .sidebar-nav a.active { background: var(--primary-color) !important; color: #fff !important; }
-    body.dark-mode .sidebar-block.sidebar-title { background: #181818 !important; color: #f8f8ff !important; border-color: #29293a !important; }
-    body.dark-mode .sidebar-block.sidebar-title * { color: #f8f8ff !important; }
-    body.dark-mode .sidebar-user { background: #181818 !important; border-color: #333 !important; }
-    body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
-            body.dark-mode .user-info p { 
-          color: #b0b0b0 !important; 
-          font-size: 0.9rem !important;
-          white-space: nowrap !important;
-          overflow: hidden !important;
-          text-overflow: ellipsis !important;
-          max-width: 200px !important;
-        }
-    body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
-    body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
-    body.dark-mode .sidebar-title-text { color: var(--primary-color) !important; }
-    body.dark-mode .menu-item { color: #e0e0e0 !important; }
-    body.dark-mode .menu-item:hover { background: #333 !important; color: var(--primary-color) !important; }
-    body.dark-mode .menu-item.active { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #fff !important; }
 
-      /* Sidebar background overrides */
-      body.dark-mode .sidebar-header,
-      body.dark-mode .sidebar-user,
-      body.dark-mode .sidebar-menu { background: #181818 !important; }
-
-      /* Ensure dark mode main content background */
-      body.dark-mode .main-content { background: #23232354 !important; }
+      /* ========== DARK MODE ========== */
+      body.dark-mode { background: #181818 !important; color: #e0e0e0 !important; }
+      body.dark-mode .main-content { background: #23232354 !important; color: #e0e0e0 !important; }
+      body.dark-mode .page-title { color: #e0e0e0 !important; }
+      body.dark-mode .page-subtitle { color: #b0b0b0 !important; }
+      body.dark-mode .sidebar-container { background: #1a1a1a !important; border-color: #333 !important; }
+      body.dark-mode .sidebar-nav a { background: #333 !important; color: #e0e0e0 !important; }
+      body.dark-mode .sidebar-nav a:hover { background: #4a4a4a !important; color: #fff !important; }
+      body.dark-mode .sidebar-nav a.active { background: var(--primary-color) !important; color: #fff !important; }
+      body.dark-mode .sidebar-block.sidebar-title { background: #181818 !important; color: #f8f8ff !important; border-color: #29293a !important; }
+      body.dark-mode .sidebar-block.sidebar-title * { color: #f8f8ff !important; }
+      body.dark-mode .sidebar-user { background: #181818 !important; border-color: #333 !important; }
+      body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
+      body.dark-mode .user-info p { color: #b0b0b0 !important; font-size: 0.9rem !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; max-width: 200px !important; }
+      body.dark-mode .sidebar-task-item { background: #333 !important; color: #e0e0e0 !important; border-color: #444 !important; }
+      body.dark-mode .sidebar-task-item:hover { background: #444 !important; color: #fff !important; border-color: var(--primary-color) !important; }
+      body.dark-mode .sidebar-title-text { color: var(--primary-color) !important; }
+      body.dark-mode .menu-item { color: #e0e0e0 !important; }
+      body.dark-mode .menu-item:hover { background: #333 !important; color: var(--primary-color) !important; }
+      body.dark-mode .menu-item.active { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; color: #fff !important; }
+      body.dark-mode .sidebar-header, body.dark-mode .sidebar-user, body.dark-mode .sidebar-menu { background: #181818 !important; }
+      body.dark-mode .story-form-card { background: #232323 !important; }
+      body.dark-mode .story-form-card, body.dark-mode .story-form-card * { color: #f8f8ff !important; }
+      body.dark-mode .story-textarea { background: #333 !important; color: #f1f1f1 !important; border-color: #555 !important; }
+      body.dark-mode .story-card { background: #2c2c2c !important; color: #f8f8ff !important; }
+      body.dark-mode .story-content { color: #d1d5db !important; }
+      body.dark-mode .story-footer { border-top-color: #3d3d3d !important; }
+      body.dark-mode .anon-badge { background: #3a2d5a !important; color: #c084fc !important; }
+      body.dark-mode .anon-notice { background: rgba(108,62,180,0.12) !important; color: #c084fc !important; }
+      body.dark-mode .like-button { background: #2a2040 !important; border-color: #3a2a5d !important; color: #f8f8ff !important; }
+      body.dark-mode .like-button.liked { background: #3d1f2a !important; border-color: #e74c3c !important; color: #ff6b81 !important; }
+      body.dark-mode .like-button .like-icon { color: #888 !important; }
+      body.dark-mode .like-button.liked .like-icon { color: #ff6b81 !important; }
+      body.dark-mode .pagination-container { background: #232323 !important; }
+      body.dark-mode .pagination-container, body.dark-mode .pagination-container * { color: #f8f8ff !important; }
+      body.dark-mode .no-posts-msg { background: #2c2c2c !important; color: #d1d5db !important; }
+      body.dark-mode .no-posts-msg .no-posts-title { color: #f1f1f1 !important; }
+      body.dark-mode .page-badge { background: rgba(255,255,255,0.12) !important; color: #c084fc !important; }
+      body.dark-mode .section-label { color: #c0c0e0 !important; }
+      body.dark-mode .notification-popup { background: #232323 !important; border-color: #333 !important; }
+      body.dark-mode .notification-popup .popup-title { color: #c084fc !important; border-color: #333 !important; }
+      body.dark-mode .notification-item { color: #e0e0e0 !important; border-color: #333 !important; }
     </style>
-      <link rel="stylesheet" href="{% static 'css/global-responsive.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/global-responsive.css' %}" />
   </head>
+
   <body>
- <!-- Sidebar -->
- <div class="sidebar-container" id="sidebarContainer">
-  <div class="sidebar-header">
-    <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo" />
-    <div class="sidebar-nav">
-      <a href="{% url 'anasayfa' %}"><span data-translate="{% trans "Ana Sayfa" %}">Ana Sayfa</span></a>
-      <a href="{% url 'dashboard' %}"><span data-translate="{% trans "İyi Hisset" %}">İyi Hisset</span></a>
-      <a href="{% url 'profile-management' %}"><span data-translate="{% trans "Profil Yönetimi" %}">Profil Yönetimi</span></a>
-    </div>
-  </div>
-  <div class="sidebar-user">
-    <div class="user-avatar">
-      <img src="{{profilePic.profile_pic.url}}" alt="" />
-    </div>
-    <div class="user-info">
-      <h3>{{ user.username.title }}</h3>
-      <p>{{ user.email }}</p>
-    </div>
-  </div>
-  <div class="sidebar-menu">
-    {% include 'articles/gorevlerim.html' %}
-  </div>
-</div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="{% trans 'Menüyü Aç/Kapat' %}" data-translate="Menüyü Aç/Kapat">
+      <span></span><span></span><span></span>
+    </button>
 
-{% include 'articles/includes/notifications.html' %}
-
-
-<!-- Forum CSS additions -->
-<style>
-  .forum-post-card {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.2rem;
-    box-shadow: 0 2px 12px rgba(108,62,180,0.07);
-    border: 1px solid #f0eaff;
-    transition: box-shadow 0.2s, transform 0.2s;
-  }
-  .forum-post-card:hover { box-shadow: 0 6px 24px rgba(108,62,180,0.12); transform: translateY(-2px); }
-  .forum-post-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; }
-  .forum-anon-badge { background:#f3eaff; color:#6c3eb4; border-radius:20px; padding:3px 12px; font-size:0.8rem; font-weight:600; }
-  .forum-post-date { color:#9ca3af; font-size:0.8rem; }
-  .forum-post-body { font-size:1rem; line-height:1.7; color:#2c3e50; margin-bottom:1rem; word-break:break-word; }
-  .forum-actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .forum-like-btn {
-    background:#fff; border:1.5px solid #e2e8f0; border-radius:50px;
-    padding:5px 16px; font-size:0.88rem; font-weight:600; cursor:pointer;
-    display:flex; align-items:center; gap:6px; color:#6c3eb4;
-    transition:all 0.2s;
-  }
-  .forum-like-btn.liked { background:#ffe6ea; border-color:#e74c3c; color:#e74c3c; }
-  .forum-like-btn:hover { transform:translateY(-1px); box-shadow:0 2px 8px rgba(108,62,180,0.12); }
-
-  .no-posts-msg { text-align:center; padding:48px 0; color:#9ca3af; font-size:1.05rem; }
-  /* Dark mode */
-  body.dark-mode .forum-post-card { background:#2c2c2c; border-color:#444; color:#e0e0e0; }
-  body.dark-mode .forum-post-body { color:#d1d5db; }
-  body.dark-mode .forum-anon-badge { background:#3a2d5a; color:#c084fc; }
-  body.dark-mode .forum-like-btn { background:#2a2040; border-color:#3a2a5d; color:#c084fc; }
-  body.dark-mode .forum-like-btn.liked { background:#3d1f2a; border-color:#e74c3c; color:#ff6b81; }
-
-</style>
-
-<main class="main-content">
-  <div class="support-wall-container">
-    <h1 class="page-title" data-translate="Destek Duvarı"><span data-translate="{% trans "Destek Duvarı" %}">Destek Duvarı</span></h1>
-
-    <!-- Post form -->
-    <div class="story-form-card">
-      <h2 class="form-title" data-translate="Hikayeni Paylaş"><span data-translate="{% trans "Hikayeni Paylaş" %}">Hikayeni Paylaş</span></h2>
-      <form id="forumPostForm">
-        {% csrf_token %}
-        <textarea class="story-textarea" id="forumPostContent"
-          placeholder="{% trans 'Hikayeni buraya yazabilirsin...' %}" data-translate="Hikayeni buraya yazabilirsin..." data-translate="Hikayeni buraya yazabilirsin..." data-translate="Hikayeni buraya yazabilirsin..." minlength="4" required></textarea>
-        <div id="forumPostError" style="color:#dc2626;font-size:0.82rem;min-height:14px;margin:4px 0;"></div>
-        <button type="submit" class="share-button mt-3" data-translate="Paylaş"><span data-translate="{% trans "Paylaş" %}">Paylaş</span></button>
-      </form>
-    </div>
-
-    <!-- Posts list -->
-    <div id="forumPostsList">
-      {% for post in posts %}
-      <div class="forum-post-card" data-post-id="{{ post.id }}">
-        <div class="forum-post-meta">
-          <span class="forum-anon-badge">&#128100; {% trans "Anonim" %}</span>
-          <span class="forum-post-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
+    <!-- Sidebar -->
+    <div class="sidebar-container" id="sidebarContainer">
+      <div class="sidebar-header">
+        <img src="{% static 'iyihisset.png' %}" alt="Logo" class="sidebar-logo" />
+        <div class="sidebar-nav">
+          <a href="{% url 'anasayfa' %}"><span data-translate="{% trans 'Ana Sayfa' %}">Ana Sayfa</span></a>
+          <a href="{% url 'dashboard' %}"><span data-translate="{% trans 'İyi Hisset' %}">İyi Hisset</span></a>
+          <a href="{% url 'profile-management' %}"><span data-translate="{% trans 'Profil Yönetimi' %}">Profil Yönetimi</span></a>
         </div>
-        <div class="forum-post-body">{{ post.content }}</div>
-        <div class="forum-actions">
-          <button class="forum-like-btn {% if post.id in liked_post_ids %}liked{% endif %}"
-            onclick="toggleForumLike(this, {{ post.id }})" id="like-btn-{{ post.id }}">
-            <span>{% if post.id in liked_post_ids %}❤️{% else %}🤍{% endif %}</span>
-            <span class="like-count" id="like-count-{{ post.id }}">{{ post.likes_count }}</span>
-          </button>
-
       </div>
-      {% empty %}
-      <div class="no-posts-msg">
-        <div style="font-size:2.5rem;margin-bottom:12px;">🕊️</div>
-        <div data-translate="Henüz gönderi yok."><span data-translate="{% trans "Henüz gönderi yok." %}">Henüz gönderi yok.</span></div>
-        <div style="font-size:0.9rem;margin-top:6px;" data-translate="İlk paylaşan sen ol!"><span data-translate="{% trans "İlk paylaşan sen ol!" %}">İlk paylaşan sen ol!</span></div>
+      <div class="sidebar-user">
+        <div class="user-avatar">
+          <img src="{{ profile_pic.profile_pic.url }}" alt="" />
+        </div>
+        <div class="user-info">
+          <h3>{{ user.username.title }}</h3>
+          <p>{{ user.email }}</p>
+        </div>
       </div>
-      {% endfor %}
+      <div class="sidebar-menu">
+        {% include 'articles/gorevlerim.html' %}
+      </div>
     </div>
 
-    <!-- Pagination -->
-    {% if posts.has_other_pages %}
-    <div class="pagination-container" style="margin-top:32px;">
-      {% if posts.has_previous %}
-        <a href="?page={{ posts.previous_page_number }}" class="pagination-button">« {% trans "Önceki" %}</a>
-      {% endif %}
-      <span class="page-info"><span data-translate="{% trans "Sayfa" %}">Sayfa</span> <span class="current-page">{{ posts.number }}</span> / {{ posts.paginator.num_pages }}</span>
-      {% if posts.has_next %}
-        <a href="?page={{ posts.next_page_number }}" class="pagination-button" data-translate="Sonraki">{% trans "Sonraki" %} »</a>
-      {% endif %}
-    </div>
-    {% endif %}
-  </div>
-</main>
+    {% include 'articles/includes/notifications.html' %}
 
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="support-wall-container">
 
-<!-- JS dosyaları -->
-<script src="{% static 'js/responsive-sidebar.js' %}"></script>
-<script src="{% static 'js/font-size-manager.js' %}"></script>
-<script src="{% static 'js/lang.js' %}"></script>
-<script src="{% static 'js/tasks.js' %}"></script>
+        <h1 class="page-title" data-translate="Support Wall"><span data-translate="{% trans 'Destek Duvarı' %}">Destek Duvarı</span></h1>
+        <p class="page-subtitle" data-translate="Share anonymously. No one knows who you are, everyone supports you."><span data-translate="{% trans 'Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.' %}">Anonim paylaş. Kimse kim olduğunu bilmez, herkes seni destekler.</span></p>
 
-<!-- Bildirim Popup: davranış ortak include içinde -->
-<!-- Like-Button (Sıralama yok!) -->
-<script>
-  const CSRF = "{{ csrf_token }}";
+        <!-- Post Form -->
+        <div class="story-form-card">
+          <h2 class="form-title" data-translate="Share Your Story"><span data-translate="{% trans 'Hikayeni Paylaş' %}">Hikayeni Paylaş</span></h2>
+          <div class="anon-notice" data-translate="Your post will be shared completely anonymously."><span data-translate="{% trans 'Paylaşımın tamamen anonim olarak gönderilecek.' %}">Paylaşımın tamamen anonim olarak gönderilecek.</span></div>
+          <form id="forumPostForm">
+            {% csrf_token %}
+            <textarea
+              class="story-textarea"
+              id="forumPostContent"
+              placeholder=""
+              data-translate-placeholder="Bugün nasıl hissediyorsun? Düşüncelerini buraya yazabilirsin..."
+              data-translate-placeholder-en="How are you feeling today? You can write your thoughts here..."
+              maxlength="1000"
+              minlength="4"
+              required
+            ></textarea>
+            <div class="char-counter"><span id="charCount">0</span> / 1000</div>
+            <div class="form-error" id="forumPostError"></div>
+            <button type="submit" class="share-button" id="submitBtn" data-translate="Share Anonymously">
+              <span data-translate="{% trans 'Anonim Paylaş' %}">Anonim Paylaş</span>
+            </button>
+          </form>
+        </div>
 
-  // Create new post
-  document.getElementById('forumPostForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const content = document.getElementById('forumPostContent').value.trim();
-    const errEl = document.getElementById('forumPostError');
-    if (!content || content.length < 4) { if(errEl) errEl.textContent='En az 4 karakter girin.'; return; }
-    if(errEl) errEl.textContent='';
-    const fd = new FormData();
-    fd.append('content', content);
-    fetch('/api/forum/post/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
-    .then(r=>r.json()).then(data=>{ if(data.success) window.location.reload(); });
-  });
+        <!-- Section header -->
+        <div class="section-header">
+          <span class="section-label" data-translate="Posts"><span data-translate="{% trans 'Gönderiler' %}">Gönderiler</span></span>
+          <span class="page-badge" data-translate="Page {{ posts.number }} of {{ posts.paginator.num_pages }}">
+            <span data-translate="{% trans 'Sayfa' %}">Sayfa</span> {{ posts.number }} / {{ posts.paginator.num_pages }}
+          </span>
+        </div>
 
-  // Toggle like
-  function toggleForumLike(btn, postId) {
-    const fd = new FormData(); fd.append('post_id', postId);
-    fetch('/api/forum/like/', { method:'POST', headers:{'X-CSRFToken':CSRF}, body:fd })
-    .then(r=>r.json()).then(data=>{
-      if(!data.success) return;
-      const countEl = document.getElementById('like-count-'+postId);
-      if(countEl) countEl.textContent = data.likes_count;
-      const icon = btn.querySelector('span:first-child');
-      if(data.liked) { btn.classList.add('liked'); if(icon) icon.textContent='❤️'; }
-      else { btn.classList.remove('liked'); if(icon) icon.textContent='🤍'; }
-    });
-  }
+        <!-- Posts List -->
+        <div id="postsList">
+          {% for post in posts %}
+          <div class="story-card" id="post-{{ post.id }}">
+            <div class="story-meta">
+              <span class="anon-badge" data-translate="Anonymous"><span data-translate="{% trans 'Anonim' %}">Anonim</span></span>
+              <span class="story-date">{{ post.created_at|date:'d.m.Y H:i' }}</span>
+            </div>
+            <div class="story-content">{{ post.content }}</div>
+            <div class="story-footer">
+              <button
+                class="like-button {% if post.id in liked_post_ids %}liked{% endif %}"
+                id="like-btn-{{ post.id }}"
+                onclick="handleLike(this, {{ post.id }})"
+              >
+                <span class="like-icon material-symbols-outlined">{% if post.id in liked_post_ids %}favorite{% else %}favorite_border{% endif %}</span>
+                <span class="like-count" id="lc-{{ post.id }}">{{ post.likes_count }}</span>
+              </button>
+            </div>
+          </div>
+          {% empty %}
+          <div class="no-posts-msg">
+            <div class="no-posts-title" data-translate="No posts yet."><span data-translate="{% trans 'Henüz gönderi yok.' %}">Henüz gönderi yok.</span></div>
+            <div data-translate="Be the first to share!"><span data-translate="{% trans 'İlk paylaşan sen ol!' %}">İlk paylaşan sen ol!</span></div>
+          </div>
+          {% endfor %}
+        </div>
 
+        <!-- Pagination -->
+        {% if posts.has_other_pages %}
+        <div class="pagination-container" style="margin-top: 2rem;">
+          {% if posts.has_previous %}
+            <a href="?page={{ posts.previous_page_number }}" class="pagination-button" data-translate="Previous">
+              <span data-translate="{% trans 'Önceki' %}">Önceki</span>
+            </a>
+          {% endif %}
+          <span class="page-info">
+            <span data-translate="{% trans 'Sayfa' %}">Sayfa</span>
+            <span class="current-page">{{ posts.number }}</span>
+            / {{ posts.paginator.num_pages }}
+          </span>
+          {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}" class="pagination-button" data-translate="Next">
+              <span data-translate="{% trans 'Sonraki' %}">Sonraki</span>
+            </a>
+          {% endif %}
+        </div>
+        {% endif %}
 
-</script>
-<!-- Tema -->
-<script>
-  function applyThemeFromStorage() {
-    const theme = localStorage.getItem('themeMode') || 'light';
-    if(theme === 'dark') {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  }
-  document.addEventListener('DOMContentLoaded', applyThemeFromStorage);
-</script>
-<!-- Küçük ekran yönlendirme -->
-<script>
-  function redirectIfSmallScreen() {
-    if (
-      window.innerWidth < 1300 &&
-      !window.location.pathname.includes("responsive.html")
-    ) {
-      localStorage.setItem(
-        "lastPage",
-        window.location.pathname + window.location.search
-      );
-      window.location.href = "{% url 'responsive' %}";
-    }
-  }
-  redirectIfSmallScreen();
-  window.addEventListener("resize", redirectIfSmallScreen);
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (typeof initializeLanguage === "function") {
-      initializeLanguage();
-    }
-  });
-</script>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/font-size-manager.js' %}"></script>
+    <script src="{% static 'js/tasks.js' %}"></script>
+
+    <script>
+      const CSRF = "{{ csrf_token }}";
+
+      // Char counter
+      const textarea = document.getElementById('forumPostContent');
+      const charCount = document.getElementById('charCount');
+      textarea.addEventListener('input', function () {
+        charCount.textContent = this.value.length;
+      });
+
+      // Create post
+      document.getElementById('forumPostForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const content = textarea.value.trim();
+        const errEl = document.getElementById('forumPostError');
+        const btn = document.getElementById('submitBtn');
+
+        if (!content || content.length < 4) {
+          errEl.textContent = getTranslation ? getTranslation('Please enter at least 4 characters.') : 'En az 4 karakter girmelisin.';
+          return;
+        }
+        errEl.textContent = '';
+        btn.disabled = true;
+
+        try {
+          const fd = new FormData();
+          fd.append('content', content);
+          const res = await fetch('/api/forum/post/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': CSRF },
+            body: fd
+          });
+          const data = await res.json();
+          if (data.success) {
+            window.location.href = '?page=1';
+          } else {
+            errEl.textContent = data.error || 'Bir hata oluştu.';
+            btn.disabled = false;
+          }
+        } catch {
+          errEl.textContent = 'Bağlantı hatası.';
+          btn.disabled = false;
+        }
+      });
+
+      // Like toggle — click once to like, click again to unlike
+      async function handleLike(btn, postId) {
+        if (btn._loading) return;
+        btn._loading = true;
+        try {
+          const fd = new FormData();
+          fd.append('post_id', postId);
+          const res = await fetch('/api/forum/like/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': CSRF },
+            body: fd
+          });
+          const data = await res.json();
+          if (!data.success) { btn._loading = false; return; }
+          const countEl = document.getElementById('lc-' + postId);
+          if (countEl) countEl.textContent = data.likes_count;
+          const icon = btn.querySelector('.like-icon');
+          if (data.liked) {
+            btn.classList.add('liked');
+            if (icon) icon.textContent = 'favorite';
+          } else {
+            btn.classList.remove('liked');
+            if (icon) icon.textContent = 'favorite_border';
+          }
+        } catch (e) {
+          console.error(e);
+        }
+        btn._loading = false;
+      }
+
+      // Set textarea placeholder based on current language
+      function setPlaceholderByLang() {
+        const ta = document.getElementById('forumPostContent');
+        if (!ta) return;
+        const lang = localStorage.getItem('selectedLanguage') || 'tr';
+        if (lang === 'en') {
+          ta.placeholder = ta.getAttribute('data-translate-placeholder-en') || '';
+        } else {
+          ta.placeholder = ta.getAttribute('data-translate-placeholder') || '';
+        }
+      }
+      setPlaceholderByLang();
+      // Re-run when language changes (lang.js fires a custom event if any, else on storage change)
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'selectedLanguage') setPlaceholderByLang();
+      });
+
+      // Theme
+      function applyThemeFromStorage() {
+        const theme = localStorage.getItem('themeMode') || 'light';
+        if (theme === 'dark') {
+          document.body.classList.add('dark-mode');
+        } else {
+          document.body.classList.remove('dark-mode');
+        }
+      }
+      document.addEventListener('DOMContentLoaded', applyThemeFromStorage);
+
+      // Responsive redirect
+      function redirectIfSmallScreen() {
+        if (window.innerWidth < 1300 && !window.location.pathname.includes('responsive.html')) {
+          localStorage.setItem('lastPage', window.location.pathname + window.location.search);
+          window.location.href = "{% url 'responsive' %}";
+        }
+      }
+      redirectIfSmallScreen();
+      window.addEventListener('resize', redirectIfSmallScreen);
+
+      // i18n
+      document.addEventListener('DOMContentLoaded', function () {
+        if (typeof initializeLanguage === 'function') initializeLanguage();
+      });
+    </script>
   </body>
 </html>
