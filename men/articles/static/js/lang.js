@@ -528,6 +528,10 @@ const translations = {
         "Hasta ara...": "Hasta ara...",
         "Henüz mesaj yok. İlk mesajı siz gönderin!": "Henüz mesaj yok. İlk mesajı siz gönderin!",
         "Kullanıcı henüz hayat hikayesini paylaşmadı.": "Kullanıcı henüz hayat hikayesini paylaşmadı.",
+        "Hasta ara...": "Hasta ara...",
+        "Seans notu (isteğe bağlı)...": "Seans notu (isteğe bağlı)...",
+        "Bildirim metnini yazın...": "Bildirim metnini yazın...",
+        "Göndermek istediğiniz bildirimi yazın...": "Göndermek istediğiniz bildirimi yazın...",
         "Kayıt yok": "Kayıt yok"
     },
     en: {
@@ -1108,8 +1112,22 @@ const translations = {
         "Save": "Save",
         "Session Rating History": "Session Rating History",
         "Bugün için ruh hali kaydı yok.": "No mood record for today.",
-        "Bu kullanıcıya özel notunuzu buraya yazın...": "Write your special note to this user here...",
+        "Bu kullanıcıya özel notunuzu buraya yazın...": "Write your private note for this user here...",
 
+        // Additional placeholder translations for psychologist dashboard
+        "Hasta ara...": "Search patient...",
+        "Mesajınızı yazın...": "Type your message...",
+        "Seans notu (isteğe bağlı)...": "Session note (optional)...",
+        "Göndermek istediğiniz bildirimi yazın...": "Write the notification you want to send...",
+        "Bildirim metnini yazın...": "Write the notification text...",
+        "Bu kullanıcıya özel notunuzu buraya yazın...": "Write your private note for this user here...",
+        "Kaydedildi ✓": "Saved ✓",
+        
+        "Eksik girdiniz. Telefon numarası 11 haneli olmalı.": "Incomplete entry. Phone number must be 11 digits.",
+        "Hayat hikayeniz kaydedildi.": "Your life story has been saved.",
+        "Bu kullanıcı adı/e-posta kullanılabilir": "This username/email is available",
+        "Yeni şifre mevcut şifre ile aynı olamaz.": "New password cannot be the same as current password.",
+        "Mevcut şifre yanlış.": "Current password is incorrect.",
 
         // Forum translations
         "Share Your Story": "Share Your Story",
@@ -1366,6 +1384,7 @@ function translatePage(lang) {
 
 // Tüm metin içeriklerini recursive olarak çevir
 function translateTextContent(element, translations) {
+    if (!element) return; // null/undefined guard
     if (element.nodeType === Node.ELEMENT_NODE && ['TEXTAREA', 'SCRIPT', 'STYLE'].includes(element.tagName)) {
         return;
     }
@@ -1374,9 +1393,9 @@ function translateTextContent(element, translations) {
         if (text && translations[text]) {
             element.textContent = translations[text];
         }
-    } else {
+    } else if (element.childNodes && element.childNodes.length) {
         for (let child of element.childNodes) {
-            translateTextContent(child, translations);
+            if (child) translateTextContent(child, translations);
         }
     }
 }

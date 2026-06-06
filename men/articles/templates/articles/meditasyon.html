@@ -1762,36 +1762,72 @@
       // Rewind 10 seconds - global olarak erişilebilir
       function rewind() {
         const audio = document.getElementById("audioElement");
-        if (!audio || isNaN(audio.duration)) return;
+        if (!audio) return;
+        
+        // Ses hazır olmasını bekle
+        if (audio.readyState < 2 || isNaN(audio.duration)) {
+          audio.addEventListener("canplay", function() { rewind(); }, { once: true });
+          return;
+        }
         
         const target = Math.max(0, audio.currentTime - 10);
         
-        // Seekable kontrolü
-        if (audio.readyState > 0) {
-            audio.currentTime = target;
-            updateSeekBar(target, audio.duration);
-            const currentTimeDisplay = document.getElementById("currentTime");
-            if (currentTimeDisplay) {
-                currentTimeDisplay.textContent = formatTime(target);
+        try {
+          // Seekable kontrolü
+          if (audio.seekable && audio.seekable.length > 0) {
+            const seekStart = audio.seekable.start(0);
+            const seekEnd = audio.seekable.end(audio.seekable.length - 1);
+            if (target >= seekStart && target <= seekEnd) {
+              audio.currentTime = target;
+            } else {
+              audio.currentTime = Math.max(seekStart, target);
             }
+          } else {
+            audio.currentTime = target;
+          }
+          updateSeekBar(audio.currentTime, audio.duration);
+          const currentTimeDisplay = document.getElementById("currentTime");
+          if (currentTimeDisplay) {
+            currentTimeDisplay.textContent = formatTime(audio.currentTime);
+          }
+        } catch(e) {
+          console.warn('Rewind failed:', e);
         }
       }
 
       // Forward 10 seconds - global olarak erişilebilir
       function forward() {
         const audio = document.getElementById("audioElement");
-        if (!audio || isNaN(audio.duration)) return;
+        if (!audio) return;
+        
+        // Ses hazır olmasını bekle
+        if (audio.readyState < 2 || isNaN(audio.duration)) {
+          audio.addEventListener("canplay", function() { forward(); }, { once: true });
+          return;
+        }
         
         const target = Math.min(audio.duration, audio.currentTime + 10);
         
-        // Seekable kontrolü
-        if (audio.readyState > 0) {
-            audio.currentTime = target;
-            updateSeekBar(target, audio.duration);
-            const currentTimeDisplay = document.getElementById("currentTime");
-            if (currentTimeDisplay) {
-                currentTimeDisplay.textContent = formatTime(target);
+        try {
+          // Seekable kontrolü
+          if (audio.seekable && audio.seekable.length > 0) {
+            const seekStart = audio.seekable.start(0);
+            const seekEnd = audio.seekable.end(audio.seekable.length - 1);
+            if (target >= seekStart && target <= seekEnd) {
+              audio.currentTime = target;
+            } else {
+              audio.currentTime = Math.min(seekEnd, target);
             }
+          } else {
+            audio.currentTime = target;
+          }
+          updateSeekBar(audio.currentTime, audio.duration);
+          const currentTimeDisplay = document.getElementById("currentTime");
+          if (currentTimeDisplay) {
+            currentTimeDisplay.textContent = formatTime(audio.currentTime);
+          }
+        } catch(e) {
+          console.warn('Forward failed:', e);
         }
       }
       

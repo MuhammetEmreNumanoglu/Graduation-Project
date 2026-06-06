@@ -27,7 +27,6 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const footer = document.querySelector('.popup-footer');
     const deleteBtn = document.getElementById('deleteAllNotificationsBtn');
     
     function deleteAllNotifications() {
@@ -36,8 +35,8 @@
         
         // UI updates
         const list = document.getElementById('notificationList');
-        const currentLang = document.documentElement.lang || 'tr';
-        const emptyMsg = (currentLang === 'tr' || currentLang === 'tr-TR') ? 'Henüz bildirim yok' : 'No notifications yet';
+        const currentLang = localStorage.getItem('selectedLanguage') || document.documentElement.lang || 'tr';
+        const emptyMsg = (currentLang === 'en') ? 'No notifications yet' : 'Henüz bildirim yok';
         if (list) list.innerHTML = `<li class="notification-item" style="opacity: 0.6;" data-translate="Henüz bildirim yok">${emptyMsg}</li>`;
         
         const badge = document.getElementById('unreadBadge');
@@ -45,16 +44,10 @@
       }
     }
 
-    if (footer) {
-      footer.addEventListener('click', function(e) {
-        // Only trigger if clicked directly or via button
-        deleteAllNotifications();
-      });
-    }
-    
     if (deleteBtn) {
       deleteBtn.addEventListener('click', function(e) {
-        e.stopPropagation(); // Parent handler handles it
+        e.stopPropagation();
+        deleteAllNotifications();
       });
     }
   });

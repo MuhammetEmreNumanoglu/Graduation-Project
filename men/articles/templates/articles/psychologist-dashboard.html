@@ -233,7 +233,9 @@
         color: #7c3aed;
       }
       .stat-pill.acil-stat .stat-num  { color: #dc2626; }
-      .stat-pill.takip-stat .stat-num { color: #dbeafe }
+      .stat-pill.takip-stat .stat-num { color: #1d4ed8; }
+      body:not(.dark-mode) .stat-pill.takip-stat .stat-num { color: #1d4ed8; }
+      body.dark-mode .stat-pill.takip-stat .stat-num { color: #93c5fd; }
       .stat-pill .stat-lbl {
         font-size: 0.62rem;
         font-weight: 600;
@@ -322,7 +324,8 @@
       }
       .filter-tab.active .dot { background: rgba(255,255,255,0.7); }
       .filter-tab-acil  .dot { background: #dc2626; }
-      .filter-tab-takip .dot { background: #dbeafe }
+      .filter-tab-takip .dot { background: #1d4ed8; }
+      body.dark-mode .filter-tab-takip .dot { background: #93c5fd; }
       .filter-tab-normal .dot { background: #16a34a; }
       .filter-tab-acil.active  .dot { background: rgba(255,255,255,0.7); }
       .filter-tab-takip.active .dot { background: rgba(255,255,255,0.7); }
@@ -1235,10 +1238,10 @@
       }
       .bulk-cat-option:hover { border-color: #8b5cf6; background: #f3eaff; }
       .bulk-cat-option.selected-acil   { border-color: #dc2626; background: #fee2e2; }
-      .bulk-cat-option.selected-supheli { border-color: #dbeafe background: #fef9c3; }
+      .bulk-cat-option.selected-supheli { border-color: #1d4ed8; background: #dbeafe; }
       .bulk-cat-option.selected-normal  { border-color: #16a34a; background: #dcfce7; }
       .bulk-cat-option input[type=checkbox] { accent-color: #8b5cf6; width: 16px; height: 16px; }
-      .bulk-cat-label { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 7px; }
+      .bulk-cat-label { font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 7px; color: #1e293b; }
       .bulk-result-msg {
         padding: 10px 14px;
         border-radius: 10px;
@@ -1251,6 +1254,7 @@
       .bulk-result-msg.error   { background: #fee2e2; color: #dc2626; display: block; }
       body.dark-mode .bulk-cat-option { border-color: #444; background: #2d2d3a; }
       body.dark-mode .bulk-cat-option:hover { border-color: #8b5cf6; background: #3a3050; }
+      body.dark-mode .bulk-cat-label { color: #e0e0e0; }
 
       /* ===== DARK MODE - METIN RENK DUZELTMELERI ===== */
       body.dark-mode .user-info h3 { color: #e0e0e0 !important; }
@@ -1291,15 +1295,23 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        min-width: 0;
+        overflow: hidden;
       }
       .rating-slider-row label {
         font-size: 0.8rem;
         font-weight: 600;
         color: #64748b;
         white-space: nowrap;
+        flex-shrink: 0;
+        max-width: 45%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .rating-slider-row input[type=range] {
         flex: 1;
+        min-width: 0;
+        max-width: 100%;
         accent-color: #8b5cf6;
       }
       .rating-value-badge {
@@ -1346,6 +1358,17 @@
       body.dark-mode .rating-note-input { background: #353545; color: #e0e0e0; border-color: #555; }
       body.dark-mode .rating-note-input:focus { background: #3d3d50; border-color: #8b5cf6; }
       body.dark-mode .rating-slider-row label { color: #9ca3af; }
+      
+      /* Light mode: category wrap / badge colors */
+      body:not(.dark-mode) #bulkOptSupheli .bulk-cat-label { color: #1d4ed8; }
+      body:not(.dark-mode) [class*="cat-trigger-wrap"] .category-badge.supheli { background: #dbeafe; color: #1d4ed8; }
+      body:not(.dark-mode) .stat-pill { border-color: rgba(139,92,246,0.2); }
+      body:not(.dark-mode) .stat-lbl { color: #475569; }
+      
+      /* Bulk option label colors for light mode */
+      #bulkOptSupheli .bulk-cat-label { color: inherit; }
+      body:not(.dark-mode) .bulk-cat-option { border-color: #e2e8f0; background: #f9fafb; color: #1e293b; }
+      body:not(.dark-mode) .bulk-cat-option:hover { border-color: #8b5cf6; background: #f3eaff; color: #6c3eb4; }
 
       /* ===== ATANAN GOREVLER PANELI (SAG) ===== */
       .assigned-tasks-section {
@@ -1727,7 +1750,7 @@
             <div class="notes-empty-hint" id="notesEmptyHint" data-translate="Bir kullanıcı seçince notlar yüklenir."><span data-translate="{% trans "Bir kullanıcı seçince notlar yüklenir." %}">Bir kullanıcı seçince notlar yüklenir.</span></div>
             <textarea
               id="privateNoteTextarea"
-              placeholder="{% trans 'Bu kullanıcıya özel notunuzu buraya yazın...' %}"
+              placeholder="Bu kullanıcıya özel notunuzu buraya yazın..."
               style="display:none;"
             ></textarea>
             <div class="notes-panel-actions" id="notesActions" style="display:none;">
@@ -1755,7 +1778,7 @@
           <div class="chat-input-container" id="chatInputContainer" style="display: none;">
             <textarea
               id="messageInput"
-              placeholder="{% trans 'Mesajınızı yazın...' %}" 
+              placeholder="Mesajınızı yazın..." 
               rows="1"
             ></textarea>
             <button class="send-btn" onclick="sendMessage()">
@@ -1821,7 +1844,7 @@
                   <input type="range" id="ratingSlider" min="1" max="10" value="5" oninput="document.getElementById('ratingValueBadge').textContent=this.value">
                   <span class="rating-value-badge" id="ratingValueBadge">5</span>
                 </div>
-                <textarea class="rating-note-input" id="ratingNoteInput" rows="2" placeholder="{% trans 'Seans notu (isteğe bağlı)...' %}" data-translate="Seans notu (isteğe bağlı)..."></textarea>
+                <textarea class="rating-note-input" id="ratingNoteInput" rows="2" placeholder="Seans notu (isteğe bağlı)..."></textarea>
                 <button class="rating-save-btn" onclick="saveSessionRating()" type="button" data-translate="Değerlendirmeyi Kaydet"><span data-translate="{% trans "Değerlendirmeyi Kaydet" %}">Değerlendirmeyi Kaydet</span></button>
                 <div class="rating-status" id="ratingStatus"></div>
               </div>
@@ -1896,7 +1919,7 @@
           <textarea
             id="notificationText"
             name="text"
-            placeholder="{% trans 'Bildirim metnini yazın...' %}" 
+            placeholder="Bildirim metnini yazın..." 
             required
           ></textarea>
           <div class="modal-buttons">
@@ -1942,7 +1965,7 @@
           </div>
           <textarea
             id="bulkNotifyText"
-            placeholder="{% trans 'Göndermek istediğiniz bildirimi yazın...' %}"
+            placeholder="Göndermek istediğiniz bildirimi yazın..."
             rows="4"
             style="width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:10px;font-family:inherit;font-size:0.9rem;resize:vertical;box-sizing:border-box;"
           ></textarea>
@@ -2188,11 +2211,17 @@
               plugins: {
                 legend: { display: false },
                 tooltip: {
+                  boxWidth: 12,
+                  bodySpacing: 4,
+                  titleSpacing: 4,
                   callbacks: {
                     afterBody: (ctx) => {
                       const idx = ctx[0].dataIndex;
                       const note = ratings[idx] ? ratings[idx].note : '';
-                      return note ? `Not: ${note}` : '';
+                      if (!note) return '';
+                      // Truncate long notes to prevent overflow
+                      const maxLen = 40;
+                      return `Not: ${note.length > maxLen ? note.substring(0, maxLen) + '...' : note}`;
                     }
                   }
                 }
@@ -2236,7 +2265,9 @@
         .then(r => r.json())
         .then(data => {
           if (statusEl) {
-            statusEl.textContent = data.success ? 'Kaydedildi ✓' : (data.error || 'Hata');
+            const successMsg = (typeof getTranslation === 'function') ? getTranslation('Kaydedildi ✓') : 'Kaydedildi ✓';
+            const errMsg = (typeof getTranslation === 'function') ? getTranslation(data.error || 'Hata') : (data.error || 'Hata');
+            statusEl.textContent = data.success ? successMsg : errMsg;
             statusEl.className = 'rating-status ' + (data.success ? 'ok' : 'err');
           }
           if (data.success) {
@@ -2343,7 +2374,7 @@
                 li.innerHTML = `
                   <div style="display:flex;justify-content:space-between;gap:6px;">
                     <div>
-                      <div class="mood-val" style="font-weight:600;">${m.mood_label || ''}</div>
+                      <div class="mood-val" style="font-weight:600;" data-translate="${m.mood_label || ''}">${typeof getTranslation === 'function' ? getTranslation(m.mood_label || '') : (m.mood_label || '')}</div>
                       ${m.note ? `<div class="mood-note" style="font-size:.85rem;color:#64748b;">${m.note}</div>` : ''}
                     </div>
                     <div class="mood-date" style="font-size:.8rem;color:#64748b;white-space:nowrap;">

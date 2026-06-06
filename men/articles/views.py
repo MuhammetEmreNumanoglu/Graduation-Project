@@ -563,7 +563,7 @@ def destek_duvari(request):
         profile_pic = Profile.objects.create(user=request.user)
 
     page = int(request.GET.get('page', 1))
-    all_posts = ForumPost.objects.all().order_by('-created_at')
+    all_posts = ForumPost.objects.all().order_by('-likes_count', '-created_at')
     paginator = Paginator(all_posts, 4)  # Her sayfada 4 gonderi
     posts_page = paginator.get_page(page)
 
