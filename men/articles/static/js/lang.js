@@ -641,7 +641,7 @@ const translations = {
         "Yeni Şifre": "New Password",
         "Excellent! Your breath control is improving!": "Excellent! Your breath control is improving!",
         "Bugün, 10:30": "Today, 10:30",
-        "Açık Mod": "Open Mode",
+        "Açık Mod": "Light Mode",
         "Nefes tekniklerini uygula": "Practice breathing techniques",
         "Hesabımı Kalıcı Olarak Sil": "Permanently Delete My Account",
         "Görev hatırlatıcıları": "Task reminders",
@@ -1122,7 +1122,7 @@ const translations = {
         "Bildirim metnini yazın...": "Write the notification text...",
         "Bu kullanıcıya özel notunuzu buraya yazın...": "Write your private note for this user here...",
         "Kaydedildi ✓": "Saved ✓",
-        
+
         "Eksik girdiniz. Telefon numarası 11 haneli olmalı.": "Incomplete entry. Phone number must be 11 digits.",
         "Hayat hikayeniz kaydedildi.": "Your life story has been saved.",
         "Bu kullanıcı adı/e-posta kullanılabilir": "This username/email is available",

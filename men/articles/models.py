@@ -24,6 +24,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
     life_story = models.TextField(null=True, blank=True)
+    public_key = models.TextField(null=True, blank=True)
 
 
 class DailyMood(models.Model):
@@ -160,7 +161,7 @@ class Notification(models.Model):
 
 
 class PsychologistMessage(models.Model):
-    """Psikolog ve üyeler arasındaki mesajlaşma"""
+    """Psikolog ve üyeler arasındaki mesajlaşma (E2E şifreli)"""
     SENDER_CHOICES = [
         ('user', 'User'),
         ('psychologist', 'Psychologist'),
@@ -169,6 +170,8 @@ class PsychologistMessage(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='psychologist_messages')
     sender = models.CharField(max_length=20, choices=SENDER_CHOICES)
     text = models.TextField()
+    is_encrypted = models.BooleanField(default=False)
+    encrypted_key = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
@@ -176,8 +179,9 @@ class PsychologistMessage(models.Model):
     class Meta:
         ordering = ['created_at']
 
-    def __str__(self):
-        return f"{self.sender} -> {self.user.username}: {self.text[:50]}"
+    def __str__(self) -> str:
+        status = '[ENC]' if self.is_encrypted else '[PLAIN]'
+        return f"{status} {self.sender} -> {self.user.username}: {self.text[:50]}"
 
 
 class LoginActivity(models.Model):

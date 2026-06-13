@@ -954,6 +954,52 @@ def send_notification(request):
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 
+
+@require_POST
+@login_required(login_url="my-login")
+def save_public_key(request) -> JsonResponse:
+    """Kullanıcının public key'ini kaydeder."""
+    try:
+        public_key_jwk: str = (request.POST.get('public_key') or '').strip()
+        if not public_key_jwk:
+            return JsonResponse({'success': False, 'error': _('Public key boş olamaz.')}, status=400)
+        import json as _json
+        try:
+            parsed = _json.loads(public_key_jwk)
+            if not isinstance(parsed, dict):
+                raise ValueError
+        except (ValueError, TypeError):
+            return JsonResponse({'success': False, 'error': _('Geçersiz public key formatı.')}, status=400)
+
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        profile.public_key = public_key_jwk
+        profile.save(update_fields=['public_key'])
+        return JsonResponse({'success': True})
+    except Exception as exc:
+        return JsonResponse({'success': False, 'error': str(exc)}, status=500)
+
+
+@login_required(login_url="my-login")
+def get_public_key(request) -> JsonResponse:
+    """Kullanıcının public key'ini getirir."""
+    try:
+        user_id = request.GET.get('user_id')
+        if not user_id:
+            return JsonResponse({'success': False, 'error': _('user_id gerekli.')}, status=400)
+        target_user = User.objects.get(id=user_id)
+        try:
+            profile = Profile.objects.get(user=target_user)
+        except Profile.DoesNotExist:
+            return JsonResponse({'success': False, 'error': _('Profil bulunamadı.'), 'public_key': None})
+        if not profile.public_key:
+            return JsonResponse({'success': True, 'public_key': None})
+        return JsonResponse({'success': True, 'public_key': profile.public_key})
+    except User.DoesNotExist:
+        return JsonResponse({'success': False, 'error': _('Kullanıcı bulunamadı.')}, status=404)
+    except Exception as exc:
+        return JsonResponse({'success': False, 'error': str(exc)}, status=500)
+
+
 @require_POST
 @psychologist_required
 def send_psychologist_message(request):
@@ -961,6 +1007,9 @@ def send_psychologist_message(request):
     try:
         user_id = request.POST.get('user_id')
         text = request.POST.get('text', '').strip()
+        encrypted_key = request.POST.get('encrypted_key', None)
+        is_encrypted_raw = request.POST.get('is_encrypted', 'false')
+        is_encrypted: bool = is_encrypted_raw.lower() in ('true', '1')
         
         if not user_id or not text:
             return JsonResponse({
@@ -970,14 +1019,12 @@ def send_psychologist_message(request):
         
         user = User.objects.get(id=user_id)
         
-        # Admin/superuser kontrolü
         if user.is_staff or user.is_superuser:
             return JsonResponse({
                 "success": False,
                 "error": _("Admin kullanıcılarına mesaj gönderilemez.")
             }, status=403, content_type='application/json')
         
-        # Role kontrolü
         try:
             profile = Profile.objects.get(user=user)
             if profile.role != 'member':
@@ -994,7 +1041,9 @@ def send_psychologist_message(request):
         message = PsychologistMessage.objects.create(
             user=user,
             sender='psychologist',
-            text=text
+            text=text,
+            is_encrypted=is_encrypted,
+            encrypted_key=encrypted_key if is_encrypted else None
         )
         return JsonResponse({
             "success": True,
@@ -1019,15 +1068,19 @@ def send_psychologist_message(request):
 def send_user_message(request):
     """Üyenin psikologa mesaj göndermesi"""
     text = request.POST.get('text')
+    encrypted_key = request.POST.get('encrypted_key', None)
+    is_encrypted_raw = request.POST.get('is_encrypted', 'false')
+    is_encrypted: bool = is_encrypted_raw.lower() in ('true', '1')
     
     if not text:
         return JsonResponse({"success": False, "error": _("Mesaj metni gerekli.")}, status=400)
     
-    # Psikologa mesaj göndermek için user=request.user, sender='user' kullanılır
     message = PsychologistMessage.objects.create(
         user=request.user,
         sender='user',
-        text=text
+        text=text,
+        is_encrypted=is_encrypted,
+        encrypted_key=encrypted_key if is_encrypted else None
     )
     return JsonResponse({
         "success": True,
@@ -1039,24 +1092,25 @@ def send_user_message(request):
 
 @login_required(login_url="my-login")
 def get_psychologist_messages(request):
-    """Üyenin psikolog ile mesajlarını getir - since parametresi ile incremental fetch"""
+    """Üyenin psikolog ile olan mesajlarını getirir."""
     try:
-        since_id = request.GET.get('since')  # Son mesaj ID'si veya timestamp
+        since_id = request.GET.get('since')
         messages_query = PsychologistMessage.objects.filter(user=request.user)
         
-        # since parametresi varsa sadece yeni mesajları getir
         if since_id:
             try:
                 since_id_int = int(since_id)
                 messages_query = messages_query.filter(id__gt=since_id_int)
             except ValueError:
-                pass  # Invalid since, tüm mesajları getir
+                pass
         
         messages = messages_query.order_by('created_at')
         messages_data = [{
             'id': msg.id,
             'sender': msg.sender,
             'text': msg.text,
+            'is_encrypted': msg.is_encrypted,
+            'encrypted_key': msg.encrypted_key,
             'created_at': timezone.localtime(msg.created_at).strftime("%Y-%m-%d %H:%M:%S"),
             'is_read': msg.is_read
         } for msg in messages]
@@ -1067,10 +1121,10 @@ def get_psychologist_messages(request):
 
 @psychologist_required
 def get_user_messages(request):
-    """Psikolog'un belirli bir kullanıcının mesajlarını getir - since parametresi ile incremental fetch"""
+    """Kullanıcının mesajlarını getirir."""
     try:
         user_id = request.GET.get('user_id')
-        since_id = request.GET.get('since')  # Son mesaj ID'si
+        since_id = request.GET.get('since')
         
         if not user_id:
             return JsonResponse({
@@ -1080,14 +1134,12 @@ def get_user_messages(request):
         
         target_user = User.objects.get(id=user_id)
         
-        # Admin/superuser kontrolü
         if target_user.is_staff or target_user.is_superuser:
             return JsonResponse({
                 "success": False,
                 "error": _("Admin kullanıcılarına erişilemez.")
             }, status=403, content_type='application/json')
         
-        # Role kontrolü
         try:
             profile = Profile.objects.get(user=target_user)
             if profile.role != 'member':
@@ -1103,19 +1155,20 @@ def get_user_messages(request):
         
         messages_query = PsychologistMessage.objects.filter(user=target_user)
         
-        # since parametresi varsa sadece yeni mesajları getir
         if since_id:
             try:
                 since_id_int = int(since_id)
                 messages_query = messages_query.filter(id__gt=since_id_int)
             except ValueError:
-                pass  # Invalid since, tüm mesajları getir
+                pass
         
         messages = messages_query.order_by('created_at')
         messages_data = [{
             'id': msg.id,
             'sender': msg.sender,
             'text': msg.text,
+            'is_encrypted': msg.is_encrypted,
+            'encrypted_key': msg.encrypted_key,
             'created_at': timezone.localtime(msg.created_at).strftime("%d.%m.%Y %H:%M"),
             'is_read': msg.is_read
         } for msg in messages]
@@ -1570,14 +1623,15 @@ def bulk_notify(request):
         ]
         Notification.objects.bulk_create(notifications)
 
-        cat_labels = {'acil': 'Acil', 'supheli': 'Şüpheli', 'normal': 'Normal'}
+        cat_labels: dict[str, str] = {'acil': 'Acil', 'supheli': 'Şüpheli', 'normal': 'Normal'}
         selected_labels = ', '.join([cat_labels.get(c, c) for c in categories])
         return JsonResponse({
             'success': True,
             'sent_count': len(target_users),
-            'message': _('{} kategorisindeki {} kullanıcıya bildirim gönderildi.').format(
-                selected_labels, len(target_users)
-            )
+            'categories': categories,
+            'category_labels': selected_labels,
+            # message key for JS to localise — JS builds the display string via getTranslation()
+            'message_key': 'bulk_notify_success'
         }, content_type='application/json')
 
     except Exception as e:

@@ -70,6 +70,8 @@ urlpatterns = [
     path('api/psychologist/usage-stats/', views.get_user_usage_stats, name='get-user-usage-stats'),
     # Psikolog - toplu bildirim
     path('api/psychologist/bulk-notify/', views.bulk_notify, name='bulk-notify'),
+    path('api/e2e/save-public-key/', views.save_public_key, name='save-public-key'),
+    path('api/e2e/get-public-key/', views.get_public_key, name='get-public-key'),
     # Psikolog - seans degerlendirme (YENi)
     path('api/psychologist/session-rating/', views.save_session_rating, name='save-session-rating'),
     path('api/psychologist/session-ratings/', views.get_session_ratings, name='get-session-ratings'),

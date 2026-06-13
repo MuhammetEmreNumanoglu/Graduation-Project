@@ -24,6 +24,7 @@
     <script src="{% static 'js/font-size-manager.js' %}"></script>
     <meta name="csrf-token" content="{{ csrf_token }}">
     <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/e2e-crypto.js' %}"></script>
     <style>
       :root {
         --primary-color: #6c3eb4;
@@ -1465,9 +1466,9 @@
       function loadPsychologistTheme() {
         const themeKey = 'ui_psychologist_theme';
         if (!localStorage.getItem(themeKey)) {
-          localStorage.setItem(themeKey, 'dark');
+          localStorage.setItem(themeKey, 'light');
         }
-        const themeMode = localStorage.getItem(themeKey) || 'dark';
+        const themeMode = localStorage.getItem(themeKey) || 'light';
         // Root seviyesinde theme yönetimi - tek kaynak
         document.documentElement.setAttribute('data-theme', themeMode);
         // Global themeMode ile senkronize et ki diğer script'ler çakışmasın
@@ -2461,7 +2462,15 @@
                 
                 const senderClass =
                   msg.sender === 'psychologist' ? 'psychologist' : 'user';
-                addMessageToUI(msg.text, senderClass, msg.created_at, msg.id);
+                addMessageToUI(
+                  msg.text,
+                  senderClass,
+                  msg.created_at,
+                  msg.id,
+                  msg.is_encrypted,
+                  msg.encrypted_key,
+                  msg.text  // ciphertext stored in .text when encrypted
+                );
                 
                 // Mesaj ID'sini kaydet
                 if (msg.id) {
@@ -2472,6 +2481,22 @@
                 }
                 
                 hasNewMessages = true;
+              });
+
+              // Decrypt any encrypted messages asynchronously
+              messagesDiv.querySelectorAll('[data-encrypted="true"]').forEach(async function(msgEl) {
+                const ciphertext   = msgEl.getAttribute('data-ciphertext');
+                const encryptedKey = msgEl.getAttribute('data-encrypted-key');
+                const textSpan     = msgEl.querySelector('.msg-text-content');
+                if (!ciphertext || !encryptedKey || !textSpan) return;
+                try {
+                  const plain = await window.E2E.decryptMessage(ciphertext, encryptedKey);
+                  // Escape HTML to prevent XSS
+                  textSpan.textContent = plain;
+                  msgEl.querySelector('.e2e-lock')?.classList.replace('e2e-lock-fail', 'e2e-lock-ok');
+                } catch (_err) {
+                  textSpan.textContent = '[' + (typeof getTranslation === 'function' ? getTranslation('Şifreli mesaj çözülemedi') : 'Encrypted — cannot decrypt') + ']';
+                }
               });
               
               // Yeni mesaj varsa scroll
@@ -2498,7 +2523,7 @@
           });
       }
 
-      function addMessageToUI(text, sender, time, id) {
+      function addMessageToUI(text, sender, time, id, isEncrypted, encryptedKey, ciphertext) {
         const messagesDiv = document.getElementById('chatMessages');
         if (!messagesDiv) return;
         
@@ -2510,16 +2535,40 @@
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}`;
         if (id) messageDiv.setAttribute('data-id', id);
+
+        const lockIcon = isEncrypted
+          ? '<span class="e2e-lock e2e-lock-ok" title="End-to-end encrypted" style="font-size:0.7rem;opacity:0.7;margin-right:4px;">🔒</span>'
+          : '';
+
+        const displayText = isEncrypted
+          ? '<em style="opacity:0.6">[decrypting…]</em>'
+          : text;
+
+        if (isEncrypted && id) {
+          messageDiv.setAttribute('data-encrypted', 'true');
+          messageDiv.setAttribute('data-ciphertext', ciphertext || text);
+          messageDiv.setAttribute('data-encrypted-key', encryptedKey || '');
+        }
         
         messageDiv.innerHTML = `
           <div style="position:relative; padding-right: 20px;">
-            ${text}
+            ${lockIcon}<span class="msg-text-content">${displayText}</span>
             ${id && sender === 'psychologist' ? `<span class="delete-msg" onclick="deleteMessage(${id}, this.parentElement.parentElement)" title="Sil" style="position:absolute; right: -5px; top: -5px; cursor:pointer; font-size: 0.75rem; opacity: 0.6;">&times;</span>` : ''}
           </div>
           <div class="message-time">${time}</div>
         `;
         messagesDiv.appendChild(messageDiv);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        if (isEncrypted && window.E2E) {
+          window.E2E.decryptMessage(ciphertext || text, encryptedKey || '').then(function(plain) {
+            const span = messageDiv.querySelector('.msg-text-content');
+            if (span) span.textContent = plain;
+          }).catch(function() {
+            const span = messageDiv.querySelector('.msg-text-content');
+            if (span) span.textContent = '[' + (typeof getTranslation === 'function' ? getTranslation('Şifreli mesaj çözülemedi') : 'Encrypted') + ']';
+          });
+        }
       }
 
       function deleteMessage(msgId, el) {
@@ -2568,7 +2617,7 @@
         });
       }
 
-      function sendMessage() {
+      async function sendMessage() {
         if (!currentUserId) return;
 
         const input = document.getElementById('messageInput');
@@ -2578,12 +2627,30 @@
         }
         
         const text = input.value.trim();
-
         if (!text) return;
 
         const formData = new FormData();
         formData.append('user_id', currentUserId);
-        formData.append('text', text);
+
+        let encryptionUsed = false;
+        if (window.E2E) {
+          try {
+            const recipientPubKey = await window.E2E.fetchRecipientPublicKey(currentUserId);
+            if (recipientPubKey) {
+              const { ciphertext, encryptedKey } = await window.E2E.encryptMessage(recipientPubKey, text);
+              formData.append('text', ciphertext);
+              formData.append('encrypted_key', encryptedKey);
+              formData.append('is_encrypted', 'true');
+              encryptionUsed = true;
+            }
+          } catch (err) {
+            console.warn('[E2E] Encryption failed, sending plaintext:', err);
+          }
+        }
+        if (!encryptionUsed) {
+          formData.append('text', text);
+          formData.append('is_encrypted', 'false');
+        }
 
         fetch('/api/send-psychologist-message/', {
           method: 'POST',
@@ -2593,7 +2660,6 @@
           body: formData,
         })
           .then((response) => {
-            // Content-Type kontrolü
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
               return response.text().then(text => {
@@ -2613,8 +2679,7 @@
           .then((data) => {
             if (data.success) {
               input.value = '';
-              // Optimistic UI: mesajı anında ekle, ID'yi kaydet
-              addMessageToUI(text, 'psychologist', data.created_at);
+              addMessageToUI(text, 'psychologist', data.created_at, data.message_id, false, null, null);
               if (data.message_id) {
                 loadedMessageIds.add(data.message_id);
                 if (data.message_id > lastMessageId) {
@@ -3031,15 +3096,14 @@
         const sendLabel = document.getElementById('bulkSendLabel');
 
         if (!text.trim()) {
-          if (msgEl) { msgEl.textContent = 'Lütfen bir bildirim metni yazın.'; msgEl.className = 'bulk-result-msg error'; }
+          if (msgEl) { msgEl.textContent = typeof getTranslation === 'function' ? getTranslation('Lütfen bir bildirim metni yazın.') : 'Lütfen bir bildirim metni yazın.'; msgEl.className = 'bulk-result-msg error'; }
           return;
         }
         if (categories.length === 0) {
-          if (msgEl) { msgEl.textContent = 'Lütfen en az bir kategori seçin.'; msgEl.className = 'bulk-result-msg error'; }
+          if (msgEl) { msgEl.textContent = typeof getTranslation === 'function' ? getTranslation('Lütfen en az bir kategori seçin.') : 'Lütfen en az bir kategori seçin.'; msgEl.className = 'bulk-result-msg error'; }
           return;
         }
 
-        // Loading state
         if (sendBtn) sendBtn.disabled = true;
         if (sendLabel) sendLabel.textContent = 'Gönderiliyor...';
         if (msgEl) { msgEl.textContent = ''; msgEl.className = 'bulk-result-msg'; }
@@ -3056,9 +3120,24 @@
         .then(r => r.json())
         .then(data => {
           if (sendBtn) sendBtn.disabled = false;
-          if (sendLabel) sendLabel.textContent = 'Gönder';
+          if (sendLabel) sendLabel.textContent = typeof getTranslation === 'function' ? getTranslation('Gönder') : 'Gönder';
           if (msgEl) {
-            msgEl.textContent = data.message || (data.error || 'Bir hata oluştu.');
+            if (data.success) {
+              const count = data.sent_count || 0;
+              const labels = data.category_labels || data.categories?.join(', ') || '';
+              let successMsg;
+              if (typeof getTranslation === 'function') {
+                const tmpl = getTranslation('bulk_notify_success') || '{count} kullanıcıya bildirim gönderildi.';
+                successMsg = tmpl
+                  .replace('{count}', count)
+                  .replace('{labels}', labels);
+              } else {
+                successMsg = count + ' kullanıcıya bildirim gönderildi.';
+              }
+              msgEl.textContent = successMsg;
+            } else {
+              msgEl.textContent = data.error || (typeof getTranslation === 'function' ? getTranslation('Bir hata oluştu!') : 'Bir hata oluştu.');
+            }
             msgEl.className = 'bulk-result-msg ' + (data.success ? 'success' : 'error');
           }
           if (data.success) {
@@ -3067,11 +3146,20 @@
         })
         .catch(() => {
           if (sendBtn) sendBtn.disabled = false;
-          if (sendLabel) sendLabel.textContent = 'Gönder';
-          if (msgEl) { msgEl.textContent = 'Bağlantı hatası oluştu.'; msgEl.className = 'bulk-result-msg error'; }
+          if (sendLabel) sendLabel.textContent = typeof getTranslation === 'function' ? getTranslation('Gönder') : 'Gönder';
+          if (msgEl) { msgEl.textContent = typeof getTranslation === 'function' ? getTranslation('Bağlantı hatası oluştu.') : 'Bağlantı hatası oluştu.'; msgEl.className = 'bulk-result-msg error'; }
         });
       }
 
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.E2E) {
+          window.E2E.initE2E().catch(function(e) {
+            console.warn('[E2E] init error:', e);
+          });
+        }
+      });
     </script>
   </body>
 </html>
