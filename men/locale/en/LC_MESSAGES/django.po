@@ -956,3 +956,215 @@ msgstr "No messages yet. Be the first to send one!"
 
 msgid "Bu kullanıcıya özel notunuzu buraya yazın..."
 msgstr "Write your private note for this user here..."
+
+# ── Profile management messages ──────────────────────────────────────────────
+
+msgid "Profil fotoğrafı güncellendi."
+msgstr "Profile photo updated."
+
+msgid "Bilgiler güncellendi."
+msgstr "Information updated."
+
+msgid "Hayat hikayeniz kaydedildi."
+msgstr "Your life story has been saved."
+
+msgid "Acil durum kişisi kaydedildi."
+msgstr "Emergency contact saved."
+
+# ── Password messages ─────────────────────────────────────────────────────────
+
+msgid "Lütfen tüm alanları doldurunuz."
+msgstr "Please fill in all fields."
+
+msgid "Yeni şifre mevcut şifre ile aynı olamaz."
+msgstr "New password cannot be the same as current password."
+
+msgid "Şifreniz başarıyla güncellendi."
+msgstr "Your password has been successfully updated."
+
+msgid "Şifre güncellenemedi."
+msgstr "Password could not be updated."
+
+msgid "Mevcut şifre yanlış."
+msgstr "Current password is incorrect."
+
+# ── Auth / login messages ─────────────────────────────────────────────────────
+
+msgid "Bu hesap psikolog hesabıdır. Lütfen psikolog giriş sayfasını kullanın."
+msgstr "This account is a psychologist account. Please use the psychologist login page."
+
+msgid "Bu hesap psikolog hesabı değil."
+msgstr "This account is not a psychologist account."
+
+msgid "Bu hesap psikolog hesabı değil. Bilgiler hatalı."
+msgstr "This account is not a psychologist account. Credentials are incorrect."
+
+msgid "Kullanıcı adı veya şifre hatalı."
+msgstr "Username or password is incorrect."
+
+msgid "Psikolog hesabı oluşturuldu ve giriş yapıldı."
+msgstr "Psychologist account created and logged in."
+
+msgid "Kullanıcı oluşturulurken bir hata oluştu. Lütfen 'python manage.py seed_psychologist' komutunu çalıştırın."
+msgstr "An error occurred while creating the user. Please run 'python manage.py seed_psychologist'."
+
+msgid "Bu sayfaya erişim için psikolog hesabı gereklidir."
+msgstr "A psychologist account is required to access this page."
+
+msgid "Profil bulunamadı. Lütfen tekrar giriş yapın."
+msgstr "Profile not found. Please log in again."
+
+# ── Psychologist system messages ──────────────────────────────────────────────
+
+msgid "Kullanıcı ID ve görev metni gerekli."
+msgstr "User ID and task text are required."
+
+msgid "Admin kullanıcılarına görev gönderilemez."
+msgstr "Tasks cannot be sent to admin users."
+
+msgid "Sadece üyelere görev gönderilebilir."
+msgstr "Tasks can only be sent to members."
+
+msgid "Kullanıcı profili bulunamadı."
+msgstr "User profile not found."
+
+msgid "Görev başarıyla gönderildi."
+msgstr "Task sent successfully."
+
+msgid "Kullanıcı ID ve bildirim metni gerekli."
+msgstr "User ID and notification text are required."
+
+msgid "Admin kullanıcılarına bildirim gönderilemez."
+msgstr "Notifications cannot be sent to admin users."
+
+msgid "Sadece üyelere bildirim gönderilebilir."
+msgstr "Notifications can only be sent to members."
+
+msgid "Bildirim başarıyla gönderildi."
+msgstr "Notification sent successfully."
+
+msgid "Kullanıcı ID ve mesaj metni gerekli."
+msgstr "User ID and message text are required."
+
+msgid "Admin kullanıcılarına mesaj gönderilemez."
+msgstr "Messages cannot be sent to admin users."
+
+msgid "Sadece üyelere mesaj gönderilebilir."
+msgstr "Messages can only be sent to members."
+
+msgid "Mesaj başarıyla gönderildi."
+msgstr "Message sent successfully."
+
+msgid "Mesaj metni gerekli."
+msgstr "Message text is required."
+
+msgid "Kullanıcı ID gerekli."
+msgstr "User ID is required."
+
+msgid "Admin kullanıcılarına erişilemez."
+msgstr "Admin users cannot be accessed."
+
+msgid "Sadece üyelerin mesajları görüntülenebilir."
+msgstr "Only member messages can be viewed."
+
+msgid "Kullanıcı bulunamadı."
+msgstr "User not found."
+
+msgid "Kimlik doğrulaması gerekli."
+msgstr "Authentication required."
+
+msgid "Bu işlem için psikolog yetkisi gerekli."
+msgstr "Psychologist authorization is required for this action."
+
+# ── Private notes / category / session rating ─────────────────────────────────
+
+msgid "Not kaydedildi."
+msgstr "Note saved."
+
+msgid "Not temizlendi."
+msgstr "Note cleared."
+
+msgid "Geçersiz kullanıcı ID veya kategori."
+msgstr "Invalid user ID or category."
+
+msgid "Kategori güncellendi."
+msgstr "Category updated."
+
+msgid "Bildirim metni boş olamaz."
+msgstr "Notification text cannot be empty."
+
+msgid "En az bir kategori seçmelisiniz."
+msgstr "You must select at least one category."
+
+msgid "Geçersiz kategori seçimi."
+msgstr "Invalid category selection."
+
+msgid "Seçilen kategorilerde ({}) kayıtlı kullanıcı bulunamadı."
+msgstr "No registered users found in the selected categories ({})."
+
+msgid "Sana yeni bir görev atandı: {}"
+msgstr "A new task has been assigned to you: {}"
+
+# ── Session rating ─────────────────────────────────────────────────────────────
+
+msgid "user_id ve rating gerekli."
+msgstr "user_id and rating are required."
+
+msgid "Rating 1-10 arasinda olmali."
+msgstr "Rating must be between 1 and 10."
+
+msgid "Gecersiz rating degeri."
+msgstr "Invalid rating value."
+
+msgid "user_id gerekli."
+msgstr "user_id is required."
+
+msgid "Kullanici bulunamadi."
+msgstr "User not found."
+
+# ── Notification management ────────────────────────────────────────────────────
+
+msgid "Bildirim ID gerekli."
+msgstr "Notification ID is required."
+
+msgid "Bildirim başarıyla silindi."
+msgstr "Notification deleted successfully."
+
+msgid "Tüm bildirimler başarıyla silindi."
+msgstr "All notifications deleted successfully."
+
+# ── Forum / support wall ───────────────────────────────────────────────────────
+
+msgid "Icerik bos olamaz."
+msgstr "Content cannot be empty."
+
+msgid "Gorev ID gerekli."
+msgstr "Task ID is required."
+
+msgid "Gorev bulunamadi."
+msgstr "Task not found."
+
+# ── Mood messages ──────────────────────────────────────────────────────────────
+
+msgid "Geçersiz ruh hali seçimi."
+msgstr "Invalid mood selection."
+
+msgid "Bugünkü ruh hali zaten kaydedilmiş."
+msgstr "Today's mood has already been recorded."
+
+msgid "Ruh haliniz kaydedildi."
+msgstr "Your mood has been recorded."
+
+# ── Public key / E2E ───────────────────────────────────────────────────────────
+
+msgid "Public key boş olamaz."
+msgstr "Public key cannot be empty."
+
+msgid "Geçersiz public key formatı."
+msgstr "Invalid public key format."
+
+msgid "user_id gerekli."
+msgstr "user_id is required."
+
+msgid "Profil bulunamadı."
+msgstr "Profile not found."

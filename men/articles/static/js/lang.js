@@ -1382,20 +1382,29 @@ function translatePage(lang) {
     translateTextContent(document.body, langTranslations);
 }
 
-// Tüm metin içeriklerini recursive olarak çevir
+// Tüm metin içeriklerini optimize edilmiş şekilde TreeWalker ile çevir
 function translateTextContent(element, translations) {
     if (!element) return; // null/undefined guard
-    if (element.nodeType === Node.ELEMENT_NODE && ['TEXTAREA', 'SCRIPT', 'STYLE'].includes(element.tagName)) {
-        return;
-    }
-    if (element.nodeType === Node.TEXT_NODE) {
-        const text = element.textContent.trim();
-        if (text && translations[text]) {
-            element.textContent = translations[text];
+    
+    const walker = document.createTreeWalker(
+        element,
+        NodeFilter.SHOW_TEXT,
+        {
+            acceptNode: function(node) {
+                const parent = node.parentNode;
+                if (parent && ['SCRIPT', 'STYLE', 'TEXTAREA'].includes(parent.tagName)) {
+                    return NodeFilter.FILTER_REJECT;
+                }
+                return NodeFilter.FILTER_ACCEPT;
+            }
         }
-    } else if (element.childNodes && element.childNodes.length) {
-        for (let child of element.childNodes) {
-            if (child) translateTextContent(child, translations);
+    );
+
+    let node;
+    while (node = walker.nextNode()) {
+        const text = node.textContent.trim();
+        if (text && translations[text]) {
+            node.textContent = translations[text];
         }
     }
 }

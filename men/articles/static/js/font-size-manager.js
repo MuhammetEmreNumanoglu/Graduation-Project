@@ -157,18 +157,17 @@ class FontSizeManager {
     }
 }
 
-// Initialize font size manager when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    window.fontSizeManager = new FontSizeManager();
-});
-
-// Also initialize immediately if DOM is already loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
+// Initialize font size manager when DOM is loaded, or immediately if already loaded
+function initFontSizeManager() {
+    if (!window.fontSizeManager) {
         window.fontSizeManager = new FontSizeManager();
-    });
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFontSizeManager);
 } else {
-    window.fontSizeManager = new FontSizeManager();
+    initFontSizeManager();
 }
 
 // Export for use in other scripts

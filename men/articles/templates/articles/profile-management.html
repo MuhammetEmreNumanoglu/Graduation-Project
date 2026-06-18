@@ -208,7 +208,6 @@
         color: var(--text-primary);
         cursor: pointer;
         transition: var(--transition-smooth);
-        backdrop-filter: blur(10px);
         min-width: 120px;
       }
 
@@ -260,7 +259,6 @@
         color: var(--text-primary);
         cursor: pointer;
         transition: var(--transition-smooth);
-        backdrop-filter: blur(10px);
       }
 
       .font-size-btn:hover {
@@ -352,7 +350,6 @@
         font-size: 1.1rem;
         transition: var(--transition-smooth);
         background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
       }
 
       .form-control:focus {
@@ -753,7 +750,6 @@
         color: var(--text-primary);
         cursor: pointer;
         transition: var(--transition-smooth);
-        backdrop-filter: blur(10px);
       }
 
       .lang-btn:hover {
@@ -1620,8 +1616,6 @@
       document.addEventListener('DOMContentLoaded', function() {
         {% if not is_psychologist %}
         loadMemberStats();
-        // Her 30 saniyede bir güncelle
-        setInterval(loadMemberStats, 30000);
         {% endif %}
       });
     </script>
@@ -1836,27 +1830,7 @@
         }
       }
 
-      // Scroll ile ilgili section'a gelince active class'ı güncelle
-      window.addEventListener("scroll", function () {
-        const sections = document.querySelectorAll(".content-section");
-        const menuItems = document.querySelectorAll(".menu-item");
-
-        let current = "";
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
-          if (pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute("id");
-          }
-        });
-
-        menuItems.forEach((item) => {
-          item.classList.remove("active");
-          if (item.getAttribute("href") === `#${current}`) {
-            item.classList.add("active");
-          }
-        });
-      });
+      // Scroll ile ilgili active class güncellemesi aşağıdaki throttled scroll listener ile yönetilmektedir.
 
       // Sayfa ilk açıldığında ilk menü item'ı active olsun
       document.addEventListener("DOMContentLoaded", function () {
@@ -2363,7 +2337,18 @@
         if (menuItems[0]) menuItems[0].classList.add('active');
       }
     }
-    window.addEventListener('scroll', onScrollActiveMenu);
+    // Scroll olayını requestAnimationFrame ile throttle ederek performansı artırıyoruz
+    let isScrollTicking = false;
+    function throttledScrollActiveMenu() {
+      if (!isScrollTicking) {
+        window.requestAnimationFrame(() => {
+          onScrollActiveMenu();
+          isScrollTicking = false;
+        });
+        isScrollTicking = true;
+      }
+    }
+    window.addEventListener('scroll', throttledScrollActiveMenu);
     document.addEventListener('DOMContentLoaded', onScrollActiveMenu);
     </script>
     <script>
