@@ -2071,12 +2071,11 @@
           <span class="stat-lbl">Toplam</span>
         </div>
         <div class="stat-pill acil-stat" title="Acil kategorisindeki hastalar">
-          <span class="stat-num" id="statAcil">{% for u in users %}{% if u.category == 'acil' %}&#x200b;{% endif %}{%
-            endfor %}0</span>
+          <span class="stat-num" id="statAcil">{{ acil_count }}</span>
           <span class="stat-lbl">Acil</span>
         </div>
         <div class="stat-pill takip-stat" title="Takip kategorisindeki hastalar">
-          <span class="stat-num" id="statTakip">0</span>
+          <span class="stat-num" id="statTakip">{{ takip_count }}</span>
           <span class="stat-lbl">Takip</span>
         </div>
       </div>
@@ -2126,15 +2125,8 @@
               <button class="category-badge {{ user_data.category }}" id="catbadge-{{ user_data.user.id }}"
                 onclick="event.stopPropagation(); toggleCategoryDropdown({{ user_data.user.id }})"
                 title="Kategoriyi değiştir">
-                <span class="material-symbols-outlined" style="font-size:.75rem;">
-                  {% if user_data.category == 'acil' %}warning{% elif user_data.category == 'supheli' %}help{% else
-                  %}check_circle{% endif %}
-                </span>
-                <span
-                  data-translate="{% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Takip{% else %}Normal{% endif %}">
-                  {% if user_data.category == 'acil' %}Acil{% elif user_data.category == 'supheli' %}Takip{% else
-                  %}Normal{% endif %}
-                </span>
+                <span class="material-symbols-outlined" style="font-size:.75rem;">{{ user_data.category_icon }}</span>
+                <span>{{ user_data.category_label }}</span>
               </button>
               <div class="category-dropdown" id="catdrop-{{ user_data.user.id }}">
                 <div class="category-dropdown-item"
@@ -2191,7 +2183,8 @@
         <div class="notes-panel-body">
           <div class="notes-empty-hint" id="notesEmptyHint" data-translate="Bir kullanıcı seçince notlar yüklenir.">
             <span data-translate="{% trans " Bir kullanıcı seçince notlar yüklenir." %}">Bir kullanıcı seçince notlar
-              yüklenir.</span></div>
+              yüklenir.</span>
+          </div>
           <textarea id="privateNoteTextarea" placeholder="Bu kullanıcıya özel notunuzu buraya yazın..."
             style="display:none;"></textarea>
           <div class="notes-panel-actions" id="notesActions" style="display:none;">
@@ -2288,14 +2281,12 @@
           <div class="rating-chart-section" id="ratingChartSection">
             <div class="rating-chart-title">
               <span class="material-symbols-outlined" style="font-size:1.1rem;">star_rate</span>
-              <span data-translate="Seans Değerlendirmesi"><span data-translate="{% trans " Seans Değerlendirmesi"
-                  %}">Seans Değerlendirmesi</span></span>
+              <span data-translate="Seans Değerlendirmesi">Seans Değerlendirmesi</span>
             </div>
             <canvas id="ratingChart" height="120"></canvas>
             <div class="rating-inputs">
               <div class="rating-slider-row">
-                <label for="ratingSlider" data-translate="Puan:"><span data-translate="{% trans " Puan:"
-                    %}">Puan:</span></label>
+                <label for="ratingSlider" data-translate="Puan:">Puan:</label>
                 <input type="range" id="ratingSlider" min="1" max="10" value="5"
                   oninput="document.getElementById('ratingValueBadge').textContent=this.value">
                 <span class="rating-value-badge" id="ratingValueBadge">5</span>
@@ -2303,8 +2294,7 @@
               <textarea class="rating-note-input" id="ratingNoteInput" rows="2"
                 placeholder="Seans notu (isteğe bağlı)..."></textarea>
               <button class="rating-save-btn" onclick="saveSessionRating()" type="button"
-                data-translate="Değerlendirmeyi Kaydet"><span data-translate="{% trans " Değerlendirmeyi Kaydet"
-                  %}">Değerlendirmeyi Kaydet</span></button>
+                data-translate="Değerlendirmeyi Kaydet">Değerlendirmeyi Kaydet</button>
               <div class="rating-status" id="ratingStatus"></div>
             </div>
           </div>
@@ -2578,6 +2568,13 @@
         });
       }
 
+      // Okunmamış badge'i hemen sıfırla (poll bekleme)
+      const badge = document.getElementById(`badge-${userId}`);
+      if (badge) {
+        badge.textContent = '';
+        badge.style.display = 'none';
+      }
+
       // Chat başlığını güncelle
       const chatHeader = document.getElementById('chatHeaderTitle');
       if (chatHeader) chatHeader.textContent = userName;
@@ -2641,6 +2638,9 @@
     let ratingChartInstance = null;
 
     function loadSessionRatings(userId) {
+      const _lang = localStorage.getItem('ui_psychologist_language') || localStorage.getItem('selectedLanguage') || 'tr';
+      const _isEn = _lang === 'en';
+
       fetch(`/api/psychologist/session-ratings/?user_id=${userId}`, {
         headers: { 'X-CSRFToken': csrfToken }
       })
@@ -2651,6 +2651,16 @@
           const labels = ratings.map(r => r.label);
           const values = ratings.map(r => r.rating);
 
+          // Also translate the HTML label and placeholder
+          const ratingLabel = document.querySelector('label[for="ratingSlider"]');
+          if (ratingLabel) ratingLabel.textContent = _isEn ? 'Score:' : 'Puan:';
+          const ratingNote = document.getElementById('ratingNoteInput');
+          if (ratingNote) ratingNote.placeholder = _isEn ? 'Session note (optional)...' : 'Seans notu (isteğe bağlı)...';
+          const saveBtn = document.querySelector('.rating-save-btn');
+          if (saveBtn) saveBtn.textContent = _isEn ? 'Save Rating' : 'Değerlendirmeyi Kaydet';
+          const ratingTitle = document.querySelector('.rating-chart-title [data-translate="Seans Değerlendirmesi"]');
+          if (ratingTitle) ratingTitle.textContent = _isEn ? 'Session Rating' : 'Seans Değerlendirmesi';
+
           const canvas = document.getElementById('ratingChart');
           if (!canvas) return;
           const ctx = canvas.getContext('2d');
@@ -2658,12 +2668,13 @@
           if (ratingChartInstance) ratingChartInstance.destroy();
 
           const isDark = document.body.classList.contains('dark-mode');
+          const notePrefix = _isEn ? 'Note: ' : 'Not: ';
           ratingChartInstance = new Chart(ctx, {
             type: 'line',
             data: {
               labels: labels.length ? labels : ['--'],
               datasets: [{
-                label: 'Seans Puanı',
+                label: _isEn ? 'Session Score' : 'Seans Puanı',
                 data: values.length ? values : [null],
                 borderColor: '#8b5cf6',
                 backgroundColor: 'rgba(139,92,246,0.13)',
@@ -2688,9 +2699,10 @@
                       const idx = ctx[0].dataIndex;
                       const note = ratings[idx] ? ratings[idx].note : '';
                       if (!note) return '';
-                      // Truncate long notes to prevent overflow
-                      const maxLen = 40;
-                      return `Not: ${note.length > maxLen ? note.substring(0, maxLen) + '...' : note}`;
+                      // Show full note — split into lines of ~50 chars for readability
+                      const lines = [];
+                      for (let i = 0; i < note.length; i += 50) lines.push(note.substring(i, i + 50));
+                      return [notePrefix + lines[0], ...lines.slice(1)];
                     }
                   }
                 }
@@ -2791,6 +2803,23 @@
     }
 
     function loadUserInsights(userId) {
+      const _lang = localStorage.getItem('ui_psychologist_language') || localStorage.getItem('selectedLanguage') || 'tr';
+      const _isEn = _lang === 'en';
+
+      // Mood code → English label map
+      const MOOD_EN = {
+        very_good: 'Very Good',
+        good: 'Good',
+        neutral: 'Neutral',
+        bad: 'Bad',
+        very_bad: 'Very Bad',
+      };
+      // Return the right label for current language
+      function moodLabel(m) {
+        if (_isEn) return MOOD_EN[m.mood] || m.mood_label || m.mood;
+        return m.mood_label || m.mood;
+      }
+
       const emptyEl = document.getElementById('insightsEmpty');
       const contentEl = document.getElementById('insightsContent');
       const todayMoodEl = document.getElementById('insightTodayMood');
@@ -2819,7 +2848,7 @@
           // Bugünkü ruh hali
           if (data.today_mood) {
             if (todayMoodEl) {
-              todayMoodEl.textContent = data.today_mood.mood_label || '';
+              todayMoodEl.textContent = moodLabel(data.today_mood);
             }
             if (todayNoteEl) {
               todayNoteEl.textContent = data.today_mood.note || '';
@@ -2827,7 +2856,7 @@
             }
           } else {
             if (todayMoodEl) {
-              todayMoodEl.textContent = getTranslation('Bugün için ruh hali kaydı yok.');
+              todayMoodEl.textContent = _isEn ? 'No mood record for today.' : getTranslation('Bugün için ruh hali kaydı yok.');
             }
             if (todayNoteEl) {
               todayNoteEl.style.display = 'none';
@@ -2840,10 +2869,11 @@
             if (data.recent_moods && data.recent_moods.length) {
               data.recent_moods.forEach(m => {
                 const li = document.createElement('li');
+                const label = moodLabel(m);
                 li.innerHTML = `
                   <div style="display:flex;justify-content:space-between;gap:6px;">
                     <div>
-                      <div class="mood-val" style="font-weight:600;" data-translate="${m.mood_label || ''}">${typeof getTranslation === 'function' ? getTranslation(m.mood_label || '') : (m.mood_label || '')}</div>
+                      <div class="mood-val" style="font-weight:600;">${label}</div>
                       ${m.note ? `<div class="mood-note" style="font-size:.85rem;color:#64748b;">${m.note}</div>` : ''}
                     </div>
                     <div class="mood-date" style="font-size:.8rem;color:#64748b;white-space:nowrap;">
@@ -2855,7 +2885,7 @@
               });
             } else {
               const li = document.createElement('li');
-              li.textContent = getTranslation('Henüz ruh hali geçmişi yok.');
+              li.textContent = _isEn ? 'No mood history yet.' : getTranslation('Henüz ruh hali geçmişi yok.');
               recentListEl.appendChild(li);
             }
           }

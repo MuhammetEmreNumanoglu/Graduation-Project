@@ -61,9 +61,13 @@
                     currentPopup.classList.toggle('active');
                     if (overlay) overlay.classList.toggle('active', currentPopup.classList.contains('active'));
                     if (currentPopup.classList.contains('active')) {
-                        // Popup açıldığında bildirimleri yükle ve hepsini okundu işaretle
+                        // Popup açıldığında bildirimleri yükle
                         loadNotifications();
-                        markAllAsRead(); // Sadece bildirimleri değil, mesajları da temizle ki badge geri gelmesin
+                        // Badge'i hemen gizle (anında görsel geri bildirim)
+                        const badge = document.getElementById('unreadBadge');
+                        if (badge) badge.style.display = 'none';
+                        // Sunucuda okundu işaretle (badge yenisi gelene kadar gizli kalır)
+                        markNotificationsRead();
                     }
                 }
             });

@@ -825,6 +825,8 @@ def psychologist_dashboard(request):
     member_users = [user for user in member_users if user.id != request.user.id and not user.is_staff and not user.is_superuser]
     
     # Her kullanıcı için son mesaj zamanını ve kategoriyi hesapla
+    _cat_icon = {'acil': 'warning', 'supheli': 'help', 'normal': 'check_circle'}
+    _cat_label = {'acil': 'Acil', 'supheli': 'Takip', 'normal': 'Normal'}
     users_with_last_message = []
     for user in member_users:
         last_message = PsychologistMessage.objects.filter(user=user).order_by('-created_at').first()
@@ -834,18 +836,26 @@ def psychologist_dashboard(request):
             user=user,
             defaults={'category': 'normal'}
         )
+        cat = relation.category or 'normal'
         users_with_last_message.append({
             'user': user,
             'last_message_time': last_message.created_at if last_message else None,
-            'category': relation.category,
+            'category': cat,
+            'category_icon': _cat_icon.get(cat, 'check_circle'),
+            'category_label': _cat_label.get(cat, 'Normal'),
         })
     
     # Son mesaj zamanına göre sırala (en yeni üstte)
     users_with_last_message.sort(key=lambda x: x['last_message_time'] if x['last_message_time'] else x['user'].date_joined, reverse=True)
     
+    acil_count = sum(1 for u in users_with_last_message if u['category'] == 'acil')
+    takip_count = sum(1 for u in users_with_last_message if u['category'] == 'supheli')
+
     context = {
         'users': users_with_last_message,
-        'psychologist_profile': psychologist_profile
+        'psychologist_profile': psychologist_profile,
+        'acil_count': acil_count,
+        'takip_count': takip_count,
     }
     return render(request, "articles/psychologist-dashboard.html", context)
 
