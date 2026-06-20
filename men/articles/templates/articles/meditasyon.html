@@ -1431,7 +1431,7 @@
                         </button>
                     </div>
                 </div>
-                <audio id="audioElement" src="${podcast.audio}" preload="metadata" controls style="display:none;"></audio>
+                <audio id="audioElement" src="${podcast.audio}" preload="auto" controls style="display:none;"></audio>
             `;
 
         var audioArea = document.getElementById("audioPlayerArea");
@@ -1471,6 +1471,10 @@
           currentAudio.pause();
           currentAudio = null;
         }
+        if (window.audioPlayerAbortController) {
+          window.audioPlayerAbortController.abort();
+          window.audioPlayerAbortController = null;
+        }
         var audioArea = document.getElementById("audioPlayerArea");
         if(audioArea) {
             audioArea.style.display = "none";
@@ -1485,153 +1489,176 @@
         const playBtn = document.getElementById("playBtn");
         const volumeSlider = document.getElementById("volumeSlider");
         const speedBtn = document.getElementById("speedBtn");
-        const volumeBtn = document.getElementById("volumeBtn");
         const seekBar = document.getElementById("seekBar");
         const seekBarHandle = document.getElementById("seekBarHandle");
 
         currentAudio = audio;
         let isDragging = false;
-        
-        // Audio hazır olana kadar bekle
-        if (audio.readyState < 1) {
-          audio.addEventListener("loadedmetadata", function() {
-            // Audio hazır olduktan sonra event listener'ları ekle
-            setupAudioEventListeners();
-            // Total time'ı güncelle
-            updateTotalTime();
-          }, { once: true });
-          return;
+        let dragTargetTime = 0;
+
+        // Abort previous document listeners to prevent accumulation
+        if (window.audioPlayerAbortController) {
+          window.audioPlayerAbortController.abort();
         }
-        
-        // Audio zaten hazırsa direkt event listener'ları ekle
-        setupAudioEventListeners();
-        // Total time'ı güncelle
-        updateTotalTime();
-        
+        window.audioPlayerAbortController = new AbortController();
+        const { signal } = window.audioPlayerAbortController;
+
+        // === EVENT LISTENERS ===
         function setupAudioEventListeners() {
+          // loadedmetadata: toplam süreyi güncelle
+          audio.addEventListener("loadedmetadata", function () {
+            updateTotalTime();
+          });
 
-        // Play/Pause functionality
-        audio.addEventListener("loadedmetadata", function () {
-          updateTotalTime();
-        });
+          // timeupdate: anlık süre ve progress bar
+          audio.addEventListener("timeupdate", function () {
+            if (isDragging) return; // sürükleme sırasında timeupdate'i yoksay
+            const currentTimeEl = document.getElementById("currentTime");
+            const seekBarProgress = document.getElementById("seekBarProgress");
+            const seekBarHandleEl = document.getElementById("seekBarHandle");
+            if (!currentTimeEl || !seekBarProgress || !seekBarHandleEl) return;
 
-        audio.addEventListener("timeupdate", function () {
-          const currentTime = document.getElementById("currentTime");
-          const seekBarProgress = document.getElementById("seekBarProgress");
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+            const progress = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+            seekBarProgress.style.width = progress + "%";
+            seekBarHandleEl.style.left = `calc(${progress}% - 8px)`;
+          });
 
-          currentTime.textContent = formatTime(audio.currentTime);
-          const progress = (audio.currentTime / audio.duration) * 100;
-          seekBarProgress.style.width = progress + "%";
-          
-          if (!isDragging) {
-            seekBarHandle.style.left = `calc(${progress}% - 8px)`;
+          // ended
+          audio.addEventListener("ended", function () {
+            if (playBtn) playBtn.innerHTML = '<span class="material-symbols-outlined">play_arrow</span>';
+            if (audio.loop) {
+              audio.play();
+              if (playBtn) playBtn.innerHTML = '<span class="material-symbols-outlined">pause</span>';
+            } else {
+              setTimeout(() => { nextTrack(); }, 1000);
+            }
+          });
+
+          // Volume control
+          if (volumeSlider) {
+            volumeSlider.addEventListener("input", function () {
+              const volume = this.value / 100;
+              audio.volume = volume;
+              updateVolumeIcon(this.value);
+              saveVolumeSettings(volume);
+            });
           }
-        });
 
-        audio.addEventListener("ended", function () {
-          playBtn.innerHTML =
-            '<span class="material-symbols-outlined">play_arrow</span>';
-          
-          // Auto play next if loop is enabled
-          if (audio.loop) {
-            audio.play();
-            playBtn.innerHTML =
-              '<span class="material-symbols-outlined">pause</span>';
-          } else {
-            // Loop aktif değilse otomatik olarak sonraki şarkıya geç
-            setTimeout(() => {
-              nextTrack();
-            }, 1000);
-          }
-        });
-
-        // Volume control
-        volumeSlider.addEventListener("input", function () {
-          const volume = this.value / 100;
-          audio.volume = volume;
-          updateVolumeIcon(this.value);
-          // Ses seviyesini localStorage'a kaydet
-          saveVolumeSettings(volume);
-        });
-
-        // Seek bar drag functionality
-        seekBarHandle.addEventListener("mousedown", function(e) {
-          isDragging = true;
-          e.preventDefault();
-        });
-
-        document.addEventListener("mousemove", function(e) {
-          if (isDragging) {
+          // ---- Seek bar: tıklanarak veya sürüklenerek seek ----
+          function getSeekPositionTime(clientX) {
+            if (!seekBar || !audio.duration || isNaN(audio.duration)) return null;
             const rect = seekBar.getBoundingClientRect();
-            const clickX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-            const seekTime = (clickX / rect.width) * audio.duration;
-            
-            // UI'ı güncelle
-            updateSeekBar(seekTime, audio.duration);
-            
-            // Audio currentTime'ı güncelle
-            audio.currentTime = seekTime;
-            
-            // Current time display'ı güncelle
-            const currentTimeDisplay = document.getElementById("currentTime");
-            if (currentTimeDisplay) {
-              currentTimeDisplay.textContent = formatTime(seekTime);
+            const clickX = Math.max(0, Math.min(clientX - rect.left, rect.width));
+            return (clickX / rect.width) * audio.duration;
+          }
+
+          function applySeekTime(t) {
+            if (t === null || isNaN(t)) return;
+            let targetTime = Math.max(0, Math.min(audio.duration, t));
+            try { audio.currentTime = targetTime; } catch(e) {}
+            updateSeekBar(targetTime, audio.duration);
+            const el = document.getElementById("currentTime");
+            if (el) el.textContent = formatTime(targetTime);
+          }
+
+          function updateDragUI(clientX) {
+            const t = getSeekPositionTime(clientX);
+            if (t === null) return;
+            dragTargetTime = t;
+            const progress = (t / audio.duration) * 100;
+            const progressEl = document.getElementById("seekBarProgress");
+            const handleEl = document.getElementById("seekBarHandle");
+            if (progressEl) progressEl.style.width = progress + "%";
+            if (handleEl) handleEl.style.left = `calc(${progress}% - 8px)`;
+            const el = document.getElementById("currentTime");
+            if (el) el.textContent = formatTime(t);
+          }
+
+          // Mouse events
+          if (seekBarHandle) {
+            seekBarHandle.addEventListener("mousedown", function(e) {
+              isDragging = true;
+              e.preventDefault();
+            });
+          }
+
+          document.addEventListener("mousemove", function(e) {
+            if (!isDragging) return;
+            updateDragUI(e.clientX);
+          }, { signal });
+
+          document.addEventListener("mouseup", function(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            // Sadece mouseup anında seek yap — takılmayı önler
+            applySeekTime(dragTargetTime);
+          }, { signal });
+
+          // Touch events (mobil)
+          if (seekBarHandle) {
+            seekBarHandle.addEventListener("touchstart", function(e) {
+              isDragging = true;
+              e.preventDefault();
+            }, { passive: false });
+          }
+
+          document.addEventListener("touchmove", function(e) {
+            if (!isDragging) return;
+            updateDragUI(e.touches[0].clientX);
+          }, { passive: true, signal });
+
+          document.addEventListener("touchend", function() {
+            if (!isDragging) return;
+            isDragging = false;
+            applySeekTime(dragTargetTime);
+          }, { signal });
+
+          // Speed control
+          let speedIndex = parseInt(localStorage.getItem('meditationSpeedIndex')) || 0;
+          const speeds = [1, 1.25, 1.5, 1.75, 2, 0.5, 0.75];
+
+          function changeSpeed() {
+            const a = document.getElementById("audioElement");
+            if (!a) return;
+            speedIndex = (speedIndex + 1) % speeds.length;
+            a.playbackRate = speeds[speedIndex];
+            if (speedBtn) speedBtn.textContent = speeds[speedIndex] + "x";
+            localStorage.setItem('meditationSpeedIndex', speedIndex.toString());
+          }
+
+          function applySavedSpeed() {
+            const a = document.getElementById("audioElement");
+            if (!a) return;
+            if (speeds[speedIndex]) {
+              a.playbackRate = speeds[speedIndex];
+              if (speedBtn) speedBtn.textContent = speeds[speedIndex] + "x";
             }
           }
-        });
 
-        document.addEventListener("mouseup", function() {
-          isDragging = false;
-        });
+          window.applySavedSpeed = applySavedSpeed;
+          window.changeSpeed = changeSpeed;
 
-        // Speed control - localStorage ile kaydet
-        let speedIndex = parseInt(localStorage.getItem('meditationSpeedIndex')) || 0;
-        const speeds = [1, 1.25, 1.5, 1.75, 2, 0.5, 0.75];
-
-        function changeSpeed() {
-          const audio = document.getElementById("audioElement");
-          if (!audio) return;
-          
-          speedIndex = (speedIndex + 1) % speeds.length;
-          audio.playbackRate = speeds[speedIndex];
-          speedBtn.textContent = speeds[speedIndex] + "x";
-          // localStorage'a kaydet
-          localStorage.setItem('meditationSpeedIndex', speedIndex.toString());
-        }
-        
-        // Sayfa yüklendiğinde kaydedilen hızı uygula
-        function applySavedSpeed() {
-          const audio = document.getElementById("audioElement");
-          if (!audio) return;
-          
-          if (speeds[speedIndex]) {
-            audio.playbackRate = speeds[speedIndex];
-            speedBtn.textContent = speeds[speedIndex] + "x";
-          } else {
-            // Audio henüz hazır değilse bekle
-            audio.addEventListener("loadedmetadata", function() {
-              if (speeds[speedIndex]) {
-                audio.playbackRate = speeds[speedIndex];
-                speedBtn.textContent = speeds[speedIndex] + "x";
-              }
-            }, { once: true });
+          if (resetTime) {
+            try { audio.currentTime = 0; } catch(e) {}
           }
-        }
-        
-        // Global olarak erişilebilir yap
-        window.applySavedSpeed = applySavedSpeed;
 
-        // Global olarak erişilebilir yap
-        window.changeSpeed = changeSpeed;
+          applySavedVolume();
+          applySavedSpeed();
+        } // setupAudioEventListeners sonu
 
-        if (resetTime) {
-          audio.currentTime = 0;
+        // Audio hazır değilse loadedmetadata'yı bekle, hazırsa direkt başlat
+        if (audio.readyState < 1) {
+          audio.addEventListener("loadedmetadata", function() {
+            setupAudioEventListeners();
+            updateTotalTime();
+          }, { once: true });
+          // Audio load işlemini başlat
+          audio.load();
+        } else {
+          setupAudioEventListeners();
+          updateTotalTime();
         }
-        
-        // Kaydedilen ses seviyesi ve hız ayarlarını uygula
-        applySavedVolume();
-        applySavedSpeed();
-        } // setupAudioEventListeners fonksiyonunun kapanışı
       }
 
       // Toggle volume slider
@@ -1708,23 +1735,20 @@
         }
       }
 
-      // Seek functionality
+      // Seek functionality (seek bar'a tıklanınca)
       function seek(event) {
         const audio = document.getElementById("audioElement");
-        if (!audio || !audio.duration) return;
+        if (!audio || !audio.duration || isNaN(audio.duration)) return;
         
-        const seekBar = event.currentTarget;
-        const rect = seekBar.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const seekBarWidth = seekBar.offsetWidth;
-        const seekTime = (clickX / seekBarWidth) * audio.duration;
+        const seekBarEl = event.currentTarget;
+        const rect = seekBarEl.getBoundingClientRect();
+        const clickX = Math.max(0, Math.min(event.clientX - rect.left, rect.width));
+        let seekTime = (clickX / rect.width) * audio.duration;
 
-        audio.currentTime = seekTime;
+        try { audio.currentTime = seekTime; } catch(e) {}
         
-        // UI'ı güncelle
         updateSeekBar(seekTime, audio.duration);
         
-        // Current time display'ı güncelle
         const currentTimeDisplay = document.getElementById("currentTime");
         if (currentTimeDisplay) {
           currentTimeDisplay.textContent = formatTime(seekTime);
@@ -1761,74 +1785,12 @@
 
       // Rewind 10 seconds - global olarak erişilebilir
       function rewind() {
-        const audio = document.getElementById("audioElement");
-        if (!audio) return;
-        
-        // Ses hazır olmasını bekle
-        if (audio.readyState < 2 || isNaN(audio.duration)) {
-          audio.addEventListener("canplay", function() { rewind(); }, { once: true });
-          return;
-        }
-        
-        const target = Math.max(0, audio.currentTime - 10);
-        
-        try {
-          // Seekable kontrolü
-          if (audio.seekable && audio.seekable.length > 0) {
-            const seekStart = audio.seekable.start(0);
-            const seekEnd = audio.seekable.end(audio.seekable.length - 1);
-            if (target >= seekStart && target <= seekEnd) {
-              audio.currentTime = target;
-            } else {
-              audio.currentTime = Math.max(seekStart, target);
-            }
-          } else {
-            audio.currentTime = target;
-          }
-          updateSeekBar(audio.currentTime, audio.duration);
-          const currentTimeDisplay = document.getElementById("currentTime");
-          if (currentTimeDisplay) {
-            currentTimeDisplay.textContent = formatTime(audio.currentTime);
-          }
-        } catch(e) {
-          console.warn('Rewind failed:', e);
-        }
+        safeSeek(-10);
       }
 
       // Forward 10 seconds - global olarak erişilebilir
       function forward() {
-        const audio = document.getElementById("audioElement");
-        if (!audio) return;
-        
-        // Ses hazır olmasını bekle
-        if (audio.readyState < 2 || isNaN(audio.duration)) {
-          audio.addEventListener("canplay", function() { forward(); }, { once: true });
-          return;
-        }
-        
-        const target = Math.min(audio.duration, audio.currentTime + 10);
-        
-        try {
-          // Seekable kontrolü
-          if (audio.seekable && audio.seekable.length > 0) {
-            const seekStart = audio.seekable.start(0);
-            const seekEnd = audio.seekable.end(audio.seekable.length - 1);
-            if (target >= seekStart && target <= seekEnd) {
-              audio.currentTime = target;
-            } else {
-              audio.currentTime = Math.min(seekEnd, target);
-            }
-          } else {
-            audio.currentTime = target;
-          }
-          updateSeekBar(audio.currentTime, audio.duration);
-          const currentTimeDisplay = document.getElementById("currentTime");
-          if (currentTimeDisplay) {
-            currentTimeDisplay.textContent = formatTime(audio.currentTime);
-          }
-        } catch(e) {
-          console.warn('Forward failed:', e);
-        }
+        safeSeek(10);
       }
       
       // Seek bar'ı güncelle

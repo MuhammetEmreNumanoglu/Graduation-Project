@@ -181,3 +181,18 @@ LOGOUT_REDIRECT_URL = '/my-login/'
 SESSION_COOKIE_AGE = 604800  # 7 gün (saniye cinsinden: 7 * 24 * 60 * 60)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Tarayıcı kapandığında session sonlanmasın (Remember Me için)
 SESSION_SAVE_EVERY_REQUEST = True  # Her istekte session'ı yenile
+
+# ==========================================================
+# === PRODUCTION SECURITY SETTINGS ===
+# These are only active when DJANGO_DEBUG=False (Render deployment)
+# ==========================================================
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 yıl
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'

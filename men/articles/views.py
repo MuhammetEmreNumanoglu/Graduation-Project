@@ -202,6 +202,8 @@ def psychologist_login(request):
 
 def member_required(view_func):
     """Üye kontrolü yapan decorator - DB'den role kontrolü"""
+    from functools import wraps
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect('my-login')
@@ -585,7 +587,17 @@ def haftalik_raporlar(request):
 
 @login_required(login_url="my-login")
 def bildirimler(request):
-    return render(request, "articles/bildirimler.html")
+    """Üye bildirimler sayfası - gerçek verilerle."""
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+    profile_pic = Profile.objects.filter(user=request.user).first()
+    if not profile_pic:
+        profile_pic = Profile.objects.create(user=request.user)
+    context = {
+        'notifications': notifications,
+        'profilePic': profile_pic,
+        'unread_count': notifications.filter(is_read=False).count(),
+    }
+    return render(request, "articles/bildirimler.html", context)
 
 @login_required(login_url="my-login")
 def settings_view(request):
@@ -655,18 +667,74 @@ def meditasyon(request):
 @login_required(login_url="my-login")
 def nefes_egzersizi(request):
     return render(request, 'articles/nefes-egzersizi.html')
+
+@login_required(login_url="my-login")
+def gorevlerim(request):
+    """Üyenin görevleri sayfası - tüm görevler listesi."""
+    profile_pic = Profile.objects.filter(user=request.user).first()
+    if not profile_pic:
+        profile_pic = Profile.objects.create(user=request.user)
+
+    tasks = Task.objects.filter(user=request.user).order_by('-created_at')
+    pending_count = tasks.filter(is_completed=False).count()
+    completed_count = tasks.filter(is_completed=True).count()
+
+    TASK_DISPLAY = {
+        'breathing_exercise': _('Nefes Egzersizi'),
+        'meditation': _('Meditasyon'),
+        'daily_cards': _('Günlük Kartlar'),
+        'support_wall': _('Destek Duvarı'),
+    }
+    TASK_URLS = {
+        'breathing_exercise': '/nefes-egzersizi',
+        'meditation': '/meditasyon',
+        'daily_cards': '/gunluk-kartlar',
+        'support_wall': '/destek-duvari',
+    }
+
+    tasks_with_meta = [{
+        'task': t,
+        'display_name': TASK_DISPLAY.get(t.text, t.text),
+        'url': TASK_URLS.get(t.text, '#'),
+    } for t in tasks]
+
+    return render(request, 'articles/gorevlerim.html', {
+        'profilePic': profile_pic,
+        'tasks_with_meta': tasks_with_meta,
+        'pending_count': pending_count,
+        'completed_count': completed_count,
+    })
+
 @login_required(login_url="my-login")
 def meditasyon_audio(request, audio_id):
+    from django.templatetags.static import static
     audio_map = {
-        'rain': { 'title': 'Derin Uyku İçin Yağmur', 'image_url': '...', 'audio_url': '...', },
-        'waves': { 'title': 'Stres Azaltan Dalgalar', 'image_url': '...', 'audio_url': '...', },
-        'morning': { 'title': 'Sabah Esnemesi', 'image_url': '...', 'audio_url': '...', },
-        'piano': { 'title': 'Odaklanma Piyanosu', 'image_url': '...', 'audio_url': '...', },
+        'rain': {
+            'title': 'Derin Uyku İçin Yağmur',
+            'image_url': static('img/meditation-rain.jpg'),
+            'audio_url': static('audio/rain.mp3'),
+        },
+        'waves': {
+            'title': 'Stres Azaltan Dalgalar',
+            'image_url': static('img/meditation-waves.jpg'),
+            'audio_url': static('audio/waves.mp3'),
+        },
+        'morning': {
+            'title': 'Sabah Esnemesi',
+            'image_url': static('img/meditation-morning.jpg'),
+            'audio_url': static('audio/morning.mp3'),
+        },
+        'piano': {
+            'title': 'Odaklanma Piyanosu',
+            'image_url': static('img/meditation-piano.jpg'),
+            'audio_url': static('audio/piano.mp3'),
+        },
     }
     data = audio_map.get(audio_id)
     if not data:
         return redirect('meditasyon')
     return render(request, 'articles/meditasyon_audio.html', data)
+
 
 @login_required(login_url="my-login")
 def upload_photo(request):
@@ -674,7 +742,7 @@ def upload_photo(request):
         try:
             profile = Profile.objects.get(user=request.user)
             if 'profile_photo' in request.FILES:
-                profile.avatar = request.FILES['profile_photo']
+                profile.profile_pic = request.FILES['profile_photo']
                 profile.save()
                 return JsonResponse({'success': True, 'message': _('Profil fotoğrafı başarıyla güncellendi!')})
             else:
@@ -682,7 +750,7 @@ def upload_photo(request):
         except Profile.DoesNotExist:
             profile = Profile.objects.create(user=request.user)
             if 'profile_photo' in request.FILES:
-                profile.avatar = request.FILES['profile_photo']
+                profile.profile_pic = request.FILES['profile_photo']
                 profile.save()
                 return JsonResponse({'success': True, 'message': _('Profil fotoğrafı başarıyla güncellendi!')})
             else:

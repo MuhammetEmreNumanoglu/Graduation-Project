@@ -32,6 +32,7 @@ urlpatterns = [
     path("meditasyon", views.meditasyon, name="meditasyon"),
     path("meditasyon/<str:audio_id>", views.meditasyon_audio, name="meditasyon-audio"),
     path("nefes-egzersizi", views.nefes_egzersizi, name="nefes-egzersizi"),
+    path("gorevlerim", views.gorevlerim, name="gorevlerim"),
     path('responsive.html', views.responsive, name='responsive'),
     path('like/', views.like_story, name='like_story'),
     path('check-availability', views.check_availability, name='check-availability'),

@@ -1002,9 +1002,9 @@
       let cycleTotal = 5;
       let cycleCurrent = 0;
       let phaseDefs = [
-        { name: "{% trans 'Nefes Al' %}", path: pathInhale, duration: 4000 },
-        { name: "{% trans 'Tut' %}", path: pathHold, duration: 7000 },
-        { name: "{% trans 'Nefes Ver' %}", path: pathExhale, duration: 8000 },
+        { name: "Nefes Al", path: pathInhale, duration: 4000 },
+        { name: "Tut", path: pathHold, duration: 7000 },
+        { name: "Nefes Ver", path: pathExhale, duration: 8000 },
       ];
       
       // Motive edici cümleler
@@ -1114,7 +1114,7 @@
         showCycleCounter(false);
         highlightCurrentPhase(-1);
         setBallPositionOnPath(phaseDefs[0].path, 0);
-        updateBreathingText("{% trans 'Hazır' %}", true);
+        updateBreathingText(typeof getTranslation === 'function' ? getTranslation('Hazır') : 'Hazır', true);
         
         // Egzersiz bittiğinde motive edici cümle göster
         if (cycleCurrent >= cycleTotal) {
@@ -1137,7 +1137,7 @@
               cycleCurrentElement.textContent = cycleCurrent;
             }
             if (cycleCurrent >= cycleTotal) {
-              updateBreathingText("{% trans 'Tebrikler!' %}");
+              updateBreathingText(typeof getTranslation === 'function' ? getTranslation('Tebrikler!') : 'Tebrikler!');
               showCycleCounter(false);
               stopBreathing();
               return;
@@ -1152,7 +1152,8 @@
         const progress = elapsed / duration;
         setBallPositionOnPath(phaseDef.path, progress);
         const remainingTime = Math.max(0, Math.ceil((duration - elapsed) / 1000));
-        updateBreathingText(`${phaseDef.name} (${remainingTime}s)`);
+        const phaseDisplayName = typeof getTranslation === 'function' ? getTranslation(phaseDef.name) : phaseDef.name;
+        updateBreathingText(`${phaseDisplayName} (${remainingTime}s)`);
         highlightCurrentPhase(currentPhaseIndex);
         animationFrameId = requestAnimationFrame(animatePhase);
       }
@@ -1225,7 +1226,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         preparePhasePaths();
         setBallPositionOnPath(phaseDefs[0].path, 0);
-        updateBreathingText("{% trans 'Hazır' %}", true);
+        updateBreathingText(typeof getTranslation === 'function' ? getTranslation('Hazır') : 'Hazır', true);
         updateDurationsFromInputs();
         resetCycleCounter();
         showCycleCounter(false);
